@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PetUnit : MonoBehaviour
 {
-    [Header("¼ºÀå´Ü°èº° configSO")]
+    [Header("ì„±ì¥ë‹¨ê³„ë³„ configSO")]
     [SerializeField] private PetConfigSO[] _configs;
 
-    [Header("ÇöÀç »óÅÂ")]
+    [Header("í˜„ì¬ ìƒíƒœ")]
     [SerializeField] private PetStatusCore _status = new PetStatusCore();
 
-    [Header("Æ½ ¼³Á¤")]
+    [Header("í‹± ì„¤ì •")]
     [SerializeField] private float _tickInterval = 1f;
 
     public PetStatusCore Status => _status;
@@ -40,11 +40,11 @@ public class PetUnit : MonoBehaviour
         CurrentConfig = FindConfig(growth);
         if (CurrentConfig == null)
         {
-            Debug.LogWarning($"[{growth}] PetConfigSO¸¦ Ã£Áö ¸øÇÔ");
+            Debug.LogWarning($"[{growth}] PetConfigSOë¥¼ ì°¾ì§€ ëª»í•¨");
         }
         else
         {
-            Debug.Log($"[{growth}] PetConfigSO·Î º¯°æ");
+            Debug.Log($"[{growth}] PetConfigSOë¡œ ë³€ê²½");
             _unHappyScore = 0;
         }
     }
@@ -68,7 +68,7 @@ public class PetUnit : MonoBehaviour
 
     private void Update()
     {
-        //ÀÌ¹Ì ¶°³µÀ¸¸é
+        //ì´ë¯¸ ë– ë‚¬ìœ¼ë©´
         if (_status.GetFlag(PetFlag.IsLeft))
         {
             return;
@@ -91,48 +91,48 @@ public class PetUnit : MonoBehaviour
         _status.AddStat(PetStat.GrowthExp, amount);
     }
 
-    private void TickOnce() //Áö¼ÓÀûÀÎ ½ºÅİº¯°æ
+    private void TickOnce() //ì§€ì†ì ì¸ ìŠ¤í…Ÿë³€ê²½
     {
-        //¹è°íÇÄ °¨¼Ò
+        //ë°°ê³ í”” ê°ì†Œ
         _status.AddStat(PetStat.Hunger, -CurrentConfig.HungerDecreasePerSec);
-        //Ã»°áµµ °¨¼Ò
+        //ì²­ê²°ë„ ê°ì†Œ
         _status.AddStat(PetStat.Cleanliness, -CurrentConfig.CleanlinessDecreasePerSec);
 
-        //=====Àß¶§=====
+        //=====ì˜ë•Œ=====
         if (_status.GetFlag(PetFlag.IsSleeping))
         {
-            //¿¡³ÊÁö Áõ°¡
+            //ì—ë„ˆì§€ ì¦ê°€
             _status.AddStat(PetStat.Energy, CurrentConfig.SleepEnergyGainPerSec);
         }
 
-        //=====¾ÆÇÃ¶§=====
+        //=====ì•„í”Œë•Œ=====
         if (_status.GetFlag(PetFlag.IsSick))
         {
-            //Ã¼·Â °¨¼Ò
+            //ì²´ë ¥ ê°ì†Œ
             _status.AddStat(PetStat.Health, -CurrentConfig.HealthDecreasePerSec);
-            //Çàº¹µµ °¨¼Ò
+            //í–‰ë³µë„ ê°ì†Œ
             _status.AddStat(PetStat.Happiness, -CurrentConfig.HappinessDecreasePerSec);
-            //ºÒÇàÁ¡¼ö Áõ°¡ 
+            //ë¶ˆí–‰ì ìˆ˜ ì¦ê°€ 
             _unHappyScore += 1;
-            Debug.Log($"¾ÆÇÄ. ÇöÀç °Ç°­ :{_status.GetStat(PetStat.Health)}, Çàº¹µµ : {_status.GetStat(PetStat.Happiness)}");
+            Debug.Log($"ì•„í””. í˜„ì¬ ê±´ê°• :{_status.GetStat(PetStat.Health)}, í–‰ë³µë„ : {_status.GetStat(PetStat.Happiness)}");
         }
 
-        //=====¹è ¸¹ÀÌ °íÇÃ¶§=====
+        //=====ë°° ë§ì´ ê³ í”Œë•Œ=====
         if (_status.GetStat(PetStat.Hunger) < 20f)
         {
-            //Çàº¹µµ °¨¼Ò
+            //í–‰ë³µë„ ê°ì†Œ
             _status.AddStat(PetStat.Happiness, -CurrentConfig.HappinessDecreasePerSec);
-            Debug.Log($"¹è°íÇÄ. Çàº¹µµ : {_status.GetStat(PetStat.Happiness)}");
+            Debug.Log($"ë°°ê³ í””. í–‰ë³µë„ : {_status.GetStat(PetStat.Happiness)}");
         }
         else if (_status.GetStat(PetStat.Hunger) <= 0f)
         {
             _status.AddStat(PetStat.Health, -CurrentConfig.HealthDecreasePerSec);
             _status.AddStat(PetStat.Happiness, -CurrentConfig.HappinessDecreasePerSec * 1.2f);
             _unHappyScore += 1;
-            Debug.Log($"¹è°íÇÄ. Ã¼·Â: {_status.GetStat(PetStat.Health)} Çàº¹µµ : {_status.GetStat(PetStat.Happiness)}");
+            Debug.Log($"ë°°ê³ í””. ì²´ë ¥: {_status.GetStat(PetStat.Health)} í–‰ë³µë„ : {_status.GetStat(PetStat.Happiness)}");
         }
 
-        //=====Çàº¹µµ°¡ 0ÀÏ¶§=====
+        //=====í–‰ë³µë„ê°€ 0ì¼ë•Œ=====
         if (_status.GetStat(PetStat.Happiness) <= 0f)
         {
             _status.AddStat(PetStat.Health, -CurrentConfig.HealthDecreasePerSec);
@@ -140,7 +140,7 @@ public class PetUnit : MonoBehaviour
             _unHappyScore += 1;
         }
 
-        //=====¿¡³ÊÁö°¡ 0ÀÏ¶§=====
+        //=====ì—ë„ˆì§€ê°€ 0ì¼ë•Œ=====
         if (_status.GetStat(PetStat.Energy) <= 0f)
         {
             _status.AddStat(PetStat.Health, -CurrentConfig.HealthDecreasePerSec);
@@ -148,7 +148,7 @@ public class PetUnit : MonoBehaviour
             _unHappyScore += 1;
         }
 
-        //=====Ã»°áµµ°¡ 0ÀÏ¶§=====
+        //=====ì²­ê²°ë„ê°€ 0ì¼ë•Œ=====
         if (_status.GetStat(PetStat.Cleanliness) <= 0f)
         {
             _status.AddStat(PetStat.Health, -CurrentConfig.HealthDecreasePerSec);
@@ -177,14 +177,14 @@ public class PetUnit : MonoBehaviour
 
         if (next == _status.Growth)
         {
-            Debug.Log($"[{name}] ´õ ÀÌ»ó ¼ºÀåÇÒ ´Ü°è ¾øÀ½");
+            Debug.Log($"[{name}] ë” ì´ìƒ ì„±ì¥í•  ë‹¨ê³„ ì—†ìŒ");
             return;
         }
 
         _status.Growth = next;
         _status.SetStat(PetStat.GrowthTimer, 0);
         _status.SetStat(PetStat.GrowthExp, 0);
-        Debug.Log($"[{name}] ¼ºÀå! >> {next}");
+        Debug.Log($"[{name}] ì„±ì¥! >> {next}");
     }
 
     private GrowthStatus GetNextGrowth(GrowthStatus current)

@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Config Teen_Rebel
   m_EditorClassIdentifier: 
   GrowthType: 3
+  canGrow: 1
+  TimeToGrow: 10
+  ExpToGrow: 0
   HungerDecreasePerSec: 0
   HappinessDecreasePerSec: 0
   EnergyDecreasePerSec: 0
@@ -25,4 +28,4 @@ MonoBehaviour:
   SleepEnergyGainPerSec: 0
   PlayEnergyCost: 0
   HealAmount: 0
-  SickHealthTick: 0
+  HealthDecreasePerSec: 0

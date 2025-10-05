@@ -19,13 +19,13 @@ public sealed class PetController : MonoBehaviour
 
         if (Status.GetStat(PetStat.Hunger) > 95f)
         {
-            Debug.Log("ÀÌ¹Ì ¹èºÎ¸§");
+            Debug.Log("ì´ë¯¸ ë°°ë¶€ë¦„");
             return;
         }
-        Debug.Log($"¹ä¸ÔÀ½. Çã±âÁü : {Status.GetStat(PetStat.Hunger)}, Ã»°áµµ : {Status.GetStat(PetStat.Cleanliness)}");
+        Debug.Log($"ë°¥ë¨¹ìŒ. í—ˆê¸°ì§ : {Status.GetStat(PetStat.Hunger)}, ì²­ê²°ë„ : {Status.GetStat(PetStat.Cleanliness)}");
         Status.AddStat(PetStat.Hunger, Config.FeedHungerGain);
 
-        Status.AddStat(PetStat.Cleanliness, -5f);
+        Status.AddStat(PetStat.Cleanliness, -5f); 
     }
 
     public void Play(float resultScale = 1f)
@@ -34,7 +34,7 @@ public sealed class PetController : MonoBehaviour
 
         if (Status.GetStat(PetStat.Energy) < Config.PlayEnergyCost)
         {
-            Debug.Log($"¿¡³ÊÁö°¡ ºÎÁ·ÇÕ´Ï´Ù :{Status.GetStat(PetStat.Energy)}");
+            Debug.Log($"ì—ë„ˆì§€ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤ :{Status.GetStat(PetStat.Energy)}");
             return;
         }
 
@@ -43,7 +43,7 @@ public sealed class PetController : MonoBehaviour
         Status.AddStat(PetStat.Happiness, happyGain);
         Status.AddStat(PetStat.Energy, -Config.PlayEnergyCost);
         Status.AddStat(PetStat.Cleanliness, -8f);
-        Debug.Log($"³î¾ÆÁÜ. Çàº¹µµ : {Status.GetStat(PetStat.Happiness)}, ¿¡³ÊÁö : {Status.GetStat(PetStat.Energy)}");
+        Debug.Log($"ë†€ì•„ì¤Œ. í–‰ë³µë„ : {Status.GetStat(PetStat.Happiness)}, ì—ë„ˆì§€ : {Status.GetStat(PetStat.Energy)}");
     }
 
     public void Sleep(bool on)
@@ -56,7 +56,7 @@ public sealed class PetController : MonoBehaviour
     {
         if (_pet == null || Status == null || Config == null) return;
         Status.AddStat(PetStat.Cleanliness, Config.CleanGain);
-        Debug.Log($"¸ñ¿å. Ã»°áµµ : {Status.GetStat(PetStat.Cleanliness)}");
+        Debug.Log($"ëª©ìš•. ì²­ê²°ë„ : {Status.GetStat(PetStat.Cleanliness)}");
     }
 
     public void Heal()
@@ -66,15 +66,15 @@ public sealed class PetController : MonoBehaviour
         bool isSick = Status.GetFlag(PetFlag.IsSick);
         if (!isSick)
         {
-            Debug.Log("¾È¾ÆÇÄ");
+            Debug.Log("ì•ˆì•„í””");
             return;
         }
         
 
-        // °£´ÜÈ÷ ¾ÆÇÄ ÇØÁ¦ + Ã¼·Â È¸º¹
+        // ê°„ë‹¨íˆ ì•„í”” í•´ì œ + ì²´ë ¥ íšŒë³µ
         Status.SetFlag(PetFlag.IsSick, false);
         Status.AddStat(PetStat.Health, Config.HealAmount);
-        Debug.Log($"¾ÆÇÄ : {Status.GetFlag(PetFlag.IsSick)}");
+        Debug.Log($"ì•„í”” : {Status.GetFlag(PetFlag.IsSick)}");
     }
 
     public void SetGrowth(GrowthStatus next)
@@ -87,19 +87,19 @@ public sealed class PetController : MonoBehaviour
     {
         if (Status == null)
         {
-            Debug.LogError("½ºÅ×ÀÌÅÍ½º ¾øÀ½");
+            Debug.LogError("ìŠ¤í…Œì´í„°ìŠ¤ ì—†ìŒ");
             return;
         }
 
         string msg =
-            "°Ç°­: " + Status.GetStat(PetStat.Health).ToString("F1") +
-            ", Æ÷¸¸: " + Status.GetStat(PetStat.Hunger).ToString("F1") +
-            ", Çàº¹: " + Status.GetStat(PetStat.Happiness).ToString("F1") +
-            ", ¿¡³ÊÁö: " + Status.GetStat(PetStat.Energy).ToString("F1") +
-            ", Ã»°á: " + Status.GetStat(PetStat.Cleanliness).ToString("F1") +
-            ", ¼ö¸é: " + (Status.GetFlag(PetFlag.IsSleeping) ? "T" : "F") +
-            ", ¾ÆÇÄ: " + (Status.GetFlag(PetFlag.IsSick) ? "T" : "F") +
-            ", ºÒÇàÆ÷ÀÎÆ® :" + _pet._unHappyScore;
+            "ê±´ê°•: " + Status.GetStat(PetStat.Health).ToString("F1") +
+            ", í¬ë§Œ: " + Status.GetStat(PetStat.Hunger).ToString("F1") +
+            ", í–‰ë³µ: " + Status.GetStat(PetStat.Happiness).ToString("F1") +
+            ", ì—ë„ˆì§€: " + Status.GetStat(PetStat.Energy).ToString("F1") +
+            ", ì²­ê²°: " + Status.GetStat(PetStat.Cleanliness).ToString("F1") +
+            ", ìˆ˜ë©´: " + (Status.GetFlag(PetFlag.IsSleeping) ? "T" : "F") +
+            ", ì•„í””: " + (Status.GetFlag(PetFlag.IsSick) ? "T" : "F") +
+            ", ë¶ˆí–‰í¬ì¸íŠ¸ :" + _pet._unHappyScore;
         Debug.Log("[PetController] " + msg);
     }
 }

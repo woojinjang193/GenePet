@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bb6bf9e9f58f40bbf1439253a9fb5, type: 3}
   m_Name: Config Teen
   m_EditorClassIdentifier: 
-  GrowthType: 1
-  HungerDecayPerSec: 0
-  HappinessDecayPerSec: 0
-  EnergyDecayPerSec: 0
-  CleanlinessDecayPerSec: 0
+  GrowthType: 2
+  canGrow: 1
+  TimeToGrow: 10
+  ExpToGrow: 0
+  HungerDecreasePerSec: 0
+  HappinessDecreasePerSec: 0
+  EnergyDecreasePerSec: 0
+  CleanlinessDecreasePerSec: 0
   StressIncreasePerSec: 0
   StressDecreasePerSec: 0
   FeedHungerGain: 0
@@ -25,4 +28,4 @@ MonoBehaviour:
   SleepEnergyGainPerSec: 0
   PlayEnergyCost: 0
   HealAmount: 0
-  SickHealthTick: 0
+  HealthDecreasePerSec: 0

@@ -1,9 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum GrowthStatus { Egg, Baby, Teen, Teen_Rebel, Adult }
-public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, GrowthTimer, GrowthExp }
-public enum PetFlag { IsSick, IsSleeping, IsLeft }
+
 
 [Serializable]
 public class PetStatusCore
