@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 
 public enum GrowthStatus { Egg, Baby, Teen, Teen_Rebel, Adult }
-public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, Stress }
-public enum PetFlag { IsSick, IsSleeping, IsLeft } // 필요없을듯
+public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, GrowthTimer, GrowthExp }
+public enum PetFlag { IsSick, IsSleeping, IsLeft }
 
 [Serializable]
 public class PetStatusCore
@@ -13,15 +13,18 @@ public class PetStatusCore
     private float _energy = 100f;
     private float _clean = 100f;
     private float _health = 100f;
-    
+
+    private float _growthTimer = 0f;
+    private float _growthExp = 0f;
+
     private bool _isSick = false;
     private bool _isSleeping = false;
     private bool _isLeft = false;
     
-    private GrowthStatus _growth = GrowthStatus.Baby;
+    private GrowthStatus _growth = GrowthStatus.Egg;
 
-    public event Action<PetStat, float> OnStatChanged;
-    public event Action<PetFlag, bool> OnFlagChanged;
+    //public event Action<PetStat, float> OnStatChanged;
+    //public event Action<PetFlag, bool> OnFlagChanged;
     public event Action<GrowthStatus> OnGrowthChanged;
 
     public GrowthStatus Growth
@@ -42,11 +45,27 @@ public class PetStatusCore
     {
         switch (stat)
         {
-            case PetStat.Hunger: return _hunger;
-            case PetStat.Happiness: return _happiness;
-            case PetStat.Energy: return _energy;
-            case PetStat.Cleanliness: return _clean;
-            case PetStat.Health: return _health;
+            case PetStat.Hunger: 
+                return _hunger;
+
+            case PetStat.Happiness: 
+                return _happiness;
+
+            case PetStat.Energy: 
+                return _energy;
+
+            case PetStat.Cleanliness: 
+                return _clean;
+
+            case PetStat.Health: 
+                return _health;
+
+            case PetStat.GrowthTimer:
+                return _growthTimer;
+
+            case PetStat.GrowthExp:
+                return _growthExp;
+
             default: return 0f;
         }
     }
@@ -59,31 +78,48 @@ public class PetStatusCore
             case PetStat.Hunger: 
                 if (_hunger != value) 
                 { 
-                    _hunger = value; OnStatChanged?.Invoke(stat, _hunger); 
+                    _hunger = value; 
+                    //OnStatChanged?.Invoke(stat, _hunger); 
                 } 
                 break;
             case PetStat.Happiness: 
                 if (_happiness != value) 
                 { 
-                    _happiness = value; OnStatChanged?.Invoke(stat, _happiness); 
+                    _happiness = value; 
+                    //OnStatChanged?.Invoke(stat, _happiness); 
                 } 
                 break;
             case PetStat.Energy: 
                 if (_energy != value) 
                 { 
-                    _energy = value; OnStatChanged?.Invoke(stat, _energy); 
+                    _energy = value; 
+                    //OnStatChanged?.Invoke(stat, _energy); 
                 } 
                 break;
             case PetStat.Cleanliness: 
                 if (_clean != value) 
                 { 
-                    _clean = value; OnStatChanged?.Invoke(stat, _clean); 
+                    _clean = value; 
+                    //OnStatChanged?.Invoke(stat, _clean); 
                 } 
                 break;
             case PetStat.Health: 
                 if (_health != value) 
                 { 
-                    _health = value; OnStatChanged?.Invoke(stat, _health); 
+                    _health = value; 
+                    //OnStatChanged?.Invoke(stat, _health); 
+                }
+                break;
+            case PetStat.GrowthTimer:
+                if (_growthTimer != value)
+                {
+                    _growthTimer = value;
+                }
+                break;
+            case PetStat.GrowthExp:
+                if (_growthExp != value)
+                {
+                    _growthExp = value;
                 }
                 break;
         }
@@ -116,19 +152,22 @@ public class PetStatusCore
             case PetFlag.IsSick:
                 if (_isSick != on) 
                 { 
-                    _isSick = on; OnFlagChanged?.Invoke(flag, _isSick); 
+                    _isSick = on; 
+                    //OnFlagChanged?.Invoke(flag, _isSick); 
                 }
                 break;
             case PetFlag.IsSleeping:
                 if (_isSleeping != on) 
                 { 
-                    _isSleeping = on; OnFlagChanged?.Invoke(flag, _isSleeping); 
+                    _isSleeping = on; 
+                    //OnFlagChanged?.Invoke(flag, _isSleeping); 
                 }
                 break;
             case PetFlag.IsLeft:
                 if (_isLeft != on) 
                 { 
-                    _isLeft = on; OnFlagChanged?.Invoke(flag, _isLeft); 
+                    _isLeft = on; 
+                    //OnFlagChanged?.Invoke(flag, _isLeft); 
                 }
                 break;
         }

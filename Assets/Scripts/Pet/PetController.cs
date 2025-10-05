@@ -98,7 +98,8 @@ public sealed class PetController : MonoBehaviour
             ", 에너지: " + Status.GetStat(PetStat.Energy).ToString("F1") +
             ", 청결: " + Status.GetStat(PetStat.Cleanliness).ToString("F1") +
             ", 수면: " + (Status.GetFlag(PetFlag.IsSleeping) ? "T" : "F") +
-            ", 아픔: " + (Status.GetFlag(PetFlag.IsSick) ? "T" : "F");
+            ", 아픔: " + (Status.GetFlag(PetFlag.IsSick) ? "T" : "F") +
+            ", 불행포인트 :" + _pet._unHappyScore;
         Debug.Log("[PetController] " + msg);
     }
 }

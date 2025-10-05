@@ -9,6 +9,15 @@ public class PetConfigSO : ScriptableObject
     [Header("성장상태")]
     public GrowthStatus GrowthType;
 
+    [Header("성장가능 여부")]
+    public bool canGrow;
+
+    [Header("다음 성장까지 걸리는 시간")]
+    public float TimeToGrow;
+
+    [Header("다음 성장까지 필요한 경험치")]
+    public float ExpToGrow;
+
     [Header("배고픔 초당 감소")]
     public float HungerDecreasePerSec;
 
@@ -45,6 +54,6 @@ public class PetConfigSO : ScriptableObject
     [Header("치료시 체력회복량")]
     public float HealAmount;
 
-    [Header("아플때 체력감소")]
-    public float SickHealthTick;
+    [Header("아플때 체력 초당 감소")]
+    public float HealthDecreasePerSec;
 }

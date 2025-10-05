@@ -1811,12 +1811,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _configs:
+  - {fileID: 11400000, guid: 83990fdc449ef7541a355682e31608b2, type: 2}
   - {fileID: 11400000, guid: eccbbed553736864585376e5f110fcfd, type: 2}
   - {fileID: 11400000, guid: 11639a90c59b24c41a9faf43a5d8302b, type: 2}
   - {fileID: 11400000, guid: e41c9959693fbce418eb0af85a96cc47, type: 2}
   - {fileID: 11400000, guid: fa04b3d3e7c7d174b8b8486f7756dc15, type: 2}
-  _enableTick: 1
   _tickInterval: 1
+  _unHappyScore: 0
 --- !u!1 &1255461767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2624,7 +2625,7 @@ GameObject:
   - component: {fileID: 1927594602}
   - component: {fileID: 1927594601}
   m_Layer: 5
-  m_Name: Button (5)
+  m_Name: Button Sleep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2693,7 +2694,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1927594602}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1252611435}
+        m_TargetAssemblyTypeName: PetController, Assembly-CSharp
+        m_MethodName: Sleep
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1927594602
 MonoBehaviour:
   m_ObjectHideFlags: 0
