@@ -1,8 +1,10 @@
+using UnityEngine;
+
 public enum GrowthStatus { Egg, Baby, Teen, Teen_Rebel, Adult }
 public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, GrowthTimer, GrowthExp }
 public enum PetFlag { IsSick, IsSleeping, IsLeft }
 //public enum PartType { Body, Color, Pattern, Ear, Tail, Wing, Eye, Mouth}
-public enum RarityType { Common, Rare, Unique, Legendary }
+public enum RarityType { Common, Rare, Epic, Legendary } // 레어 3%, 에픽 1%, 레전더리 0.5%
 public enum Personality 
 {
     Brave,          // 용감한 - 체력·행동력 높음, 싸움 잘함
@@ -16,4 +18,18 @@ public enum Personality
     Playful,        // 장난꾸러기 - 행복도 쉽게 오르지만 피곤해짐
     Lonely,         // 외로움 잘 느낌 - 상호작용 없으면 스트레스 증가
     Intelligent,    // 똑똑함 - 성장 효율 높음  
+}
+
+public enum PartType
+{                   
+    Body,           
+    Eye,            
+    Ear,            
+    Mouth,          
+    Tail,           
+    Wing,           
+    Horn,           
+    Pattern,        
+    Color,          
+    Personality     
 }

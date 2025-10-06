@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New EarSO", menuName = "SO/EarSO")]
-public class EarSO : ScriptableObject
+public class EarSO : PartBaseSO
 {
-    public string ID;
-    public string DisplayName;
-    public RarityType Rarity;
     public Sprite sprite;
 }

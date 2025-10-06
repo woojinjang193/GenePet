@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New ColorSO", menuName = "SO/ColorSO")]
-public class ColorSO : ScriptableObject
+public class ColorSO : PartBaseSO
 {
     public Color color;
 }

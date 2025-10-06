@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New EyeSO", menuName = "SO/EyeSO")]
-public class EyeSO : ScriptableObject
+public class EyeSO : PartBaseSO
 {
-    public string ID;
-    public string DisplayName;
-    public RarityType Rarity;
     public Sprite sprite;
 }
