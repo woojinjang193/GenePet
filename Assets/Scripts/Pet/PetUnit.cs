@@ -214,5 +214,13 @@ public class PetUnit : MonoBehaviour
                 return current;
         }
     }
-
+    public void UpdatePetSaveData(PetSaveData data)
+    {
+        data.Hunger = _status.GetStat(PetStat.Hunger);
+        data.Happiness = _status.GetStat(PetStat.Happiness);
+        data.Energy = _status.GetStat(PetStat.Energy);
+        data.Cleanliness = _status.GetStat(PetStat.Cleanliness);
+        data.Health = _status.GetStat(PetStat.Health);
+        data.GrowthStage = _status.Growth.ToString();
+    }
 }

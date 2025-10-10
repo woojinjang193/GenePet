@@ -22,9 +22,6 @@ public class GameManager : Singleton<GameManager>
         newPet.DisplayName = "";
         newPet.Seed = UnityEngine.Random.Range(0, 999999);
 
-        PetRecordData record = new PetRecordData(newPet);
-        record.Remark = "Raising";
-
         newPet.Genes.Body.DominantId = Manager.Gene.GetRandomBodySO().ID;
         newPet.Genes.Body.RecessiveId = Manager.Gene.GetRandomBodySO().ID;
 

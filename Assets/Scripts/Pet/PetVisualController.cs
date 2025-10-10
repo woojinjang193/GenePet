@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.ParticleSystem;
 
 public class PetVisualController : MonoBehaviour
 {
@@ -73,8 +73,14 @@ public class PetVisualController : MonoBehaviour
             Debug.LogError("스프라이트 랜더러 없음");
             return;
         }
+        var saveData = Manager.Save.CurrentData.UserData.HavePetList[0];
+        var pet = saveData.Genes;
 
-        var pet = Manager.Save.CurrentData.UserData.HavePetList[0].Genes;
+        if (Enum.TryParse(saveData.GrowthStage, out GrowthStatus savedGrowth))
+        {
+            _pet.Status.Growth = savedGrowth;
+        }
+
         _body.sprite = Manager.Gene.GetPartSOByID<BodySO>(PartType.Body, pet.Body.DominantId).sprite;
         _pattern.sprite = Manager.Gene.GetPartSOByID<PatternSO>(PartType.Pattern, pet.Pattern.DominantId).sprite;
         _ear.sprite = Manager.Gene.GetPartSOByID<EarSO>(PartType.Ear, pet.Ear.DominantId).sprite;
@@ -151,11 +157,11 @@ public class PetVisualController : MonoBehaviour
     {
         Color[] colors = { _color1, _color2 };
 
-        _body.color = colors[Random.Range(0, colors.Length)];
-        _pattern.color = colors[Random.Range(0, colors.Length)];
-        _ear.color = colors[Random.Range(0, colors.Length)];
-        _tail.color = colors[Random.Range(0, colors.Length)];
-        _wing.color = colors[Random.Range(0, colors.Length)];
+        _body.color = colors[UnityEngine.Random.Range(0, colors.Length)];
+        _pattern.color = colors[UnityEngine.Random.Range(0, colors.Length)];
+        _ear.color = colors[UnityEngine.Random.Range(0, colors.Length)];
+        _tail.color = colors[UnityEngine.Random.Range(0, colors.Length)];
+        _wing.color = colors[UnityEngine.Random.Range(0, colors.Length)];
 
         //색 적용 안함
         _eye.color = Color.white;
