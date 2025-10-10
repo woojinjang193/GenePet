@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using static UnityEngine.ParticleSystem;
 
 public class PetVisualController : MonoBehaviour
 {
     [SerializeField] private PetUnit _pet;
-
-    [SerializeField] private GeneticInfoSO _genSO;
 
     [SerializeField] private SpriteRenderer _egg;
     [SerializeField] private SpriteRenderer _body;
@@ -21,6 +21,8 @@ public class PetVisualController : MonoBehaviour
     [SerializeField] private Color _color1;
     [SerializeField] private Color _color2;
 
+    [SerializeField] private Button _button; //테스트용. 지워야함
+
     public PetStatusCore Status
     {
         get { return _pet != null ? _pet.Status : null; }
@@ -28,7 +30,18 @@ public class PetVisualController : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+        Status.OnGrowthChanged += OnGrowthChanged;
+        _button.onClick.AddListener(ButtonClicked); //테스트용. 지워야함
+    }
+    private void Start()
+    {
+        
+    }
+
+    private void ButtonClicked() //테스트용. 지워야함
+    {
+        LoadPet();
+        SetSprite(Status.Growth);
     }
 
     private void OnEnable()
@@ -36,7 +49,7 @@ public class PetVisualController : MonoBehaviour
         if (Status != null)
         {
             Status.OnGrowthChanged += OnGrowthChanged;
-            SetSprite(Status.Growth);
+            //SetSprite(Status.Growth);
         }
         else
         {
@@ -52,13 +65,8 @@ public class PetVisualController : MonoBehaviour
         }
     }
 
-    private void Init()
+    private void LoadPet()
     {
-        if (_genSO == null)
-        {
-            Debug.LogError("GeneticInfoSO 없음");
-            return;
-        }
 
         if (!AreAllRenderersAssigned())
         {
@@ -66,17 +74,18 @@ public class PetVisualController : MonoBehaviour
             return;
         }
 
-        _body.sprite = _genSO.bodyDominant != null ? _genSO.bodyDominant.sprite : null;
-        _pattern.sprite = _genSO.patternDominant != null ? _genSO.patternDominant.sprite : null;
-        _ear.sprite = _genSO.EarDominant != null ? _genSO.EarDominant.sprite : null;
-        _tail.sprite = _genSO.tailDominant != null ? _genSO.tailDominant.sprite : null;
-        _wing.sprite = _genSO.wingDominant != null ? _genSO.wingDominant.sprite : null;
-        _eye.sprite = _genSO.eyeDominant != null ? _genSO.eyeDominant.sprite : null;
-        _mouth.sprite = _genSO.mouthDominant != null ? _genSO.mouthDominant.sprite : null;
-        _horn.sprite = _genSO.hornDominant != null ? _genSO.hornDominant.sprite : null;
+        var pet = Manager.Save.CurrentData.UserData.HavePetList[0].Genes;
+        _body.sprite = Manager.Gene.GetPartSOByID<BodySO>(PartType.Body, pet.Body.DominantId).sprite;
+        _pattern.sprite = Manager.Gene.GetPartSOByID<PatternSO>(PartType.Pattern, pet.Pattern.DominantId).sprite;
+        _ear.sprite = Manager.Gene.GetPartSOByID<EarSO>(PartType.Ear, pet.Ear.DominantId).sprite;
+        _tail.sprite = Manager.Gene.GetPartSOByID<TailSO>(PartType.Tail, pet.Tail.DominantId).sprite;
+        _wing.sprite = Manager.Gene.GetPartSOByID<WingSO>(PartType.Wing, pet.Wing.DominantId).sprite;
+        _eye.sprite = Manager.Gene.GetPartSOByID<EyeSO>(PartType.Eye, pet.Eye.DominantId).sprite;
+        _mouth.sprite = Manager.Gene.GetPartSOByID<MouthSO>(PartType.Mouth, pet.Mouth.DominantId).sprite;
+        _horn.sprite = Manager.Gene.GetPartSOByID<HornSO>(PartType.Horn, pet.Horn.DominantId).sprite;
 
-        _color1 = _genSO.colorDominant != null ? _genSO.colorDominant.color : Color.white;
-        _color2 = _genSO.colorRecessive != null ? _genSO.colorRecessive.color : Color.white;
+        _color1 = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, pet.Color.DominantId).color;
+        _color2 = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, pet.Color.RecessiveId).color;
 
         ApplyColors();
     }
@@ -140,11 +149,13 @@ public class PetVisualController : MonoBehaviour
 
     private void ApplyColors()
     {
-        _body.color = _color1;
-        _pattern.color = _color2;
-        _ear.color = _color1;
-        _tail.color = _color1;
-        _wing.color = _color1;
+        Color[] colors = { _color1, _color2 };
+
+        _body.color = colors[Random.Range(0, colors.Length)];
+        _pattern.color = colors[Random.Range(0, colors.Length)];
+        _ear.color = colors[Random.Range(0, colors.Length)];
+        _tail.color = colors[Random.Range(0, colors.Length)];
+        _wing.color = colors[Random.Range(0, colors.Length)];
 
         //색 적용 안함
         _eye.color = Color.white;

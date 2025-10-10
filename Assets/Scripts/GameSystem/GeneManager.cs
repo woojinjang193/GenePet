@@ -1,16 +1,23 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class RandomGeneManager : Singleton<RandomGeneManager>
+public class GeneManager : Singleton<GeneManager>
 {
-    [SerializeField] private float _legendaryPerc = 0.005f;
-    [SerializeField] private float _epicPerc = 0.01f;
-    [SerializeField] private float _rarePerc = 0.05f;
+    [SerializeField] private float _legendaryPerc = 0.0005f;   //0 하나씩 지워야함
+    [SerializeField] private float _epicPerc = 0.001f;         //0 하나씩 지워야함
+    [SerializeField] private float _rarePerc = 0.005f;         //0 하나씩 지워야함
 
     private Dictionary<PartType, List<PartBaseSO>> _parts = new Dictionary<PartType, List<PartBaseSO>>();
     private List<PartBaseSO> _options = new List<PartBaseSO>();
+
+    private int _loadedTypeCount = 0;
+    private int _totalTypes = 10;
+    private bool _ready = false;
+
+    public bool IsReady { get { return _ready; } }
 
     protected override void Awake()
     {
@@ -77,6 +84,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Body].Add(handle.Result[i]);
             }
             Debug.Log($"BodySO 로드: {_parts[PartType.Body].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -94,6 +102,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Color].Add(handle.Result[i]);
             }
             Debug.Log($"ColorSO 로드: {_parts[PartType.Color].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -111,6 +120,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Ear].Add(handle.Result[i]);
             }
             Debug.Log($"EarSO 로드: {_parts[PartType.Ear].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -128,6 +138,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Eye].Add(handle.Result[i]);
             }
             Debug.Log($"EyeSO 로드: {_parts[PartType.Eye].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -145,6 +156,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Horn].Add(handle.Result[i]);
             }
             Debug.Log($"HornSO 로드: {_parts[PartType.Horn].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -162,6 +174,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Mouth].Add(handle.Result[i]);
             }
             Debug.Log($"MouthSO 로드: {_parts[PartType.Mouth].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -179,6 +192,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Pattern].Add(handle.Result[i]);
             }
             Debug.Log($"PatternSO 로드: {_parts[PartType.Pattern].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -196,6 +210,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Personality].Add(handle.Result[i]);
             }
             Debug.Log($"PersonalitySO 로드: {_parts[PartType.Personality].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -214,6 +229,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Tail].Add(handle.Result[i]);
             }
             Debug.Log($"TailSO 로드: {_parts[PartType.Tail].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -232,6 +248,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
                 _parts[PartType.Wing].Add(handle.Result[i]);
             }
             Debug.Log($"WingSO 로드: {_parts[PartType.Wing].Count}개");
+            CheckIsReady();
         }
         else
         {
@@ -242,7 +259,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
 
     private RarityType RollRarity()
     {
-        float randV = Random.value;
+        float randV = UnityEngine.Random.value;
 
         float legendaryCut = _legendaryPerc;
         float epicCut = _legendaryPerc + _epicPerc;
@@ -291,7 +308,7 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
             return null; 
         }
 
-        int rand = Random.Range(0, _options.Count);
+        int rand = UnityEngine.Random.Range(0, _options.Count);
         return _options[rand];
     }                  
 
@@ -339,7 +356,57 @@ public class RandomGeneManager : Singleton<RandomGeneManager>
     public PatternSO GetRandomPatternSO() { return GetRandomPart<PatternSO>(PartType.Pattern); }
     public ColorSO GetRandomColorSO() { return GetRandomPart<ColorSO>(PartType.Color); }
     public PersonalitySO GetRandomPersonalitySO() { return GetRandomPart<PersonalitySO>(PartType.Personality); }
+
+    public T GetPartSOByID<T>(PartType part, string id) where T : PartBaseSO
+    {
+        List<PartBaseSO> list;
+
+        if (_parts.TryGetValue(part, out list) == false)
+        {
+            Debug.LogError($"{part}리스트 없음");
+            return null;
+        }
+
+        if (list == null || list.Count == 0)
+        {
+            Debug.LogError($"{part} 리스트가 비었음");
+            return null;
+        }
+            
+        for (int i = 0; i < list.Count; i++)
+        {
+            PartBaseSO cur = list[i];
+            if(cur == null)
+            {
+                continue;
+            }
+
+            if (id == cur.ID)
+            {
+                T typed = cur as T;
+                if (typed == null)
+                {
+                    Debug.LogError($"GetPartSOByID 타입 불일치: 요청 타입 {typeof(T).Name}, 실제 타입 {cur.GetType().Name}, id={id}");
+                    return null;
+                }
+                return typed;
+            }
+        }
+
+        Debug.LogWarning($"GetPartSOByID: {part} 에서 id '{id}' 찾지 못함");
+        return null;
+    }
+
+    private void CheckIsReady()
+    {
+        _loadedTypeCount++;
+        if(_loadedTypeCount >= _totalTypes)
+        {
+            _ready = true;
+        }
+    }
 }
 
- 
+
+
 
