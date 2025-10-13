@@ -28,8 +28,9 @@ public class GenesContainer
     public GenePair Horn;       
     public GenePair Tail;       
     public GenePair Wing;       
-    public GenePair Color;      
+    //public GenePair Color;      
     public GenePair Personality;
+    public PartColorGenes PartColors;
 
     public GenesContainer()           
     {                                 
@@ -41,13 +42,33 @@ public class GenesContainer
         Horn = new GenePair();        
         Tail = new GenePair();        
         Wing = new GenePair();        
-        Color = new GenePair();       
-        Personality = new GenePair(); 
+        //Color = new GenePair();       
+        Personality = new GenePair();
+        PartColors = new PartColorGenes();
     }                                 
 }
 
+[Serializable]
+public class PartColorGenes
+{
+    public string BodyColorId;
+    public string PatternColorId;
+    public string EarColorId;
+    public string TailColorId;
+    public string WingColorId;
+
+    public PartColorGenes()
+    {
+        BodyColorId = "";
+        PatternColorId = "";
+        EarColorId = "";
+        TailColorId = "";
+        WingColorId = "";
+    }
+}
+
 [Serializable]                  
-public class PetSaveData   //이름 추가 예정
+public class PetSaveData
 {
     public bool IsInfoUnlocked;
     public string ID;
@@ -86,6 +107,22 @@ public class PetSaveData   //이름 추가 예정
 }
 
 [Serializable]
+public class IslandData
+{
+    public bool IsMarried;
+    public PetSaveData PetSaveData;
+    public float Affinity;
+
+    public IslandData()
+    {
+        IsMarried = false;
+        PetSaveData = new PetSaveData();
+        Affinity = 50f;
+    }
+       
+}
+
+[Serializable]
 public class UserItemData
 {
     public int Item1Amount;
@@ -110,16 +147,19 @@ public class UserData
 {
     public string UID;
     public string UserDisplayName;
-    public int MaxPetAmount;
+    public int MaxPetNum;
+    public int MaxIslandNum;
     public List<PetSaveData> HavePetList;
     public List<PetRecordData> HadPetList;
+    public List<IslandData> IslandList;
     public UserItemData Items;
 
     public UserData()
     {
         UID = "";
         UserDisplayName = "";
-        MaxPetAmount = 3;
+        MaxPetNum = 3;
+        MaxIslandNum = 3;
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetRecordData>();
         Items = new UserItemData();

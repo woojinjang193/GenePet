@@ -18,8 +18,8 @@ public class PetVisualController : MonoBehaviour
     [SerializeField] private SpriteRenderer _mouth;
     [SerializeField] private SpriteRenderer _horn;
 
-    [SerializeField] private Color _color1;
-    [SerializeField] private Color _color2;
+    //[SerializeField] private Color _color1;
+    //[SerializeField] private Color _color2;
 
     [SerializeField] private Button _button; //테스트용. 지워야함
 
@@ -33,14 +33,10 @@ public class PetVisualController : MonoBehaviour
         Status.OnGrowthChanged += OnGrowthChanged;
         _button.onClick.AddListener(ButtonClicked); //테스트용. 지워야함
     }
-    private void Start()
-    {
-        
-    }
 
     private void ButtonClicked() //테스트용. 지워야함
     {
-        LoadPet();
+        LoadOwnPet();
         SetSprite(Status.Growth);
     }
 
@@ -65,9 +61,8 @@ public class PetVisualController : MonoBehaviour
         }
     }
 
-    private void LoadPet()
+    private void LoadOwnPet()
     {
-
         if (!AreAllRenderersAssigned())
         {
             Debug.LogError("스프라이트 랜더러 없음");
@@ -90,10 +85,7 @@ public class PetVisualController : MonoBehaviour
         _mouth.sprite = Manager.Gene.GetPartSOByID<MouthSO>(PartType.Mouth, pet.Mouth.DominantId).sprite;
         _horn.sprite = Manager.Gene.GetPartSOByID<HornSO>(PartType.Horn, pet.Horn.DominantId).sprite;
 
-        _color1 = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, pet.Color.DominantId).color;
-        _color2 = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, pet.Color.RecessiveId).color;
-
-        ApplyColors();
+        ApplyColorsFromGenes(pet.PartColors);
     }
 
     private void OnGrowthChanged(GrowthStatus growth)
@@ -153,17 +145,35 @@ public class PetVisualController : MonoBehaviour
         _egg.gameObject.SetActive(false);
     }
 
-    private void ApplyColors()
+    private void ApplyColorsFromGenes(PartColorGenes colors)
     {
-        Color[] colors = { _color1, _color2 };
+        if (colors == null)
+        {
+            Debug.LogWarning("PartColorGenes 없음");
+            return;
+        }
 
-        _body.color = colors[UnityEngine.Random.Range(0, colors.Length)];
-        _pattern.color = colors[UnityEngine.Random.Range(0, colors.Length)];
-        _ear.color = colors[UnityEngine.Random.Range(0, colors.Length)];
-        _tail.color = colors[UnityEngine.Random.Range(0, colors.Length)];
-        _wing.color = colors[UnityEngine.Random.Range(0, colors.Length)];
+        if (!string.IsNullOrEmpty(colors.BodyColorId))
+        {
+            _body.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.BodyColorId).color;
+        }
+        if (!string.IsNullOrEmpty(colors.PatternColorId))
+        {
+            _pattern.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.PatternColorId).color;
+        }
+        if (!string.IsNullOrEmpty(colors.EarColorId))
+        {
+            _ear.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.EarColorId).color;
+        }
+        if (!string.IsNullOrEmpty(colors.TailColorId))
+        {
+            _tail.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.TailColorId).color;
+        }
+        if (!string.IsNullOrEmpty(colors.WingColorId))
+        {
+            _wing.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.WingColorId).color;
+        }
 
-        //색 적용 안함
         _eye.color = Color.white;
         _mouth.color = Color.white;
         _horn.color = Color.white;
@@ -195,4 +205,6 @@ public class PetVisualController : MonoBehaviour
         if (_horn == null) return false;  
         return true;                      
     }
+
+
 }
