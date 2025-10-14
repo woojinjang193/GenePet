@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a148ef2975e8c3e46a0977ce417730c0, type: 3}
   m_Name: New PersonalitySO 1
   m_EditorClassIdentifier: 
+  ID: 01
+  DisplayName: 01
+  Rarity: 0
   Personality: 1

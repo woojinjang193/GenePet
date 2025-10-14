@@ -15,4 +15,4 @@ MonoBehaviour:
   ID: 01
   DisplayName: Body01
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 85678b2dc66941d4884a2cac1faa2527, type: 3}
+  sprite: {fileID: 21300000, guid: ed3f48569614fa64d809409e5dca74bf, type: 3}

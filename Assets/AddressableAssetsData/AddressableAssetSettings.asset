@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: d1821f813575b54489f62067cbdaf10b
   m_currentHash:
     serializedVersion: 2
-    Hash: 22285d696967c2f833c12a34119e245d
+    Hash: d4f4caa9d2ce8279901118a267ebab60
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -96,8 +96,9 @@ MonoBehaviour:
     - MouthSO
     - PatternSO
     - PersonalitySO
-    - TailSO
+    - AccSO
     - WingSO
+    - BlushSO
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a7b4fc742809d0248a5926f35c350558, type: 2}

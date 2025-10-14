@@ -27,20 +27,31 @@ public class GeneManager : Singleton<GeneManager>
     }
     private void CreateBuckets()
     {
+        if (_parts.ContainsKey(PartType.Acc) == false) _parts[PartType.Acc] = new List<PartBaseSO>();
+        if (_parts.ContainsKey(PartType.Arm) == false) _parts[PartType.Arm] = new List<PartBaseSO>();
+        if (_parts.ContainsKey(PartType.Blush) == false) _parts[PartType.Blush] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Body) == false) _parts[PartType.Body] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Color) == false) _parts[PartType.Color] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Ear) == false) _parts[PartType.Ear] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Eye) == false) _parts[PartType.Eye] = new List<PartBaseSO>();
-        if (_parts.ContainsKey(PartType.Horn) == false) _parts[PartType.Horn] = new List<PartBaseSO>();
+        if (_parts.ContainsKey(PartType.Feet) == false) _parts[PartType.Feet] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Mouth) == false) _parts[PartType.Mouth] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Pattern) == false) _parts[PartType.Pattern] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Personality) == false) _parts[PartType.Personality] = new List<PartBaseSO>();
-        if (_parts.ContainsKey(PartType.Tail) == false) _parts[PartType.Tail] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Wing) == false) _parts[PartType.Wing] = new List<PartBaseSO>();
     }
 
     private void LoadAllGenes()
     {
+        AsyncOperationHandle<IList<AccSO>> handle_Acc = Addressables.LoadAssetsAsync<AccSO>("AccSO", null);
+        handle_Acc.Completed += OnAccsLoaded;
+
+        AsyncOperationHandle<IList<ArmSO>> handle_Arm = Addressables.LoadAssetsAsync<ArmSO>("ArmSO", null);
+        handle_Arm.Completed += OnArmsLoaded;
+
+        AsyncOperationHandle<IList<BlushSO>> handle_Blush = Addressables.LoadAssetsAsync<BlushSO>("BlushSO", null);
+        handle_Blush.Completed += OnBlushsLoaded;
+
         AsyncOperationHandle<IList<BodySO>> handle_Body = Addressables.LoadAssetsAsync<BodySO>("BodySO", null);
         handle_Body.Completed += OnBodiesLoaded;
 
@@ -53,8 +64,8 @@ public class GeneManager : Singleton<GeneManager>
         AsyncOperationHandle<IList<EyeSO>> handle_Eye = Addressables.LoadAssetsAsync<EyeSO>("EyeSO", null);
         handle_Eye.Completed += OnEyesLoaded;
 
-        AsyncOperationHandle<IList<HornSO>> handle_Horn = Addressables.LoadAssetsAsync<HornSO>("HornSO", null);
-        handle_Horn.Completed += OnHornsLoaded;
+        AsyncOperationHandle<IList<FeetSO>> handle_Feet = Addressables.LoadAssetsAsync<FeetSO>("FeetSO", null);
+        handle_Feet.Completed += OnFeetLoaded;
 
         AsyncOperationHandle<IList<MouthSO>> handle_Mouth = Addressables.LoadAssetsAsync<MouthSO>("MouthSO", null);
         handle_Mouth.Completed += OnMouthsLoaded;
@@ -65,14 +76,65 @@ public class GeneManager : Singleton<GeneManager>
         AsyncOperationHandle<IList<PersonalitySO>> handle_Personality = Addressables.LoadAssetsAsync<PersonalitySO>("PersonalitySO", null);
         handle_Personality.Completed += OnPersonalitiesLoaded;
 
-        AsyncOperationHandle<IList<TailSO>> handle_Tail = Addressables.LoadAssetsAsync<TailSO>("TailSO", null);
-        handle_Tail.Completed += OnTailsLoaded;
-
         AsyncOperationHandle<IList<WingSO>> handle_Wing = Addressables.LoadAssetsAsync<WingSO>("WingSO", null);
         handle_Wing.Completed += OnWingsLoaded;
 
     }
+    private void OnAccsLoaded(AsyncOperationHandle<IList<AccSO>> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _parts[PartType.Acc].Clear();
 
+            for (int i = 0; i < handle.Result.Count; i++)
+            {
+                _parts[PartType.Acc].Add(handle.Result[i]);
+            }
+            Debug.Log($"TailSO 로드: {_parts[PartType.Acc].Count}개");
+            CheckIsReady();
+        }
+        else
+        {
+            Debug.LogError($"TailSO 로드 실패: {handle.OperationException}");
+        }
+
+    }
+    private void OnArmsLoaded(AsyncOperationHandle<IList<ArmSO>> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _parts[PartType.Arm].Clear();
+
+            for (int i = 0; i < handle.Result.Count; i++)
+            {
+                _parts[PartType.Arm].Add(handle.Result[i]);
+            }
+            Debug.Log($"ArmSO 로드: {_parts[PartType.Arm].Count}개");
+            CheckIsReady();
+        }
+        else
+        {
+            Debug.LogError($"ArmSO 로드 실패: {handle.OperationException}");
+        }
+    }
+    private void OnBlushsLoaded(AsyncOperationHandle<IList<BlushSO>> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _parts[PartType.Blush].Clear();
+
+            for (int i = 0; i < handle.Result.Count; i++)
+            {
+                _parts[PartType.Blush].Add(handle.Result[i]);
+            }
+            Debug.Log($"BlushSO 로드: {_parts[PartType.Blush].Count}개");
+            CheckIsReady();
+        }
+        else
+        {
+            Debug.LogError($"BlushSO 로드 실패: {handle.OperationException}");
+        }
+    }
     private void OnBodiesLoaded(AsyncOperationHandle<IList<BodySO>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -145,22 +207,22 @@ public class GeneManager : Singleton<GeneManager>
             Debug.LogError($"EyeSO 로드 실패: {handle.OperationException}");
         }
     }
-    private void OnHornsLoaded(AsyncOperationHandle<IList<HornSO>> handle)
+    private void OnFeetLoaded(AsyncOperationHandle<IList<FeetSO>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            _parts[PartType.Horn].Clear();
+            _parts[PartType.Feet].Clear();
 
             for (int i = 0; i < handle.Result.Count; i++)
             {
-                _parts[PartType.Horn].Add(handle.Result[i]);
+                _parts[PartType.Feet].Add(handle.Result[i]);
             }
-            Debug.Log($"HornSO 로드: {_parts[PartType.Horn].Count}개");
+            Debug.Log($"FeetSO 로드: {_parts[PartType.Feet].Count}개");
             CheckIsReady();
         }
         else
         {
-            Debug.LogError($"HornSO 로드 실패: {handle.OperationException}");
+            Debug.LogError($"FeetSO 로드 실패: {handle.OperationException}");
         }
     }
     private void OnMouthsLoaded(AsyncOperationHandle<IList<MouthSO>> handle)
@@ -218,25 +280,7 @@ public class GeneManager : Singleton<GeneManager>
         }
 
     }
-    private void OnTailsLoaded(AsyncOperationHandle<IList<TailSO>> handle)
-    {
-        if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
-            _parts[PartType.Tail].Clear();
-
-            for (int i = 0; i < handle.Result.Count; i++)
-            {
-                _parts[PartType.Tail].Add(handle.Result[i]);
-            }
-            Debug.Log($"TailSO 로드: {_parts[PartType.Tail].Count}개");
-            CheckIsReady();
-        }
-        else
-        {
-            Debug.LogError($"TailSO 로드 실패: {handle.OperationException}");
-        }
-
-    }
+    
     private void OnWingsLoaded(AsyncOperationHandle<IList<WingSO>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -345,17 +389,18 @@ public class GeneManager : Singleton<GeneManager>
         }
         return pick as T;
     }
-
+    public AccSO GetRandomAccSO() { return GetRandomPart<AccSO>(PartType.Acc); }
+    public ArmSO GetRandomArmSO() { return GetRandomPart<ArmSO>(PartType.Arm); }
+    public BlushSO GetRandomBlushSO() { return GetRandomPart<BlushSO>(PartType.Blush); }
     public BodySO GetRandomBodySO() { return GetRandomPart<BodySO>(PartType.Body); }
-    public EyeSO GetRandomEyeSO() { return GetRandomPart<EyeSO>(PartType.Eye); }
-    public EarSO GetRandomEarSO() { return GetRandomPart<EarSO>(PartType.Ear); }
-    public MouthSO GetRandomMouthSO() { return GetRandomPart<MouthSO>(PartType.Mouth); }
-    public TailSO GetRandomTailSO() { return GetRandomPart<TailSO>(PartType.Tail); }
-    public WingSO GetRandomWingSO() { return GetRandomPart<WingSO>(PartType.Wing); }
-    public HornSO GetRandomHornSO() { return GetRandomPart<HornSO>(PartType.Horn); }
-    public PatternSO GetRandomPatternSO() { return GetRandomPart<PatternSO>(PartType.Pattern); }
     public ColorSO GetRandomColorSO() { return GetRandomPart<ColorSO>(PartType.Color); }
+    public EarSO GetRandomEarSO() { return GetRandomPart<EarSO>(PartType.Ear); }
+    public EyeSO GetRandomEyeSO() { return GetRandomPart<EyeSO>(PartType.Eye); }
+    public FeetSO GetRandomFeetSO() { return GetRandomPart<FeetSO>(PartType.Feet); }
+    public MouthSO GetRandomMouthSO() { return GetRandomPart<MouthSO>(PartType.Mouth); }
+    public PatternSO GetRandomPatternSO() { return GetRandomPart<PatternSO>(PartType.Pattern); }
     public PersonalitySO GetRandomPersonalitySO() { return GetRandomPart<PersonalitySO>(PartType.Personality); }
+    public WingSO GetRandomWingSO() { return GetRandomPart<WingSO>(PartType.Wing); }
 
     public T GetPartSOByID<T>(PartType part, string id) where T : PartBaseSO
     {
