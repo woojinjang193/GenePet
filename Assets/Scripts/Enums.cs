@@ -23,13 +23,15 @@ public enum Personality
 public enum PartType
 {                   
     Body,           
+    Arm,
+    Feet,
     Eye,            
     Ear,            
-    Mouth,          
-    Tail,           
-    Wing,           
-    Horn,           
+    Mouth,
+    Acc,           
+    Wing,                   
     Pattern,        
     Color,          
+    Blush,
     Personality     
 }

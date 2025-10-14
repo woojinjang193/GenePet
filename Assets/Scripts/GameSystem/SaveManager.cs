@@ -40,7 +40,7 @@ public class SaveManager : Singleton<SaveManager>
 
         if (Manager.Gene.IsReady == true)
         {
-            Manager.Game.CreateRandomPet();
+            Manager.Game.CreateRandomPet(true);
         }
         else
         {
@@ -56,7 +56,7 @@ public class SaveManager : Singleton<SaveManager>
         {
             yield return null;
         }
-        Manager.Game.CreateRandomPet();
+        Manager.Game.CreateRandomPet(true);
     }
 
     public void SaveGame()
@@ -79,7 +79,7 @@ public class SaveManager : Singleton<SaveManager>
         }
     }
 
-    public void AddNewPet(PetSaveData pet)
+    public void RegisterNewPet(PetSaveData pet)
     {
         if (CurrentData == null)
         {
@@ -87,7 +87,7 @@ public class SaveManager : Singleton<SaveManager>
             return;
         }
 
-        CurrentData.UserData.HavePetList.Add(pet);
+        CurrentData.UserData.HavePet = pet;
         PetRecordData record = new PetRecordData(pet);
         record.Remark = "Raising";
         CurrentData.UserData.HadPetList.Add(record);
@@ -97,27 +97,14 @@ public class SaveManager : Singleton<SaveManager>
     private void OnApplicationQuit()
     {
         // 현재 씬에 존재하는 모든 펫 검색
-        PetUnit[] pets = FindObjectsOfType<PetUnit>();
+        var pet = FindObjectOfType<PetUnit>();
 
         // 세이브 데이터가 비었으면 저장 불가
-        if (CurrentData == null || CurrentData.UserData.HavePetList == null)
+        if (CurrentData == null || CurrentData.UserData.HavePet == null)
             return;
 
-        // 펫 수만큼 반복
-        for (int i = 0; i < pets.Length; i++)
-        {
-            PetUnit pet = pets[i];
-
-            // 저장 리스트에 i번째 데이터가 없으면 새로 추가
-            if (i >= CurrentData.UserData.HavePetList.Count)
-            {
-                PetSaveData newData = new PetSaveData();
-                CurrentData.UserData.HavePetList.Add(newData);
-            }
-
-            // 저장 또는 갱신
-            pet.UpdatePetSaveData(CurrentData.UserData.HavePetList[i]);
-        }
+        // 저장
+        pet.UpdatePetSaveData(CurrentData.UserData.HavePet);
 
         // 모든 펫 데이터 반영 후 실제 세이브 파일 저장
         SaveGame();

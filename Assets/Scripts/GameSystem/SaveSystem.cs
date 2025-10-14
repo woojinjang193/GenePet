@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 
@@ -21,33 +22,62 @@ public class GenePair
 public class GenesContainer
 {
     public GenePair Body;       
+    public GenePair Arm;       
+    public GenePair Feet;       
     public GenePair Pattern;    
     public GenePair Eye;        
     public GenePair Mouth;      
-    public GenePair Ear;        
-    public GenePair Horn;       
-    public GenePair Tail;       
+    public GenePair Ear;         
+    public GenePair Acc;
+    public GenePair Blush;
     public GenePair Wing;       
+
     public GenePair Color;      
     public GenePair Personality;
+    public PartColorGenes PartColors;
 
     public GenesContainer()           
     {                                 
-        Body = new GenePair();        
+        Body = new GenePair();     
+        Arm = new GenePair();
+        Feet = new GenePair();
         Pattern = new GenePair();     
         Eye = new GenePair();         
         Mouth = new GenePair();       
         Ear = new GenePair();         
-        Horn = new GenePair();        
-        Tail = new GenePair();        
-        Wing = new GenePair();        
+        Acc = new GenePair();        
+        Wing = new GenePair();       
+        Blush = new GenePair();
+
         Color = new GenePair();       
-        Personality = new GenePair(); 
+        Personality = new GenePair();
+        PartColors = new PartColorGenes();
     }                                 
 }
 
+[Serializable]
+public class PartColorGenes
+{
+    public string BodyColorId;
+    public string ArmColorId;
+    public string FeetColorId;
+    public string PatternColorId;
+    public string EarColorId;
+    public string BlushColorId;
+
+    public PartColorGenes()
+    {
+        BodyColorId = "";
+        ArmColorId = "";
+        FeetColorId = "";
+        PatternColorId = "";
+        EarColorId = "";
+        BlushColorId = "";
+    }
+}
+
 [Serializable]                  
-public class PetSaveData   //이름 추가 예정
+public class PetSaveData
 {
     public bool IsInfoUnlocked;
     public string ID;
@@ -86,6 +116,22 @@ public class PetSaveData   //이름 추가 예정
 }
 
 [Serializable]
+public class IslandData
+{
+    public bool IsMarried;
+    public PetSaveData IslandPetSaveData;
+    public float Affinity;
+
+    public IslandData()
+    {
+        IsMarried = false;
+        IslandPetSaveData = new PetSaveData();
+        Affinity = 50f;
+    }
+       
+}
+
+[Serializable]
 public class UserItemData
 {
     public int Item1Amount;
@@ -110,18 +156,18 @@ public class UserData
 {
     public string UID;
     public string UserDisplayName;
-    public int MaxPetAmount;
-    public List<PetSaveData> HavePetList;
+    public PetSaveData HavePet;
     public List<PetRecordData> HadPetList;
+    public IslandData Island;
     public UserItemData Items;
 
     public UserData()
     {
         UID = "";
         UserDisplayName = "";
-        MaxPetAmount = 3;
-        HavePetList = new List<PetSaveData>();
+        HavePet = new PetSaveData();
         HadPetList = new List<PetRecordData>();
+        Island = new IslandData();
         Items = new UserItemData();
     }
 }

@@ -1,26 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public void CreateRandomPet()
+    public void CreateRandomPet(bool isMine)
     {
-        //int have = Manager.Save.CurrentData.UserData.HavePetList.Count;
-        //int max = Manager.Save.CurrentData.UserData.MaxPetAmount;
-        //
-        //if (max <= have)
-        //{
-        //    Debug.LogWarning($"소지 가능 펫 수 초과. 현재 펫 수: {have}, 최대 펫 수: {max}.");
-        //    return;
-        //}
-
         PetSaveData newPet = new PetSaveData();
-
         newPet.ID = Guid.NewGuid().ToString();
         newPet.DisplayName = "";
         newPet.Seed = UnityEngine.Random.Range(0, 999999);
+
+        newPet.Genes.Acc.DominantId = Manager.Gene.GetRandomAccSO().ID;
+        newPet.Genes.Acc.RecessiveId = Manager.Gene.GetRandomAccSO().ID;
+
+        newPet.Genes.Arm.DominantId = Manager.Gene.GetRandomArmSO().ID;
+        newPet.Genes.Arm.RecessiveId = Manager.Gene.GetRandomArmSO().ID;
+
+        newPet.Genes.Blush.DominantId = Manager.Gene.GetRandomBlushSO().ID;
+        newPet.Genes.Blush.RecessiveId = Manager.Gene.GetRandomBlushSO().ID;
 
         newPet.Genes.Body.DominantId = Manager.Gene.GetRandomBodySO().ID;
         newPet.Genes.Body.RecessiveId = Manager.Gene.GetRandomBodySO().ID;
@@ -34,8 +34,8 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.Eye.DominantId = Manager.Gene.GetRandomEyeSO().ID;
         newPet.Genes.Eye.RecessiveId = Manager.Gene.GetRandomEyeSO().ID;
 
-        newPet.Genes.Horn.DominantId = Manager.Gene.GetRandomHornSO().ID;
-        newPet.Genes.Horn.RecessiveId = Manager.Gene.GetRandomHornSO().ID;
+        newPet.Genes.Feet.DominantId = Manager.Gene.GetRandomFeetSO().ID;
+        newPet.Genes.Feet.RecessiveId = Manager.Gene.GetRandomFeetSO().ID;
 
         newPet.Genes.Mouth.DominantId = Manager.Gene.GetRandomMouthSO().ID;
         newPet.Genes.Mouth.RecessiveId = Manager.Gene.GetRandomMouthSO().ID;
@@ -46,12 +46,33 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.Personality.DominantId = Manager.Gene.GetRandomPersonalitySO().ID;
         newPet.Genes.Personality.RecessiveId = Manager.Gene.GetRandomPersonalitySO().ID;
 
-        newPet.Genes.Tail.DominantId = Manager.Gene.GetRandomTailSO().ID;
-        newPet.Genes.Tail.RecessiveId = Manager.Gene.GetRandomTailSO().ID;
-
         newPet.Genes.Wing.DominantId = Manager.Gene.GetRandomWingSO().ID;
         newPet.Genes.Wing.RecessiveId = Manager.Gene.GetRandomWingSO().ID;
 
-        Manager.Save.AddNewPet(newPet);
+        string dom = newPet.Genes.Color.DominantId;
+        string rec = newPet.Genes.Color.RecessiveId;
+
+        newPet.Genes.PartColors.ArmColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.BodyColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.FeetColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.PatternColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.BlushColorId = PickColorId(dom, rec);
+
+        if (isMine)
+        {
+            Manager.Save.RegisterNewPet(newPet);
+        }
+        
+    }
+
+    private string PickColorId(string dominant, string recessive)
+    {
+        float r = UnityEngine.Random.value;
+        if (r > 0.5f)
+        {
+            return dominant;
+        }
+        return recessive;
     }
 }

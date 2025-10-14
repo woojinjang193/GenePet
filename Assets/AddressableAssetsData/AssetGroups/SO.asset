@@ -23,6 +23,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - EyeSO
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36a0abd056a60bd439777bb4e35ac82b
+    m_Address: Assets/ScriptableObjects/Genes/BlushSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BlushSO
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 398a064fe7485e644944e81ac8631d47
     m_Address: Assets/ScriptableObjects/Genes/ColorSO
     m_ReadOnly: 0
@@ -71,11 +77,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - EarSO
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ab794f4461842714a837ef0c306ea45b
-    m_Address: Assets/ScriptableObjects/Genes/TailSO
+  - m_GUID: c56bfd68f32b5914daee4b23ca5890d5
+    m_Address: Assets/ScriptableObjects/Genes/AccSO
     m_ReadOnly: 0
     m_SerializedLabels:
-    - TailSO
+    - AccSO
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a118a132ee8ea17438ac4f5f68878a17, type: 2}
