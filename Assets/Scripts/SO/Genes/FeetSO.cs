@@ -6,4 +6,5 @@ using UnityEngine;
 public class FeetSO : PartBaseSO
 {
     public Sprite sprite;
+    public Sprite Outline;
 }

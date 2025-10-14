@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c4359bff6b6ba94097ee35f410a19d9, type: 3}
-  m_Name: New BodySO
+  m_Script: {fileID: 11500000, guid: 7f094c54d70d6f0499d2d8b6d5ebe432, type: 3}
+  m_Name: New ColorSO 5
   m_EditorClassIdentifier: 
-  ID: 01
-  DisplayName: Body01
+  ID: 05
+  DisplayName: 
   Rarity: 0
-  sprite: {fileID: 21300000, guid: ed3f48569614fa64d809409e5dca74bf, type: 3}
-  Outline: {fileID: 21300000, guid: 438cce4c37b757b43bcb3379e9b657d9, type: 3}
+  color: {r: 0.7490196, g: 1, b: 0.8365095, a: 1}

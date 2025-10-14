@@ -8,8 +8,10 @@ public class PetVisualController : MonoBehaviour
 {
     [SerializeField] private PetUnit _pet;
 
+    [Header("알")]
     [SerializeField] private SpriteRenderer _egg;
 
+    [Header("파츠 베이스")]
     [SerializeField] private SpriteRenderer _acc;
     [SerializeField] private SpriteRenderer _arm;
     [SerializeField] private SpriteRenderer _blush;
@@ -21,9 +23,15 @@ public class PetVisualController : MonoBehaviour
     [SerializeField] private SpriteRenderer _pattern;
     [SerializeField] private SpriteRenderer _wing;
 
-    //[SerializeField] private Color _color1;
-    //[SerializeField] private Color _color2;
-
+    [Header("파츠 아웃라인")]
+    [SerializeField] private SpriteRenderer _accOut;
+    [SerializeField] private SpriteRenderer _armOut;
+    [SerializeField] private SpriteRenderer _blushOut;
+    [SerializeField] private SpriteRenderer _bodyOut;
+    [SerializeField] private SpriteRenderer _earOut;
+    [SerializeField] private SpriteRenderer _feetOut;
+    [SerializeField] private SpriteRenderer _wingOut;
+    [Header("테스트 버튼")]
     [SerializeField] private Button _button; //테스트용. 지워야함
 
     public PetStatusCore Status
@@ -33,7 +41,7 @@ public class PetVisualController : MonoBehaviour
 
     private void Awake()
     {
-        Status.OnGrowthChanged += OnGrowthChanged;
+        //Status.OnGrowthChanged += OnGrowthChanged;
         _button.onClick.AddListener(ButtonClicked); //테스트용. 지워야함
     }
 
@@ -79,19 +87,40 @@ public class PetVisualController : MonoBehaviour
             _pet.Status.Growth = savedGrowth;
         }
 
-        _acc.sprite = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, pet.Acc.DominantId).sprite;
-        _arm.sprite = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, pet.Arm.DominantId).sprite;
-        _blush.sprite = Manager.Gene.GetPartSOByID<BlushSO>(PartType.Blush, pet.Blush.DominantId).sprite;
-        _body.sprite = Manager.Gene.GetPartSOByID<BodySO>(PartType.Body, pet.Body.DominantId).sprite;
-        _pattern.sprite = Manager.Gene.GetPartSOByID<PatternSO>(PartType.Pattern, pet.Pattern.DominantId).sprite;
-        _ear.sprite = Manager.Gene.GetPartSOByID<EarSO>(PartType.Ear, pet.Ear.DominantId).sprite;
-        _eye.sprite = Manager.Gene.GetPartSOByID<EyeSO>(PartType.Eye, pet.Eye.DominantId).sprite;
-        _feet.sprite = Manager.Gene.GetPartSOByID<FeetSO>(PartType.Feet, pet.Feet.DominantId).sprite;
-        _mouth.sprite = Manager.Gene.GetPartSOByID<MouthSO>(PartType.Mouth, pet.Mouth.DominantId).sprite;
-        _wing.sprite = Manager.Gene.GetPartSOByID<WingSO>(PartType.Wing, pet.Wing.DominantId).sprite;
-        
+        var acc = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, pet.Acc.DominantId);
+        var arm = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, pet.Arm.DominantId);
+        var blush = Manager.Gene.GetPartSOByID<BlushSO>(PartType.Blush, pet.Blush.DominantId);
+        var body = Manager.Gene.GetPartSOByID<BodySO>(PartType.Body, pet.Body.DominantId);
+        var pattern = Manager.Gene.GetPartSOByID<PatternSO>(PartType.Pattern, pet.Pattern.DominantId);
+        var ear = Manager.Gene.GetPartSOByID<EarSO>(PartType.Ear, pet.Ear.DominantId);
+        var eye = Manager.Gene.GetPartSOByID<EyeSO>(PartType.Eye, pet.Eye.DominantId);
+        var feet = Manager.Gene.GetPartSOByID<FeetSO>(PartType.Feet, pet.Feet.DominantId);
+        var mouth = Manager.Gene.GetPartSOByID<MouthSO>(PartType.Mouth, pet.Mouth.DominantId);
+        var wing = Manager.Gene.GetPartSOByID<WingSO>(PartType.Wing, pet.Wing.DominantId);
+
+        _acc.sprite = acc.sprite;
+        _arm.sprite = arm.sprite;
+        _blush.sprite = blush.sprite;
+        _body.sprite = body.sprite;
+        _pattern.sprite = pattern.sprite;
+        _ear.sprite = ear.sprite;
+        _eye.sprite = eye.sprite;
+        _feet.sprite = feet.sprite;
+        _mouth.sprite = mouth.sprite;
+        _wing.sprite = wing.sprite;
+
+        _accOut.sprite = acc.Outline;
+        _armOut.sprite = arm.Outline;
+        _blushOut.sprite = blush.Outline;
+        _bodyOut.sprite = body.Outline;
+        _earOut.sprite = ear.Outline;
+        _feetOut.sprite = feet.Outline;
+        _wingOut.sprite = wing.Outline;
+
         ApplyColorsFromGenes(pet.PartColors);
     }
+
+    
 
     private void OnGrowthChanged(GrowthStatus growth)
     {
@@ -120,6 +149,8 @@ public class PetVisualController : MonoBehaviour
             _blush.gameObject.SetActive(true);
             _mouth.gameObject.SetActive(false); //고민중
 
+            _bodyOut.gameObject.SetActive(true);
+            _blushOut.gameObject.SetActive(true);
             Debug.Log("Baby 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Teen) //성장기
@@ -130,6 +161,11 @@ public class PetVisualController : MonoBehaviour
             _eye.gameObject.SetActive(true);
             _feet.gameObject.SetActive(true);
             _mouth.gameObject.SetActive(true);
+
+            _blushOut.gameObject.SetActive(true);
+            _bodyOut.gameObject.SetActive(true);
+            _earOut.gameObject.SetActive(true);
+            _feetOut.gameObject.SetActive(true);
             Debug.Log("Teen 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Teen_Rebel) //반항기
@@ -141,6 +177,12 @@ public class PetVisualController : MonoBehaviour
             _eye.gameObject.SetActive(true);
             _feet.gameObject.SetActive(true);
             _mouth.gameObject.SetActive(true);
+
+            _accOut.gameObject.SetActive(true);
+            _blushOut.gameObject.SetActive(true);
+            _bodyOut.gameObject.SetActive(true);
+            _earOut.gameObject.SetActive(true);
+            _feetOut.gameObject.SetActive(true);
             Debug.Log("Teen_Rebel 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Adult) //어른
@@ -155,6 +197,14 @@ public class PetVisualController : MonoBehaviour
             _mouth.gameObject.SetActive(true);
             _pattern.gameObject.SetActive(true);
             _wing.gameObject.SetActive(true);
+
+            _accOut.gameObject.SetActive(true);
+            _armOut.gameObject.SetActive(true);
+            _blushOut.gameObject.SetActive(true);
+            _bodyOut.gameObject.SetActive(true);
+            _earOut.gameObject.SetActive(true);
+            _feetOut.gameObject.SetActive(true);
+            _wingOut.gameObject.SetActive(true);
 
             Debug.Log("Adult 상태 스프라이트 세팅");
         }
@@ -194,7 +244,15 @@ public class PetVisualController : MonoBehaviour
         if (_feet != null) _feet.gameObject.SetActive(false);
         if (_mouth != null) _mouth.gameObject.SetActive(false);
         if (_pattern != null) _pattern.gameObject.SetActive(false);
-        if (_wing != null) _wing.gameObject.SetActive(false);         
+        if (_wing != null) _wing.gameObject.SetActive(false);
+
+        if (_accOut != null) _acc.gameObject.SetActive(false);
+        if (_armOut != null) _arm.gameObject.SetActive(false);
+        if (_blushOut != null) _blush.gameObject.SetActive(false);
+        if (_bodyOut != null) _body.gameObject.SetActive(false);
+        if (_earOut != null) _ear.gameObject.SetActive(false);
+        if (_feetOut != null) _feet.gameObject.SetActive(false);
+        if (_wingOut != null) _wing.gameObject.SetActive(false);
     }
 
     private bool AreAllRenderersAssigned()

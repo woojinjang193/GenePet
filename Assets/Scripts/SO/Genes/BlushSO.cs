@@ -6,4 +6,5 @@ using UnityEngine;
 public class BlushSO : PartBaseSO
 {
     public Sprite sprite;
+    public Sprite Outline;
 }
