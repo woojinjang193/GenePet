@@ -7,4 +7,5 @@ public class EarSO : PartBaseSO
 {
     public Sprite sprite;
     public Sprite Outline;
+    public int OrderInLayer;
 }

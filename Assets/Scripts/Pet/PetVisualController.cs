@@ -98,6 +98,7 @@ public class PetVisualController : MonoBehaviour
         var mouth = Manager.Gene.GetPartSOByID<MouthSO>(PartType.Mouth, pet.Mouth.DominantId);
         var wing = Manager.Gene.GetPartSOByID<WingSO>(PartType.Wing, pet.Wing.DominantId);
 
+        //베이스 스프라이트 셋
         _acc.sprite = acc.sprite;
         _arm.sprite = arm.sprite;
         _blush.sprite = blush.sprite;
@@ -108,7 +109,8 @@ public class PetVisualController : MonoBehaviour
         _feet.sprite = feet.sprite;
         _mouth.sprite = mouth.sprite;
         _wing.sprite = wing.sprite;
-
+        
+        //아웃라인 셋
         _accOut.sprite = acc.Outline;
         _armOut.sprite = arm.Outline;
         _blushOut.sprite = blush.Outline;
@@ -117,10 +119,30 @@ public class PetVisualController : MonoBehaviour
         _feetOut.sprite = feet.Outline;
         _wingOut.sprite = wing.Outline;
 
+        //베이스 레이어 순서 셋
+        _acc.sortingOrder = acc.OrderInLayer;
+        _arm.sortingOrder = arm.OrderInLayer;
+        _blush.sortingOrder = blush.OrderInLayer;
+        _body.sortingOrder = body.OrderInLayer;
+        _pattern.sortingOrder = pattern.OrderInLayer;
+        _ear.sortingOrder = ear.OrderInLayer;
+        _eye.sortingOrder = eye.OrderInLayer;
+        _feet.sortingOrder = feet.OrderInLayer;
+        _mouth.sortingOrder = mouth.OrderInLayer;
+        _wing.sortingOrder = wing.OrderInLayer;
+
+        //아웃라인 레이어 순서 셋
+        _accOut.sortingOrder = acc.OrderInLayer;
+        _armOut.sortingOrder = arm.OrderInLayer;
+        _blushOut.sortingOrder = blush.OrderInLayer;
+        _bodyOut.sortingOrder = body.OrderInLayer;
+        _earOut.sortingOrder = ear.OrderInLayer;
+        _feetOut.sortingOrder = feet.OrderInLayer;
+        _wingOut.sortingOrder = wing.OrderInLayer;
+
+
         ApplyColorsFromGenes(pet.PartColors);
     }
-
-    
 
     private void OnGrowthChanged(GrowthStatus growth)
     {
