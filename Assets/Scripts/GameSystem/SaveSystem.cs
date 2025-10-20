@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -118,23 +119,28 @@ public class PetSaveData
 [Serializable]
 public class IslandData
 {
+    public bool IsOpen;
+    public bool IsLeft;
     public bool IsMarried;
     public PetSaveData IslandPetSaveData;
     public float Affinity;
+    public int VisitCount;
 
     public IslandData()
     {
+        IsOpen = false;
+        IsLeft = false;
         IsMarried = false;
         IslandPetSaveData = new PetSaveData();
         Affinity = 50f;
+        VisitCount = 0;
     }
-       
 }
 
 [Serializable]
 public class UserItemData
 {
-    public int Item1Amount;
+    public int IslandTicket;
     public int Item2Amount;
     public int Item3Amount;
     public int Item4Amount;
@@ -142,7 +148,7 @@ public class UserItemData
 
     public UserItemData()
     {
-        Item1Amount = 0;
+        IslandTicket = 1;
         Item2Amount = 0;
         Item3Amount = 0;
         Item4Amount = 0;

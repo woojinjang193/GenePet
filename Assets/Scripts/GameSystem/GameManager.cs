@@ -59,11 +59,8 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.BlushColorId = PickColorId(dom, rec);
 
-        if (isMine)
-        {
-            Manager.Save.RegisterNewPet(newPet);
-        }
-        
+        Manager.Save.RegisterNewPet(newPet, isMine);
+
     }
 
     private string PickColorId(string dominant, string recessive)

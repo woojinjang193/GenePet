@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d366fc8715f848c4cb8ae3e74057ac4b, type: 3}
   m_Name: New EarSO
   m_EditorClassIdentifier: 
-  ID: 01
-  DisplayName: 01
+  ID: 00
+  DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 9cf42492652fcf5448acd380ced19941, type: 3}
-  Outline: {fileID: 21300000, guid: 528499ebf5dbb484c911e86a196eb4b6, type: 3}
-  OrderInLayer: 0
+  sprite: {fileID: 21300000, guid: 7ab3dfa53959be44780f0a77dad2c850, type: 3}
+  Outline: {fileID: 21300000, guid: e0794f6a18ba4bc488947fa09626aaaf, type: 3}
+  OrderInLayer: 3

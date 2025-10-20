@@ -113,7 +113,7 @@ public class PetVisualController : MonoBehaviour
         //아웃라인 셋
         _accOut.sprite = acc.Outline;
         _armOut.sprite = arm.Outline;
-        _blushOut.sprite = blush.Outline;
+        //_blushOut.sprite = blush.Outline;
         _bodyOut.sprite = body.Outline;
         _earOut.sprite = ear.Outline;
         _feetOut.sprite = feet.Outline;
@@ -132,13 +132,13 @@ public class PetVisualController : MonoBehaviour
         _wing.sortingOrder = wing.OrderInLayer;
 
         //아웃라인 레이어 순서 셋
-        _accOut.sortingOrder = acc.OrderInLayer;
-        _armOut.sortingOrder = arm.OrderInLayer;
-        _blushOut.sortingOrder = blush.OrderInLayer;
-        _bodyOut.sortingOrder = body.OrderInLayer;
-        _earOut.sortingOrder = ear.OrderInLayer;
-        _feetOut.sortingOrder = feet.OrderInLayer;
-        _wingOut.sortingOrder = wing.OrderInLayer;
+        _accOut.sortingOrder = acc.OrderInLayer + 1;
+        _armOut.sortingOrder = arm.OrderInLayer + 1;
+        _blushOut.sortingOrder = blush.OrderInLayer + 1;
+        _bodyOut.sortingOrder = body.OrderInLayer + 2;
+        _earOut.sortingOrder = ear.OrderInLayer + 1;
+        _feetOut.sortingOrder = feet.OrderInLayer + 1;
+        _wingOut.sortingOrder = wing.OrderInLayer + 1;
 
 
         ApplyColorsFromGenes(pet.PartColors);
@@ -168,8 +168,9 @@ public class PetVisualController : MonoBehaviour
         {
             _eye.gameObject.SetActive(true);
             _body.gameObject.SetActive(true);
+            _ear.gameObject.SetActive(true);
             _blush.gameObject.SetActive(true);
-            _mouth.gameObject.SetActive(false); //고민중
+            _mouth.gameObject.SetActive(true);
 
             _bodyOut.gameObject.SetActive(true);
             _blushOut.gameObject.SetActive(true);

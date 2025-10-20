@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c59a55b8374a444b1a46745f6c78de, type: 3}
   m_Name: New MouthSO
   m_EditorClassIdentifier: 
-  ID: 01
-  DisplayName: 01
+  ID: 00
+  DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: b9bea58f0156d32429583ce914955e17, type: 3}
+  sprite: {fileID: 21300000, guid: 401ef5b9148028e4abeb32d4f57a1e4d, type: 3}
+  OrderInLayer: 11

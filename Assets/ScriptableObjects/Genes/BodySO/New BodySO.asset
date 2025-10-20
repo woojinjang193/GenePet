@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4359bff6b6ba94097ee35f410a19d9, type: 3}
   m_Name: New BodySO
   m_EditorClassIdentifier: 
-  ID: 01
+  ID: 00
   DisplayName: Body01
   Rarity: 0
-  sprite: {fileID: 21300000, guid: ed3f48569614fa64d809409e5dca74bf, type: 3}
-  Outline: {fileID: 21300000, guid: 438cce4c37b757b43bcb3379e9b657d9, type: 3}
+  sprite: {fileID: 21300000, guid: 2917bd5c70d102c449b3559cb18577dc, type: 3}
+  Outline: {fileID: 21300000, guid: 5a4524834f100cc43b3e0f1ccbb0c07e, type: 3}
+  OrderInLayer: 5

@@ -79,7 +79,7 @@ public class SaveManager : Singleton<SaveManager>
         }
     }
 
-    public void RegisterNewPet(PetSaveData pet)
+    public void RegisterNewPet(PetSaveData pet, bool isMine)
     {
         if (CurrentData == null)
         {
@@ -87,10 +87,20 @@ public class SaveManager : Singleton<SaveManager>
             return;
         }
 
-        CurrentData.UserData.HavePet = pet;
-        PetRecordData record = new PetRecordData(pet);
-        record.Remark = "Raising";
-        CurrentData.UserData.HadPetList.Add(record);
+        if(isMine)
+        {
+            CurrentData.UserData.HavePet = pet;
+            PetRecordData record = new PetRecordData(pet);
+            record.Remark = "Raising";
+            CurrentData.UserData.HadPetList.Add(record);
+        }
+        else
+        {
+            CurrentData.UserData.Island.IslandPetSaveData = pet;
+            //PetRecordData record = new PetRecordData(pet);
+            //record.Remark = "Raising";
+            //CurrentData.UserData.HadPetList.Add(record);
+        }
 
         SaveGame();
     }
