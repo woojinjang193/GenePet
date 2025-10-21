@@ -26,6 +26,10 @@ public class IslandPetVisualLoader : MonoBehaviour
     [SerializeField] private SpriteRenderer _earOut;
     [SerializeField] private SpriteRenderer _feetOut;
     [SerializeField] private SpriteRenderer _wingOut;
+
+    [Header("패턴 마스크")]
+    [SerializeField] private SpriteMask _patternMask;
+
     [Header("테스트 버튼")]
     [SerializeField] private Button _button; //테스트용. 지워야함
 
@@ -111,6 +115,12 @@ public class IslandPetVisualLoader : MonoBehaviour
         _feetOut.sortingOrder = feet.OrderInLayer + 1;
         _wingOut.sortingOrder = wing.OrderInLayer + 1;
 
+        //마스크 적용
+        if (_patternMask == null)
+        {
+            _patternMask = _pattern.GetComponent<SpriteMask>();
+        }
+        _patternMask.sprite = _body.sprite;
 
         ApplyColorsFromGenes(pet.PartColors);
     }

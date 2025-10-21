@@ -87,14 +87,14 @@ public class SaveManager : Singleton<SaveManager>
             return;
         }
 
-        if(isMine)
+        if(isMine) //플레이어 펫일때
         {
             CurrentData.UserData.HavePet = pet;
             PetRecordData record = new PetRecordData(pet);
             record.Remark = "Raising";
             CurrentData.UserData.HadPetList.Add(record);
         }
-        else
+        else // 섬 펫일때
         {
             CurrentData.UserData.Island.IslandPetSaveData = pet;
             //PetRecordData record = new PetRecordData(pet);
