@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public LeftReason Reason {  get; private set; }
     public void CreateRandomPet(bool isMine)
     {
         PetSaveData newPet = new PetSaveData();
@@ -71,5 +72,10 @@ public class GameManager : Singleton<GameManager>
             return dominant;
         }
         return recessive;
+    }
+
+    public void SetLeftReason(LeftReason reason)
+    {
+        Reason = reason;
     }
 }

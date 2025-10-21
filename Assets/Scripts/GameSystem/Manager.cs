@@ -6,6 +6,7 @@ public static class Manager
     public static GeneManager Gene => GeneManager.GetInstance();
     public static SaveManager Save => SaveManager.GetInstance();
     public static GameManager Game => GameManager.GetInstance();
+    public static LanguageManager Lang => LanguageManager.GetInstance();
 
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -15,5 +16,6 @@ public static class Manager
         GeneManager.CreateManager();
         GameManager.CreateManager();
         SaveManager.CreateManager();
+        LanguageManager.CreateManager();
     }
 }

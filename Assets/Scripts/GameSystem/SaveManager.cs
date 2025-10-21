@@ -7,6 +7,9 @@ public class SaveManager : Singleton<SaveManager>
 {
     public GameSaveSnapshot CurrentData;
 
+    private bool _isReady = false;
+    public bool IsReady { get { return _isReady; } }
+
     protected override void Awake()
     {
         base.Awake();
@@ -22,11 +25,13 @@ public class SaveManager : Singleton<SaveManager>
         {
             Debug.Log("기존 세이브파일 로드 완료");
             CurrentData = data;
+            _isReady = true;
         }
         else
         {
             Debug.Log("세이브파일 없음. 새로 생성");
             CurrentData = CreateNewSave();
+            _isReady = true;
         }
     }
 

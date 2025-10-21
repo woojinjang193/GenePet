@@ -161,6 +161,7 @@ public class UserItemData
 public class UserData
 {
     public string UID;
+    public Language CurLanguage;
     public string UserDisplayName;
     public PetSaveData HavePet;
     public List<PetRecordData> HadPetList;
@@ -170,6 +171,7 @@ public class UserData
     public UserData()
     {
         UID = "";
+        CurLanguage = Language.ENG;
         UserDisplayName = "";
         HavePet = new PetSaveData();
         HadPetList = new List<PetRecordData>();

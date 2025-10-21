@@ -35,3 +35,19 @@ public enum PartType
     Blush,
     Personality     
 }
+
+public enum LeftReason
+{
+    Hunger,
+    Unhappy,
+    Dirty,
+    LayEgg,
+}
+
+public enum Language
+{
+    KOR = 0,
+    ENG = 1,
+    JP = 2,
+    DE = 3,
+}

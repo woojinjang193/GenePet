@@ -16,10 +16,10 @@ MonoBehaviour:
   canGrow: 0
   TimeToGrow: 0
   ExpToGrow: 0
-  HungerDecreasePerSec: 0
+  HungerDecreasePerSec: 10
   HappinessDecreasePerSec: 0
   EnergyDecreasePerSec: 0
-  CleanlinessDecreasePerSec: 0
+  CleanlinessDecreasePerSec: 0.1
   StressIncreasePerSec: 0
   StressDecreasePerSec: 0
   FeedHungerGain: 0
@@ -28,4 +28,4 @@ MonoBehaviour:
   SleepEnergyGainPerSec: 0
   PlayEnergyCost: 0
   HealAmount: 0
-  HealthDecreasePerSec: 0
+  HealthDecreasePerSec: 10

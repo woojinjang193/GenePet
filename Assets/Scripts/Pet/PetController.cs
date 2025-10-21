@@ -70,7 +70,6 @@ public sealed class PetController : MonoBehaviour
             return;
         }
         
-
         // 간단히 아픔 해제 + 체력 회복
         Status.SetFlag(PetFlag.IsSick, false);
         Status.AddStat(PetStat.Health, Config.HealAmount);

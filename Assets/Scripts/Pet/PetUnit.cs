@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PetUnit : MonoBehaviour
@@ -10,6 +11,9 @@ public class PetUnit : MonoBehaviour
 
     [Header("틱 설정")]
     [SerializeField] private float _tickInterval = 1f;
+
+    [Header("편지")]
+    [SerializeField] private GameObject _letter;
 
     public PetStatusCore Status => _status;
     public PetConfigSO CurrentConfig { get; private set; }
@@ -28,11 +32,26 @@ public class PetUnit : MonoBehaviour
     private void OnEnable()
     {
         _status.OnGrowthChanged += ApplyConfigFor;
+        LoadFromSaveData(Manager.Save.CurrentData.UserData.HavePet);
     }
 
     private void OnDisable()
     {
         _status.OnGrowthChanged -= ApplyConfigFor;
+    }
+
+    private void LoadFromSaveData(PetSaveData data)
+    {
+        if (data == null)
+            return;
+
+        _status.SetStat(PetStat.Hunger, data.Hunger);
+        _status.SetStat(PetStat.Happiness, data.Happiness);
+        _status.SetStat(PetStat.Energy, data.Energy);
+        _status.SetStat(PetStat.Cleanliness, data.Cleanliness);
+        _status.SetStat(PetStat.Health, data.Health);
+
+        _status.Growth = Enum.TryParse<GrowthStatus>(data.GrowthStage, out var growthStatus) ? growthStatus : GrowthStatus.Egg;
     }
 
     private void ApplyConfigFor(GrowthStatus growth)
@@ -118,19 +137,20 @@ public class PetUnit : MonoBehaviour
         }
 
         //=====배 많이 고플때=====
-        if (_status.GetStat(PetStat.Hunger) < 20f)
-        {
-            //행복도 감소
-            _status.AddStat(PetStat.Happiness, -CurrentConfig.HappinessDecreasePerSec);
-            Debug.Log($"배고픔. 행복도 : {_status.GetStat(PetStat.Happiness)}");
-        }
-        else if (_status.GetStat(PetStat.Hunger) <= 0f)
+        if (_status.GetStat(PetStat.Hunger) <= 0f)
         {
             _status.AddStat(PetStat.Health, -CurrentConfig.HealthDecreasePerSec);
             _status.AddStat(PetStat.Happiness, -CurrentConfig.HappinessDecreasePerSec * 1.2f);
             _unHappyScore += 1;
             Debug.Log($"배고픔. 체력: {_status.GetStat(PetStat.Health)} 행복도 : {_status.GetStat(PetStat.Happiness)}");
         }
+        else if (_status.GetStat(PetStat.Hunger) < 20f)
+        {
+            //행복도 감소
+            _status.AddStat(PetStat.Happiness, -CurrentConfig.HappinessDecreasePerSec);
+            Debug.Log($"배고픔. 행복도 : {_status.GetStat(PetStat.Happiness)}");
+        }
+        
 
         //=====행복도가 0일때=====
         if (_status.GetStat(PetStat.Happiness) <= 0f)
@@ -156,11 +176,6 @@ public class PetUnit : MonoBehaviour
             _unHappyScore += 1;
         }
 
-        if (_status.GetStat(PetStat.Health) <= 0)
-        {
-            _status.SetFlag(PetFlag.IsLeft, true);
-        }
-
         if (CurrentConfig.canGrow)
         {
             _status.AddStat(PetStat.GrowthTimer, 1);
@@ -169,6 +184,15 @@ public class PetUnit : MonoBehaviour
             {
                 EvolveToNextStage();
             }
+        }
+
+        if(_status.GetStat(PetStat.Health) <= 0f)
+        {
+            _status.SetFlag(PetFlag.IsLeft, true);
+            _letter.SetActive(true);
+            Manager.Game.SetLeftReason(FindReason());
+            transform.position = new Vector3(-10, 0, 0);
+            Debug.Log("펫 떠남");
         }
     }
     private void EvolveToNextStage()
@@ -223,4 +247,21 @@ public class PetUnit : MonoBehaviour
         data.Health = _status.GetStat(PetStat.Health);
         data.GrowthStage = _status.Growth.ToString();
     }
+
+    private LeftReason FindReason()
+    {
+        if(_status.GetStat(PetStat.Hunger) <= 0f)
+        {
+            return LeftReason.Hunger;
+        }
+        if (_status.GetStat(PetStat.Cleanliness) <= 0f)
+        {
+            return LeftReason.Dirty;
+        }
+        if (_status.GetStat(PetStat.Happiness) <= 0f)
+        {
+            return LeftReason.Unhappy;
+        }
+        return LeftReason.Unhappy;
+    }    
 }
