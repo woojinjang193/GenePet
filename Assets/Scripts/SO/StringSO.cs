@@ -9,4 +9,5 @@ public class StringSO : ScriptableObject
     public string ENG;
     public string JP;
     public string DE;
+    public string CH;
 }

@@ -30,8 +30,8 @@ public class IslandPetVisualLoader : MonoBehaviour
     [Header("패턴 마스크")]
     [SerializeField] private SpriteMask _patternMask;
 
-    [Header("테스트 버튼")]
-    [SerializeField] private Button _button; //테스트용. 지워야함
+    //[Header("테스트 버튼")]
+    //[SerializeField] private Button _button; //테스트용. 지워야함
 
     private void Awake()
     {

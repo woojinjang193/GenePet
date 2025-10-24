@@ -18,6 +18,12 @@ public class MoveToIslandButton : MonoBehaviour
     {
         UserData uerData = Manager.Save.CurrentData.UserData;
 
+        if(!_petUnit.IsExciting)
+        {
+            Debug.Log("펫이 없습니다.");
+            return;
+        }
+
         if (_petUnit.Status.Growth != GrowthStatus.Adult)
         {
             Debug.Log("아직 어른이 아닙니다");

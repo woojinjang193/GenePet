@@ -15,29 +15,53 @@ public class PetUnit : MonoBehaviour
     [Header("편지")]
     [SerializeField] private GameObject _letter;
 
+    [Header("이름설정")]
+    [SerializeField] private GameObject _nameInputPanel;
+
+    private bool _isExciting = false;
+
+    public bool IsExciting { get { return _isExciting; } }
+
     public PetStatusCore Status => _status;
     public PetConfigSO CurrentConfig { get; private set; }
 
     private float _accum;
- 
 
+    [Header("불행 포인트")]
     public int _unHappyScore = 0;
     public int UnHappyScore => _unHappyScore;
 
     private void Awake()
     {
+        if(!string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.ID))
+        {
+            _isExciting = true;
+        }
         ApplyConfigFor(_status.Growth);
     }
 
     private void OnEnable()
     {
         _status.OnGrowthChanged += ApplyConfigFor;
+        Manager.Game.OnPetSpawned += OnPetSpawned;
+        Manager.Game.OnPetLeft += OnPetLeft;
         LoadFromSaveData(Manager.Save.CurrentData.UserData.HavePet);
     }
 
     private void OnDisable()
     {
         _status.OnGrowthChanged -= ApplyConfigFor;
+        Manager.Game.OnPetSpawned -= OnPetSpawned;
+        Manager.Game.OnPetLeft -= OnPetLeft;
+    }
+
+    private void OnPetSpawned()
+    {
+        _isExciting = true;
+    }
+    private void OnPetLeft()
+    {
+        _isExciting = false;
     }
 
     private void LoadFromSaveData(PetSaveData data)
@@ -52,6 +76,14 @@ public class PetUnit : MonoBehaviour
         _status.SetStat(PetStat.Health, data.Health);
 
         _status.Growth = Enum.TryParse<GrowthStatus>(data.GrowthStage, out var growthStatus) ? growthStatus : GrowthStatus.Egg;
+
+        if(_status.Growth != GrowthStatus.Egg)
+        {
+            if (_isExciting && string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.DisplayName))
+            {
+                _nameInputPanel.SetActive(true);
+            }
+        }
     }
 
     private void ApplyConfigFor(GrowthStatus growth)
@@ -65,6 +97,11 @@ public class PetUnit : MonoBehaviour
         {
             Debug.Log($"[{growth}] PetConfigSO로 변경");
             _unHappyScore = 0;
+        }
+
+        if (growth == GrowthStatus.Baby)
+        {
+            _nameInputPanel.SetActive(true);
         }
     }
 
@@ -88,7 +125,7 @@ public class PetUnit : MonoBehaviour
     private void Update()
     {
         //이미 떠났으면
-        if (_status.GetFlag(PetFlag.IsLeft))
+        if (_status.GetFlag(PetFlag.IsLeft) || !_isExciting)
         {
             return;
         }
@@ -186,6 +223,7 @@ public class PetUnit : MonoBehaviour
             }
         }
 
+        //체력이 0이 되면
         if(_status.GetStat(PetStat.Health) <= 0f)
         {
             _status.SetFlag(PetFlag.IsLeft, true);

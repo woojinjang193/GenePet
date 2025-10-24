@@ -35,8 +35,8 @@ public class PetVisualController : MonoBehaviour
     [Header("패턴 마스크")]
     [SerializeField] private SpriteMask _patternMask;
 
-    [Header("테스트 버튼")]
-    [SerializeField] private Button _button; //테스트용. 지워야함
+    //[Header("테스트 버튼")]
+    //[SerializeField] private Button _button; //테스트용. 지워야함
 
     public PetStatusCore Status
     {
@@ -46,10 +46,10 @@ public class PetVisualController : MonoBehaviour
     private void Awake()
     {
         //Status.OnGrowthChanged += OnGrowthChanged;
-        _button.onClick.AddListener(ButtonClicked); //테스트용. 지워야함
+        //_button.onClick.AddListener(ButtonClicked); //테스트용. 지워야함
     }
 
-    private void ButtonClicked() //테스트용. 지워야함
+    public void VisualizePet()
     {
         LoadOwnPet();
         SetSprite(Status.Growth);

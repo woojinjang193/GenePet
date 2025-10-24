@@ -5,6 +5,7 @@ using UnityEngine;
 public class LanguageManager : Singleton<LanguageManager>
 {
     public Language CurLanguage {  get; private set; }
+    public bool IsReady { get; private set; }
 
     protected override void Awake()
     {
@@ -23,7 +24,7 @@ public class LanguageManager : Singleton<LanguageManager>
 
         // 준비 완료되면 세이브 데이터에서 언어 불러오기
         CurLanguage = Manager.Save.CurrentData.UserData.CurLanguage;
-
+        IsReady = true;
         Debug.Log($"현재 언어 설정됨: {CurLanguage}");
     }
 

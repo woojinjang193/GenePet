@@ -9,6 +9,7 @@ public class LanguageChangeButton : MonoBehaviour
     [SerializeField] private Button _engButton;
     [SerializeField] private Button _jpButton;
     [SerializeField] private Button _deButton;
+    [SerializeField] private Button _chButton;
 
     private void Awake()
     {
@@ -16,6 +17,7 @@ public class LanguageChangeButton : MonoBehaviour
         _engButton.onClick.AddListener(ChangeToEng);
         _jpButton.onClick.AddListener(ChangeToJP);
         _deButton.onClick.AddListener(ChangeToDE);
+        _chButton.onClick.AddListener(ChangeToCH);
     }
 
     private void ChangeToKor()
@@ -36,6 +38,11 @@ public class LanguageChangeButton : MonoBehaviour
     private void ChangeToDE()
     {
         Manager.Lang.ChangeLanguage(Language.DE);
+        gameObject.SetActive(false);
+    }
+    private void ChangeToCH()
+    {
+        Manager.Lang.ChangeLanguage(Language.CH);
         gameObject.SetActive(false);
     }
 }

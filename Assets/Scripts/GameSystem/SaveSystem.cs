@@ -141,7 +141,7 @@ public class IslandData
 public class UserItemData
 {
     public int IslandTicket;
-    public int Item2Amount;
+    public int MissingPoster;
     public int Item3Amount;
     public int Item4Amount;
     public int Item5Amount;
@@ -149,7 +149,7 @@ public class UserItemData
     public UserItemData()
     {
         IslandTicket = 1;
-        Item2Amount = 0;
+        MissingPoster = 1;
         Item3Amount = 0;
         Item4Amount = 0;
         Item5Amount = 0;
@@ -181,7 +181,7 @@ public class UserData
 }
 
 [Serializable]
-public class GameSaveSnapshot                                   // 게임 전체 스냅샷(여러 펫 포함)
+public class GameSaveSnapshot
 {
     public int SchemaVersion;                                   // 스키마 버전(데이터 구조 변경 추적)
     public int SnapshotVersion;                                 // 스냅샷 버전(증분 저장 버전)

@@ -7,6 +7,20 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public LeftReason Reason {  get; private set; }
+
+    public event Action OnPetSpawned;
+    public event Action OnPetLeft;
+
+    public void PetSpawned()
+    {
+        OnPetSpawned?.Invoke();
+        Debug.Log("펫 소환 이벤트 발생");
+    }
+    public void PetLeft()
+    {
+        OnPetLeft?.Invoke();
+        Debug.Log("펫 떠남 이벤트 발생");
+    }
     public void CreateRandomPet(bool isMine)
     {
         PetSaveData newPet = new PetSaveData();
@@ -59,6 +73,11 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.PartColors.PatternColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.BlushColorId = PickColorId(dom, rec);
+
+        if(isMine)
+        {
+            PetSpawned();
+        }
 
         Manager.Save.RegisterNewPet(newPet, isMine);
 

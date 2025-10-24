@@ -17,6 +17,8 @@ public class GeneManager : Singleton<GeneManager>
     private int _totalTypes = 10;
     private bool _ready = false;
 
+
+
     public bool IsReady { get { return _ready; } }
 
     protected override void Awake()

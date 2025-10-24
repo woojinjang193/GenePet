@@ -50,4 +50,5 @@ public enum Language
     ENG = 1,
     JP = 2,
     DE = 3,
+    CH = 4,
 }

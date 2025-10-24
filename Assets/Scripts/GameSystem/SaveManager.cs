@@ -43,25 +43,7 @@ public class SaveManager : Singleton<SaveManager>
         snapshot.SnapshotVersion = 1;
         CurrentData = snapshot;
 
-        if (Manager.Gene.IsReady == true)
-        {
-            Manager.Game.CreateRandomPet(true);
-        }
-        else
-        {
-            StartCoroutine(WaitGeneAndCreatePetRoutine());
-        }
-
         return snapshot;
-    }
-
-    private IEnumerator WaitGeneAndCreatePetRoutine()
-    {
-        while (Manager.Gene.IsReady == false)
-        {
-            yield return null;
-        }
-        Manager.Game.CreateRandomPet(true);
     }
 
     public void SaveGame()
@@ -109,14 +91,33 @@ public class SaveManager : Singleton<SaveManager>
 
         SaveGame();
     }
+
+    public void RemovePet()
+    {
+        if (CurrentData.UserData.HavePet == null)
+        {
+            Debug.Log("삭제할 펫 정보 없음");
+            return;
+        }
+        string name = CurrentData.UserData.HavePet.DisplayName;
+        CurrentData.UserData.HavePet = new PetSaveData();
+        Debug.Log($"{name} 삭제 완료");
+        Manager.Game.PetLeft();
+        SaveGame();
+    }
+
     private void OnApplicationQuit()
     {
         // 현재 씬에 존재하는 모든 펫 검색
         var pet = FindObjectOfType<PetUnit>();
 
         // 세이브 데이터가 비었으면 저장 불가
-        if (CurrentData == null || CurrentData.UserData.HavePet == null)
+        if (CurrentData == null || string.IsNullOrWhiteSpace(CurrentData.UserData.HavePet.ID))
+        {
+            Debug.Log("저장할 펫이 없음");
             return;
+        }
+            
 
         // 저장
         pet.UpdatePetSaveData(CurrentData.UserData.HavePet);
