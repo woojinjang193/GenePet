@@ -26,6 +26,7 @@ public class PetUnit : MonoBehaviour
     public PetConfigSO CurrentConfig { get; private set; }
 
     private float _accum;
+    private bool _isSubs = false;
 
     [Header("불행 포인트")]
     public int _unHappyScore = 0;
@@ -37,6 +38,7 @@ public class PetUnit : MonoBehaviour
         {
             _isExciting = true;
         }
+        LoadFromSaveData(Manager.Save.CurrentData.UserData.HavePet);
         ApplyConfigFor(_status.Growth);
     }
 
@@ -45,19 +47,24 @@ public class PetUnit : MonoBehaviour
         _status.OnGrowthChanged += ApplyConfigFor;
         Manager.Game.OnPetSpawned += OnPetSpawned;
         Manager.Game.OnPetLeft += OnPetLeft;
-        LoadFromSaveData(Manager.Save.CurrentData.UserData.HavePet);
+        _isSubs = true;
     }
 
     private void OnDisable()
     {
-        _status.OnGrowthChanged -= ApplyConfigFor;
-        Manager.Game.OnPetSpawned -= OnPetSpawned;
-        Manager.Game.OnPetLeft -= OnPetLeft;
+        if(_isSubs)
+        {
+            _status.OnGrowthChanged -= ApplyConfigFor;
+            Manager.Game.OnPetSpawned -= OnPetSpawned;
+            Manager.Game.OnPetLeft -= OnPetLeft;
+        }
     }
 
     private void OnPetSpawned()
     {
         _isExciting = true;
+        LoadFromSaveData(Manager.Save.CurrentData.UserData.HavePet);
+        transform.position = new Vector3(0, -1, 0);
     }
     private void OnPetLeft()
     {
@@ -75,15 +82,25 @@ public class PetUnit : MonoBehaviour
         _status.SetStat(PetStat.Cleanliness, data.Cleanliness);
         _status.SetStat(PetStat.Health, data.Health);
 
+        _status.SetFlag(PetFlag.IsLeft, data.IsLeft);
+        _status.SetFlag(PetFlag.IsSick, data.IsSick);
+
         _status.Growth = Enum.TryParse<GrowthStatus>(data.GrowthStage, out var growthStatus) ? growthStatus : GrowthStatus.Egg;
 
         if(_status.Growth != GrowthStatus.Egg)
         {
-            if (_isExciting && string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.DisplayName))
+            if (!_status.GetFlag(PetFlag.IsLeft) && string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.DisplayName))
             {
                 _nameInputPanel.SetActive(true);
             }
         }
+
+        if(_status.GetFlag(PetFlag.IsLeft))
+        {
+            PetLeft();
+        }
+
+        Debug.Log("세이브파일 적용완료");
     }
 
     private void ApplyConfigFor(GrowthStatus growth)
@@ -129,7 +146,7 @@ public class PetUnit : MonoBehaviour
         {
             return;
         }
-
+        
         if (CurrentConfig == null)
         {
             return;
@@ -142,13 +159,21 @@ public class PetUnit : MonoBehaviour
             _accum -= _tickInterval;
         }
     }
-    public void AddExp(float amount)
+    public void AddExp(float amount) //경험치
     {
         _status.AddStat(PetStat.GrowthExp, amount);
     }
 
     private void TickOnce() //지속적인 스텟변경
     {
+        //체력이 0이 되면
+        if (_status.GetStat(PetStat.Health) <= 0f)
+        {
+            _status.SetFlag(PetFlag.IsLeft, true);
+            PetLeft();
+            return;
+        }
+
         //배고픔 감소
         _status.AddStat(PetStat.Hunger, -CurrentConfig.HungerDecreasePerSec);
         //청결도 감소
@@ -223,15 +248,7 @@ public class PetUnit : MonoBehaviour
             }
         }
 
-        //체력이 0이 되면
-        if(_status.GetStat(PetStat.Health) <= 0f)
-        {
-            _status.SetFlag(PetFlag.IsLeft, true);
-            _letter.SetActive(true);
-            Manager.Game.SetLeftReason(FindReason());
-            transform.position = new Vector3(-10, 0, 0);
-            Debug.Log("펫 떠남");
-        }
+
     }
     private void EvolveToNextStage()
     {
@@ -284,6 +301,9 @@ public class PetUnit : MonoBehaviour
         data.Cleanliness = _status.GetStat(PetStat.Cleanliness);
         data.Health = _status.GetStat(PetStat.Health);
         data.GrowthStage = _status.Growth.ToString();
+
+        data.IsLeft = _status.GetFlag(PetFlag.IsLeft);
+        data.IsSick = _status.GetFlag(PetFlag.IsSick);
     }
 
     private LeftReason FindReason()
@@ -302,4 +322,12 @@ public class PetUnit : MonoBehaviour
         }
         return LeftReason.Unhappy;
     }    
+
+    private void PetLeft()
+    {
+        _letter.SetActive(true);
+        Manager.Game.SetLeftReason(FindReason());
+        transform.position = new Vector3(-10, 0, 0);
+        Debug.Log("펫 떠남");
+    }
 }

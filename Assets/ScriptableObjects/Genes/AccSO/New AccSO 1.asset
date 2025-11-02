@@ -17,4 +17,4 @@ MonoBehaviour:
   Rarity: 0
   sprite: {fileID: 21300000, guid: 7a3495e975d23154fbf0c722bc9e4d3a, type: 3}
   Outline: {fileID: 21300000, guid: be839ce5d3a9e954ea77a775ecc878ed, type: 3}
-  OrderInLayer: 9
+  OrderInLayer: 10

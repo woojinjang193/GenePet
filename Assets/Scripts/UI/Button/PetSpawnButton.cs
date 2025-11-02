@@ -19,7 +19,7 @@ public class PetSpawnButton : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.ID))
         {
             _visual.VisualizePet();
-            gameObject.SetActive(false);
+            _button.interactable = false;
         }
     }
 
@@ -37,36 +37,25 @@ public class PetSpawnButton : MonoBehaviour
 
     private void OnPetSpawned()
     {
-         gameObject.SetActive(false);
+        _button.interactable = false;
     }
 
     private void OnPetLeft()
     {
-        gameObject.SetActive(true);
+        _button.interactable = true;
     }
 
     private void OnClicked()
     {
-        if (Manager.Gene.IsReady == true)
+        if(string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.ID))
         {
             Manager.Game.CreateRandomPet(true);
             _visual.VisualizePet();
         }
         else
         {
-            StartCoroutine(WaitGeneAndCreatePetRoutine());
+            Debug.Log("펫이 이미 있음");
         }
     }
-
-    private IEnumerator WaitGeneAndCreatePetRoutine()
-    {
-        while (Manager.Gene.IsReady == false)
-        {
-            yield return null;
-        }
-        Manager.Game.CreateRandomPet(true);
-        _visual.VisualizePet();
-    }
-
 }
 

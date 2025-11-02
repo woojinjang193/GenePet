@@ -5,17 +5,10 @@ using UnityEngine.UI;
 
 public class IslandPetController : MonoBehaviour
 {
-    
-    private void OnEnable()
-    {
-        
-    }
-    private void FeetIslandPet()
+
+    private void FeedIslandPet()
     {
 
     }
-    private void TryToLayEgg()
-    {
 
-    }
 }

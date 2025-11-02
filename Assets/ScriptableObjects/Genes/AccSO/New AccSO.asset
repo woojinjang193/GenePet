@@ -17,4 +17,4 @@ MonoBehaviour:
   Rarity: 0
   sprite: {fileID: 0}
   Outline: {fileID: 0}
-  OrderInLayer: 9
+  OrderInLayer: 10

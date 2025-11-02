@@ -101,16 +101,33 @@ public class SaveManager : Singleton<SaveManager>
         }
         string name = CurrentData.UserData.HavePet.DisplayName;
         CurrentData.UserData.HavePet = new PetSaveData();
+        CurrentData.UserData.Island.IslandPetSaveData = new PetSaveData();
         Debug.Log($"{name} 삭제 완료");
         Manager.Game.PetLeft();
+        SaveGame();
+    }
+    public void RemoveIslandPet()
+    {
+        if (CurrentData.UserData.Island.IslandPetSaveData == null)
+        {
+            Debug.Log("삭제할 펫 정보 없음");
+            return;
+        }
+        CurrentData.UserData.Island.IslandPetSaveData = new PetSaveData();
+        CurrentData.UserData.Island.IsOpen = false;
+        Debug.Log($"섬펫 삭제 완료");
         SaveGame();
     }
 
     private void OnApplicationQuit()
     {
-        // 현재 씬에 존재하는 모든 펫 검색
+        // 현재 씬에 존재하는 펫 검색
         var pet = FindObjectOfType<PetUnit>();
-
+        if (pet == null)
+        {
+            return;
+        }
+            
         // 세이브 데이터가 비었으면 저장 불가
         if (CurrentData == null || string.IsNullOrWhiteSpace(CurrentData.UserData.HavePet.ID))
         {
@@ -118,7 +135,6 @@ public class SaveManager : Singleton<SaveManager>
             return;
         }
             
-
         // 저장
         pet.UpdatePetSaveData(CurrentData.UserData.HavePet);
 

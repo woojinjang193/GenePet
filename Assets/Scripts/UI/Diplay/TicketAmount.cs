@@ -9,7 +9,7 @@ public class TicketAmount : MonoBehaviour
 
     private void Awake()
     {
-        _text = GetComponent<TMP_Text>();
+        _text = GetComponentInChildren<TMP_Text>();
     }
 
     private void OnEnable()

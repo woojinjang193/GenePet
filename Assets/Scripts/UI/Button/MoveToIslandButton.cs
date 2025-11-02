@@ -18,7 +18,7 @@ public class MoveToIslandButton : MonoBehaviour
     {
         UserData uerData = Manager.Save.CurrentData.UserData;
 
-        if(!_petUnit.IsExciting)
+        if(!_petUnit.IsExciting || _petUnit.Status.GetFlag(PetFlag.IsLeft))
         {
             Debug.Log("펫이 없습니다.");
             return;
@@ -33,22 +33,24 @@ public class MoveToIslandButton : MonoBehaviour
 
         if (isIslandOpen)
         {
+            Manager.Save.SaveGame();
             SceneManager.LoadScene("IslandScene");
             return;
         }
         
-        int ticketCount = uerData.Items.IslandTicket;
+        
 
-        if (ticketCount > 0)
+        if (uerData.Items.IslandTicket > 0)
         {
-            ticketCount--;
+            uerData.Items.IslandTicket--;
 
-            Debug.Log($"섬으로 이동. 티켓 {ticketCount}남음");
+            Debug.Log($"섬으로 이동. 티켓 {uerData.Items.IslandTicket}남음");
+            uerData.Island.IsOpen = true;
             SceneManager.LoadScene("IslandScene");
             return;
         }
 
-        if (ticketCount <= 0)
+        if (uerData.Items.IslandTicket <= 0)
         {
             Debug.Log("티켓이 부족합니다");
         }

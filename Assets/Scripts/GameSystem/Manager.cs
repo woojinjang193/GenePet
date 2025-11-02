@@ -7,6 +7,8 @@ public static class Manager
     public static SaveManager Save => SaveManager.GetInstance();
     public static GameManager Game => GameManager.GetInstance();
     public static LanguageManager Lang => LanguageManager.GetInstance();
+    public static ItemManager Item => ItemManager.GetInstance();
+    public static AudioManager Audio => AudioManager.GetInstance();
 
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -17,5 +19,7 @@ public static class Manager
         GameManager.CreateManager();
         SaveManager.CreateManager();
         LanguageManager.CreateManager();
+        ItemManager.CreateManager();
+        AudioManager.CreateManager();
     }
 }

@@ -4,6 +4,17 @@ public sealed class PetController : MonoBehaviour
 {
     [SerializeField] private PetUnit _pet;
 
+    [Header("입")]
+    [SerializeField] private SpriteRenderer _mouth;
+    [SerializeField] private SpriteRenderer _eye;
+    [SerializeField] private Sprite _openMouthSprite;
+    [SerializeField] private Sprite _openMouthForMedicine;
+    [SerializeField] private Sprite _closeEyesWithTear;
+    [SerializeField] private Sprite _closeEyesSprite;
+
+    private Sprite _ogMouth;
+    private Sprite _ogEye;
+
     public PetStatusCore Status
     {
         get { return _pet != null ? _pet.Status : null; }
@@ -51,14 +62,12 @@ public sealed class PetController : MonoBehaviour
         if (_pet == null || Status == null) return;
         Status.SetFlag(PetFlag.IsSleeping, on);
     }
-
     public void Clean()
     {
         if (_pet == null || Status == null || Config == null) return;
         Status.AddStat(PetStat.Cleanliness, Config.CleanGain);
         Debug.Log($"목욕. 청결도 : {Status.GetStat(PetStat.Cleanliness)}");
     }
-
     public void Heal()
     {
         if (_pet == null || Status == null || Config == null) return;
@@ -75,13 +84,11 @@ public sealed class PetController : MonoBehaviour
         Status.AddStat(PetStat.Health, Config.HealAmount);
         Debug.Log($"아픔 : {Status.GetFlag(PetFlag.IsSick)}");
     }
-
     public void SetGrowth(GrowthStatus next)
     {
         if (_pet == null || Status == null) return;
         Status.Growth = next;
     }
-
     public void ShowStatus()
     {
         if (Status == null)
@@ -100,5 +107,56 @@ public sealed class PetController : MonoBehaviour
             ", 아픔: " + (Status.GetFlag(PetFlag.IsSick) ? "T" : "F") +
             ", 불행포인트 :" + _pet._unHappyScore;
         Debug.Log("[PetController] " + msg);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Food"))
+        {
+            _ogMouth = _mouth.sprite;
+            _ogEye = _eye.sprite;
+            _mouth.sprite = _openMouthSprite;
+            _eye.sprite = _closeEyesSprite;
+            Debug.Log("음식 트리거 충돌");
+        }
+        else if (collision.CompareTag("Snack"))
+        {
+            _ogMouth = _mouth.sprite;
+            _ogEye = _eye.sprite;
+            _mouth.sprite = _openMouthSprite;
+            _eye.sprite = _closeEyesSprite;
+            Debug.Log("간식 트리거 충돌");
+
+        }
+        else if (collision.CompareTag("Medicine"))
+        {
+            _ogMouth = _mouth.sprite;
+            _ogEye = _eye.sprite;
+            _mouth.sprite = _openMouthForMedicine;
+            _eye.sprite = _closeEyesWithTear;
+            Debug.Log("약 트리거 충돌");
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Food"))
+        {
+            _mouth.sprite = _ogMouth;
+            _eye.sprite = _ogEye;
+            Debug.Log("음식 멀어짐");
+        }
+        else if (collision.CompareTag("Snack"))
+        {
+            _mouth.sprite = _ogMouth;
+            _eye.sprite = _ogEye;
+            Debug.Log("간식 멀어짐");
+
+        }
+        else if (collision.CompareTag("Medicine"))
+        {
+            _mouth.sprite = _ogMouth;
+            _eye.sprite = _ogEye;
+            Debug.Log("약 멀어짐");
+        }
     }
 }

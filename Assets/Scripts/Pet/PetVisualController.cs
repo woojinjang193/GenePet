@@ -163,6 +163,7 @@ public class PetVisualController : MonoBehaviour
     {
         if (!AreAllRenderersAssigned())
         {
+            Debug.Log("랜더러 준비 안됨");
             return;
         }
 
@@ -171,6 +172,7 @@ public class PetVisualController : MonoBehaviour
         if (growth == GrowthStatus.Egg) //알일때
         {
             _egg.gameObject.SetActive(true);
+            Debug.Log("Egg 상태 스프라이트 세팅");
             return;
         }
 
