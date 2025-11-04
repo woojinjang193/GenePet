@@ -172,6 +172,7 @@ public class UserData
     public PetSaveData HavePet;
     public List<PetRecordData> HadPetList;
     public IslandData Island;
+    public List<IslandPetRecordData> IslandPetList;
     public UserItemData Items;
 
     public UserData()
@@ -182,6 +183,7 @@ public class UserData
         HavePet = new PetSaveData();
         HadPetList = new List<PetRecordData>();
         Island = new IslandData();
+        IslandPetList = new List<IslandPetRecordData>();
         Items = new UserItemData();
     }
 }

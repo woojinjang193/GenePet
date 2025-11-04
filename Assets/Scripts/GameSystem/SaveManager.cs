@@ -84,12 +84,15 @@ public class SaveManager : Singleton<SaveManager>
         else // 섬 펫일때
         {
             CurrentData.UserData.Island.IslandPetSaveData = pet;
-            //PetRecordData record = new PetRecordData(pet);
-            //record.Remark = "Raising";
-            //CurrentData.UserData.HadPetList.Add(record);
         }
 
         SaveGame();
+    }
+    public void RecordIslandPet()
+    {
+        PetSaveData pet = CurrentData.UserData.Island.IslandPetSaveData;
+        IslandPetRecordData record = new IslandPetRecordData(pet);
+        CurrentData.UserData.IslandPetList.Add(record);
     }
 
     public void RemovePet()

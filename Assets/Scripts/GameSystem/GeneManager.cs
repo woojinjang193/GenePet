@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.XR;
 
 public class GeneManager : Singleton<GeneManager>
 {
@@ -449,6 +453,30 @@ public class GeneManager : Singleton<GeneManager>
         {
             _ready = true;
         }
+    }
+
+    public void Breed(PetSaveData myPet, PetSaveData islandPet)
+    {
+        string childBodyD;
+        string childBodyR;
+        string childArmD;
+        string childArmR;
+        string childFeetD;
+        string childFeetR;
+        string childPatternD;
+        string childPatternR;
+        string childEyeD;
+        string childEyeR;
+        string childMouthD;
+        string childMouthR;
+        string childEarD;
+        string childEarR;
+        string childAccD;
+        string childAccR;
+        string childBlushD;
+        string childBlushR;
+        string childWingD;
+        string childWingR;
     }
 }
 
