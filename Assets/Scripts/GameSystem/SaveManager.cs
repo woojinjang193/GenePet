@@ -6,7 +6,6 @@ using UnityEngine;
 public class SaveManager : Singleton<SaveManager>
 {
     public GameSaveSnapshot CurrentData;
-
     private bool _isReady = false;
     public bool IsReady { get { return _isReady; } }
 
@@ -53,6 +52,7 @@ public class SaveManager : Singleton<SaveManager>
             Debug.LogWarning("저장할 데이터가 없습니다.");
             return;
         }
+        //게임 매니저에서 펫 목록 받아와서 수치 저장
 
         CurrentData.SnapshotVersion = CurrentData.SnapshotVersion + 1; // 저장 횟수 증가
         bool result = SaveSystem.SaveSnapshot(CurrentData); // 세이브 파일로 저장 시도
@@ -70,18 +70,25 @@ public class SaveManager : Singleton<SaveManager>
     {
         if (CurrentData == null)
         {
-            Debug.LogWarning("세이브 데이터가 없습니다.");
+            Debug.LogError("세이브 데이터가 없습니다.");
             return;
         }
 
-        if(isMine) //플레이어 펫일때
+        if (isMine) // 플레이어 소유 펫일 때
         {
-            CurrentData.UserData.HavePet = pet;
+            if (CurrentData.UserData.HavePetList == null)
+            {
+                CurrentData.UserData.HavePetList = new List<PetSaveData>();
+            }
+
+            CurrentData.UserData.HavePetList.Add(pet);
+
             PetRecordData record = new PetRecordData(pet);
-            record.Remark = "Raising";
             CurrentData.UserData.HadPetList.Add(record);
+
+            Debug.Log($"펫 ID: {pet.ID} 등록");
         }
-        else // 섬 펫일때
+        else
         {
             CurrentData.UserData.Island.IslandPetSaveData = pet;
         }
@@ -95,18 +102,18 @@ public class SaveManager : Singleton<SaveManager>
         CurrentData.UserData.IslandPetList.Add(record);
     }
 
-    public void RemovePet()
+    public void RemovePet(string id)
     {
-        if (CurrentData.UserData.HavePet == null)
+        for (int i = 0; i < CurrentData.UserData.HavePetList.Count; i++)
         {
-            Debug.Log("삭제할 펫 정보 없음");
-            return;
+            var pet = CurrentData.UserData.HavePetList[i];
+            if(pet.ID == id)
+            {
+                CurrentData.UserData.HavePetList.RemoveAt(i);
+                Debug.Log($"펫 {id} 삭제");
+                break;
+            }
         }
-        string name = CurrentData.UserData.HavePet.DisplayName;
-        CurrentData.UserData.HavePet = new PetSaveData();
-        CurrentData.UserData.Island.IslandPetSaveData = new PetSaveData();
-        Debug.Log($"{name} 삭제 완료");
-        Manager.Game.PetLeft();
         SaveGame();
     }
     public void RemoveIslandPet()
@@ -124,25 +131,6 @@ public class SaveManager : Singleton<SaveManager>
 
     private void OnApplicationQuit()
     {
-        // 현재 씬에 존재하는 펫 검색
-        var pet = FindObjectOfType<PetUnit>();
-        if (pet == null)
-        {
-            return;
-        }
-            
-        // 세이브 데이터가 비었으면 저장 불가
-        if (CurrentData == null || string.IsNullOrWhiteSpace(CurrentData.UserData.HavePet.ID))
-        {
-            Debug.Log("저장할 펫이 없음");
-            return;
-        }
-            
-        // 저장
-        pet.UpdatePetSaveData(CurrentData.UserData.HavePet);
-
-        // 모든 펫 데이터 반영 후 실제 세이브 파일 저장
         SaveGame();
     }
-
 }

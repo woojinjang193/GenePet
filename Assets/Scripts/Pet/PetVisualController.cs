@@ -55,27 +55,6 @@ public class PetVisualController : MonoBehaviour
         SetSprite(Status.Growth);
     }
 
-    private void OnEnable()
-    {
-        if (Status != null)
-        {
-            Status.OnGrowthChanged += OnGrowthChanged;
-            //SetSprite(Status.Growth);
-        }
-        else
-        {
-            Debug.LogWarning("스테이터스 없음");
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (Status != null)
-        {
-            Status.OnGrowthChanged -= OnGrowthChanged;
-        }
-    }
-
     private void LoadOwnPet()
     {
         if (!AreAllRenderersAssigned())
@@ -83,13 +62,10 @@ public class PetVisualController : MonoBehaviour
             Debug.LogError("스프라이트 랜더러 없음");
             return;
         }
-        var saveData = Manager.Save.CurrentData.UserData.HavePet;
+        var saveData = Manager.Save.CurrentData.UserData.HavePetList[0];
         var pet = saveData.Genes;
 
-        if (Enum.TryParse(saveData.GrowthStage, out GrowthStatus savedGrowth))
-        {
-            _pet.Status.Growth = savedGrowth;
-        }
+        _pet.Status.Growth = saveData.GrowthStage;
 
         var acc = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, pet.Acc.DominantId);
         var arm = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, pet.Arm.DominantId);
@@ -202,23 +178,6 @@ public class PetVisualController : MonoBehaviour
             _earOut.gameObject.SetActive(true);
             _feetOut.gameObject.SetActive(true);
             Debug.Log("Teen 상태 스프라이트 세팅");
-        }
-        else if (growth == GrowthStatus.Teen_Rebel) //반항기
-        {
-            _acc.gameObject.SetActive(true);
-            _blush.gameObject.SetActive(true);
-            _body.gameObject.SetActive(true);
-            _ear.gameObject.SetActive(true);
-            _eye.gameObject.SetActive(true);
-            _feet.gameObject.SetActive(true);
-            _mouth.gameObject.SetActive(true);
-
-            _accOut.gameObject.SetActive(true);
-            _blushOut.gameObject.SetActive(true);
-            _bodyOut.gameObject.SetActive(true);
-            _earOut.gameObject.SetActive(true);
-            _feetOut.gameObject.SetActive(true);
-            Debug.Log("Teen_Rebel 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Adult) //어른
         {

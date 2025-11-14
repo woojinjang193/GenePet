@@ -15,51 +15,51 @@ public class LetterWriter : MonoBehaviour
     [SerializeField] private Sprite[] _deLetters;
 
 
-    private void OnEnable()
-    {
-        Language lang = Manager.Lang.CurLanguage;
-
-        LeftReason reason = Manager.Game.Reason;
-
-        switch (lang)
-        {
-            case Language.KOR:
-                ChangeSprite(_korLetters, reason);
-                break;
-
-            case Language.ENG:
-                ChangeSprite(_engLetters, reason);
-                break;
-
-            case Language.JP:
-                ChangeSprite(_jpLetters, reason);
-                break;
-
-            case Language.DE:
-                ChangeSprite(_deLetters, reason);
-                break;
-
-
-        }
-    }
-
-    private void ChangeSprite(Sprite[] letters, LeftReason reason)
-    {
-        switch(reason)
-        {
-            case LeftReason.Hunger:
-                _handwritingImage.sprite = letters[0];
-                break;
-            case LeftReason.Unhappy:
-                _handwritingImage.sprite = letters[0];
-                break;
-            case LeftReason.Dirty:
-                _handwritingImage.sprite = letters[0];
-                break;
-            case LeftReason.LayEgg:
-                _handwritingImage.sprite = letters[0];
-                break;
-        }
-    }
+    //private void OnEnable()
+    //{
+    //    Language lang = Manager.Lang.CurLanguage;
+    //
+    //    LeftReason reason = Manager.Game.Reason;
+    //
+    //    switch (lang)
+    //    {
+    //        case Language.KOR:
+    //            ChangeSprite(_korLetters, reason);
+    //            break;
+    //
+    //        case Language.ENG:
+    //            ChangeSprite(_engLetters, reason);
+    //            break;
+    //
+    //        case Language.JP:
+    //            ChangeSprite(_jpLetters, reason);
+    //            break;
+    //
+    //        case Language.DE:
+    //            ChangeSprite(_deLetters, reason);
+    //            break;
+    //
+    //
+    //    }
+    //}
+    //
+    //private void ChangeSprite(Sprite[] letters, LeftReason reason)
+    //{
+    //    switch(reason)
+    //    {
+    //        case LeftReason.Hunger:
+    //            _handwritingImage.sprite = letters[0];
+    //            break;
+    //        case LeftReason.Unhappy:
+    //            _handwritingImage.sprite = letters[0];
+    //            break;
+    //        case LeftReason.Dirty:
+    //            _handwritingImage.sprite = letters[0];
+    //            break;
+    //        case LeftReason.LayEgg:
+    //            _handwritingImage.sprite = letters[0];
+    //            break;
+    //    }
+    //}
         
 }

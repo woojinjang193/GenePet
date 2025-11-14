@@ -11,7 +11,6 @@ public class GenePair
 {
     public string DominantId;
     public string RecessiveId;
-
     public GenePair()
     { 
         DominantId = "";
@@ -85,19 +84,16 @@ public class PetSaveData
 
     public bool IsInfoUnlocked;
     public string ID;
-    public int Seed;
     public string DisplayName;
     public string FatherId;
     public string MotherId;
     public GenesContainer Genes;
-    public string GrowthStage;
-    public float AgeSeconds;
+    public GrowthStatus GrowthStage;
     public float Hunger;
     public float Happiness;
-    public float Energy;
+
     public float Cleanliness;
     public float Health;
-    //public float Stress;
 
     public PetSaveData()
     {
@@ -105,20 +101,16 @@ public class PetSaveData
         IsSick = false;
 
         IsInfoUnlocked = false;
-        ID = "";
-        Seed = 0;
+        ID = Guid.NewGuid().ToString();
         DisplayName = "";
         FatherId = "";
         MotherId = "";
         Genes = new GenesContainer();
-        GrowthStage = "Egg";
-        AgeSeconds = 0f;
+        GrowthStage = GrowthStatus.Egg;
         Hunger = 100f;
         Happiness = 100f;
-        Energy = 100f;
         Cleanliness = 100f;
         Health = 100f;
-        //stress = 0f;
     }
 }
 
@@ -169,7 +161,9 @@ public class UserData
     public string UID;
     public Language CurLanguage;
     public string UserDisplayName;
-    public PetSaveData HavePet;
+    public int MaxPetAmount;
+    public float Energy;
+    public List<PetSaveData> HavePetList;
     public List<PetRecordData> HadPetList;
     public IslandData Island;
     public List<IslandPetRecordData> IslandPetList;
@@ -180,7 +174,9 @@ public class UserData
         UID = "";
         CurLanguage = Language.ENG;
         UserDisplayName = "";
-        HavePet = new PetSaveData();
+        MaxPetAmount = 1;
+        Energy = 10;
+        HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetRecordData>();
         Island = new IslandData();
         IslandPetList = new List<IslandPetRecordData>();

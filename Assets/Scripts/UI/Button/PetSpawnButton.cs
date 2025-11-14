@@ -16,11 +16,11 @@ public class PetSpawnButton : MonoBehaviour
 
     private void Start()
     {
-        if (!string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.ID))
-        {
-            _visual.VisualizePet();
-            _button.interactable = false;
-        }
+        //if (!string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.ID))
+        //{
+        //    _visual.VisualizePet();
+        //    _button.interactable = false;
+        //}
     }
 
     private void OnEnable()
@@ -47,15 +47,15 @@ public class PetSpawnButton : MonoBehaviour
 
     private void OnClicked()
     {
-        if(string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.ID))
-        {
-            Manager.Game.CreateRandomPet(true);
-            _visual.VisualizePet();
-        }
-        else
-        {
-            Debug.Log("펫이 이미 있음");
-        }
+        //if(string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.HavePet.ID))
+        //{
+        //    Manager.Game.CreateRandomPet(true);
+        //    _visual.VisualizePet();
+        //}
+        //else
+        //{
+        //    Debug.Log("펫이 이미 있음");
+        //}
     }
 }
 

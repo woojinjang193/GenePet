@@ -22,7 +22,7 @@ public class TakeBackButton : MonoBehaviour
         if (userData.Items.MissingPoster > 0)
         {
             userData.Items.MissingPoster--;
-            BringPetBack();
+            //BringPetBack();
         }
         else
         {
@@ -30,17 +30,17 @@ public class TakeBackButton : MonoBehaviour
         }
     }
 
-    private void BringPetBack()
-    {
-        _pet.Status.SetStat(PetStat.Hunger, 80);
-        _pet.Status.SetStat(PetStat.Happiness, 80);
-        _pet.Status.SetStat(PetStat.Energy, 100);
-        _pet.Status.SetStat(PetStat.Cleanliness, 50);
-        _pet.Status.SetStat(PetStat.Health, 100);
-
-        _pet.Status.SetFlag(PetFlag.IsLeft, false);
-        _pet.gameObject.transform.position = new Vector3(0, -1, 0);
-        _letterPanel.SetActive(false);
-        Debug.Log("펫 복귀시킴");
-    }
+    //private void BringPetBack()
+    //{
+    //    _pet.Status.SetStat(PetStat.Hunger, 80);
+    //    _pet.Status.SetStat(PetStat.Happiness, 80);
+    //    _pet.Status.SetStat(PetStat.Energy, 100);
+    //    _pet.Status.SetStat(PetStat.Cleanliness, 50);
+    //    _pet.Status.SetStat(PetStat.Health, 100);
+    //
+    //    _pet.Status.SetFlag(PetFlag.IsLeft, false);
+    //    _pet.gameObject.transform.position = new Vector3(0, -1, 0);
+    //    _letterPanel.SetActive(false);
+    //    Debug.Log("펫 복귀시킴");
+    //}
 }

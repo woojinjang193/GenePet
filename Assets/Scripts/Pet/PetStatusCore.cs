@@ -1,30 +1,31 @@
 using System;
 using UnityEngine;
 
-
-
 [Serializable]
 public class PetStatusCore
 {
-    private float _hunger = 100f;
-    private float _happiness = 100f;
-    private float _energy = 100f;
-    private float _clean = 100f;
-    private float _health = 100f;
+    public string ID { get; private set; }
+    public float Hunger { get; private set; }
+    public float Health { get; private set; }
+    public float Cleanliness { get; private set; }
+    public float Happiness { get; private set; }
+    public bool IsSick { get; private set; }
+    public bool IsLeft { get; private set; }
 
-    private float _growthTimer = 0f;
-    private float _growthExp = 0f;
-
-    private bool _isSick = false;
-    private bool _isSleeping = false;
-    private bool _isLeft = false;
-    
     private GrowthStatus _growth = GrowthStatus.Egg;
 
-    //public event Action<PetStat, float> OnStatChanged;
-    //public event Action<PetFlag, bool> OnFlagChanged;
-    public event Action<GrowthStatus> OnGrowthChanged;
+    private PetConfigSO _config;
 
+    private float _growthTimer;
+    private float _growthExp;
+
+    public float GrowthTimer => _growthTimer;
+    public float GrowthExp => _growthExp;
+
+    public void SetConfig(PetConfigSO config)
+    {
+        _config = config;
+    }
     public GrowthStatus Growth
     {
         get => _growth;
@@ -35,141 +36,114 @@ public class PetStatusCore
                 return;
             }
             _growth = value;
-            OnGrowthChanged?.Invoke(_growth);
         }
     }
+ 
+    public void Tick(float sec)
+    {
+        if (_config == null) return;
+        if (sec <= 0f) return;
 
-    public float GetStat(PetStat stat)
+        Hunger -= _config.HungerDecreasePerSec * sec;
+        Cleanliness -= _config.CleanlinessDecreasePerSec * sec;
+
+        _growthTimer += sec;
+
+        Clamp();
+    }
+    public void IncreaseStat(PetStat stat, float value)
     {
         switch (stat)
         {
-            case PetStat.Hunger: 
-                return _hunger;
-
-            case PetStat.Happiness: 
-                return _happiness;
-
-            case PetStat.Energy: 
-                return _energy;
-
-            case PetStat.Cleanliness: 
-                return _clean;
-
-            case PetStat.Health: 
-                return _health;
-
-            case PetStat.GrowthTimer:
-                return _growthTimer;
-
-            case PetStat.GrowthExp:
-                return _growthExp;
-
-            default: return 0f;
+            case PetStat.Health:
+                Health += value;
+                break;
+            case PetStat.Cleanliness:
+                Cleanliness += value;
+                break;
+            case PetStat.Hunger:
+                Hunger += value;
+                break;
+            case PetStat.Happiness:
+                Happiness += value;
+                break;
         }
+        Clamp();
     }
-
-    public void SetStat(PetStat stat, float value)
+    public void DecreaseStat(PetStat stat, float value)
     {
-        value = Clamp100(value);
         switch (stat)
         {
-            case PetStat.Hunger: 
-                if (_hunger != value) 
-                { 
-                    _hunger = value; 
-                    //OnStatChanged?.Invoke(stat, _hunger); 
-                } 
+            case PetStat.Health:
+                Health -= value;
                 break;
-            case PetStat.Happiness: 
-                if (_happiness != value) 
-                { 
-                    _happiness = value; 
-                    //OnStatChanged?.Invoke(stat, _happiness); 
-                } 
+            case PetStat.Cleanliness:
+                Cleanliness -= value;
                 break;
-            case PetStat.Energy: 
-                if (_energy != value) 
-                { 
-                    _energy = value; 
-                    //OnStatChanged?.Invoke(stat, _energy); 
-                } 
+            case PetStat.Hunger:
+                Hunger -= value;
                 break;
-            case PetStat.Cleanliness: 
-                if (_clean != value) 
-                { 
-                    _clean = value; 
-                    //OnStatChanged?.Invoke(stat, _clean); 
-                } 
-                break;
-            case PetStat.Health: 
-                if (_health != value) 
-                { 
-                    _health = value; 
-                    //OnStatChanged?.Invoke(stat, _health); 
-                }
-                break;
-            case PetStat.GrowthTimer:
-                if (_growthTimer != value)
-                {
-                    _growthTimer = value;
-                }
-                break;
-            case PetStat.GrowthExp:
-                if (_growthExp != value)
-                {
-                    _growthExp = value;
-                }
+            case PetStat.Happiness:
+                Happiness -= value;
                 break;
         }
+        Clamp();
     }
 
-    public void AddStat(PetStat stat, float value)
+    public void SetValues(string id, float hunger, float health, float cleanliness, float happiness)
     {
-        SetStat(stat, GetStat(stat) + value);
+        ID = id;
+        Hunger = hunger;
+        Health = health;
+        Cleanliness = cleanliness;
+        Happiness = happiness;
     }
-
-    public bool GetFlag(PetFlag flag)
-    {
-        switch (flag)
-        {
-            case PetFlag.IsSick: 
-                return _isSick;
-            case PetFlag.IsSleeping: 
-                return _isSleeping;
-            case PetFlag.IsLeft: 
-                return _isLeft;
-            default: 
-                return false;
-        }
-    }
-
     public void SetFlag(PetFlag flag, bool on)
     {
         switch (flag)
         {
             case PetFlag.IsSick:
-                if (_isSick != on) 
-                { 
-                    _isSick = on; 
-                    //OnFlagChanged?.Invoke(flag, _isSick); 
-                }
-                break;
-            case PetFlag.IsSleeping:
-                if (_isSleeping != on) 
-                { 
-                    _isSleeping = on; 
-                    //OnFlagChanged?.Invoke(flag, _isSleeping); 
+                if (IsSick != on) 
+                {
+                    IsSick = on; 
                 }
                 break;
             case PetFlag.IsLeft:
-                if (_isLeft != on) 
-                { 
-                    _isLeft = on; 
-                    //OnFlagChanged?.Invoke(flag, _isLeft); 
+                if (IsLeft != on) 
+                {
+                    IsLeft = on; 
                 }
                 break;
         }
     }
+    private void Clamp()
+    {
+        Hunger = Mathf.Clamp(Hunger, 0, 100);
+        Health = Mathf.Clamp(Health, 0, 100);
+        Cleanliness = Mathf.Clamp(Cleanliness, 0, 100);
+        Happiness = Mathf.Clamp(Happiness, 0, 100);
+    }
 
-    private static float Clamp100(float v) => (v < 0f) ? 0f : (v > 100f ? 100f : v);
+    public void SaveStatus()
+    {
+        foreach(var pet in Manager.Save.CurrentData.UserData.HavePetList)
+        {
+            if(pet.ID == ID)
+            {
+                pet.Hunger = Hunger;
+                pet.Health = Health;
+                pet.Cleanliness = Cleanliness;
+                pet.Happiness = Happiness;
+                pet.IsLeft = IsLeft;
+                pet.IsSick = IsSick;
+                pet.GrowthStage = _growth;
+                break;
+            }
+        }
+    }
+    public void ResetGrowthProgress()
+    {
+        _growthTimer = 0f;
+        _growthExp = 0f;
+    }
 }

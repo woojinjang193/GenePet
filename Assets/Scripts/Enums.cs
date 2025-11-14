@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public enum GrowthStatus { Egg, Baby, Teen, Teen_Rebel, Adult }
+public enum GrowthStatus { Egg, Baby, Teen, Adult }
 public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, GrowthTimer, GrowthExp }
-public enum PetFlag { IsSick, IsSleeping, IsLeft }
+public enum PetFlag { IsSick, IsLeft }
 //public enum PartType { Body, Color, Pattern, Ear, Tail, Wing, Eye, Mouth}
 public enum RarityType { Common, Rare, Epic, Legendary } // 레어 3%, 에픽 1%, 레전더리 0.5%
 public enum Personality 
