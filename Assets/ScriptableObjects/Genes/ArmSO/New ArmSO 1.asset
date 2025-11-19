@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: New ArmSO 1
   m_EditorClassIdentifier: 
   ID: 01
-  DisplayName: 01
+  DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 42ecf550357952d43a012959c76f590b, type: 3}
-  Outline: {fileID: 21300000, guid: 5f1f097068f198d40acffce85e8b063a, type: 3}
-  OrderInLayer: 8
+  sprite: {fileID: 21300000, guid: 277ccf247e8da0a4abbe98361d18c371, type: 3}
+  Outline: {fileID: 21300000, guid: e63dc99128fad404faf2575a572dc4e8, type: 3}
+  OrderInLayer: 3

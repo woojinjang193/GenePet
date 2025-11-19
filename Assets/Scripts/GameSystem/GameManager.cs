@@ -1,16 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using UnityEngine;
+
 
 public class GameManager : Singleton<GameManager>
 {
     //public LeftReason Reason {  get; private set; }
-
-    public event Action OnPetSpawned;
-    public event Action OnPetLeft;
 
     public void CreateRandomPet(bool isMine)
     {
@@ -27,6 +20,7 @@ public class GameManager : Singleton<GameManager>
     {
         PetSaveData newPet = new PetSaveData();
         newPet.DisplayName = "";
+        newPet.ID = Guid.NewGuid().ToString();
 
         newPet.Genes.Acc.DominantId = Manager.Gene.GetRandomAccSO().ID;
         newPet.Genes.Acc.RecessiveId = Manager.Gene.GetRandomAccSO().ID;

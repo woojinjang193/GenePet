@@ -101,7 +101,7 @@ public class PetSaveData
         IsSick = false;
 
         IsInfoUnlocked = false;
-        ID = Guid.NewGuid().ToString();
+        ID = "";
         DisplayName = "";
         FatherId = "";
         MotherId = "";
@@ -120,6 +120,7 @@ public class IslandData
     public bool IsOpen;
     public bool IsLeft;
     public bool IsMarried;
+    public string IslandMyPetID;
     public PetSaveData IslandPetSaveData;
     public float Affinity;
     public int VisitCount;
@@ -129,6 +130,7 @@ public class IslandData
         IsOpen = false;
         IsLeft = false;
         IsMarried = false;
+        IslandMyPetID = "";
         IslandPetSaveData = new PetSaveData();
         Affinity = 50f;
         VisitCount = 0;

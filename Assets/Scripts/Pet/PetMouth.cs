@@ -5,6 +5,11 @@ using UnityEngine;
 public class PetMouth : MonoBehaviour
 {
     [SerializeField] private PetController _petController;
+    //private Animator _animator;
+    private void Awake()
+    {
+        //_animator = GetComponent<Animator>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Food"))
@@ -12,6 +17,7 @@ public class PetMouth : MonoBehaviour
             collision.gameObject.SetActive(false);
             _petController.Feed();
             Debug.Log("밥 먹음");
+            //_animator.SetTrigger("Eat");
             //먹는 사운드 출력
         }
         else if (collision.CompareTag("Snack"))

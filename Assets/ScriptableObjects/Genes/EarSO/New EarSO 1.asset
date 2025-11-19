@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: New EarSO 1
   m_EditorClassIdentifier: 
   ID: 01
-  DisplayName: 01
+  DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 2b4f895ffdae22d46926cb4f8561241f, type: 3}
-  Outline: {fileID: 21300000, guid: f61265bec8dfbfc4284664159942d085, type: 3}
+  sprite: {fileID: 21300000, guid: 3832b54725482684393bb8087ae2a11d, type: 3}
+  Outline: {fileID: 21300000, guid: aeba95d3981762f45b47e96789b2a79a, type: 3}
   OrderInLayer: 3

@@ -94,12 +94,12 @@ public class GeneManager : Singleton<GeneManager>
             {
                 _parts[PartType.Acc].Add(handle.Result[i]);
             }
-            Debug.Log($"TailSO 로드: {_parts[PartType.Acc].Count}개");
+            Debug.Log($"AccSO 로드: {_parts[PartType.Acc].Count}개");
             CheckIsReady();
         }
         else
         {
-            Debug.LogError($"TailSO 로드 실패: {handle.OperationException}");
+            Debug.LogError($"AccSO 로드 실패: {handle.OperationException}");
         }
 
     }
@@ -453,30 +453,6 @@ public class GeneManager : Singleton<GeneManager>
         {
             _ready = true;
         }
-    }
-
-    public void Breed(PetSaveData myPet, PetSaveData islandPet)
-    {
-        string childBodyD;
-        string childBodyR;
-        string childArmD;
-        string childArmR;
-        string childFeetD;
-        string childFeetR;
-        string childPatternD;
-        string childPatternR;
-        string childEyeD;
-        string childEyeR;
-        string childMouthD;
-        string childMouthR;
-        string childEarD;
-        string childEarR;
-        string childAccD;
-        string childAccR;
-        string childBlushD;
-        string childBlushR;
-        string childWingD;
-        string childWingR;
     }
 }
 

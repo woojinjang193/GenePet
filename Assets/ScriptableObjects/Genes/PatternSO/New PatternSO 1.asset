@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New PatternSO 1
   m_EditorClassIdentifier: 
   ID: 01
-  DisplayName: 01
+  DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: f3e5e25c96249ea499dac44b9a51758f, type: 3}
+  sprite: {fileID: 21300000, guid: 5fe13ef610588584199ff52ae656d3af, type: 3}
   OrderInLayer: 6

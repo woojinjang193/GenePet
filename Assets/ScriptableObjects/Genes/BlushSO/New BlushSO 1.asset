@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New BlushSO 1
   m_EditorClassIdentifier: 
   ID: 01
-  DisplayName: 01
+  DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 6589746351e58d04abcbf2c0b2cfc18f, type: 3}
-  OrderInLayer: 8
+  sprite: {fileID: 21300000, guid: 370f1f4352f1fd145bf206b65a235190, type: 3}
+  OrderInLayer: 7

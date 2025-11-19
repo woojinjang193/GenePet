@@ -12,19 +12,29 @@ public sealed class PetController : MonoBehaviour
     [SerializeField] private Sprite _closeEyesWithTear;
     [SerializeField] private Sprite _closeEyesSprite;
 
+    [SerializeField] private Animator _mouthAnim;
+
     private Sprite _ogMouth;
     private Sprite _ogEye;
+
+    private PetManager _petManager;
 
     private void Awake()
     {
         _pet = GetComponent<PetUnit>();
+        _petManager = FindObjectOfType<PetManager>();
     }
 
     public PetStatusCore Status
     {
         get { return _pet != null ? _pet.Status : null; }
     }
-
+    public void OnMouseDown()
+    {
+        if(_petManager == null) return;
+        _petManager.ZoomInPet(_pet.Status.ID);
+        
+    }
     public void Feed()
     {
         if (_pet == null || Status == null ) return;
@@ -32,12 +42,13 @@ public sealed class PetController : MonoBehaviour
         if (Status.Hunger > 95f)
         {
             Debug.Log("이미 배부름");
+            _mouthAnim.SetTrigger("Full");
             return;
         }
         
         Status.IncreaseStat(PetStat.Hunger, 10f); //식사 포만도 오르는 수치
         Status.DecreaseStat(PetStat.Cleanliness, -5f); //식사시 감소하는 청결도 수치
-
+        _mouthAnim.SetTrigger("Eat");
         Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 

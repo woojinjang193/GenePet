@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PetVisualController : MonoBehaviour
 {
-    [SerializeField] private PetUnit _pet;
+    private PetUnit _pet;
 
     [Header("알")]
     [SerializeField] private SpriteRenderer _egg;
@@ -24,9 +24,9 @@ public class PetVisualController : MonoBehaviour
     [SerializeField] private SpriteRenderer _wing;
 
     [Header("파츠 아웃라인")]
-    [SerializeField] private SpriteRenderer _accOut;
+    //[SerializeField] private SpriteRenderer _accOut;
     [SerializeField] private SpriteRenderer _armOut;
-    [SerializeField] private SpriteRenderer _blushOut;
+    //[SerializeField] private SpriteRenderer _blushOut;
     [SerializeField] private SpriteRenderer _bodyOut;
     [SerializeField] private SpriteRenderer _earOut;
     [SerializeField] private SpriteRenderer _feetOut;
@@ -35,37 +35,21 @@ public class PetVisualController : MonoBehaviour
     [Header("패턴 마스크")]
     [SerializeField] private SpriteMask _patternMask;
 
-    //[Header("테스트 버튼")]
-    //[SerializeField] private Button _button; //테스트용. 지워야함
-
-    public PetStatusCore Status
+    public void Init(PetSaveData save, PetUnit unit)
     {
-        get { return _pet != null ? _pet.Status : null; }
-    }
+        _pet = unit;
+        LoadPetFromSave(save);
 
-    private void Awake()
-    {
-        //Status.OnGrowthChanged += OnGrowthChanged;
-        //_button.onClick.AddListener(ButtonClicked); //테스트용. 지워야함
+        SetSprite(_pet.Status.Growth);
     }
-
-    public void VisualizePet()
-    {
-        LoadOwnPet();
-        SetSprite(Status.Growth);
-    }
-
-    private void LoadOwnPet()
+    private void LoadPetFromSave(PetSaveData save)
     {
         if (!AreAllRenderersAssigned())
         {
             Debug.LogError("스프라이트 랜더러 없음");
             return;
         }
-        var saveData = Manager.Save.CurrentData.UserData.HavePetList[0];
-        var pet = saveData.Genes;
-
-        _pet.Status.Growth = saveData.GrowthStage;
+        var pet = save.Genes;
 
         var acc = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, pet.Acc.DominantId);
         var arm = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, pet.Arm.DominantId);
@@ -91,7 +75,7 @@ public class PetVisualController : MonoBehaviour
         _wing.sprite = wing.sprite;
         
         //아웃라인 셋
-        _accOut.sprite = acc.Outline;
+        //_accOut.sprite = acc.Outline;
         _armOut.sprite = arm.Outline;
         //_blushOut.sprite = blush.Outline;
         _bodyOut.sprite = body.Outline;
@@ -112,9 +96,9 @@ public class PetVisualController : MonoBehaviour
         _wing.sortingOrder = wing.OrderInLayer;
 
         //아웃라인 레이어 순서 셋
-        _accOut.sortingOrder = acc.OrderInLayer + 1;
+        //_accOut.sortingOrder = acc.OrderInLayer + 1;
         _armOut.sortingOrder = arm.OrderInLayer + 1;
-        _blushOut.sortingOrder = blush.OrderInLayer + 1;
+        //_blushOut.sortingOrder = blush.OrderInLayer + 1;
         _bodyOut.sortingOrder = body.OrderInLayer + 2;
         _earOut.sortingOrder = ear.OrderInLayer + 1;
         _feetOut.sortingOrder = feet.OrderInLayer + 1;
@@ -130,12 +114,7 @@ public class PetVisualController : MonoBehaviour
         ApplyColorsFromGenes(pet.PartColors);
     }
 
-    private void OnGrowthChanged(GrowthStatus growth)
-    {
-        SetSprite(growth);
-    }
-
-    private void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
+    public void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
     {
         if (!AreAllRenderersAssigned())
         {
@@ -161,7 +140,8 @@ public class PetVisualController : MonoBehaviour
             _mouth.gameObject.SetActive(true);
 
             _bodyOut.gameObject.SetActive(true);
-            _blushOut.gameObject.SetActive(true);
+            _earOut.gameObject.SetActive(true);
+            //_blushOut.gameObject.SetActive(true);
             Debug.Log("Baby 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Teen) //성장기
@@ -173,7 +153,7 @@ public class PetVisualController : MonoBehaviour
             _feet.gameObject.SetActive(true);
             _mouth.gameObject.SetActive(true);
 
-            _blushOut.gameObject.SetActive(true);
+            //_blushOut.gameObject.SetActive(true);
             _bodyOut.gameObject.SetActive(true);
             _earOut.gameObject.SetActive(true);
             _feetOut.gameObject.SetActive(true);
@@ -192,9 +172,9 @@ public class PetVisualController : MonoBehaviour
             _pattern.gameObject.SetActive(true);
             _wing.gameObject.SetActive(true);
 
-            _accOut.gameObject.SetActive(true);
+            //_accOut.gameObject.SetActive(true);
             _armOut.gameObject.SetActive(true);
-            _blushOut.gameObject.SetActive(true);
+            //_blushOut.gameObject.SetActive(true);
             _bodyOut.gameObject.SetActive(true);
             _earOut.gameObject.SetActive(true);
             _feetOut.gameObject.SetActive(true);
@@ -240,13 +220,13 @@ public class PetVisualController : MonoBehaviour
         if (_pattern != null) _pattern.gameObject.SetActive(false);
         if (_wing != null) _wing.gameObject.SetActive(false);
 
-        if (_accOut != null) _acc.gameObject.SetActive(false);
-        if (_armOut != null) _arm.gameObject.SetActive(false);
-        if (_blushOut != null) _blush.gameObject.SetActive(false);
-        if (_bodyOut != null) _body.gameObject.SetActive(false);
-        if (_earOut != null) _ear.gameObject.SetActive(false);
-        if (_feetOut != null) _feet.gameObject.SetActive(false);
-        if (_wingOut != null) _wing.gameObject.SetActive(false);
+        //if (_accOut != null) _accOut.gameObject.SetActive(false);
+        if (_armOut != null) _armOut.gameObject.SetActive(false);
+        //if (_blushOut != null) _blushOut.gameObject.SetActive(false);
+        if (_bodyOut != null) _bodyOut.gameObject.SetActive(false);
+        if (_earOut != null) _earOut.gameObject.SetActive(false);
+        if (_feetOut != null) _feetOut.gameObject.SetActive(false);
+        if (_wingOut != null) _wingOut.gameObject.SetActive(false);
     }
 
     private bool AreAllRenderersAssigned()

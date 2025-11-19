@@ -12,7 +12,7 @@ public class PetStatusCore
     public bool IsSick { get; private set; }
     public bool IsLeft { get; private set; }
 
-    private GrowthStatus _growth = GrowthStatus.Egg;
+    private GrowthStatus _growth;
 
     private PetConfigSO _config;
 
@@ -36,18 +36,32 @@ public class PetStatusCore
                 return;
             }
             _growth = value;
+            Debug.Log($"ID: {ID} 성장 단계 {_growth}로 세팅");
         }
     }
  
     public void Tick(float sec)
     {
+        if (IsLeft) return;
         if (_config == null) return;
         if (sec <= 0f) return;
 
+        //성장 타이머
+        _growthTimer += sec;
+
+        //기본 감소
         Hunger -= _config.HungerDecreasePerSec * sec;
         Cleanliness -= _config.CleanlinessDecreasePerSec * sec;
 
-        _growthTimer += sec;
+        //조건 감소
+        if(Hunger < 0f)
+            Health -= _config.HealthDecreasePerSec * sec;
+
+        if(IsSick)
+            Health -= _config.HealthDecreasePerSec * sec;
+
+        if(Cleanliness < 0f)
+            Health -= _config.HealthDecreasePerSec * sec;
 
         Clamp();
     }
@@ -124,23 +138,6 @@ public class PetStatusCore
         Happiness = Mathf.Clamp(Happiness, 0, 100);
     }
 
-    public void SaveStatus()
-    {
-        foreach(var pet in Manager.Save.CurrentData.UserData.HavePetList)
-        {
-            if(pet.ID == ID)
-            {
-                pet.Hunger = Hunger;
-                pet.Health = Health;
-                pet.Cleanliness = Cleanliness;
-                pet.Happiness = Happiness;
-                pet.IsLeft = IsLeft;
-                pet.IsSick = IsSick;
-                pet.GrowthStage = _growth;
-                break;
-            }
-        }
-    }
     public void ResetGrowthProgress()
     {
         _growthTimer = 0f;

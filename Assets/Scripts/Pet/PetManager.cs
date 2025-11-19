@@ -14,15 +14,21 @@ public class PetManager : MonoBehaviour
     [Header("Tick 설정")]
     [SerializeField] private float _tickInterval = 1f;
 
+    [Header("스폰 포지션")]
+    [SerializeField] private Transform[] _Positions;
+
     private float _accum;
+    private CameraController _camera;
     private List<PetUnit> _activePets = new List<PetUnit>();
+
+    public PetSaveData ZoomedPet {  get; private set; }
 
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
 
     private void Awake()
     {
         _accum = 0f;
-
+        _camera = FindObjectOfType<CameraController>();
         foreach (var cfg in _configs)
         {
             if (cfg != null)
@@ -43,6 +49,7 @@ public class PetManager : MonoBehaviour
             foreach (var pet in saveList)
             {
                 SpawnPet(pet);
+                Debug.Log($"세이브에 있는 펫 {pet.ID} 스폰");
             }
         }
     }
@@ -54,8 +61,19 @@ public class PetManager : MonoBehaviour
             Debug.LogWarning("프리팹 없음");
             return;
         }
-        PetUnit unit = Instantiate(_petPrefab).GetComponent<PetUnit>();
+
+        int index = _activePets.Count;
+
+        PetUnit unit = Instantiate(_petPrefab, _Positions[index]).GetComponent<PetUnit>();
+        
         unit.Init(save); //unit 초기화
+
+        PetVisualController visual = unit.GetComponent<PetVisualController>();
+        if (visual != null)
+        {
+            visual.Init(save, unit);
+        }
+
         RegisterPet(unit); //펫 매니저에 등록
     }
 
@@ -68,6 +86,7 @@ public class PetManager : MonoBehaviour
             if (_configMap.TryGetValue(unit.Status.Growth, out var cfg))
             {
                 unit.SetConfig(cfg);
+                Debug.Log($"{unit.Status.ID}의 성장 상태: {cfg.name}");
             }
         }
     }
@@ -91,7 +110,7 @@ public class PetManager : MonoBehaviour
             var unit = _activePets[i];
             unit.Status.Tick(sec);
 
-            if (unit.TryGrow()) //업데이트에서 체크하기 싫음
+            if (unit.TryGrow())
             {
                 if (_configMap.TryGetValue(unit.Status.Growth, out var cfg))
                 {
@@ -101,6 +120,85 @@ public class PetManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        SaveAllStatus();
+        Debug.Log("펫 스테이터스 저장 완료");
+        Manager.Save.SaveGame();
+    }
+
+    private void SaveAllStatus()
+    {   
+        if (Manager.Save.CurrentData == null)
+        {
+            Debug.LogWarning("변경된 데이터 없음"); return;
+        }
+ 
+        var saveList = Manager.Save.CurrentData.UserData.HavePetList;
+
+        for (int i = 0; i < _activePets.Count; i++)
+        {
+            var unit = _activePets[i];
+            var status = unit.Status;
+
+            // 같은 ID 찾기
+            for (int j = 0; j < saveList.Count; j++)
+            {
+                if (saveList[j].ID == status.ID)
+                {
+                    var pet = saveList[j];
+
+                    pet.Hunger = status.Hunger;
+                    pet.Health = status.Health;
+                    pet.Cleanliness = status.Cleanliness;
+                    pet.Happiness = status.Happiness;
+
+                    pet.IsLeft = status.IsLeft;
+                    pet.IsSick = status.IsSick;
+                    pet.GrowthStage = status.Growth;
+
+                    break;
+                }
+            }
+        }
+    }
+
+    public void ZoomInPet(string id)
+    {
+        if (_camera == null)
+        {
+            Debug.LogError("카메라 컨트롤러 없음");
+            return;
+        }
+
+        //카메라 줌인
+        for (int i = 0; i < _activePets.Count; i++)
+        {
+            var pet = _activePets[i];
+
+            if (pet.Status.ID == id)
+            {
+                Vector3 pos = pet.gameObject.transform.position;
+                _camera.CameraZoomIn(pos);
+                break;
+            }
+        }
+
+        //선택된 펫 정보 캐싱
+        var petlist = Manager.Save.CurrentData.UserData.HavePetList;
+        for (int i = 0; i < petlist.Count; i++)
+        {
+            if (petlist[i].ID == id)
+            {
+                ZoomedPet = petlist[i];
+                break;
+            }
+        }
+    }
+    public void ZoomOutPet()
+    {
+        ZoomedPet = null;
+    }
     public void ApplyOfflineTime(int offlineSec)
     {
         if (offlineSec <= 0) return;

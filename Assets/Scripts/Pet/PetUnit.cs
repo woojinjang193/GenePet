@@ -11,19 +11,8 @@ public class PetUnit : MonoBehaviour
 
     private string _petId;
 
+    private PetVisualController _visul;
 
-    //private PetManager _petManager;
-
-    //private void Awake()
-    //{
-    //    _petManager = FindObjectOfType<PetManager>();
-    //    if (_petManager == null)
-    //    {
-    //        Debug.LogError("PetManager 없음");
-    //        enabled = false;
-    //        return;
-    //    }
-    //}
     public void Init(PetSaveData save)
     {
         _petId = save.ID;
@@ -34,10 +23,10 @@ public class PetUnit : MonoBehaviour
         _status.SetFlag(PetFlag.IsSick, save.IsSick);
 
         _status.Growth = save.GrowthStage;
+        _visul = GetComponent<PetVisualController>();
 
         Debug.Log($"데이터 로드완료 ID: {_petId}");
     }
-
     public void SetConfig(PetConfigSO cfg)
     {
         _currentConfig = cfg;
@@ -62,7 +51,7 @@ public class PetUnit : MonoBehaviour
         _status.Growth = next;
 
         _status.ResetGrowthProgress();
-
+        _visul.SetSprite(_status.Growth);
         return true;
     }
 

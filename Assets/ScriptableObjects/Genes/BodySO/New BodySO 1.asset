@@ -15,6 +15,6 @@ MonoBehaviour:
   ID: 01
   DisplayName: Body01
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 1e7deb9048bfba64aa6bab51af9ca767, type: 3}
-  Outline: {fileID: 21300000, guid: 751cc331a36bc3245a2d047f3b464da7, type: 3}
+  sprite: {fileID: 21300000, guid: dfc783df18b9d1945874eb4a8b90e31f, type: 3}
+  Outline: {fileID: 21300000, guid: 071a217718605b74e95cb87431fee93d, type: 3}
   OrderInLayer: 5

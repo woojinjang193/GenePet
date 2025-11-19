@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class MoveToIslandButton : MonoBehaviour
 {
-    [SerializeField] private Button _islandButton;
-    [SerializeField] private PetUnit _petUnit;
+    private Button _islandButton;
 
     private void Awake()
     {
+        _islandButton = GetComponent<Button>();
         _islandButton.onClick.AddListener(MoveToIsland);
     }
 
@@ -18,29 +18,16 @@ public class MoveToIslandButton : MonoBehaviour
     {
         UserData uerData = Manager.Save.CurrentData.UserData;
 
-        if(!_petUnit.IsExciting || _petUnit.Status.GetFlag(PetFlag.IsLeft))
-        {
-            Debug.Log("펫이 없습니다.");
-            return;
-        }
-
-        if (_petUnit.Status.Growth != GrowthStatus.Adult)
-        {
-            Debug.Log("아직 어른이 아닙니다");
-            return;
-        }
         bool isIslandOpen = uerData.Island.IsOpen;
 
-        if (isIslandOpen)
+        if (isIslandOpen) //이미 열려있을 때
         {
             Manager.Save.SaveGame();
             SceneManager.LoadScene("IslandScene");
             return;
         }
-        
-        
 
-        if (uerData.Items.IslandTicket > 0)
+        if (uerData.Items.IslandTicket > 0) //새로 열어야 할 때
         {
             uerData.Items.IslandTicket--;
 

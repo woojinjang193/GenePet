@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New EyeSO 4
   m_EditorClassIdentifier: 
   ID: 04
-  DisplayName: 04
+  DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: ed1f8f34416277b479cd54ce2970794b, type: 3}
+  sprite: {fileID: 21300000, guid: 3cf01c8846bc96e47a1491b6437f50c6, type: 3}
   OrderInLayer: 11

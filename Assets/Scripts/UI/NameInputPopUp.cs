@@ -35,7 +35,7 @@ public class NameInputPopUp : MonoBehaviour
         _error.SetActive(false);
         _errorTooLong.SetActive(false);
 
-        Manager.Save.CurrentData.UserData.HavePet.DisplayName = _inputField.text;
+        //Manager.Save.CurrentData.UserData.HavePet.DisplayName = _inputField.text;
         Debug.Log($"이름 설정: {_inputField.text}");
         gameObject.SetActive(false);
     }

@@ -17,7 +17,7 @@ public class GiveUpPetButton : MonoBehaviour
 
     private void OnClicked()
     {
-        Manager.Save.RemovePet();
+        //Manager.Save.RemovePet();
         _letterPanel.SetActive(false);
         _popUp.SetActive(false);
     }
