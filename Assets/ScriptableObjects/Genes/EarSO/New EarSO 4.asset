@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d366fc8715f848c4cb8ae3e74057ac4b, type: 3}
+  m_Name: New EarSO 4
+  m_EditorClassIdentifier: 
+  ID: 04
+  DisplayName: 00
+  Rarity: 0
+  sprite: {fileID: 21300000, guid: 5700d423a7ed82a45998ed5ca2f7bdc6, type: 3}
+  Outline: {fileID: 21300000, guid: e01ebb7552fa63b429a30dcb406583b8, type: 3}
+  OrderInLayer: 8

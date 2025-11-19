@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.XR;
 
 public class GeneManager : Singleton<GeneManager>
 {
@@ -90,12 +94,12 @@ public class GeneManager : Singleton<GeneManager>
             {
                 _parts[PartType.Acc].Add(handle.Result[i]);
             }
-            Debug.Log($"TailSO 로드: {_parts[PartType.Acc].Count}개");
+            Debug.Log($"AccSO 로드: {_parts[PartType.Acc].Count}개");
             CheckIsReady();
         }
         else
         {
-            Debug.LogError($"TailSO 로드 실패: {handle.OperationException}");
+            Debug.LogError($"AccSO 로드 실패: {handle.OperationException}");
         }
 
     }

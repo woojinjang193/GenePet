@@ -3,18 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Food
+  - Snack
+  - Medicine
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Pet
   - Water
   - UI
   - Body
-  - 
-  - 
-  - 
+  - Food
+  - Snack
+  - Medicine
   - 
   - 
   - 

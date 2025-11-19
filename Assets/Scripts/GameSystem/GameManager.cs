@@ -1,17 +1,26 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using UnityEngine;
+
 
 public class GameManager : Singleton<GameManager>
 {
+    //public LeftReason Reason {  get; private set; }
+
     public void CreateRandomPet(bool isMine)
     {
+        PetSaveData newpet = CreateRandomPetData();
+        Manager.Save.RegisterNewPet(newpet, isMine);
+
+        PetManager petManager = FindObjectOfType<PetManager>();
+        if(petManager != null)
+        {
+            petManager.SpawnPet(newpet);
+        }
+    }
+    private PetSaveData CreateRandomPetData()
+    {
         PetSaveData newPet = new PetSaveData();
-        newPet.ID = Guid.NewGuid().ToString();
         newPet.DisplayName = "";
-        newPet.Seed = UnityEngine.Random.Range(0, 999999);
+        newPet.ID = Guid.NewGuid().ToString();
 
         newPet.Genes.Acc.DominantId = Manager.Gene.GetRandomAccSO().ID;
         newPet.Genes.Acc.RecessiveId = Manager.Gene.GetRandomAccSO().ID;
@@ -59,11 +68,7 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.BlushColorId = PickColorId(dom, rec);
 
-        if (isMine)
-        {
-            Manager.Save.RegisterNewPet(newPet);
-        }
-        
+        return newPet;
     }
 
     private string PickColorId(string dominant, string recessive)
@@ -75,4 +80,9 @@ public class GameManager : Singleton<GameManager>
         }
         return recessive;
     }
+
+    //public void SetLeftReason(LeftReason reason)
+    //{
+    //    Reason = reason;
+    //}
 }

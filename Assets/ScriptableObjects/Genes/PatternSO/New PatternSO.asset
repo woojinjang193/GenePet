@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 672bbf2f375823d47934bfb09ffd363a, type: 3}
   m_Name: New PatternSO
   m_EditorClassIdentifier: 
-  ID: 01
-  DisplayName: 01
+  ID: 00
+  DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: ad6a0fca1b8c3484c9b78b4ae0d86042, type: 3}
+  sprite: {fileID: 21300000, guid: 69a6adbeff963624b929e2d87aabca63, type: 3}
+  OrderInLayer: 6

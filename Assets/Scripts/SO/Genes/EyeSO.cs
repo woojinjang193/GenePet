@@ -6,4 +6,5 @@ using UnityEngine;
 public class EyeSO : PartBaseSO
 {
     public Sprite sprite;
+    public int OrderInLayer;
 }

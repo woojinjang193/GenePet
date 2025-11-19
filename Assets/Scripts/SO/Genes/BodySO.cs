@@ -6,4 +6,6 @@ using UnityEngine;
 public class BodySO : PartBaseSO
 {
     public Sprite sprite;
+    public Sprite Outline;
+    public int OrderInLayer;
 }
