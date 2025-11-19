@@ -29,12 +29,12 @@ public sealed class PetController : MonoBehaviour
     {
         get { return _pet != null ? _pet.Status : null; }
     }
-    public void OnMouseDown()
-    {
-        if(_petManager == null) return;
-        _petManager.ZoomInPet(_pet.Status.ID);
-        
-    }
+    //public void OnMouseDown()
+    //{
+    //    if(_petManager == null) return;
+    //    _petManager.ZoomInPet(_pet.Status.ID);
+    //    
+    //}
     public void Feed()
     {
         if (_pet == null || Status == null ) return;
