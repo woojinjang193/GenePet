@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 
 public class GameManager : Singleton<GameManager>
@@ -7,6 +8,18 @@ public class GameManager : Singleton<GameManager>
 
     public void CreateRandomPet(bool isMine)
     {
+        if (isMine)
+        {
+            int maxAmount = Manager.Save.CurrentData.UserData.MaxPetAmount;
+            int curAmount = Manager.Save.CurrentData.UserData.HavePetList.Count;
+
+            if (curAmount >= maxAmount)
+            {
+                Debug.Log($"현재 유저가 키울 수 있는 최대 펫 수 : {maxAmount}.\n현재 펫 수 {curAmount}");
+                //TODO: 여기에 슬롯 구매 바로가기 창 띄우기
+                return;
+            }
+        }
         PetSaveData newpet = CreateRandomPetData();
         Manager.Save.RegisterNewPet(newpet, isMine);
 

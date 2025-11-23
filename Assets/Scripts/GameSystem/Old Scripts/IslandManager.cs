@@ -1,24 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class IslandController : MonoBehaviour
+public class IslandManager : MonoBehaviour
 {
     [Header("방문 점수")]
     [SerializeField] private int _visitingPoint;
 
+    [Header("프리팹")]
     [SerializeField] private GameObject _petPrefab;
     [SerializeField] private Transform _petTransform;
-
+    [Header("섬 세팅")]
     [SerializeField] private GameObject _islandPet;
     [SerializeField] private GameObject _letter;
     [SerializeField] private GameObject _egg;
-    
-    [SerializeField] private Button _GoBackHomeButton;
+    [Header("돌아가기 버튼")]
+    [SerializeField] private Button _goBackHomeButton;
 
     private float _lastVisitTime;
+    public string IslandMyPetID { get; private set; }
     
     private bool _isMarried;
     private bool _isLeft;
@@ -27,9 +27,7 @@ public class IslandController : MonoBehaviour
     {
         _isMarried = Manager.Save.CurrentData.UserData.Island.IsMarried;
         _isLeft = Manager.Save.CurrentData.UserData.Island.IsLeft;
-        _GoBackHomeButton.onClick.AddListener(OnClickedGoHome);
-
-        TrySpawnPet();
+        _goBackHomeButton.onClick.AddListener(OnClickedGoHome);
 
         if (_isLeft)
         {
@@ -41,6 +39,7 @@ public class IslandController : MonoBehaviour
             LayEggAndLeave();
             return;
         }
+        TrySpawnPet();
 
         VisitReward();
     }
@@ -64,13 +63,15 @@ public class IslandController : MonoBehaviour
         //시간 제한 둬야함
         if (!_isLeft && !_isMarried)
         {
-            //방문시 호감도 증가
-            Manager.Save.CurrentData.UserData.Island.Affinity += _visitingPoint;
-
+            
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
             {
                 LayEgg();
+                return;
             }
+            //방문시 호감도 증가
+            Manager.Save.CurrentData.UserData.Island.Affinity += _visitingPoint;
+
             Debug.Log($"방문 포인트 +{_visitingPoint}. 현재 호감도 {Manager.Save.CurrentData.UserData.Island.Affinity}");
         }
     }
@@ -78,12 +79,13 @@ public class IslandController : MonoBehaviour
     {
         _islandPet.SetActive(false);
         _egg.SetActive(true);
+        _isMarried = true;
     }
-    public void TrySpawnPet()
+    public void TrySpawnPet() //전에 설정해놓은 펫 있으면 그걸로 소환, 없으면 소환 안함
     {
-        string islandMyPetID = Manager.Save.CurrentData.UserData.Island.IslandMyPetID;
+        IslandMyPetID = Manager.Save.CurrentData.UserData.Island.IslandMyPetID;
 
-        if (string.IsNullOrWhiteSpace(islandMyPetID))
+        if (string.IsNullOrWhiteSpace(IslandMyPetID))
         {
             Debug.Log("세팅된 펫 없음");
             return;
@@ -92,7 +94,7 @@ public class IslandController : MonoBehaviour
         var petList = Manager.Save.CurrentData.UserData.HavePetList;
         foreach (var pet in petList)
         {
-            if (pet.ID == islandMyPetID)
+            if (pet.ID == IslandMyPetID)
             {
                 SpawnPet(pet);
                 break;
@@ -117,4 +119,10 @@ public class IslandController : MonoBehaviour
             visual.Init(pet, unit);
         }
     }
+
+    public void AddAffinity(float amount)
+    {
+        Manager.Save.CurrentData.UserData.Island.Affinity += amount;
+    }
+
 }

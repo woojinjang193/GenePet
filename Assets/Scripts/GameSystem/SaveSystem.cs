@@ -176,7 +176,7 @@ public class UserData
         UID = "";
         CurLanguage = Language.ENG;
         UserDisplayName = "";
-        MaxPetAmount = 1;
+        MaxPetAmount = 2;
         Energy = 10;
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetRecordData>();

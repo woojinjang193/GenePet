@@ -17,24 +17,17 @@ public sealed class PetController : MonoBehaviour
     private Sprite _ogMouth;
     private Sprite _ogEye;
 
-    private PetManager _petManager;
 
     private void Awake()
     {
         _pet = GetComponent<PetUnit>();
-        _petManager = FindObjectOfType<PetManager>();
     }
 
     public PetStatusCore Status
     {
         get { return _pet != null ? _pet.Status : null; }
     }
-    //public void OnMouseDown()
-    //{
-    //    if(_petManager == null) return;
-    //    _petManager.ZoomInPet(_pet.Status.ID);
-    //    
-    //}
+
     public void Feed()
     {
         if (_pet == null || Status == null ) return;

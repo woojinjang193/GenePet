@@ -1,45 +1,36 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class IslandMyPetVisualLoader : MonoBehaviour
+public class PetImageSetting : MonoBehaviour
 {
+
     [Header("파츠 베이스")]
-    [SerializeField] private SpriteRenderer _acc;
-    [SerializeField] private SpriteRenderer _arm;
-    [SerializeField] private SpriteRenderer _blush;
-    [SerializeField] private SpriteRenderer _body;
-    [SerializeField] private SpriteRenderer _ear;
-    [SerializeField] private SpriteRenderer _eye;
-    [SerializeField] private SpriteRenderer _feet;
-    [SerializeField] private SpriteRenderer _mouth;
-    [SerializeField] private SpriteRenderer _pattern;
-    [SerializeField] private SpriteRenderer _wing;
+    [SerializeField] private Image _acc;
+    [SerializeField] private Image _arm;
+    [SerializeField] private Image _blush;
+    [SerializeField] private Image _body;
+    [SerializeField] private Image _ear;
+    [SerializeField] private Image _eye;
+    [SerializeField] private Image _feet;
+    [SerializeField] private Image _mouth;
+    [SerializeField] private Image _pattern;
+    [SerializeField] private Image _wing;
 
     [Header("파츠 아웃라인")]
-    //[SerializeField] private SpriteRenderer _accOut;
-    [SerializeField] private SpriteRenderer _armOut;
-    //[SerializeField] private SpriteRenderer _blushOut;
-    [SerializeField] private SpriteRenderer _bodyOut;
-    [SerializeField] private SpriteRenderer _earOut;
-    [SerializeField] private SpriteRenderer _feetOut;
-    [SerializeField] private SpriteRenderer _wingOut;
+    [SerializeField] private Image _armOut;
+    //[SerializeField] private Image _blushOut;
+    [SerializeField] private Image _bodyOut;
+    [SerializeField] private Image _earOut;
+    [SerializeField] private Image _feetOut;
+    [SerializeField] private Image _wingOut;
 
     [Header("패턴 마스크")]
     [SerializeField] private SpriteMask _patternMask;
-
-    [Header("IslandManager")]
-    [SerializeField] private IslandManager _islandManager;
-
-    public void DisplayPetImage(PetSaveData save)
+    public void DisplayPetImage(PetSaveData petdata)
     {
-        if (!AreAllRenderersAssigned())
-        {
-            Debug.LogError("스프라이트 랜더러 없음");
-            return;
-        }
-        var pet = save.Genes;
+        var pet = petdata.Genes;
 
         var acc = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, pet.Acc.DominantId);
         var arm = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, pet.Arm.DominantId);
@@ -74,31 +65,34 @@ public class IslandMyPetVisualLoader : MonoBehaviour
         _wingOut.sprite = wing.Outline;
 
         //베이스 레이어 순서 셋
-        _acc.sortingOrder = acc.OrderInLayer;
-        _arm.sortingOrder = arm.OrderInLayer;
-        _blush.sortingOrder = blush.OrderInLayer;
-        _body.sortingOrder = body.OrderInLayer;
-        _pattern.sortingOrder = pattern.OrderInLayer;
-        _ear.sortingOrder = ear.OrderInLayer;
-        _eye.sortingOrder = eye.OrderInLayer;
-        _feet.sortingOrder = feet.OrderInLayer;
-        _mouth.sortingOrder = mouth.OrderInLayer;
-        _wing.sortingOrder = wing.OrderInLayer;
+        _acc.transform.SetSiblingIndex(acc.OrderInLayer);
+        _arm.transform.SetSiblingIndex(arm.OrderInLayer);
+        _blush.transform.SetSiblingIndex(blush.OrderInLayer);
+        _body.transform.SetSiblingIndex(body.OrderInLayer);
+        _pattern.transform.SetSiblingIndex(pattern.OrderInLayer);
+        _ear.transform.SetSiblingIndex(ear.OrderInLayer);
+        _eye.transform.SetSiblingIndex(eye.OrderInLayer);
+        _feet.transform.SetSiblingIndex(feet.OrderInLayer);
+        _mouth.transform.SetSiblingIndex(mouth.OrderInLayer);
+        _wing.transform.SetSiblingIndex(wing.OrderInLayer);
 
         //아웃라인 레이어 순서 셋
-        //_accOut.sortingOrder = acc.OrderInLayer + 1;
-        _armOut.sortingOrder = arm.OrderInLayer + 1;
-        //_blushOut.sortingOrder = blush.OrderInLayer + 1;
-        _bodyOut.sortingOrder = body.OrderInLayer + 2;
-        _earOut.sortingOrder = ear.OrderInLayer + 1;
-        _feetOut.sortingOrder = feet.OrderInLayer + 1;
-        _wingOut.sortingOrder = wing.OrderInLayer + 1;
+        _armOut.transform.SetSiblingIndex(arm.OrderInLayer + 1);
+        //_blushOut.transform.SetSiblingIndex(blush.OrderInLayer + 1);
+        _bodyOut.transform.SetSiblingIndex(body.OrderInLayer + 2);
+        _earOut.transform.SetSiblingIndex(ear.OrderInLayer + 1);
+        _feetOut.transform.SetSiblingIndex(feet.OrderInLayer + 1);
+        _wingOut.transform.SetSiblingIndex(wing.OrderInLayer + 1);
 
+        //마스크 적용
+        if (_patternMask == null)
+        {
+            _patternMask = _pattern.GetComponent<SpriteMask>();
+        }
         _patternMask.sprite = _body.sprite;
 
         ApplyColorsFromGenes(pet.PartColors);
     }
-
     private void ApplyColorsFromGenes(PartColorGenes colors)
     {
         if (colors == null)
@@ -113,20 +107,5 @@ public class IslandMyPetVisualLoader : MonoBehaviour
         _ear.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.EarColorId).color;
         _feet.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.FeetColorId).color;
         _pattern.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.PatternColorId).color;
-    }
-    private bool AreAllRenderersAssigned()
-    {
-        if (_acc == null) return false;
-        if (_arm == null) return false;
-        if (_body == null) return false;
-        if (_blush == null) return false;
-        if (_ear == null) return false;
-        if (_eye == null) return false;
-        if (_feet == null) return false;
-        if (_mouth == null) return false;
-        if (_pattern == null) return false;
-        if (_wing == null) return false;
-
-        return true;
     }
 }

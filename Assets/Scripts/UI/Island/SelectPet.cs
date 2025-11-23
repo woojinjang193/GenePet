@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class IslandMyPetVisualLoader : MonoBehaviour
+public class SelectPet : MonoBehaviour
 {
     [Header("파츠 베이스")]
     [SerializeField] private SpriteRenderer _acc;
@@ -29,17 +30,77 @@ public class IslandMyPetVisualLoader : MonoBehaviour
     [Header("패턴 마스크")]
     [SerializeField] private SpriteMask _patternMask;
 
+    [Header("좌우 버튼")]
+    [SerializeField] private Button _leftButton;
+    [SerializeField] private Button _rightButton;
+
+    [Header("확인/취소 버튼")]
+    [SerializeField] private Button _confirmButton;
+    [SerializeField] private Button _cancelButton;
     [Header("IslandManager")]
     [SerializeField] private IslandManager _islandManager;
 
-    public void DisplayPetImage(PetSaveData save)
+    private int _curIndex;
+
+    private List<PetSaveData> _petList = new();
+
+    private void Awake()
+    {
+        _leftButton.onClick.AddListener(OnLeftButtonClicked);
+        _rightButton.onClick.AddListener(OnRightButtonClicked);
+        _confirmButton.onClick.AddListener(OnConfirmButtonClicked);
+        _cancelButton.onClick.AddListener(OnCancelButtonClicked);
+    }
+    private void OnEnable()
+    {
+        _petList.Clear();
+        GetPetList();
+        _curIndex = GetIndexByID(_islandManager.IslandMyPetID);
+        DisplayPetImage(_curIndex);
+    }
+    private void OnConfirmButtonClicked()
+    {
+        Debug.Log($"펫 변경 > {_petList[_curIndex].ID}"); //TODO: 실제 펫의 아이디와 일치하는지 확인해야함
+    }
+    private void OnCancelButtonClicked()
+    {
+        gameObject.SetActive(false);
+    }
+    private void OnLeftButtonClicked()
+    {
+        if (_curIndex - 1 < 0)
+        {
+            _curIndex = _petList.Count - 1;
+        }
+        else
+        {
+            _curIndex--;
+        }
+
+        DisplayPetImage(_curIndex);
+    }
+    private void OnRightButtonClicked()
+    {
+        if (_curIndex + 1 >= _petList.Count)
+        {
+            _curIndex = 0;
+        }
+        else
+        {
+            _curIndex++;
+        }
+
+        DisplayPetImage(_curIndex);
+    }
+    private void DisplayPetImage(int index)
     {
         if (!AreAllRenderersAssigned())
         {
             Debug.LogError("스프라이트 랜더러 없음");
             return;
         }
-        var pet = save.Genes;
+        var petdata = _petList[index];
+        var pet = petdata.Genes;
 
         var acc = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, pet.Acc.DominantId);
         var arm = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, pet.Arm.DominantId);
@@ -114,6 +175,20 @@ public class IslandMyPetVisualLoader : MonoBehaviour
         _feet.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.FeetColorId).color;
         _pattern.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.PatternColorId).color;
     }
+    private int GetIndexByID(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return 0;
+        }
+
+        for (int i = 0; i < _petList.Count; i++)
+        {
+            if(_petList[i].ID == id) { return i; }
+        }
+        return 0;
+    }
+
     private bool AreAllRenderersAssigned()
     {
         if (_acc == null) return false;
@@ -128,5 +203,17 @@ public class IslandMyPetVisualLoader : MonoBehaviour
         if (_wing == null) return false;
 
         return true;
+    }
+
+    private void GetPetList() //어른 개체만 담음
+    {
+        var petListFromSave = Manager.Save.CurrentData.UserData.HavePetList;
+        for (int i = 0; i < petListFromSave.Count;i++)
+        {
+            if (petListFromSave[i].GrowthStage == GrowthStatus.Adult)
+            {
+                _petList.Add(petListFromSave[i]);
+            }
+        }
     }
 }
