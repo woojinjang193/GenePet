@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class IslandPetController : MonoBehaviour
 {
+    [SerializeField] private bool _isMyPet;
     private IslandManager _islandManager;
 
     private void Start()

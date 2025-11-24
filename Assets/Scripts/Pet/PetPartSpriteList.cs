@@ -16,9 +16,9 @@ public class PetPartSpriteList
     public SpriteRenderer Wing;
 
     [Header("아웃라인 파츠")]
-    public SpriteRenderer AccOut;
+    //public SpriteRenderer AccOut;
     public SpriteRenderer ArmOut;
-    public SpriteRenderer BlushOut;
+    //public SpriteRenderer BlushOut;
     public SpriteRenderer BodyOut;
     public SpriteRenderer EarOut;
     public SpriteRenderer FeetOut;

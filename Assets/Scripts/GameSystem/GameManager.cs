@@ -79,7 +79,7 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.PartColors.FeetColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.PatternColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
-        newPet.Genes.PartColors.BlushColorId = PickColorId(dom, rec);
+        //newPet.Genes.PartColors.BlushColorId = PickColorId(dom, rec);
 
         return newPet;
     }

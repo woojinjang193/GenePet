@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -11,10 +9,15 @@ public class GenePair
 {
     public string DominantId;
     public string RecessiveId;
+    public bool ISDominantCut;
+    public bool ISRecessiveCut;
     public GenePair()
-    { 
+    {
         DominantId = "";
+        ISDominantCut = false;
+
         RecessiveId = "";
+        ISRecessiveCut = false;
     }
 }
 
@@ -63,7 +66,7 @@ public class PartColorGenes
     public string FeetColorId;
     public string PatternColorId;
     public string EarColorId;
-    public string BlushColorId;
+    //public string BlushColorId;
 
     public PartColorGenes()
     {
@@ -72,7 +75,7 @@ public class PartColorGenes
         FeetColorId = "";
         PatternColorId = "";
         EarColorId = "";
-        BlushColorId = "";
+        //BlushColorId = "";
     }
 }
 
@@ -176,7 +179,7 @@ public class UserData
         UID = "";
         CurLanguage = Language.ENG;
         UserDisplayName = "";
-        MaxPetAmount = 2;
+        MaxPetAmount = 5; //플레이어 맥스 펫 수
         Energy = 10;
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetRecordData>();

@@ -7,13 +7,19 @@ public class IslandManager : MonoBehaviour
     [Header("방문 점수")]
     [SerializeField] private int _visitingPoint;
 
+    [Header("비주얼로더")]
+    [SerializeField] private IslandPetVisualLoader _visualLoader;
+    [SerializeField] private IslandPetVisualLoader _myPetVisualLoader;
+
     [Header("프리팹")]
     [SerializeField] private GameObject _petPrefab;
     [SerializeField] private Transform _petTransform;
+
     [Header("섬 세팅")]
     [SerializeField] private GameObject _islandPet;
     [SerializeField] private GameObject _letter;
     [SerializeField] private GameObject _egg;
+
     [Header("돌아가기 버튼")]
     [SerializeField] private Button _goBackHomeButton;
 
@@ -39,6 +45,7 @@ public class IslandManager : MonoBehaviour
             LayEggAndLeave();
             return;
         }
+        SpawnIslandPet();
         TrySpawnPet();
 
         VisitReward();
@@ -81,6 +88,16 @@ public class IslandManager : MonoBehaviour
         _egg.SetActive(true);
         _isMarried = true;
     }
+    private void SpawnIslandPet()
+    {
+        if (string.IsNullOrWhiteSpace(Manager.Save.CurrentData.UserData.Island.IslandPetSaveData.ID))
+        {
+            Debug.Log("섬펫 정보 없음. 랜덤펫 생성");
+            Manager.Game.CreateRandomPet(false);
+        }
+        var data = Manager.Save.CurrentData.UserData.Island.IslandPetSaveData;
+        _visualLoader.LoadIslandPet(data);
+    }
     public void TrySpawnPet() //전에 설정해놓은 펫 있으면 그걸로 소환, 없으면 소환 안함
     {
         IslandMyPetID = Manager.Save.CurrentData.UserData.Island.IslandMyPetID;
@@ -96,33 +113,21 @@ public class IslandManager : MonoBehaviour
         {
             if (pet.ID == IslandMyPetID)
             {
-                SpawnPet(pet);
+                _myPetVisualLoader.LoadIslandPet(pet);
+                Debug.Log("저장된 마이펫 소환");
                 break;
             }
         }
     }
-    private void SpawnPet(PetSaveData pet)
-    {
-        if (_petPrefab == null)
-        {
-            Debug.LogError("프리팹 없음");
-            return;
-        }
-
-        PetUnit unit = Instantiate(_petPrefab, _petTransform).GetComponent<PetUnit>();
-
-        unit.Init(pet); //unit 초기화
-
-        PetVisualController visual = unit.GetComponent<PetVisualController>();
-        if (visual != null)
-        {
-            visual.Init(pet, unit);
-        }
-    }
-
+   
     public void AddAffinity(float amount)
     {
         Manager.Save.CurrentData.UserData.Island.Affinity += amount;
+    }
+
+    public void UpdateIslandMyPetID(string id)
+    {
+        IslandMyPetID = id;
     }
 
 }

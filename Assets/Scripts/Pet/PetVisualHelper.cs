@@ -74,7 +74,7 @@ public static class PetVisualHelper
 
         t.Body.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.BodyColorId).color;
         t.Arm.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.ArmColorId).color;
-        t.Blush.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.BlushColorId).color;
+        //t.Blush.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.BlushColorId).color;
         t.Ear.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.EarColorId).color;
         t.Feet.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.FeetColorId).color;
         t.Pattern.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.PatternColorId).color;
