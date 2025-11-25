@@ -11,10 +11,6 @@ public class IslandManager : MonoBehaviour
     [SerializeField] private IslandPetVisualLoader _visualLoader;
     [SerializeField] private IslandPetVisualLoader _myPetVisualLoader;
 
-    [Header("프리팹")]
-    [SerializeField] private GameObject _petPrefab;
-    [SerializeField] private Transform _petTransform;
-
     [Header("섬 세팅")]
     [SerializeField] private GameObject _islandPet;
     [SerializeField] private GameObject _letter;

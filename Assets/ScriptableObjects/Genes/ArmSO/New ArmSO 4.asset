@@ -15,6 +15,6 @@ MonoBehaviour:
   ID: 04
   DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 0c4342fbaf9902b4e867101d3720a120, type: 3}
-  Outline: {fileID: 21300000, guid: 239ec247027c28c4e8bf73b0ce7125cc, type: 3}
+  sprite: {fileID: 21300000, guid: 92935afc2a100524a8c37a9e27f6d5d0, type: 3}
+  Outline: {fileID: 21300000, guid: c397fc471cb221247ab4ea3cfa0a82da, type: 3}
   OrderInLayer: 3
