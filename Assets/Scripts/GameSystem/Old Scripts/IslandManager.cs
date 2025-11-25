@@ -16,11 +16,16 @@ public class IslandManager : MonoBehaviour
     [SerializeField] private GameObject _letter;
     [SerializeField] private GameObject _egg;
 
-    [Header("돌아가기 버튼")]
+    [Header("UI")]
     [SerializeField] private Button _goBackHomeButton;
+    [SerializeField] private GeneInfomationUI _GeneInfoUI;
 
     private float _lastVisitTime;
     public string IslandMyPetID { get; private set; }
+
+    private PetSaveData _islandMypetData;
+    private PetSaveData _islandPetData;
+
     
     private bool _isMarried;
     private bool _isLeft;
@@ -92,6 +97,7 @@ public class IslandManager : MonoBehaviour
             Manager.Game.CreateRandomPet(false);
         }
         var data = Manager.Save.CurrentData.UserData.Island.IslandPetSaveData;
+        _islandPetData = data;
         _visualLoader.LoadIslandPet(data);
     }
     public void TrySpawnPet() //전에 설정해놓은 펫 있으면 그걸로 소환, 없으면 소환 안함
@@ -109,6 +115,7 @@ public class IslandManager : MonoBehaviour
         {
             if (pet.ID == IslandMyPetID)
             {
+                _islandMypetData = pet;
                 _myPetVisualLoader.LoadIslandPet(pet);
                 Debug.Log("저장된 마이펫 소환");
                 break;
@@ -121,9 +128,16 @@ public class IslandManager : MonoBehaviour
         Manager.Save.CurrentData.UserData.Island.Affinity += amount;
     }
 
-    public void UpdateIslandMyPetID(string id)
+    public void UpdateIslandMyPetID(PetSaveData data)
     {
-        IslandMyPetID = id;
+        _islandMypetData = data;
+        IslandMyPetID = data.ID;
     }
 
+    public void OpenGeneInfo()
+    {
+        //TODO: 조건분기 넣어야함
+        _GeneInfoUI.gameObject.SetActive(true);
+        _GeneInfoUI.Init(_islandPetData);
+    }
 }

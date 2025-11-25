@@ -93,7 +93,7 @@ public class SelectPet : MonoBehaviour
     public void ApplyFinalChange(int newIndex)
     {
         Manager.Save.CurrentData.UserData.Island.IslandMyPetID = _petList[newIndex].ID;
-        _islandManager.UpdateIslandMyPetID(_petList[newIndex].ID);
+        _islandManager.UpdateIslandMyPetID(_petList[newIndex]);
         Manager.Save.CurrentData.UserData.Island.Affinity = 0;
         Debug.Log("호감도 초기화");
 
