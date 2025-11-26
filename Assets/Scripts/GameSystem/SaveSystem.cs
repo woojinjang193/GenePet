@@ -9,15 +9,15 @@ public class GenePair
 {
     public string DominantId;
     public string RecessiveId;
-    public bool ISDominantCut;
-    public bool ISRecessiveCut;
+    public bool IsDominantCut;
+    public bool IsRecessiveCut;
     public GenePair()
     {
         DominantId = "";
-        ISDominantCut = false;
+        IsDominantCut = false;
 
         RecessiveId = "";
-        ISRecessiveCut = false;
+        IsRecessiveCut = false;
     }
 }
 

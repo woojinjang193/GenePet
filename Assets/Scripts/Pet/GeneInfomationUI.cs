@@ -22,7 +22,7 @@ public class GeneInfomationUI : MonoBehaviour
 
     //현재 펫
     private PetSaveData _curPet;
-
+    private GenePair _curPair;
     //버튼에 달린 컴포넌트 리스트
     private List<PartTypeHolder> _holders = new List<PartTypeHolder>();
 
@@ -44,27 +44,33 @@ public class GeneInfomationUI : MonoBehaviour
         _dominantButton.onClick.AddListener(TryToCutDominantGene);
         _recessiveButton.onClick.AddListener(TryToCutRecessiveGene);
     }
-    private void TryToCutDominantGene()
-    {
-
-    }
-    private void TryToCutRecessiveGene()
-    {
-
-    }
     public void Init(PetSaveData pet) //유아이 초기 세팅
     {
         _curPet = pet;
 
         //초기세팅 바디로 설정
-        foreach(var h in _holders)
+        foreach (var h in _holders)
         {
-            if(h.partType == PartType.Body)
+            if (h.partType == PartType.Body)
             {
                 OnClickPart(PartType.Body, h);
                 break;
             }
         }
+    }
+    private void TryToCutDominantGene()
+    {
+        _curPair.IsDominantCut = false;
+
+        _dominantButton.interactable = CanCutGene(_curPair);
+        _recessiveButton.interactable = CanCutGene(_curPair);
+    }
+    private void TryToCutRecessiveGene()
+    {
+        _curPair.IsRecessiveCut = false;
+
+        _dominantButton.interactable = CanCutGene(_curPair);
+        _recessiveButton.interactable = CanCutGene(_curPair);
     }
 
     private void OnClickPart(PartType partType, PartTypeHolder holder) 
@@ -73,15 +79,18 @@ public class GeneInfomationUI : MonoBehaviour
 
         ImageReset();
 
-        GenePair pair = GetGenePair(partType);
+        _curPair = GetGenePair(partType);
+
+        _dominantButton.interactable = CanCutGene(_curPair);
+        _recessiveButton.interactable = CanCutGene(_curPair);
 
         if (partType == PartType.Color)
         {
-            ShowColor(pair);
+            ShowColor(_curPair);
         }
         else
         {
-            ShowPicture(partType, pair);
+            ShowPicture(partType, _curPair);
         }
     }
     private void ImageReset() //이미지 스케일, 컬러 리셋
@@ -235,6 +244,18 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Blush: return g.Blush;
             case PartType.Color: return g.Color;
             default: return g.Body;
+        }
+    }
+
+    private bool CanCutGene(GenePair genePair)
+    {
+        if(genePair.IsDominantCut || genePair.IsRecessiveCut)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 }

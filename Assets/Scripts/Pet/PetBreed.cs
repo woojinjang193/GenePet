@@ -42,12 +42,12 @@ public class PetBreed : MonoBehaviour
         string motherGene;
 
         //유전자 가위 여부 확인
-        if (father.ISDominantCut) fatherGene = father.RecessiveId;
-        else if (father.ISRecessiveCut) fatherGene = father.DominantId;
+        if (father.IsDominantCut) fatherGene = father.RecessiveId;
+        else if (father.IsRecessiveCut) fatherGene = father.DominantId;
         else fatherGene = Choose(father.DominantId, father.RecessiveId);
 
-        if (mother.ISDominantCut) motherGene = mother.RecessiveId;
-        else if (mother.ISRecessiveCut) motherGene = mother.DominantId;
+        if (mother.IsDominantCut) motherGene = mother.RecessiveId;
+        else if (mother.IsRecessiveCut) motherGene = mother.DominantId;
         else motherGene = Choose(mother.DominantId, mother.RecessiveId);
 
         if (UnityEngine.Random.value < 0.5)
