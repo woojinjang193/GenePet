@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: d1821f813575b54489f62067cbdaf10b
   m_currentHash:
     serializedVersion: 2
-    Hash: c7addd9e58ab3f6f9a38407c9c4c20e2
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
   - {fileID: 11400000, guid: 21274b210bd0f1b4999920f5c85ef499, type: 2}
+  - {fileID: 11400000, guid: bcaaab2a80754634abfabb6595e62c95, type: 2}
   - {fileID: 11400000, guid: eae355df2291e9644858487d01296b2e, type: 2}
   - {fileID: 11400000, guid: 0d9c735ae97dc874cb22aad5d7a7d03d, type: 2}
   m_BuildSettings:
@@ -100,6 +101,7 @@ MonoBehaviour:
     - BlushSO
     - ArmSO
     - FeetSO
+    - GameConfig
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a7b4fc742809d0248a5926f35c350558, type: 2}

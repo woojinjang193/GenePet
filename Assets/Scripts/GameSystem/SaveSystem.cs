@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -11,10 +9,15 @@ public class GenePair
 {
     public string DominantId;
     public string RecessiveId;
+    public bool IsDominantCut;
+    public bool IsRecessiveCut;
     public GenePair()
-    { 
+    {
         DominantId = "";
+        IsDominantCut = false;
+
         RecessiveId = "";
+        IsRecessiveCut = false;
     }
 }
 
@@ -63,7 +66,7 @@ public class PartColorGenes
     public string FeetColorId;
     public string PatternColorId;
     public string EarColorId;
-    public string BlushColorId;
+    //public string BlushColorId;
 
     public PartColorGenes()
     {
@@ -72,7 +75,19 @@ public class PartColorGenes
         FeetColorId = "";
         PatternColorId = "";
         EarColorId = "";
-        BlushColorId = "";
+        //BlushColorId = "";
+    }
+}
+[Serializable]
+public class EggData
+{
+    public Sprite Image;
+    public PetSaveData PetSaveData;
+
+    public EggData()
+    {
+        Image = null;
+        PetSaveData = new PetSaveData();
     }
 }
 
@@ -165,6 +180,7 @@ public class UserData
     public string UserDisplayName;
     public int MaxPetAmount;
     public float Energy;
+    public List<EggData> EggList;
     public List<PetSaveData> HavePetList;
     public List<PetRecordData> HadPetList;
     public IslandData Island;
@@ -176,8 +192,9 @@ public class UserData
         UID = "";
         CurLanguage = Language.ENG;
         UserDisplayName = "";
-        MaxPetAmount = 1;
+        MaxPetAmount = 5; //플레이어 맥스 펫 수
         Energy = 10;
+        EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetRecordData>();
         Island = new IslandData();

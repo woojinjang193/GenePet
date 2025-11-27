@@ -17,6 +17,9 @@ public class PetManager : MonoBehaviour
     [Header("스폰 포지션")]
     [SerializeField] private Transform[] _Positions;
 
+    [Header("줌아웃 버튼")]
+    [SerializeField] private GameObject _zoomOutButton;
+
     private float _accum;
     private CameraController _camera;
     private List<PetUnit> _activePets = new List<PetUnit>();
@@ -63,6 +66,11 @@ public class PetManager : MonoBehaviour
         }
 
         int index = _activePets.Count;
+
+        if(index >= _Positions.Length)
+        {
+            Debug.LogWarning("더이상 스폰 불가능. 최대 수에 도달");
+        }
 
         PetUnit unit = Instantiate(_petPrefab, _Positions[index]).GetComponent<PetUnit>();
         
@@ -180,6 +188,7 @@ public class PetManager : MonoBehaviour
             {
                 Vector3 pos = pet.gameObject.transform.position;
                 _camera.CameraZoomIn(pos);
+                _zoomOutButton.SetActive(true);
                 break;
             }
         }
@@ -197,6 +206,7 @@ public class PetManager : MonoBehaviour
     }
     public void ZoomOutPet()
     {
+        _zoomOutButton.SetActive(false);
         ZoomedPet = null;
     }
     public void ApplyOfflineTime(int offlineSec)
