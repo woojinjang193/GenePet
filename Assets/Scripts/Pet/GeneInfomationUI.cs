@@ -20,9 +20,14 @@ public class GeneInfomationUI : MonoBehaviour
     [Header("없음 표시")]
     [SerializeField] private Sprite _noneImage;
 
+    [Header("잘림표시 이미지")]
+    [SerializeField] private GameObject _dominantCutImage;
+    [SerializeField] private GameObject _recessiveCutImage;
+
     //현재 펫
     private PetSaveData _curPet;
     private GenePair _curPair;
+
     //버튼에 달린 컴포넌트 리스트
     private List<PartTypeHolder> _holders = new List<PartTypeHolder>();
 
@@ -60,14 +65,16 @@ public class GeneInfomationUI : MonoBehaviour
     }
     private void TryToCutDominantGene()
     {
-        _curPair.IsDominantCut = false;
+        _curPair.IsDominantCut = true;
+        _dominantCutImage.SetActive(true);
 
         _dominantButton.interactable = CanCutGene(_curPair);
         _recessiveButton.interactable = CanCutGene(_curPair);
     }
     private void TryToCutRecessiveGene()
     {
-        _curPair.IsRecessiveCut = false;
+        _curPair.IsRecessiveCut = true;
+        _recessiveCutImage.SetActive(true);
 
         _dominantButton.interactable = CanCutGene(_curPair);
         _recessiveButton.interactable = CanCutGene(_curPair);
@@ -95,6 +102,9 @@ public class GeneInfomationUI : MonoBehaviour
     }
     private void ImageReset() //이미지 스케일, 컬러 리셋
     {
+        _dominantCutImage.SetActive(false);
+        _recessiveCutImage.SetActive(false);
+
         _dominantGene.transform.localScale = Vector3.one;
         _dominantGeneOutline.transform.localScale = Vector3.one;
 
@@ -249,8 +259,14 @@ public class GeneInfomationUI : MonoBehaviour
 
     private bool CanCutGene(GenePair genePair)
     {
-        if(genePair.IsDominantCut || genePair.IsRecessiveCut)
+        if(genePair.IsDominantCut)
         {
+            _dominantCutImage.SetActive(true);
+            return false;
+        }
+        if(genePair.IsRecessiveCut)
+        {
+            _recessiveCutImage.SetActive(true);
             return false;
         }
         else

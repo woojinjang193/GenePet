@@ -78,6 +78,18 @@ public class PartColorGenes
         //BlushColorId = "";
     }
 }
+[Serializable]
+public class EggData
+{
+    public Sprite Image;
+    public PetSaveData PetSaveData;
+
+    public EggData()
+    {
+        Image = null;
+        PetSaveData = new PetSaveData();
+    }
+}
 
 [Serializable]                  
 public class PetSaveData
@@ -168,6 +180,7 @@ public class UserData
     public string UserDisplayName;
     public int MaxPetAmount;
     public float Energy;
+    public List<EggData> EggList;
     public List<PetSaveData> HavePetList;
     public List<PetRecordData> HadPetList;
     public IslandData Island;
@@ -181,6 +194,7 @@ public class UserData
         UserDisplayName = "";
         MaxPetAmount = 5; //플레이어 맥스 펫 수
         Energy = 10;
+        EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetRecordData>();
         Island = new IslandData();

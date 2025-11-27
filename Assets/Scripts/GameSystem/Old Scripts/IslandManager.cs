@@ -14,7 +14,7 @@ public class IslandManager : MonoBehaviour
     [Header("섬 세팅")]
     [SerializeField] private GameObject _islandPet;
     [SerializeField] private GameObject _letter;
-    [SerializeField] private GameObject _egg;
+    [SerializeField] private EggObj _egg;
 
     [Header("UI")]
     [SerializeField] private Button _goBackHomeButton;
@@ -23,10 +23,11 @@ public class IslandManager : MonoBehaviour
     private float _lastVisitTime;
     public string IslandMyPetID { get; private set; }
 
-    private PetSaveData _islandMypetData;
-    private PetSaveData _islandPetData;
+    public PetSaveData IslandMypetData { get; private set; }
+    public PetSaveData IslandPetData { get; private set; }
 
-    
+    private PetBreed _breedManager;
+
     private bool _isMarried;
     private bool _isLeft;
 
@@ -34,7 +35,10 @@ public class IslandManager : MonoBehaviour
     {
         _isMarried = Manager.Save.CurrentData.UserData.Island.IsMarried;
         _isLeft = Manager.Save.CurrentData.UserData.Island.IsLeft;
+        _breedManager = GetComponent<PetBreed>();
         _goBackHomeButton.onClick.AddListener(OnClickedGoHome);
+
+        TrySpawnPet();
 
         if (_isLeft)
         {
@@ -47,8 +51,6 @@ public class IslandManager : MonoBehaviour
             return;
         }
         SpawnIslandPet();
-        TrySpawnPet();
-
         VisitReward();
     }
     private void OnClickedGoHome()
@@ -64,17 +66,24 @@ public class IslandManager : MonoBehaviour
     {
         _islandPet.SetActive(false);
         _letter.SetActive(false);
-        _egg.SetActive(true);
+
+        EggData egg = TryToBreed();
+        if (egg != null)
+        {
+            _egg.gameObject.SetActive(true);
+            _egg.Init(egg);
+        }
     }
     private void VisitReward()
     {
         //시간 제한 둬야함
         if (!_isLeft && !_isMarried)
         {
-            
+
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
             {
-                LayEgg();
+                LayEggAndLeave();
+                _isMarried = true;
                 return;
             }
             //방문시 호감도 증가
@@ -82,12 +91,6 @@ public class IslandManager : MonoBehaviour
 
             Debug.Log($"방문 포인트 +{_visitingPoint}. 현재 호감도 {Manager.Save.CurrentData.UserData.Island.Affinity}");
         }
-    }
-    private void LayEgg()
-    {
-        _islandPet.SetActive(false);
-        _egg.SetActive(true);
-        _isMarried = true;
     }
     private void SpawnIslandPet()
     {
@@ -97,7 +100,7 @@ public class IslandManager : MonoBehaviour
             Manager.Game.CreateRandomPet(false);
         }
         var data = Manager.Save.CurrentData.UserData.Island.IslandPetSaveData;
-        _islandPetData = data;
+        IslandPetData = data;
         _visualLoader.LoadIslandPet(data);
     }
     public void TrySpawnPet() //전에 설정해놓은 펫 있으면 그걸로 소환, 없으면 소환 안함
@@ -115,14 +118,14 @@ public class IslandManager : MonoBehaviour
         {
             if (pet.ID == IslandMyPetID)
             {
-                _islandMypetData = pet;
+                IslandMypetData = pet;
                 _myPetVisualLoader.LoadIslandPet(pet);
                 Debug.Log("저장된 마이펫 소환");
                 break;
             }
         }
     }
-   
+
     public void AddAffinity(float amount)
     {
         Manager.Save.CurrentData.UserData.Island.Affinity += amount;
@@ -130,7 +133,7 @@ public class IslandManager : MonoBehaviour
 
     public void UpdateIslandMyPetID(PetSaveData data)
     {
-        _islandMypetData = data;
+        IslandMypetData = data;
         IslandMyPetID = data.ID;
     }
 
@@ -138,6 +141,16 @@ public class IslandManager : MonoBehaviour
     {
         //TODO: 조건분기 넣어야함
         _GeneInfoUI.gameObject.SetActive(true);
-        _GeneInfoUI.Init(_islandPetData);
+        _GeneInfoUI.Init(IslandPetData);
+    }
+
+    public EggData TryToBreed()
+    {
+        if (IslandPetData == null || IslandMypetData == null)
+        {
+            Debug.LogError("펫 데이터 부족으로 교배 못함");
+            return null;
+        }
+        return _breedManager.BreedPet(IslandMypetData, IslandPetData);
     }
 }
