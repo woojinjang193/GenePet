@@ -37,9 +37,24 @@ public class SelectPet : MonoBehaviour
     {
         _petList.Clear();
         GetPetList();
-        _curIndex = GetIndexByID(_islandManager.IslandMyPetID);
-        _ogIndex = GetIndexByID(_islandManager.IslandMyPetID);
-        DisplayPetImage(_curIndex);
+
+        string selectedId = _islandManager.IslandMyPetID;
+
+        if (string.IsNullOrWhiteSpace(selectedId))
+        {
+            _ogIndex = -1;
+            _curIndex = 0;
+        }
+        else
+        {
+            _ogIndex = GetIndexByID(selectedId);
+            _curIndex = _ogIndex;
+        }
+
+        if (_petList.Count > 0)
+        {
+            DisplayPetImage(_curIndex);
+        }
     }
     private void OnConfirmButtonClicked()
     {
@@ -49,10 +64,22 @@ public class SelectPet : MonoBehaviour
             return;
         }
 
+        if(_ogIndex == -1)
+        {
+            ApplyFinalChange(_curIndex);
+            return;
+        }
+
         _popup.Open(this, _curIndex, _ogIndex);
     }
     private void OnCancelButtonClicked()
     {
+        if (_ogIndex == -1)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        
         DisplayPetImage(_ogIndex);
         gameObject.SetActive(false);
     }
@@ -94,6 +121,7 @@ public class SelectPet : MonoBehaviour
     {
         Manager.Save.CurrentData.UserData.Island.IslandMyPetID = _petList[newIndex].ID;
         _islandManager.UpdateIslandMyPetID(_petList[newIndex]);
+
         Manager.Save.CurrentData.UserData.Island.Affinity = 0;
         Debug.Log("호감도 초기화");
 

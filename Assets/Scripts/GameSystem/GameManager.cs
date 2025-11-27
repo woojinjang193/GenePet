@@ -1,24 +1,54 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 
 public class GameManager : Singleton<GameManager>
 {
     //public LeftReason Reason {  get; private set; }
-
+    public GameConfig Config { get; private set; }
+    private bool _isManagerReady = false;
+    public bool IsReady { get { return _isManagerReady; } }
+    protected override void Awake()
+    {
+        base.Awake();
+        var handle = Addressables.LoadAssetAsync<GameConfig>("GameConfig");
+        handle.Completed += OnConfigLoaded;
+    }
+    private void OnConfigLoaded(AsyncOperationHandle<GameConfig> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            Config = handle.Result;
+            Debug.Log("GameConfig 로드 완료");
+            _isManagerReady = true;
+        }
+        else
+        {
+            Debug.LogError("GameConfig 로드 실패");
+        }
+    }
     public void CreateRandomPet(bool isMine)
     {
         if (isMine)
         {
-            int maxAmount = Manager.Save.CurrentData.UserData.MaxPetAmount;
+            int userMaxAmount = Manager.Save.CurrentData.UserData.MaxPetAmount;
             int curAmount = Manager.Save.CurrentData.UserData.HavePetList.Count;
+            int gameMaxAmount = Manager.Game.Config.MaxPetArmount;
 
-            if (curAmount >= maxAmount)
+            if (curAmount >= gameMaxAmount)
             {
-                Debug.Log($"현재 유저가 키울 수 있는 최대 펫 수 : {maxAmount}.\n현재 펫 수 {curAmount}");
-                //TODO: 여기에 슬롯 구매 바로가기 창 띄우기
+                Debug.Log($"게임이 허용하는 최대 펫 수 : {gameMaxAmount}.\n현재 펫 수 {curAmount}");
                 return;
             }
+            if (curAmount >= userMaxAmount)
+            {
+                Debug.Log($"현재 유저가 키울 수 있는 최대 펫 수 : {userMaxAmount}.\n현재 펫 수 {curAmount}");
+                //TODO: 여기에 슬롯 구매 바로가기 창 띄우기
+                return;
+            } 
         }
         PetSaveData newpet = CreateRandomPetData();
         Manager.Save.RegisterNewPet(newpet, isMine);

@@ -44,7 +44,8 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
             WaitForGene(),
             WaitForSave(),
             WaitForLang(),
-            WaitForAudio()
+            WaitForAudio(),
+            WaitForGame()
         };
 
         int totalSteps = loadSteps.Count;
@@ -92,6 +93,15 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
         while (Manager.Audio == null || !Manager.Audio.IsReady)
         {
             _loadingText.text = "Audio data Loading..";
+            yield return null;
+        }
+    }
+
+    private IEnumerator WaitForGame()
+    {
+        while (Manager.Game == null || !Manager.Game.IsReady)
+        {
+            _loadingText.text = "Game Manager Loading..";
             yield return null;
         }
     }

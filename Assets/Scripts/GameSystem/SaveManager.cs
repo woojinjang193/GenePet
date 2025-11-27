@@ -124,8 +124,19 @@ public class SaveManager : Singleton<SaveManager>
             return;
         }
         CurrentData.UserData.Island.IslandPetSaveData = new PetSaveData();
-        CurrentData.UserData.Island.IsOpen = false;
         Debug.Log($"섬펫 삭제 완료");
+        SaveGame();
+    }
+
+    public void RemoveIsland()
+    {
+        if (CurrentData.UserData.Island == null)
+        {
+            Debug.Log("삭제할 섬 정보 없음");
+            return;
+        }
+        CurrentData.UserData.Island = new IslandData();
+        Debug.Log($"섬 삭제 완료");
         SaveGame();
     }
 

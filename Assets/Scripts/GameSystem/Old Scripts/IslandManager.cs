@@ -67,6 +67,12 @@ public class IslandManager : MonoBehaviour
         _islandPet.SetActive(false);
         _letter.SetActive(false);
 
+        if (IslandPetData == null || IslandMypetData == null)
+        {
+            Debug.Log("펫 데이터 부족으로 교배 못함");
+            return;
+        }
+
         EggData egg = TryToBreed();
         if (egg != null)
         {
@@ -151,6 +157,14 @@ public class IslandManager : MonoBehaviour
             Debug.LogError("펫 데이터 부족으로 교배 못함");
             return null;
         }
-        return _breedManager.BreedPet(IslandMypetData, IslandPetData);
+
+        var egg = _breedManager.BreedPet(IslandMypetData, IslandPetData);
+        if (egg != null)
+        {
+            IslandPetRecordData _islandPetRecord = new IslandPetRecordData(IslandPetData);
+            //Manager.Save.RemoveIslandPet();
+        }
+        return egg;
     }
+
 }
