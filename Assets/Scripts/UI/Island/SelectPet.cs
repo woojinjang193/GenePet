@@ -76,6 +76,7 @@ public class SelectPet : MonoBehaviour
     {
         if (_ogIndex == -1)
         {
+            ApplyFinalChange(0);
             gameObject.SetActive(false);
             return;
         }
