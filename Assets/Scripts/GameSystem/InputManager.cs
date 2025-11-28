@@ -5,13 +5,10 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private float _dragThreshold = 10f;
     [SerializeField] private float _clickTimeLimit = 0.2f;
     [SerializeField] private LayerMask _petMask;
 
-    private Vector3 _mouseDownPos;
     private float _mouseDownTime;
-    private bool _isDragging = false;
     private bool _blockedByUI = false;
 
     private CameraController _camera;
@@ -22,9 +19,16 @@ public class InputManager : MonoBehaviour
         _camera = FindObjectOfType<CameraController>();
         _petManager = FindObjectOfType<PetManager>();
     }
+
     private void Update()
     {
-        // 마우스 다운
+        HandleClick();
+        HandleDragInput();
+    }
+
+    private void HandleClick()
+    {
+        // UI 클릭 (전체 차단)
         if (Input.GetMouseButtonDown(0))
         {
             if (IsPointerOverUI())
@@ -34,49 +38,45 @@ public class InputManager : MonoBehaviour
             }
 
             _blockedByUI = false;
-
-            _mouseDownPos = Input.mousePosition;
             _mouseDownTime = Time.time;
-            _isDragging = false;
-
-            _camera.BeginDrag();
         }
 
         if (_blockedByUI)
         {
             if (Input.GetMouseButtonUp(0))
-            {
                 _blockedByUI = false;
-            }
             return;
         }
 
-        // 마우스 유지(드래그 검사)
-        if (Input.GetMouseButton(0))
+        // 드래그 중이면 클릭 취소
+        if (_camera.IsDragging)
         {
-            float dist = (Input.mousePosition - _mouseDownPos).magnitude;
-
-            if (dist > _dragThreshold)
-            {
-                _isDragging = true;
-                Vector3 drag = Input.mousePosition - _mouseDownPos;
-                _camera.DragCamera(drag);
-            }
+            if (Input.GetMouseButtonUp(0))
+                return;
         }
 
-        // 마우스 업 (클릭 판단)
+        // 클릭 판정
         if (Input.GetMouseButtonUp(0))
         {
-            if (!_isDragging && !_camera.IsZoom)
-            {
-                float heldTime = Time.time - _mouseDownTime;
-
-                if (heldTime <= _clickTimeLimit)
-                {
-                    TryClickPet();
-                }
-            }
+            float held = Time.time - _mouseDownTime;
+            if (held <= _clickTimeLimit)
+                TryClickPet();
         }
+    }
+
+    private void HandleDragInput()
+    {
+        // UI에서 다운하면 드래그를 아예 전달하지 않음
+        if (_blockedByUI) return;
+
+        if (Input.GetMouseButtonDown(0))
+            _camera.BeginDrag(Input.mousePosition);
+
+        if (Input.GetMouseButton(0))
+            _camera.Drag(Input.mousePosition);
+
+        if (Input.GetMouseButtonUp(0))
+            _camera.EndDrag();
     }
 
     private void TryClickPet()

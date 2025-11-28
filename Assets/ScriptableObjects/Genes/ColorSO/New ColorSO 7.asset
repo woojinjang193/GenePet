@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d366fc8715f848c4cb8ae3e74057ac4b, type: 3}
-  m_Name: New EarSO 7
+  m_Script: {fileID: 11500000, guid: 7f094c54d70d6f0499d2d8b6d5ebe432, type: 3}
+  m_Name: New ColorSO 7
   m_EditorClassIdentifier: 
   ID: 07
-  DisplayName: 00
+  DisplayName: 
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 77f0e6f18e458204996b0d9aebc0de87, type: 3}
-  Outline: {fileID: 21300000, guid: 901dd3471f5568744ada5e8d6b392744, type: 3}
-  OrderInLayer: 8
+  color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}

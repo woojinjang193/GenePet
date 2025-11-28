@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using static UnityEditor.PlayerSettings;
 
 public class CameraController : MonoBehaviour
 {
@@ -11,24 +7,37 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _maxX = 4f;
     [SerializeField] private float _minY = -4f;
     [SerializeField] private float _maxY = 4f;
+    [SerializeField] private float _dragThreshold = 10f;
 
-    private Vector3 _startCamPos;
     private bool _isZoom = false;
     public bool IsZoom => _isZoom;
 
-    private void Awake()
-    {
-        _startCamPos = transform.position;
-    }
+    private bool _isDragging = false;
+    public bool IsDragging => _isDragging;
 
-    public void BeginDrag()
-    {
-        _startCamPos = transform.position;
-    }
+    private Vector3 _dragStartMousePos;
+    private Vector3 _startCamPos;
 
-    public void DragCamera(Vector3 drag)
+    public void BeginDrag(Vector3 mousePos)
     {
         if (_isZoom) return;
+
+        _isDragging = false;
+        _dragStartMousePos = mousePos;
+        _startCamPos = transform.position;
+    }
+
+    public void Drag(Vector3 mousePos)
+    {
+        if (_isZoom) return;
+
+        Vector3 drag = mousePos - _dragStartMousePos;
+        float dist = drag.magnitude;
+
+        if (!_isDragging && dist > _dragThreshold)
+            _isDragging = true;
+
+        if (!_isDragging) return;
 
         float moveX = drag.x * _dragSpeed * -1f;
         float moveY = drag.y * _dragSpeed * -1f;
@@ -37,6 +46,11 @@ public class CameraController : MonoBehaviour
         float newY = Mathf.Clamp(_startCamPos.y + moveY, _minY, _maxY);
 
         transform.position = new Vector3(newX, newY, _startCamPos.z);
+    }
+
+    public void EndDrag()
+    {
+        _isDragging = false;
     }
 
     public void CameraZoomIn(Vector3 pos)

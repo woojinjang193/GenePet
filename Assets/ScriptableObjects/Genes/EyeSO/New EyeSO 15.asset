@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d366fc8715f848c4cb8ae3e74057ac4b, type: 3}
-  m_Name: New EarSO 2
+  m_Script: {fileID: 11500000, guid: c4d837d3e82f2df479af3c85ccf569a0, type: 3}
+  m_Name: New EyeSO 15
   m_EditorClassIdentifier: 
-  ID: 02
+  ID: 15
   DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: a83ac219b768b6c4485f90e10a119340, type: 3}
-  Outline: {fileID: 21300000, guid: 6ca526c39aee70d4e88502be12e5bcb8, type: 3}
-  OrderInLayer: 3
+  sprite: {fileID: 21300000, guid: c7c965bd4cf26e74d95475af8e0c4ead, type: 3}
+  OrderInLayer: 11

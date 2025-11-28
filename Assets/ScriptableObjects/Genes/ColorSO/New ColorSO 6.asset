@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f094c54d70d6f0499d2d8b6d5ebe432, type: 3}
   m_Name: New ColorSO 6
   m_EditorClassIdentifier: 
-  ID: 05
+  ID: 06
   DisplayName: 
   Rarity: 0
   color: {r: 0.67542666, g: 1, b: 0.5896226, a: 1}

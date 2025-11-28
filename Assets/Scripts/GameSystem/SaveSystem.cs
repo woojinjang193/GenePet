@@ -179,7 +179,7 @@ public class UserData
     public Language CurLanguage;
     public string UserDisplayName;
     public int MaxPetAmount;
-    public float Energy;
+    public int Energy;
     public List<EggData> EggList;
     public List<PetSaveData> HavePetList;
     public List<PetRecordData> HadPetList;

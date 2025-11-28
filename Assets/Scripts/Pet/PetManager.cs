@@ -17,14 +17,12 @@ public class PetManager : MonoBehaviour
     [Header("스폰 포지션")]
     [SerializeField] private Transform[] _Positions;
 
-    [Header("줌아웃 버튼")]
-    [SerializeField] private GameObject _zoomOutButton;
-
     private float _accum;
     private CameraController _camera;
+    private InGameUIManager _uiManager;
     private List<PetUnit> _activePets = new List<PetUnit>();
 
-    public PetSaveData ZoomedPet {  get; private set; }
+    public PetSaveData ZoomedPet { get; private set; }
 
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
 
@@ -32,6 +30,8 @@ public class PetManager : MonoBehaviour
     {
         _accum = 0f;
         _camera = FindObjectOfType<CameraController>();
+        _uiManager = FindObjectOfType<InGameUIManager>();
+
         foreach (var cfg in _configs)
         {
             if (cfg != null)
@@ -67,14 +67,14 @@ public class PetManager : MonoBehaviour
 
         int index = _activePets.Count;
 
-        if(index >= _Positions.Length)
+        if (index >= _Positions.Length)
         {
             Debug.LogWarning("더이상 스폰 불가능. 최대 수에 도달");
         }
 
         PetUnit unit = Instantiate(_petPrefab, _Positions[index]).GetComponent<PetUnit>();
-        
-        unit.Init(save); //unit 초기화
+
+        unit.Init(save);
 
         PetVisualController visual = unit.GetComponent<PetVisualController>();
         if (visual != null)
@@ -82,7 +82,7 @@ public class PetManager : MonoBehaviour
             visual.Init(save, unit);
         }
 
-        RegisterPet(unit); //펫 매니저에 등록
+        RegisterPet(unit);
     }
 
     public void RegisterPet(PetUnit unit)
@@ -111,6 +111,7 @@ public class PetManager : MonoBehaviour
             _accum -= _tickInterval;
         }
     }
+
     private void RunTick(float sec)
     {
         for (int i = 0; i < _activePets.Count; i++)
@@ -136,12 +137,12 @@ public class PetManager : MonoBehaviour
     }
 
     private void SaveAllStatus()
-    {   
+    {
         if (Manager.Save.CurrentData == null)
         {
             Debug.LogWarning("변경된 데이터 없음"); return;
         }
- 
+
         var saveList = Manager.Save.CurrentData.UserData.HavePetList;
 
         for (int i = 0; i < _activePets.Count; i++)
@@ -156,7 +157,7 @@ public class PetManager : MonoBehaviour
                 {
                     var pet = saveList[j];
 
-                    pet.Hunger = status.Hunger;
+                    pet.Hunger = status.Hunger; 
                     pet.Health = status.Health;
                     pet.Cleanliness = status.Cleanliness;
                     pet.Happiness = status.Happiness;
@@ -188,8 +189,7 @@ public class PetManager : MonoBehaviour
             {
                 Vector3 pos = pet.gameObject.transform.position;
                 _camera.CameraZoomIn(pos);
-                _zoomOutButton.SetActive(true);
-                OpenZoomInUI();
+                if (_uiManager != null) _uiManager.OnZoomInPet();
                 break;
             }
         }
@@ -205,19 +205,26 @@ public class PetManager : MonoBehaviour
             }
         }
     }
+
     public void ZoomOutPet()
     {
-        _zoomOutButton.SetActive(false);
+        if (_camera != null)
+        {
+            _camera.CameraZoomOut(); // 카메라 원상 복귀
+        }
+
         ZoomedPet = null;
+
+        if (_uiManager != null)
+        {
+            _uiManager.OnZoomOutPet(); // UI 버튼 비활성화
+        }
     }
+
     public void ApplyOfflineTime(int offlineSec)
     {
         if (offlineSec <= 0) return;
 
         RunTick(offlineSec);
-    }
-    private void OpenZoomInUI()
-    {
-
     }
 }
