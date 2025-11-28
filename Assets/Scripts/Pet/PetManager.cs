@@ -189,6 +189,7 @@ public class PetManager : MonoBehaviour
                 Vector3 pos = pet.gameObject.transform.position;
                 _camera.CameraZoomIn(pos);
                 _zoomOutButton.SetActive(true);
+                OpenZoomInUI();
                 break;
             }
         }
@@ -214,5 +215,9 @@ public class PetManager : MonoBehaviour
         if (offlineSec <= 0) return;
 
         RunTick(offlineSec);
+    }
+    private void OpenZoomInUI()
+    {
+
     }
 }
