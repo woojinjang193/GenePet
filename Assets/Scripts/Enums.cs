@@ -5,7 +5,7 @@ public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, GrowthTime
 public enum PetFlag { IsSick, IsLeft }
 //public enum PartType { Body, Color, Pattern, Ear, Tail, Wing, Eye, Mouth}
 public enum RarityType { Common, Rare, Epic, Legendary } // 레어 3%, 에픽 1%, 레전더리 0.5%
-public enum Personality 
+public enum PersonalityType 
 {
     Brave,          // 용감한 - 체력·행동력 높음, 싸움 잘함
     Shy,            // 소심한 - 낯가림, 스트레스 잘 받음

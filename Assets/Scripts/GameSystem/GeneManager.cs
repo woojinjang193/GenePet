@@ -376,7 +376,7 @@ public class GeneManager : Singleton<GeneManager>
         return pick;
     }
 
-    private T GetRandomPart<T>(PartType type) where T : PartBaseSO
+    public T GetRandomPart<T>(PartType type) where T : PartBaseSO
     {
         List<PartBaseSO> list;
 
@@ -445,7 +445,30 @@ public class GeneManager : Singleton<GeneManager>
         Debug.LogWarning($"GetPartSOByID: {part} 에서 id '{id}' 찾지 못함");
         return null;
     }
+    public RarityType CheckRarity(PartType part, string father, string mother)
+    {
+        var fatherSO = Manager.Gene.GetPartSOByID<PartBaseSO>(part, father);
+        var motherSO = Manager.Gene.GetPartSOByID<PartBaseSO>(part, mother);
 
+        if (fatherSO == null || motherSO == null)
+        {
+            Debug.Log($"{part.ToString()} 유전자 정보 부족함. 마이펫: {false}, 섬펫: {mother}");
+            return RarityType.Common;
+        }
+        if (fatherSO.Rarity == RarityType.Rare || motherSO.Rarity == RarityType.Rare)
+        {
+            return RarityType.Rare;
+        }
+        if (fatherSO.Rarity == RarityType.Epic || motherSO.Rarity == RarityType.Epic)
+        {
+            return RarityType.Epic;
+        }
+        if (fatherSO.Rarity == RarityType.Legendary || motherSO.Rarity == RarityType.Legendary)
+        {
+            return RarityType.Legendary;
+        }
+        return RarityType.Common;
+    }
     private void CheckIsReady()
     {
         _loadedTypeCount++;
@@ -454,6 +477,8 @@ public class GeneManager : Singleton<GeneManager>
             _ready = true;
         }
     }
+
+
 }
 
 
