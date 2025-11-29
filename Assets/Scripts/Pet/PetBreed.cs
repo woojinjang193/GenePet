@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class PetBreed : MonoBehaviour
 {
-    [SerializeField] private Sprite _common;
-    [SerializeField] private Sprite _rare;
-    [SerializeField] private Sprite _epic;
-    [SerializeField] private Sprite _legendary;
-
     private RarityType _finalRarity = RarityType.Common;
     public EggData BreedPet(PetSaveData myPet, PetSaveData islandPet)
     {
@@ -41,19 +36,20 @@ public class PetBreed : MonoBehaviour
         baby.Genes.PartColors.EarColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         //egg.Genes.PartColors.BlushColorId = Choose(egg.Genes.Color.DominantId, egg.Genes.Color.RecessiveId);
 
+        var eggImage = Manager.Game.Config.EggRaritySO;
         switch (_finalRarity)
         {
             case RarityType.Legendary:
-                egg.Image = _legendary;
+                egg.PetSaveData.EggSprite = eggImage.LegendarySprite;
                 break;
             case RarityType.Epic:
-                egg.Image = _epic;
+                egg.PetSaveData.EggSprite = eggImage.EpicSprite; ;
                 break;
             case RarityType.Rare:
-                egg.Image = _rare;
+                egg.PetSaveData.EggSprite = eggImage.RareSprite;
                 break;
             default:
-                egg.Image = _common;
+                egg.PetSaveData.EggSprite = eggImage.CommonSprite;
                 break;
         }
         return egg;

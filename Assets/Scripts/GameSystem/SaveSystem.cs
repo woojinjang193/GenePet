@@ -81,12 +81,13 @@ public class PartColorGenes
 [Serializable]
 public class EggData
 {
-    public Sprite Image;
+    //public Sprite Image;
+    //획득시간 추가할까??
     public PetSaveData PetSaveData;
 
     public EggData()
     {
-        Image = null;
+        //Image = null;
         PetSaveData = new PetSaveData();
     }
 }

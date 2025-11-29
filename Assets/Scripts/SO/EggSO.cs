@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EggSO", menuName = "SO/EggSO")]
 public class EggSO : ScriptableObject
 {
-    public Sprite Common;
-    public Sprite Rare;
-    public Sprite Epic;
-    public Sprite Legendary;
+    public Sprite CommonSprite;
+    public Sprite RareSprite;
+    public Sprite EpicSprite;
+    public Sprite LegendarySprite;
 }

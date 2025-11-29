@@ -123,13 +123,13 @@ public class GameManager : Singleton<GameManager>
         switch (highestRarity)
         {
             case RarityType.Legendary:
-                newPet.EggSprite = Config.EggRaritySO.Legendary; break;
+                newPet.EggSprite = Config.EggRaritySO.LegendarySprite; break;
             case RarityType.Epic:
-                newPet.EggSprite = Config.EggRaritySO.Epic; break;
+                newPet.EggSprite = Config.EggRaritySO.EpicSprite; break;
             case RarityType.Rare:
-                newPet.EggSprite = Config.EggRaritySO.Rare; break;
+                newPet.EggSprite = Config.EggRaritySO.RareSprite; break;
             default:
-                newPet.EggSprite = Config.EggRaritySO.Common; break;
+                newPet.EggSprite = Config.EggRaritySO.CommonSprite; break;
         }
 
         return newPet;

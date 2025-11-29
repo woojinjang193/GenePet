@@ -9,6 +9,7 @@ public class GeneInfomationUI : MonoBehaviour
     [Header("베이스")]
     [SerializeField] private Image _dominantGene;
     [SerializeField] private Image _recessiveGene;
+
     [Header("아웃라인")]
     [SerializeField] private Image _dominantGeneOutline;
     [SerializeField] private Image _recessiveGeneOutline;
@@ -23,6 +24,10 @@ public class GeneInfomationUI : MonoBehaviour
     [Header("잘림표시 이미지")]
     [SerializeField] private GameObject _dominantCutImage;
     [SerializeField] private GameObject _recessiveCutImage;
+
+    [Header("레어도 별")]
+    [SerializeField] private ShowRarityUI _dominantRarityUI;
+    [SerializeField] private ShowRarityUI _recessiveRarityUI;
 
     //현재 펫
     private PetSaveData _curPet;
@@ -169,6 +174,13 @@ public class GeneInfomationUI : MonoBehaviour
 
         _dominantGeneOutline.color = domOut == null ? new Color(1, 1, 1, 0) : Color.white;
         _recessiveGeneOutline.color = recOut == null ? new Color(1, 1, 1, 0) : Color.white;
+
+        //레어리티 전달
+        var domSO =  Manager.Gene.GetPartSOByID<PartBaseSO>(partType, pair.DominantId);
+        var recSO =  Manager.Gene.GetPartSOByID<PartBaseSO>(partType, pair.RecessiveId);
+
+        _dominantRarityUI.ShowRarity(domSO.Rarity);
+        _recessiveRarityUI.ShowRarity(recSO.Rarity);
     }
     private Sprite GetNoneSprite(PartType partType)
     {
