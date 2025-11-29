@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     public GameConfig Config { get; private set; }
     private bool _isManagerReady = false;
     public bool IsReady { get { return _isManagerReady; } }
+
     protected override void Awake()
     {
         base.Awake();
@@ -49,11 +50,11 @@ public class GameManager : Singleton<GameManager>
                 return;
             } 
         }
-        PetSaveData newpet = CreateRandomPetData();
+        PetSaveData newpet = CreateRandomPetData(isMine);
         Manager.Save.RegisterNewPet(newpet, isMine);
 
         PetManager petManager = FindObjectOfType<PetManager>();
-        if(petManager != null)
+        if(isMine && petManager != null)
         {
             petManager.SpawnPet(newpet);
         }
@@ -77,12 +78,14 @@ public class GameManager : Singleton<GameManager>
         }
         return null;
     }
-    private PetSaveData CreateRandomPetData()
+    private PetSaveData CreateRandomPetData(bool isMine)
     {
         PetSaveData newPet = new PetSaveData();
 
         newPet.ID = Guid.NewGuid().ToString();
         newPet.DisplayName = "";
+
+        RarityType highestRarity = RarityType.Common;
 
         //PartType 전체 순회
         foreach (PartType part in Enum.GetValues(typeof(PartType))) // enum 전체 루프
@@ -96,6 +99,9 @@ public class GameManager : Singleton<GameManager>
             
             PartBaseSO dominant = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 우성 랜덤
             PartBaseSO recessive = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 열성 랜덤
+
+            if (dominant.Rarity > highestRarity) highestRarity = dominant.Rarity; // 최고 레어도 갱신
+            if (recessive.Rarity > highestRarity) highestRarity = recessive.Rarity;
 
             pair.DominantId = dominant.ID; // 우성 유전자 ID 설정
             pair.RecessiveId = recessive.ID; // 열성 유전자 ID 설정
@@ -111,6 +117,21 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.PartColors.PatternColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
 
+        newPet.Rarity = highestRarity; //저장 안해도 되면 PetSaveData에서 지우기
+
+        //알 이미지 저장
+        switch (highestRarity)
+        {
+            case RarityType.Legendary:
+                newPet.EggSprite = Config.EggRaritySO.Legendary; break;
+            case RarityType.Epic:
+                newPet.EggSprite = Config.EggRaritySO.Epic; break;
+            case RarityType.Rare:
+                newPet.EggSprite = Config.EggRaritySO.Rare; break;
+            default:
+                newPet.EggSprite = Config.EggRaritySO.Common; break;
+        }
+
         return newPet;
     }
 
@@ -123,5 +144,4 @@ public class GameManager : Singleton<GameManager>
         }
         return recessive;
     }
-
 }

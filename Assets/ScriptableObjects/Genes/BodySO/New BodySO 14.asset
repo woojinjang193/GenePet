@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 14
   DisplayName: Body01
-  Rarity: 0
+  Rarity: 3
   sprite: {fileID: 21300000, guid: 0cbedc621624f424bbfdb4498d99eb73, type: 3}
   Outline: {fileID: 21300000, guid: bf51137ff80a8b54c9f61b18a5c3f364, type: 3}
   OrderInLayer: 5

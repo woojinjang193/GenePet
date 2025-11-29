@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxPetArmount: 6
   MaxEggAmount: 3
+  EggRaritySO: {fileID: 11400000, guid: db4ee66b79c21dd4a85d20408b471776, type: 2}

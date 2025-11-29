@@ -7,4 +7,6 @@ public class GameConfig : ScriptableObject
     public int MaxPetArmount;
     [Header("최대 소유 알 수")]
     public int MaxEggAmount;
+    [Header("알SO")]
+    public EggSO EggRaritySO;
 }

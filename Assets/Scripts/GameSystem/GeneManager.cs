@@ -10,9 +10,9 @@ using UnityEngine.XR;
 
 public class GeneManager : Singleton<GeneManager>
 {
-    [SerializeField] private float _legendaryPerc = 0.0005f;   //0 하나씩 지워야함
-    [SerializeField] private float _epicPerc = 0.001f;         //0 하나씩 지워야함
-    [SerializeField] private float _rarePerc = 0.005f;         //0 하나씩 지워야함
+    [SerializeField] private float _legendaryPerc = 0.05f; //하나라도 나올 확률 : 1.2%
+    [SerializeField] private float _epicPerc = 0.25f; //하나라도 나올 확률 : 5.8%
+    [SerializeField] private float _rarePerc = 0.5f; //하나라도 나올 확률 : 11.3%
 
     private Dictionary<PartType, List<PartBaseSO>> _parts = new Dictionary<PartType, List<PartBaseSO>>();
     private List<PartBaseSO> _options = new List<PartBaseSO>();
@@ -309,24 +309,31 @@ public class GeneManager : Singleton<GeneManager>
     {
         float randV = UnityEngine.Random.value;
 
-        float legendaryCut = _legendaryPerc;
-        float epicCut = _legendaryPerc + _epicPerc;
-        float rareCut = _legendaryPerc + _epicPerc + _rarePerc;
+        float legendary = _legendaryPerc / 100f;
+        float epic = _epicPerc / 100f;
+        float rare = _rarePerc / 100f;
 
-        if (randV < legendaryCut)
+        float epicCut = legendary + epic;
+        float rareCut = legendary + epic + rare;
+
+        if (randV < legendary)
         {
+            Debug.Log("레전드");
             return RarityType.Legendary;
         }
         else if (randV < epicCut)
         {
+            Debug.Log("에픽");
             return RarityType.Epic;
         }
         else if (randV < rareCut)
         {
+            Debug.Log("레어");
             return RarityType.Rare;
         }
         else
         {
+            Debug.Log("커먼");
             return RarityType.Common;
         }
     }

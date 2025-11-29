@@ -88,7 +88,7 @@ public class SaveManager : Singleton<SaveManager>
 
             Debug.Log($"펫 ID: {pet.ID} 등록");
         }
-        else
+        else //섬 펫일때
         {
             CurrentData.UserData.Island.IslandPetSaveData = pet;
         }

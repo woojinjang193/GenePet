@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f094c54d70d6f0499d2d8b6d5ebe432, type: 3}
-  m_Name: New ColorSO 3
+  m_Script: {fileID: 11500000, guid: a148ef2975e8c3e46a0977ce417730c0, type: 3}
+  m_Name: New PersonalitySO 3
   m_EditorClassIdentifier: 
-  ID: 03
-  DisplayName: 
+  ID: 01
+  DisplayName: 01
   Rarity: 3
-  color: {r: 0.7486734, g: 0.740566, b: 1, a: 1}
+  Personality: 1

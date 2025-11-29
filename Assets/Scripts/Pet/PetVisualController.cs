@@ -12,8 +12,9 @@ public class PetVisualController : MonoBehaviour
 
     public void Init(PetSaveData save, PetUnit unit)
     {
+        _egg.sprite = save.EggSprite;
         _pet = unit;
-        ApplyVisual(save);
+        ApplyVisual(save); //비주얼 로더
         SetSprite(_pet.Status.Growth);
     }
     private void ApplyVisual(PetSaveData save)
@@ -28,6 +29,7 @@ public class PetVisualController : MonoBehaviour
         if (growth == GrowthStatus.Egg) //알일때
         {
             _egg.gameObject.SetActive(true);
+
             Debug.Log("Egg 상태 스프라이트 세팅");
             return;
         }

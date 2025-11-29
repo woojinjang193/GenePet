@@ -94,33 +94,42 @@ public class EggData
 [Serializable]                  
 public class PetSaveData
 {
+    public RarityType Rarity;
+    public Sprite EggSprite;
+
     public bool IsLeft;
     public bool IsSick;
-
-    public bool IsInfoUnlocked;
+    
     public string ID;
     public string DisplayName;
     public string FatherId;
     public string MotherId;
+
+    public bool IsInfoUnlocked;
     public GenesContainer Genes;
+
     public GrowthStatus GrowthStage;
     public float Hunger;
     public float Happiness;
-
     public float Cleanliness;
     public float Health;
 
     public PetSaveData()
     {
+        Rarity = RarityType.Common;
+        EggSprite = null;
+
         IsLeft = false;
         IsSick = false;
-
-        IsInfoUnlocked = false;
+        
         ID = "";
         DisplayName = "";
         FatherId = "";
         MotherId = "";
+
+        IsInfoUnlocked = false;
         Genes = new GenesContainer();
+
         GrowthStage = GrowthStatus.Egg;
         Hunger = 100f;
         Happiness = 100f;
