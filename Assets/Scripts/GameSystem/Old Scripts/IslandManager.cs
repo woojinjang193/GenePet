@@ -82,10 +82,15 @@ public class IslandManager : MonoBehaviour
     }
     private void VisitReward()
     {
+        if (string.IsNullOrWhiteSpace(IslandMyPetID))
+        {
+            Debug.Log("섬펫 없어서 호감도 안오름");
+            return;
+        }
+
         //시간 제한 둬야함
         if (!_isLeft && !_isMarried)
         {
-
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
             {
                 LayEggAndLeave();
