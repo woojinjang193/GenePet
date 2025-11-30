@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager>
         {
             int userMaxAmount = Manager.Save.CurrentData.UserData.MaxPetAmount;
             int curAmount = Manager.Save.CurrentData.UserData.HavePetList.Count;
-            int gameMaxAmount = Manager.Game.Config.MaxPetArmount;
+            int gameMaxAmount = Manager.Game.Config.MaxPetAmount;
 
             if (curAmount >= gameMaxAmount)
             {

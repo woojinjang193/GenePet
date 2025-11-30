@@ -115,6 +115,8 @@ public class PetSaveData
     public float Cleanliness;
     public float Health;
 
+    public float AgeSeconds;
+
     public PetSaveData()
     {
         Rarity = RarityType.Common;
@@ -136,6 +138,8 @@ public class PetSaveData
         Happiness = 100f;
         Cleanliness = 100f;
         Health = 100f;
+
+        AgeSeconds = 0f;
     }
 }
 
