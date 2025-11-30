@@ -175,6 +175,8 @@ public class PetManager : MonoBehaviour
 
     public void ZoomInPet(string id)
     {
+        if (ZoomedPet != null) return;
+
         if (_camera == null)
         {
             Debug.LogError("카메라 컨트롤러 없음");

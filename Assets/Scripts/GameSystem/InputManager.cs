@@ -81,6 +81,8 @@ public class InputManager : MonoBehaviour
 
     private void TryClickPet()
     {
+        if (_petManager.ZoomedPet != null) return;
+
         Vector3 world = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 p = new Vector2(world.x, world.y);
 
