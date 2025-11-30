@@ -1,12 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.XR;
 
 public class GeneManager : Singleton<GeneManager>
 {

@@ -3365,6 +3365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd76df8495129145af3b397cdbe9480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _petManager: {fileID: 1811970253}
 --- !u!224 &590654550 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5182640052162089735, guid: bf076f80fe1e7ea47bcf6e0311ec4f31, type: 3}

@@ -21,6 +21,7 @@ public class PetManager : MonoBehaviour
     private CameraController _camera;
     private InGameUIManager _uiManager;
     private List<PetUnit> _activePets = new List<PetUnit>();
+    public List<PetUnit> ActivePets => _activePets;
 
     public PetSaveData ZoomedPet { get; private set; }
 
