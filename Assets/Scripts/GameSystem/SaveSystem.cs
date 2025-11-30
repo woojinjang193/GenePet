@@ -167,17 +167,17 @@ public class UserItemData
 {
     public int IslandTicket;
     public int MissingPoster;
-    public int Item3Amount;
-    public int Item4Amount;
-    public int Item5Amount;
+    public int GeneticScissors;
+    public int geneticTester;
+    public int RandomGene;
 
     public UserItemData()
     {
-        IslandTicket = 1;
-        MissingPoster = 1;
-        Item3Amount = 0;
-        Item4Amount = 0;
-        Item5Amount = 0;
+        IslandTicket = 100;
+        MissingPoster = 100;
+        GeneticScissors = 100;
+        geneticTester = 50;
+        RandomGene = 50;
     }
 
 }

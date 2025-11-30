@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -29,6 +30,18 @@ public class GeneInfomationUI : MonoBehaviour
     [SerializeField] private ShowRarityUI _dominantRarityUI;
     [SerializeField] private ShowRarityUI _recessiveRarityUI;
 
+    [Header("유전자 테스트 버튼")]
+    [SerializeField] private Button _geneTesterButton;
+
+    [Header("열성 UI")]
+    [SerializeField] private GameObject _recessiveMainUI;
+
+    [Header("버튼 눌리는 색깔")]
+    [SerializeField] private Color _selectedColor; //버튼 선택시 컬러
+
+    [Header("아이템 개수")]
+    [SerializeField] private TMP_Text _itemAmount;
+
     //현재 펫
     private PetSaveData _curPet;
     private GenePair _curPair;
@@ -39,7 +52,7 @@ public class GeneInfomationUI : MonoBehaviour
     private PartTypeHolder _selectedHolder; //선택된 버튼
 
     private Color _defaultColor = Color.white; //버튼 디폴트 컬러
-    [SerializeField] private Color _selectedColor; //버튼 선택시 컬러
+    
 
     private void Awake()
     {
@@ -50,13 +63,44 @@ public class GeneInfomationUI : MonoBehaviour
             var btn = h.GetComponent<Button>();
             btn.onClick.AddListener(() => OnClickPart(h.partType, h));
         }
-
+        _geneTesterButton.onClick.AddListener(OnClickedGeneTester);
         _dominantButton.onClick.AddListener(TryToCutDominantGene);
         _recessiveButton.onClick.AddListener(TryToCutRecessiveGene);
     }
+
+    private void OnClickedGeneTester()
+    {
+        bool isUnlocked = _curPet.IsInfoUnlocked;
+
+        if (!isUnlocked)
+        {
+            int itemAmount = Manager.Save.CurrentData.UserData.Items.geneticTester;
+
+            if (itemAmount > 0)
+            {
+                Manager.Save.CurrentData.UserData.Items.geneticTester--;
+                _curPet.IsInfoUnlocked = true;
+                Debug.Log($"언락 : {_curPet.IsInfoUnlocked}");
+                Debug.Log($"남은 테스터 개수 : {Manager.Save.CurrentData.UserData.Items.geneticTester}");
+            }
+            else
+            {
+                return;
+            }
+        }
+        _recessiveMainUI.SetActive(true);
+        _geneTesterButton.gameObject.SetActive(false);
+    }
     public void Init(PetSaveData pet) //유아이 초기 세팅
     {
+        if(!pet.IsInfoUnlocked)
+        {
+            _recessiveMainUI.SetActive(false);
+            _geneTesterButton.gameObject.SetActive(true);
+        }
+
         _curPet = pet;
+        _itemAmount.text = Manager.Save.CurrentData.UserData.Items.geneticTester.ToString();
 
         //초기세팅 바디로 설정
         foreach (var h in _holders)
@@ -70,16 +114,24 @@ public class GeneInfomationUI : MonoBehaviour
     }
     private void TryToCutDominantGene()
     {
-        _curPair.IsDominantCut = true;
-        _dominantCutImage.SetActive(true);
-
-        _dominantButton.interactable = CanCutGene(_curPair);
-        _recessiveButton.interactable = CanCutGene(_curPair);
+        CutGene(true);
     }
     private void TryToCutRecessiveGene()
     {
-        _curPair.IsRecessiveCut = true;
-        _recessiveCutImage.SetActive(true);
+        CutGene(false);
+    }
+    private void CutGene(bool isDominant)
+    {
+        if (isDominant)
+        {
+            _curPair.IsDominantCut = true;
+            _dominantCutImage.SetActive(true);
+        }
+        else
+        {
+            _curPair.IsRecessiveCut = true;
+            _recessiveCutImage.SetActive(true);
+        }
 
         _dominantButton.interactable = CanCutGene(_curPair);
         _recessiveButton.interactable = CanCutGene(_curPair);

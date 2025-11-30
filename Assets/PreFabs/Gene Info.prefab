@@ -4233,6 +4233,8 @@ MonoBehaviour:
   _noneImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   _dominantCutImage: {fileID: 1469093641031108116}
   _recessiveCutImage: {fileID: 8225576801493077364}
+  _dominantRarityUI: {fileID: 0}
+  _recessiveRarityUI: {fileID: 0}
   _selectedColor: {r: 0.4764151, g: 0.5164344, b: 1, a: 1}
 --- !u!1 &8100469267364685104
 GameObject:
