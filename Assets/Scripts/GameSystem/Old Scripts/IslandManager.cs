@@ -171,7 +171,7 @@ public class IslandManager : MonoBehaviour
         var egg = _breedManager.BreedPet(IslandMypetData, IslandPetData);
         if (egg != null)
         {
-            IslandPetRecordData _islandPetRecord = new IslandPetRecordData(IslandPetData);
+            Manager.Save.RecordIslandPet(IslandPetData);
             //Manager.Save.RemoveIslandPet();
         }
         return egg;

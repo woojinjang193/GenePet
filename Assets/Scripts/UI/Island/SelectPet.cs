@@ -117,7 +117,7 @@ public class SelectPet : MonoBehaviour
 
         var data = _petList[index];
 
-        PetVisualHelper.ApplyVisual(data, _renderers);
+        PetVisualHelper.ApplyVisual(data.Genes, _renderers);
     }
     public void ApplyFinalChange(int newIndex)
     {

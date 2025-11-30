@@ -69,7 +69,7 @@ public class EggListUI : MonoBehaviour
         if(CanSpawn())
         {
             _petManager.SpawnPet(_curEggList[index].PetSaveData);
-            Manager.Save.CurrentData.UserData.HavePetList.Add(_curEggList[index].PetSaveData);
+            Manager.Save.RegisterNewPet(_curEggList[index].PetSaveData, true);
             _curEggList.RemoveAt(index);
             Init();
             gameObject.SetActive(false);
@@ -77,8 +77,11 @@ public class EggListUI : MonoBehaviour
     }
     private void OnRandomClicked()
     {
-        Manager.Game.CreateRandomPet(true);
-        gameObject.SetActive(false);
+        if (CanSpawn())
+        {
+            Manager.Game.CreateRandomPet(true);
+            gameObject.SetActive(false);
+        }
     }
     private void OnCloseClicked()
     {

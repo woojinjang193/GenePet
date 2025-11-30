@@ -82,9 +82,7 @@ public class SaveManager : Singleton<SaveManager>
             }
 
             CurrentData.UserData.HavePetList.Add(pet);
-
-            PetRecordData record = new PetRecordData(pet);
-            CurrentData.UserData.HadPetList.Add(record);
+            CurrentData.UserData.HadPetList.Add(pet);
 
             Debug.Log($"펫 ID: {pet.ID} 등록");
         }
@@ -95,11 +93,9 @@ public class SaveManager : Singleton<SaveManager>
 
         SaveGame();
     }
-    public void RecordIslandPet()
+    public void RecordIslandPet(PetSaveData islandPet)
     {
-        PetSaveData pet = CurrentData.UserData.Island.IslandPetSaveData;
-        IslandPetRecordData record = new IslandPetRecordData(pet);
-        CurrentData.UserData.IslandPetList.Add(record);
+        CurrentData.UserData.IslandPetList.Add(islandPet);
     }
 
     public void RemovePet(string id)

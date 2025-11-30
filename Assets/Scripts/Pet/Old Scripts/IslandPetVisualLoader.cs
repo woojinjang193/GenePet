@@ -7,6 +7,6 @@ public class IslandPetVisualLoader : MonoBehaviour
 
     public void LoadIslandPet(PetSaveData data)
     {
-        PetVisualHelper.ApplyVisual(data, _renderers);
+        PetVisualHelper.ApplyVisual(data.Genes, _renderers);
     }
 }

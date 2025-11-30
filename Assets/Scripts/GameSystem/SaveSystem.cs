@@ -196,9 +196,9 @@ public class UserData
     public int Energy;
     public List<EggData> EggList;
     public List<PetSaveData> HavePetList;
-    public List<PetRecordData> HadPetList;
+    public List<PetSaveData> HadPetList;
     public IslandData Island;
-    public List<IslandPetRecordData> IslandPetList;
+    public List<PetSaveData> IslandPetList;
     public UserItemData Items;
 
     public UserData()
@@ -210,9 +210,9 @@ public class UserData
         Energy = 10;
         EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();
-        HadPetList = new List<PetRecordData>();
+        HadPetList = new List<PetSaveData>();
         Island = new IslandData();
-        IslandPetList = new List<IslandPetRecordData>();
+        IslandPetList = new List<PetSaveData>();
         Items = new UserItemData();
     }
 }

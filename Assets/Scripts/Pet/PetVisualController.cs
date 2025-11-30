@@ -14,10 +14,10 @@ public class PetVisualController : MonoBehaviour
     {
         _egg.sprite = save.EggSprite;
         _pet = unit;
-        ApplyVisual(save); //비주얼 로더
+        ApplyVisual(save.Genes); //비주얼 로더
         SetSprite(_pet.Status.Growth);
     }
-    private void ApplyVisual(PetSaveData save)
+    private void ApplyVisual(GenesContainer save)
     {
         PetVisualHelper.ApplyVisual(save, _renderers);
     }

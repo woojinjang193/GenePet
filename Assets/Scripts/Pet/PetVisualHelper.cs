@@ -4,23 +4,23 @@ using UnityEngine;
 
 public static class PetVisualHelper
 {
-    public static void ApplyVisual(PetSaveData data, PetPartSpriteList renderers)
+    public static void ApplyVisual(GenesContainer genes, PetPartSpriteList renderers)
     {
-        if (renderers == null || data == null) return;
+        if (renderers == null || genes == null) return;
 
-        var g = data.Genes;
+        //var g = data.Genes;
 
         //SO 불러오기
-        var acc = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, g.Acc.DominantId);
-        var arm = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, g.Arm.DominantId);
-        var blush = Manager.Gene.GetPartSOByID<BlushSO>(PartType.Blush, g.Blush.DominantId);
-        var body = Manager.Gene.GetPartSOByID<BodySO>(PartType.Body, g.Body.DominantId);
-        var pattern = Manager.Gene.GetPartSOByID<PatternSO>(PartType.Pattern, g.Pattern.DominantId);
-        var ear = Manager.Gene.GetPartSOByID<EarSO>(PartType.Ear, g.Ear.DominantId);
-        var eye = Manager.Gene.GetPartSOByID<EyeSO>(PartType.Eye, g.Eye.DominantId);
-        var feet = Manager.Gene.GetPartSOByID<FeetSO>(PartType.Feet, g.Feet.DominantId);
-        var mouth = Manager.Gene.GetPartSOByID<MouthSO>(PartType.Mouth, g.Mouth.DominantId);
-        var wing = Manager.Gene.GetPartSOByID<WingSO>(PartType.Wing, g.Wing.DominantId);
+        var acc = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, genes.Acc.DominantId);
+        var arm = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, genes.Arm.DominantId);
+        var blush = Manager.Gene.GetPartSOByID<BlushSO>(PartType.Blush, genes.Blush.DominantId);
+        var body = Manager.Gene.GetPartSOByID<BodySO>(PartType.Body, genes.Body.DominantId);
+        var pattern = Manager.Gene.GetPartSOByID<PatternSO>(PartType.Pattern, genes.Pattern.DominantId);
+        var ear = Manager.Gene.GetPartSOByID<EarSO>(PartType.Ear, genes.Ear.DominantId);
+        var eye = Manager.Gene.GetPartSOByID<EyeSO>(PartType.Eye, genes.Eye.DominantId);
+        var feet = Manager.Gene.GetPartSOByID<FeetSO>(PartType.Feet, genes.Feet.DominantId);
+        var mouth = Manager.Gene.GetPartSOByID<MouthSO>(PartType.Mouth, genes.Mouth.DominantId);
+        var wing = Manager.Gene.GetPartSOByID<WingSO>(PartType.Wing, genes.Wing.DominantId);
 
         // 스프라이트 적용
         renderers.Acc.sprite = acc.sprite;
@@ -61,7 +61,7 @@ public static class PetVisualHelper
         if (renderers.WingOut) renderers.WingOut.sortingOrder = wing.OrderInLayer + 1;
 
         // 색 적용
-        ApplyColors(g.PartColors, renderers);
+        ApplyColors(genes.PartColors, renderers);
 
         // 마스크
         if (renderers.PatternMask)
