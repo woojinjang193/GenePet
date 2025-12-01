@@ -24,10 +24,6 @@ public static class PetVisualHelper
         var tail = Manager.Gene.GetPartSOByID<TailSO>(PartType.Tail, genes.Tail.DominantId);
         var whiskers = Manager.Gene.GetPartSOByID<WhiskersSO>(PartType.Whiskers, genes.Whiskers.DominantId);
 
-        Debug.Log($"TAIL ID = {genes.Tail.DominantId}");
-        Debug.Log($"TAIL SO = {tail}");
-        Debug.Log($"TailRenderer = {renderers.Tail}");
-
         // 스프라이트 적용
         renderers.Acc.sprite = acc.sprite;
         renderers.Arm.sprite = arm.sprite;

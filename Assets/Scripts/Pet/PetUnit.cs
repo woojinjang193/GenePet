@@ -33,7 +33,6 @@ public class PetUnit : MonoBehaviour
         _currentConfig = cfg;
         _status.SetConfig(cfg);
     }
-
     public bool TryGrow()
     {
         if (_currentConfig == null)

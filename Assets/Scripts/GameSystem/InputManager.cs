@@ -92,8 +92,8 @@ public class InputManager : MonoBehaviour
             PetUnit pet = hit.collider.GetComponent<PetUnit>();
             if (pet != null)
             {
-                _petManager.ZoomInPet(pet.Status.ID);
-                Debug.Log($"{pet.Status.ID} 줌인");
+                _petManager.ZoomInPet(pet);
+                Debug.Log($"{pet.PetId} 줌인");
             }
         }
     }
