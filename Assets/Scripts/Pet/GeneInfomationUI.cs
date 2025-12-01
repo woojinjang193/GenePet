@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class GeneInfomationUI : MonoBehaviour
     [Header("베이스")]
     [SerializeField] private Image _dominantGene;
     [SerializeField] private Image _recessiveGene;
+
     [Header("아웃라인")]
     [SerializeField] private Image _dominantGeneOutline;
     [SerializeField] private Image _recessiveGeneOutline;
@@ -24,6 +26,22 @@ public class GeneInfomationUI : MonoBehaviour
     [SerializeField] private GameObject _dominantCutImage;
     [SerializeField] private GameObject _recessiveCutImage;
 
+    [Header("레어도 별")]
+    [SerializeField] private ShowRarityUI _dominantRarityUI;
+    [SerializeField] private ShowRarityUI _recessiveRarityUI;
+
+    [Header("유전자 테스트 버튼")]
+    [SerializeField] private Button _geneTesterButton;
+
+    [Header("열성 UI")]
+    [SerializeField] private GameObject _recessiveMainUI;
+
+    [Header("버튼 눌리는 색깔")]
+    [SerializeField] private Color _selectedColor; //버튼 선택시 컬러
+
+    [Header("아이템 개수")]
+    [SerializeField] private TMP_Text _itemAmount;
+
     //현재 펫
     private PetSaveData _curPet;
     private GenePair _curPair;
@@ -34,7 +52,7 @@ public class GeneInfomationUI : MonoBehaviour
     private PartTypeHolder _selectedHolder; //선택된 버튼
 
     private Color _defaultColor = Color.white; //버튼 디폴트 컬러
-    [SerializeField] private Color _selectedColor; //버튼 선택시 컬러
+    
 
     private void Awake()
     {
@@ -45,13 +63,44 @@ public class GeneInfomationUI : MonoBehaviour
             var btn = h.GetComponent<Button>();
             btn.onClick.AddListener(() => OnClickPart(h.partType, h));
         }
-
+        _geneTesterButton.onClick.AddListener(OnClickedGeneTester);
         _dominantButton.onClick.AddListener(TryToCutDominantGene);
         _recessiveButton.onClick.AddListener(TryToCutRecessiveGene);
     }
+
+    private void OnClickedGeneTester()
+    {
+        bool isUnlocked = _curPet.IsInfoUnlocked;
+
+        if (!isUnlocked)
+        {
+            int itemAmount = Manager.Save.CurrentData.UserData.Items.geneticTester;
+
+            if (itemAmount > 0)
+            {
+                Manager.Save.CurrentData.UserData.Items.geneticTester--;
+                _curPet.IsInfoUnlocked = true;
+                Debug.Log($"언락 : {_curPet.IsInfoUnlocked}");
+                Debug.Log($"남은 테스터 개수 : {Manager.Save.CurrentData.UserData.Items.geneticTester}");
+            }
+            else
+            {
+                return;
+            }
+        }
+        _recessiveMainUI.SetActive(true);
+        _geneTesterButton.gameObject.SetActive(false);
+    }
     public void Init(PetSaveData pet) //유아이 초기 세팅
     {
+        if(!pet.IsInfoUnlocked)
+        {
+            _recessiveMainUI.SetActive(false);
+            _geneTesterButton.gameObject.SetActive(true);
+        }
+
         _curPet = pet;
+        _itemAmount.text = Manager.Save.CurrentData.UserData.Items.geneticTester.ToString();
 
         //초기세팅 바디로 설정
         foreach (var h in _holders)
@@ -65,16 +114,24 @@ public class GeneInfomationUI : MonoBehaviour
     }
     private void TryToCutDominantGene()
     {
-        _curPair.IsDominantCut = true;
-        _dominantCutImage.SetActive(true);
-
-        _dominantButton.interactable = CanCutGene(_curPair);
-        _recessiveButton.interactable = CanCutGene(_curPair);
+        CutGene(true);
     }
     private void TryToCutRecessiveGene()
     {
-        _curPair.IsRecessiveCut = true;
-        _recessiveCutImage.SetActive(true);
+        CutGene(false);
+    }
+    private void CutGene(bool isDominant)
+    {
+        if (isDominant)
+        {
+            _curPair.IsDominantCut = true;
+            _dominantCutImage.SetActive(true);
+        }
+        else
+        {
+            _curPair.IsRecessiveCut = true;
+            _recessiveCutImage.SetActive(true);
+        }
 
         _dominantButton.interactable = CanCutGene(_curPair);
         _recessiveButton.interactable = CanCutGene(_curPair);
@@ -169,6 +226,13 @@ public class GeneInfomationUI : MonoBehaviour
 
         _dominantGeneOutline.color = domOut == null ? new Color(1, 1, 1, 0) : Color.white;
         _recessiveGeneOutline.color = recOut == null ? new Color(1, 1, 1, 0) : Color.white;
+
+        //레어리티 전달
+        var domSO =  Manager.Gene.GetPartSOByID<PartBaseSO>(partType, pair.DominantId);
+        var recSO =  Manager.Gene.GetPartSOByID<PartBaseSO>(partType, pair.RecessiveId);
+
+        _dominantRarityUI.ShowRarity(domSO.Rarity);
+        _recessiveRarityUI.ShowRarity(recSO.Rarity);
     }
     private Sprite GetNoneSprite(PartType partType)
     {
@@ -177,6 +241,8 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Acc: return _noneImage;
             case PartType.Wing: return _noneImage;
             case PartType.Pattern: return _noneImage;
+            case PartType.Tail: return _noneImage;
+            case PartType.Whiskers : return _noneImage;
             default: return null;
         }
     }
@@ -194,6 +260,8 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Pattern: return new Vector3(1f, 1f, 1f);
             case PartType.Wing: return new Vector3(1.2f, 1.2f, 1f);
             case PartType.Blush: return new Vector3(2f, 2f, 1f);
+            case PartType.Tail: return new Vector3(2f, 2f, 1f);
+            case PartType.Whiskers: return new Vector3(2f, 2f, 1f);
         }
         return Vector3.one;
     }
@@ -214,6 +282,8 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Pattern: return Manager.Gene.GetPartSOByID<PatternSO>(part, id)?.sprite;
             case PartType.Wing: return Manager.Gene.GetPartSOByID<WingSO>(part, id)?.sprite;
             case PartType.Blush: return Manager.Gene.GetPartSOByID<BlushSO>(part, id)?.sprite;
+            case PartType.Tail: return Manager.Gene.GetPartSOByID<TailSO>(part, id)?.sprite;
+            case PartType.Whiskers: return Manager.Gene.GetPartSOByID<WhiskersSO>(part, id)?.sprite;
         }
         return null;
     }
@@ -228,11 +298,13 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Mouth: return null;
             case PartType.Pattern: return null;
             case PartType.Blush: return null;
+            case PartType.Whiskers: return null;
             case PartType.Body: return Manager.Gene.GetPartSOByID<BodySO>(part, id)?.Outline;
             case PartType.Arm: return Manager.Gene.GetPartSOByID<ArmSO>(part, id)?.Outline;
             case PartType.Feet: return Manager.Gene.GetPartSOByID<FeetSO>(part, id)?.Outline;
             case PartType.Wing: return Manager.Gene.GetPartSOByID<WingSO>(part, id)?.Outline;
             case PartType.Ear: return Manager.Gene.GetPartSOByID<EarSO>(part, id)?.Outline;
+            case PartType.Tail: return Manager.Gene.GetPartSOByID<TailSO>(part, id)?.Outline;
         }
         return null;
     }
@@ -253,6 +325,8 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Wing: return g.Wing;
             case PartType.Blush: return g.Blush;
             case PartType.Color: return g.Color;
+            case PartType.Tail: return g.Tail;
+            case PartType.Whiskers: return g.Whiskers;
             default: return g.Body;
         }
     }

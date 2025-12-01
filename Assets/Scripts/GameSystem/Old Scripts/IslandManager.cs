@@ -82,10 +82,15 @@ public class IslandManager : MonoBehaviour
     }
     private void VisitReward()
     {
+        if (string.IsNullOrWhiteSpace(IslandMyPetID))
+        {
+            Debug.Log("섬펫 없어서 호감도 안오름");
+            return;
+        }
+
         //시간 제한 둬야함
         if (!_isLeft && !_isMarried)
         {
-
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
             {
                 LayEggAndLeave();
@@ -149,6 +154,11 @@ public class IslandManager : MonoBehaviour
         _GeneInfoUI.gameObject.SetActive(true);
         _GeneInfoUI.Init(IslandPetData);
     }
+    public void OpenGeneInfoForMyPet() //테스트용. OpenGeneInfo()랑 로직 합쳐야함
+    {
+        _GeneInfoUI.gameObject.SetActive(true);
+        _GeneInfoUI.Init(IslandMypetData);
+    }
 
     public EggData TryToBreed()
     {
@@ -161,7 +171,7 @@ public class IslandManager : MonoBehaviour
         var egg = _breedManager.BreedPet(IslandMypetData, IslandPetData);
         if (egg != null)
         {
-            IslandPetRecordData _islandPetRecord = new IslandPetRecordData(IslandPetData);
+            Manager.Save.RecordIslandPet(IslandPetData);
             //Manager.Save.RemoveIslandPet();
         }
         return egg;

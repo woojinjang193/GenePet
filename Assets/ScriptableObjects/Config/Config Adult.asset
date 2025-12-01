@@ -18,5 +18,5 @@ MonoBehaviour:
   HungerDecreasePerSec: 1
   HappinessDecreasePerSec: 0
   CleanlinessDecreasePerSec: 0.1
-  PlayHappinessGain: 0
+  PlayHappinessGain: 3
   HealthDecreasePerSec: 0.3

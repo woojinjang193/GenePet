@@ -33,7 +33,9 @@ public class GenesContainer
     public GenePair Ear;         
     public GenePair Acc;
     public GenePair Blush;
-    public GenePair Wing;       
+    public GenePair Wing;
+    public GenePair Tail;
+    public GenePair Whiskers;
 
     public GenePair Color;      
     public GenePair Personality;
@@ -51,6 +53,8 @@ public class GenesContainer
         Acc = new GenePair();        
         Wing = new GenePair();       
         Blush = new GenePair();
+        Tail = new GenePair();
+        Whiskers = new GenePair();
 
         Color = new GenePair();       
         Personality = new GenePair();
@@ -66,6 +70,9 @@ public class PartColorGenes
     public string FeetColorId;
     public string PatternColorId;
     public string EarColorId;
+    public string WingColorId;
+    public string TailColorId;
+    //public string WhiskersColorId;
     //public string BlushColorId;
 
     public PartColorGenes()
@@ -75,18 +82,21 @@ public class PartColorGenes
         FeetColorId = "";
         PatternColorId = "";
         EarColorId = "";
-        //BlushColorId = "";
+        WingColorId = "";
+        TailColorId = "";
+        //WhiskersColorId = "";
     }
 }
 [Serializable]
 public class EggData
 {
-    public Sprite Image;
+    //public Sprite Image;
+    //획득시간 추가할까??
     public PetSaveData PetSaveData;
 
     public EggData()
     {
-        Image = null;
+        //Image = null;
         PetSaveData = new PetSaveData();
     }
 }
@@ -94,38 +104,51 @@ public class EggData
 [Serializable]                  
 public class PetSaveData
 {
+    public RarityType Rarity;
+    public Sprite EggSprite;
+
     public bool IsLeft;
     public bool IsSick;
-
-    public bool IsInfoUnlocked;
+    
     public string ID;
     public string DisplayName;
     public string FatherId;
     public string MotherId;
+
+    public bool IsInfoUnlocked;
     public GenesContainer Genes;
+
     public GrowthStatus GrowthStage;
     public float Hunger;
     public float Happiness;
-
     public float Cleanliness;
     public float Health;
 
+    public float AgeSeconds;
+
     public PetSaveData()
     {
+        Rarity = RarityType.Common;
+        EggSprite = null;
+
         IsLeft = false;
         IsSick = false;
-
-        IsInfoUnlocked = false;
+        
         ID = "";
         DisplayName = "";
         FatherId = "";
         MotherId = "";
+
+        IsInfoUnlocked = false;
         Genes = new GenesContainer();
+
         GrowthStage = GrowthStatus.Egg;
         Hunger = 100f;
         Happiness = 100f;
         Cleanliness = 100f;
         Health = 100f;
+
+        AgeSeconds = 0f;
     }
 }
 
@@ -157,17 +180,17 @@ public class UserItemData
 {
     public int IslandTicket;
     public int MissingPoster;
-    public int Item3Amount;
-    public int Item4Amount;
-    public int Item5Amount;
+    public int GeneticScissors;
+    public int geneticTester;
+    public int RandomGene;
 
     public UserItemData()
     {
-        IslandTicket = 1;
-        MissingPoster = 1;
-        Item3Amount = 0;
-        Item4Amount = 0;
-        Item5Amount = 0;
+        IslandTicket = 100;
+        MissingPoster = 100;
+        GeneticScissors = 100;
+        geneticTester = 50;
+        RandomGene = 50;
     }
 
 }
@@ -179,12 +202,12 @@ public class UserData
     public Language CurLanguage;
     public string UserDisplayName;
     public int MaxPetAmount;
-    public float Energy;
+    public int Energy;
     public List<EggData> EggList;
     public List<PetSaveData> HavePetList;
-    public List<PetRecordData> HadPetList;
+    public List<PetSaveData> HadPetList;
     public IslandData Island;
-    public List<IslandPetRecordData> IslandPetList;
+    public List<PetSaveData> IslandPetList;
     public UserItemData Items;
 
     public UserData()
@@ -196,9 +219,9 @@ public class UserData
         Energy = 10;
         EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();
-        HadPetList = new List<PetRecordData>();
+        HadPetList = new List<PetSaveData>();
         Island = new IslandData();
-        IslandPetList = new List<IslandPetRecordData>();
+        IslandPetList = new List<PetSaveData>();
         Items = new UserItemData();
     }
 }

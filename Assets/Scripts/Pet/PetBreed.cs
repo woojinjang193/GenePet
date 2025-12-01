@@ -5,16 +5,11 @@ using UnityEngine;
 
 public class PetBreed : MonoBehaviour
 {
-    [SerializeField] private Sprite _common;
-    [SerializeField] private Sprite _rare;
-    [SerializeField] private Sprite _epic;
-    [SerializeField] private Sprite _legendary;
-
-    private bool isRare = false;
-    private bool isEpic = false;
-    private bool isLegendary = false;
+    private RarityType _finalRarity = RarityType.Common;
     public EggData BreedPet(PetSaveData myPet, PetSaveData islandPet)
     {
+        _finalRarity = RarityType.Common;
+
         var egg = new EggData();
         var baby = egg.PetSaveData;
         baby.ID = Guid.NewGuid().ToString();
@@ -31,6 +26,8 @@ public class PetBreed : MonoBehaviour
         CombinePart(PartType.Acc, myPet.Genes.Acc, islandPet.Genes.Acc, baby.Genes.Acc);
         CombinePart(PartType.Blush, myPet.Genes.Blush, islandPet.Genes.Blush, baby.Genes.Blush);
         CombinePart(PartType.Wing, myPet.Genes.Wing, islandPet.Genes.Wing, baby.Genes.Wing);
+        CombinePart(PartType.Tail, myPet.Genes.Tail, islandPet.Genes.Tail, baby.Genes.Tail);
+        CombinePart(PartType.Whiskers, myPet.Genes.Whiskers, islandPet.Genes.Whiskers, baby.Genes.Whiskers);
 
         CombinePart(PartType.Color, myPet.Genes.Color, islandPet.Genes.Color, baby.Genes.Color);
 
@@ -39,25 +36,26 @@ public class PetBreed : MonoBehaviour
         baby.Genes.PartColors.FeetColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.PatternColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.EarColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
+        baby.Genes.PartColors.WingColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
+        baby.Genes.PartColors.TailColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         //egg.Genes.PartColors.BlushColorId = Choose(egg.Genes.Color.DominantId, egg.Genes.Color.RecessiveId);
 
-        if(isLegendary)
+        var eggImage = Manager.Game.Config.EggRaritySO;
+        switch (_finalRarity)
         {
-            egg.Image = _legendary;
+            case RarityType.Legendary:
+                egg.PetSaveData.EggSprite = eggImage.LegendarySprite;
+                break;
+            case RarityType.Epic:
+                egg.PetSaveData.EggSprite = eggImage.EpicSprite; ;
+                break;
+            case RarityType.Rare:
+                egg.PetSaveData.EggSprite = eggImage.RareSprite;
+                break;
+            default:
+                egg.PetSaveData.EggSprite = eggImage.CommonSprite;
+                break;
         }
-        else if(isEpic)
-        {
-            egg.Image = _epic;
-        }
-        else if(isRare)
-        {
-            egg.Image= _rare;
-        }
-        else
-        {
-            egg.Image = _common;
-        }
-
         return egg;
     }
 
@@ -75,7 +73,13 @@ public class PetBreed : MonoBehaviour
         else if (islandPet.IsRecessiveCut) motherGene = islandPet.DominantId;
         else motherGene = Choose(islandPet.DominantId, islandPet.RecessiveId);
 
-        CheckRarity(type, fatherGene, motherGene);
+        RarityType curRarity = Manager.Gene.CheckRarity(type, fatherGene, motherGene);
+
+        //최고등급만 저장
+        if (curRarity > _finalRarity)
+        {
+            _finalRarity = curRarity;
+        }
 
         if (UnityEngine.Random.value < 0.5)
         {
@@ -94,34 +98,4 @@ public class PetBreed : MonoBehaviour
         return(UnityEngine.Random.value < 0.5) ? father : mother;
     }
 
-    private void CheckRarity(PartType part, string father, string mother)
-    {
-        var fatherSO = Manager.Gene.GetPartSOByID<PartBaseSO>(part, father);
-        var motherSO = Manager.Gene.GetPartSOByID<PartBaseSO>(part, mother);
-
-        if (fatherSO == null || motherSO == null)
-            return;
-
-        if(!isRare)
-        {
-            if (fatherSO.Rarity == RarityType.Rare || motherSO.Rarity == RarityType.Rare)
-            {
-                isRare = true;
-            }
-        }
-        if(!isEpic)
-        {
-            if (fatherSO.Rarity == RarityType.Epic || motherSO.Rarity == RarityType.Epic)
-            {
-                isEpic = true;
-            }
-        }
-        if(!isLegendary)
-        {
-            if (fatherSO.Rarity == RarityType.Legendary || motherSO.Rarity == RarityType.Legendary)
-            {
-                isLegendary = true;
-            }
-        }
-    }
 }

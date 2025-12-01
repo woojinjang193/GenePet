@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New PersonalitySO", menuName = "SO/PersonalitySO")]
 public class PersonalitySO : PartBaseSO
 {
-    public Personality Personality;
+    public PersonalityType Personality;
 }

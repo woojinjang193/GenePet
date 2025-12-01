@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab444e4173b3fc94196cae85f4c5484f, type: 3}
   m_Name: GameConfigSO
   m_EditorClassIdentifier: 
-  MaxPetArmount: 6
+  MaxPetAmount: 6
   MaxEggAmount: 3
+  EggRaritySO: {fileID: 11400000, guid: db4ee66b79c21dd4a85d20408b471776, type: 2}

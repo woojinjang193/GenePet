@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: d1821f813575b54489f62067cbdaf10b
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: e80918317bc09ab5275e81fea2e9e8e7
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -102,6 +102,8 @@ MonoBehaviour:
     - ArmSO
     - FeetSO
     - GameConfig
+    - TailSO
+    - WhiskersSO
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a7b4fc742809d0248a5926f35c350558, type: 2}

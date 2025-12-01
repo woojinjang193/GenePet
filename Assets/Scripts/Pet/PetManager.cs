@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PetManager : MonoBehaviour
 {
@@ -17,14 +18,20 @@ public class PetManager : MonoBehaviour
     [Header("스폰 포지션")]
     [SerializeField] private Transform[] _Positions;
 
-    [Header("줌아웃 버튼")]
-    [SerializeField] private GameObject _zoomOutButton;
+    [Header("스테이터스 UI")]
+    [SerializeField] private float _statusUpdateDuration;
+    [SerializeField] private StatusUI _StatusUI;
 
     private float _accum;
-    private CameraController _camera;
-    private List<PetUnit> _activePets = new List<PetUnit>();
+    private float _statusUpdateTimer;
 
-    public PetSaveData ZoomedPet {  get; private set; }
+    private CameraController _camera;
+    private InGameUIManager _uiManager;
+    private List<PetUnit> _activePets = new List<PetUnit>();
+    public List<PetUnit> ActivePets => _activePets;
+
+    public PetSaveData ZoomedPet { get; private set; }
+    public PetUnit ZoomedUnit { get; private set; }
 
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
 
@@ -32,6 +39,8 @@ public class PetManager : MonoBehaviour
     {
         _accum = 0f;
         _camera = FindObjectOfType<CameraController>();
+        _uiManager = FindObjectOfType<InGameUIManager>();
+
         foreach (var cfg in _configs)
         {
             if (cfg != null)
@@ -52,7 +61,7 @@ public class PetManager : MonoBehaviour
             foreach (var pet in saveList)
             {
                 SpawnPet(pet);
-                Debug.Log($"세이브에 있는 펫 {pet.ID} 스폰");
+                //Debug.Log($"세이브에 있는 펫 {pet.ID} 스폰");
             }
         }
     }
@@ -67,14 +76,14 @@ public class PetManager : MonoBehaviour
 
         int index = _activePets.Count;
 
-        if(index >= _Positions.Length)
+        if (index >= _Positions.Length)
         {
             Debug.LogWarning("더이상 스폰 불가능. 최대 수에 도달");
         }
 
         PetUnit unit = Instantiate(_petPrefab, _Positions[index]).GetComponent<PetUnit>();
-        
-        unit.Init(save); //unit 초기화
+
+        unit.Init(save, this);
 
         PetVisualController visual = unit.GetComponent<PetVisualController>();
         if (visual != null)
@@ -82,7 +91,7 @@ public class PetManager : MonoBehaviour
             visual.Init(save, unit);
         }
 
-        RegisterPet(unit); //펫 매니저에 등록
+        RegisterPet(unit);
     }
 
     public void RegisterPet(PetUnit unit)
@@ -110,7 +119,16 @@ public class PetManager : MonoBehaviour
             RunTick(_tickInterval);
             _accum -= _tickInterval;
         }
+
+        _statusUpdateTimer += Time.deltaTime;
+
+        if (ZoomedUnit != null && _statusUpdateTimer >= _statusUpdateDuration) // 줌된 펫 있을 때만
+        {
+            _StatusUI.UpdateGauges(ZoomedUnit.Status); // UI 갱신
+            _statusUpdateTimer = 0f; // 타이머 리셋
+        }
     }
+
     private void RunTick(float sec)
     {
         for (int i = 0; i < _activePets.Count; i++)
@@ -136,12 +154,12 @@ public class PetManager : MonoBehaviour
     }
 
     private void SaveAllStatus()
-    {   
+    {
         if (Manager.Save.CurrentData == null)
         {
             Debug.LogWarning("변경된 데이터 없음"); return;
         }
- 
+
         var saveList = Manager.Save.CurrentData.UserData.HavePetList;
 
         for (int i = 0; i < _activePets.Count; i++)
@@ -156,7 +174,7 @@ public class PetManager : MonoBehaviour
                 {
                     var pet = saveList[j];
 
-                    pet.Hunger = status.Hunger;
+                    pet.Hunger = status.Hunger; 
                     pet.Health = status.Health;
                     pet.Cleanliness = status.Cleanliness;
                     pet.Happiness = status.Happiness;
@@ -171,8 +189,16 @@ public class PetManager : MonoBehaviour
         }
     }
 
-    public void ZoomInPet(string id)
+    public void ZoomInPet(PetUnit unit)
     {
+        _statusUpdateTimer = 0f;
+
+        ZoomedUnit = unit;
+
+        string id = unit.PetId;
+
+        if (ZoomedPet != null) return;
+
         if (_camera == null)
         {
             Debug.LogError("카메라 컨트롤러 없음");
@@ -188,7 +214,7 @@ public class PetManager : MonoBehaviour
             {
                 Vector3 pos = pet.gameObject.transform.position;
                 _camera.CameraZoomIn(pos);
-                _zoomOutButton.SetActive(true);
+                if (_uiManager != null) _uiManager.OnZoomInPet();
                 break;
             }
         }
@@ -203,16 +229,64 @@ public class PetManager : MonoBehaviour
                 break;
             }
         }
+
+        _StatusUI.UpdateGauges(ZoomedUnit.Status);
     }
+
     public void ZoomOutPet()
     {
-        _zoomOutButton.SetActive(false);
+        _statusUpdateTimer = 0f;
+
+        if (_camera != null)
+        {
+            _camera.CameraZoomOut(); // 카메라 원상 복귀
+        }
+
         ZoomedPet = null;
+        ZoomedUnit = null;
+
+        if (_uiManager != null)
+        {
+            _uiManager.OnZoomOutPet(); // UI 버튼 비활성화
+        }
     }
+
     public void ApplyOfflineTime(int offlineSec)
     {
         if (offlineSec <= 0) return;
 
         RunTick(offlineSec);
+    }
+
+    public void RemovePet()
+    {
+        if (ZoomedPet.ID == ZoomedUnit.PetId )
+        {
+            Destroy(ZoomedUnit.gameObject);
+            _activePets.Remove(ZoomedUnit);
+            Manager.Save.RemovePetData(ZoomedPet.ID);
+            ZoomOutPet();
+            return;
+        }
+        //string targetID = ZoomedPet.ID;
+        //
+        //for (int i = 0; i < _activePets.Count; i++)
+        //{
+        //    var activePet = _activePets[i];
+        //    
+        //    if (activePet.PetId == targetID)
+        //    {
+        //        Destroy(activePet.gameObject);
+        //        _activePets.RemoveAt(i);
+        //        Manager.Save.RemovePetData(targetID);
+        //        ZoomOutPet();
+        //        return;
+        //    }
+        //}
+    }
+
+    public void UpdateStatus()
+    {
+        _StatusUI.UpdateGauges(ZoomedUnit.Status);
     }
 }

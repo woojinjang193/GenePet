@@ -3,9 +3,10 @@ using UnityEngine;
 public enum GrowthStatus { Egg, Baby, Teen, Adult }
 public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, GrowthTimer, GrowthExp }
 public enum PetFlag { IsSick, IsLeft }
-//public enum PartType { Body, Color, Pattern, Ear, Tail, Wing, Eye, Mouth}
-public enum RarityType { Common, Rare, Epic, Legendary } // 레어 3%, 에픽 1%, 레전더리 0.5%
-public enum Personality 
+public enum RarityType { Common, Rare, Epic, Legendary } //GeneManager 에서 확률 설정
+
+public enum Confirm { RemovePet, GiveUpPet}
+public enum PersonalityType 
 {
     Brave,          // 용감한 - 체력·행동력 높음, 싸움 잘함
     Shy,            // 소심한 - 낯가림, 스트레스 잘 받음
@@ -33,6 +34,8 @@ public enum PartType
     Pattern,        
     Color,          
     Blush,
+    Tail,
+    Whiskers,
     Personality     
 }
 

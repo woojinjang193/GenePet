@@ -4,17 +4,21 @@ using UnityEngine;
 public class PetUnit : MonoBehaviour
 {
     [Header("코어")]
+
     private PetStatusCore _status = new PetStatusCore();
     private PetConfigSO _currentConfig;
     public PetConfigSO CurConfig => _currentConfig;
     public PetStatusCore Status => _status;
+    public PetManager Petmanager { get; private set; }
 
     private string _petId;
+    public string PetId => _petId;
 
     private PetVisualController _visul;
 
-    public void Init(PetSaveData save)
+    public void Init(PetSaveData save, PetManager petManager)
     {
+        Petmanager = petManager;
         _petId = save.ID;
 
         _status.SetValues( save.ID, save.Hunger, save.Health, save.Cleanliness, save.Happiness );
@@ -32,7 +36,6 @@ public class PetUnit : MonoBehaviour
         _currentConfig = cfg;
         _status.SetConfig(cfg);
     }
-
     public bool TryGrow()
     {
         if (_currentConfig == null)

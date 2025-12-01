@@ -76,6 +76,8 @@ public class SelectPet : MonoBehaviour
     {
         if (_ogIndex == -1)
         {
+            ApplyFinalChange(0);
+            DisplayPetImage(0);
             gameObject.SetActive(false);
             return;
         }
@@ -115,7 +117,7 @@ public class SelectPet : MonoBehaviour
 
         var data = _petList[index];
 
-        PetVisualHelper.ApplyVisual(data, _renderers);
+        PetVisualHelper.ApplyVisual(data.Genes, _renderers);
     }
     public void ApplyFinalChange(int newIndex)
     {

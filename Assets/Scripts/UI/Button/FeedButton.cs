@@ -6,22 +6,31 @@ using UnityEngine.UI;
 public class FeedButton : MonoBehaviour
 {
     [SerializeField] private Button _button;
-    [SerializeField] private GameObject _selectPanel;
+    [SerializeField] private GameObject _foodListPanel;
+    [SerializeField] private GameObject _cleanListPanel;
 
     private void Awake()
     {
-        _button.onClick.AddListener(OnButtonClicked);
+        if(_button == null)
+        {
+            _button.onClick.AddListener(OnButtonClicked);
+        }
+        
     }
 
     private void OnButtonClicked()
     {
-        if (_selectPanel.activeSelf)
+        if(_cleanListPanel.activeSelf)
         {
-            _selectPanel.SetActive(false);
+            _cleanListPanel.SetActive(false);
+        }
+        if (_foodListPanel.activeSelf)
+        {
+            _foodListPanel.SetActive(false);
         }
         else
         {
-            _selectPanel.SetActive(true);
+            _foodListPanel.SetActive(true);
         }
     }
 }

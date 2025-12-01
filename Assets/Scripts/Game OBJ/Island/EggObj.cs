@@ -9,7 +9,7 @@ public class EggObj : MonoBehaviour
     private EggData _data;
     public void Init(EggData egg)
     {
-        _sprite.sprite = egg.Image;
+        _sprite.sprite = egg.PetSaveData.EggSprite;
         _data = egg;
     }
 

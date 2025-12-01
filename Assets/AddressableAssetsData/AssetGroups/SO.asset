@@ -59,6 +59,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - PersonalitySO
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54167e418d9d1f44e92be07eb4ee76c6
+    m_Address: Assets/ScriptableObjects/Genes/WhiskersSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WhiskersSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a9f4e4c1d2d9ba42b87f250a42483c9
+    m_Address: Assets/ScriptableObjects/Genes/TailSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TailSO
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6eb8d9d241100b3468994332fc93a811
     m_Address: Assets/ScriptableObjects/Genes/Feet
     m_ReadOnly: 0

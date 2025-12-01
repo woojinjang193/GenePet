@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d366fc8715f848c4cb8ae3e74057ac4b, type: 3}
+  m_Name: Ear B 2
+  m_EditorClassIdentifier: 
+  ID: 02
+  DisplayName: 00
+  Rarity: 1
+  sprite: {fileID: 21300000, guid: a83ac219b768b6c4485f90e10a119340, type: 3}
+  Outline: {fileID: 21300000, guid: 6ca526c39aee70d4e88502be12e5bcb8, type: 3}
+  OrderInLayer: 3

@@ -7,10 +7,10 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GameManager : Singleton<GameManager>
 {
-    //public LeftReason Reason {  get; private set; }
     public GameConfig Config { get; private set; }
     private bool _isManagerReady = false;
     public bool IsReady { get { return _isManagerReady; } }
+
     protected override void Awake()
     {
         base.Awake();
@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager>
         {
             int userMaxAmount = Manager.Save.CurrentData.UserData.MaxPetAmount;
             int curAmount = Manager.Save.CurrentData.UserData.HavePetList.Count;
-            int gameMaxAmount = Manager.Game.Config.MaxPetArmount;
+            int gameMaxAmount = Manager.Game.Config.MaxPetAmount;
 
             if (curAmount >= gameMaxAmount)
             {
@@ -50,66 +50,91 @@ public class GameManager : Singleton<GameManager>
                 return;
             } 
         }
-        PetSaveData newpet = CreateRandomPetData();
+        PetSaveData newpet = CreateRandomPetData(isMine);
         Manager.Save.RegisterNewPet(newpet, isMine);
 
         PetManager petManager = FindObjectOfType<PetManager>();
-        if(petManager != null)
+        if(isMine && petManager != null)
         {
             petManager.SpawnPet(newpet);
         }
     }
-    private PetSaveData CreateRandomPetData()
+    private GenePair GetPair(GenesContainer g, PartType part) // GenePair 매핑
+    {
+        switch (part) // 파트별 GenePair 반환
+        {
+            case PartType.Body: return g.Body;
+            case PartType.Arm: return g.Arm;
+            case PartType.Feet: return g.Feet;
+            case PartType.Pattern: return g.Pattern;
+            case PartType.Eye: return g.Eye;
+            case PartType.Mouth: return g.Mouth;
+            case PartType.Ear: return g.Ear;
+            case PartType.Acc: return g.Acc;
+            case PartType.Blush: return g.Blush;
+            case PartType.Wing: return g.Wing;
+            case PartType.Color: return g.Color;
+            case PartType.Personality: return g.Personality;
+            case PartType.Tail: return g.Tail;
+            case PartType.Whiskers: return g.Whiskers;
+        }
+        return null;
+    }
+    private PetSaveData CreateRandomPetData(bool isMine)
     {
         PetSaveData newPet = new PetSaveData();
-        newPet.DisplayName = "";
+
         newPet.ID = Guid.NewGuid().ToString();
+        newPet.DisplayName = "";
 
-        newPet.Genes.Acc.DominantId = Manager.Gene.GetRandomAccSO().ID;
-        newPet.Genes.Acc.RecessiveId = Manager.Gene.GetRandomAccSO().ID;
+        RarityType highestRarity = RarityType.Common;
 
-        newPet.Genes.Arm.DominantId = Manager.Gene.GetRandomArmSO().ID;
-        newPet.Genes.Arm.RecessiveId = Manager.Gene.GetRandomArmSO().ID;
+        //PartType 전체 순회
+        foreach (PartType part in Enum.GetValues(typeof(PartType))) // enum 전체 루프
+        {
+            GenePair pair = GetPair(newPet.Genes, part); // GenePair 가져오기
+            if (pair == null)
+            {
+                Debug.LogWarning($"{part.ToString()} 파츠 없음");
+                continue; // 안전 처리
+            }
+            
+            PartBaseSO dominant = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 우성 랜덤
+            PartBaseSO recessive = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 열성 랜덤
 
-        newPet.Genes.Blush.DominantId = Manager.Gene.GetRandomBlushSO().ID;
-        newPet.Genes.Blush.RecessiveId = Manager.Gene.GetRandomBlushSO().ID;
+            if (dominant.Rarity > highestRarity) highestRarity = dominant.Rarity; // 최고 레어도 갱신
+            if (recessive.Rarity > highestRarity) highestRarity = recessive.Rarity;
 
-        newPet.Genes.Body.DominantId = Manager.Gene.GetRandomBodySO().ID;
-        newPet.Genes.Body.RecessiveId = Manager.Gene.GetRandomBodySO().ID;
-
-        newPet.Genes.Color.DominantId = Manager.Gene.GetRandomColorSO().ID;
-        newPet.Genes.Color.RecessiveId = Manager.Gene.GetRandomColorSO().ID;
-
-        newPet.Genes.Ear.DominantId = Manager.Gene.GetRandomEarSO().ID;
-        newPet.Genes.Ear.RecessiveId = Manager.Gene.GetRandomEarSO().ID;
-
-        newPet.Genes.Eye.DominantId = Manager.Gene.GetRandomEyeSO().ID;
-        newPet.Genes.Eye.RecessiveId = Manager.Gene.GetRandomEyeSO().ID;
-
-        newPet.Genes.Feet.DominantId = Manager.Gene.GetRandomFeetSO().ID;
-        newPet.Genes.Feet.RecessiveId = Manager.Gene.GetRandomFeetSO().ID;
-
-        newPet.Genes.Mouth.DominantId = Manager.Gene.GetRandomMouthSO().ID;
-        newPet.Genes.Mouth.RecessiveId = Manager.Gene.GetRandomMouthSO().ID;
-
-        newPet.Genes.Pattern.DominantId = Manager.Gene.GetRandomPatternSO().ID;
-        newPet.Genes.Pattern.RecessiveId = Manager.Gene.GetRandomPatternSO().ID;
-
-        newPet.Genes.Personality.DominantId = Manager.Gene.GetRandomPersonalitySO().ID;
-        newPet.Genes.Personality.RecessiveId = Manager.Gene.GetRandomPersonalitySO().ID;
-
-        newPet.Genes.Wing.DominantId = Manager.Gene.GetRandomWingSO().ID;
-        newPet.Genes.Wing.RecessiveId = Manager.Gene.GetRandomWingSO().ID;
+            pair.DominantId = dominant.ID; // 우성 유전자 ID 설정
+            pair.RecessiveId = recessive.ID; // 열성 유전자 ID 설정
+        }
 
         string dom = newPet.Genes.Color.DominantId;
         string rec = newPet.Genes.Color.RecessiveId;
 
+        //컬러 설정
         newPet.Genes.PartColors.ArmColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.BodyColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.FeetColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.PatternColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
-        //newPet.Genes.PartColors.BlushColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.WingColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.TailColorId = PickColorId(dom, rec);
+
+        newPet.Rarity = highestRarity; //저장 안해도 되면 PetSaveData에서 지우기
+
+        //알 이미지 저장
+        switch (highestRarity)
+        {
+            case RarityType.Legendary:
+                newPet.EggSprite = Config.EggRaritySO.LegendarySprite; break;
+            case RarityType.Epic:
+                newPet.EggSprite = Config.EggRaritySO.EpicSprite; break;
+            case RarityType.Rare:
+                newPet.EggSprite = Config.EggRaritySO.RareSprite; break;
+            default:
+                newPet.EggSprite = Config.EggRaritySO.CommonSprite; break;
+        }
 
         return newPet;
     }
@@ -122,10 +147,4 @@ public class GameManager : Singleton<GameManager>
             return dominant;
         }
         return recessive;
-    }
-
-    //public void SetLeftReason(LeftReason reason)
-    //{
-    //    Reason = reason;
-    //}
-}
+    }}
