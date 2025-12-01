@@ -10,7 +10,6 @@ public class InGameUIManager : MonoBehaviour
     [Header("줌 UI")]
     [SerializeField] private GameObject _zoomedUI;
  
-
     [Header("의존")]
     [SerializeField] private CameraController _camera;
     [SerializeField] private PetManager _petManager;

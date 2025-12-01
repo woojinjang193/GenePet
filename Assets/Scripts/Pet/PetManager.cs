@@ -83,7 +83,7 @@ public class PetManager : MonoBehaviour
 
         PetUnit unit = Instantiate(_petPrefab, _Positions[index]).GetComponent<PetUnit>();
 
-        unit.Init(save);
+        unit.Init(save, this);
 
         PetVisualController visual = unit.GetComponent<PetVisualController>();
         if (visual != null)
@@ -283,5 +283,10 @@ public class PetManager : MonoBehaviour
         //        return;
         //    }
         //}
+    }
+
+    public void UpdateStatus()
+    {
+        _StatusUI.UpdateGauges(ZoomedUnit.Status);
     }
 }

@@ -17,7 +17,6 @@ public sealed class PetController : MonoBehaviour
     private Sprite _ogMouth;
     private Sprite _ogEye;
 
-
     private void Awake()
     {
         _pet = GetComponent<PetUnit>();
@@ -40,8 +39,9 @@ public sealed class PetController : MonoBehaviour
         }
         
         Status.IncreaseStat(PetStat.Hunger, 10f); //식사 포만도 오르는 수치
-        Status.DecreaseStat(PetStat.Cleanliness, -5f); //식사시 감소하는 청결도 수치
+        Status.DecreaseStat(PetStat.Cleanliness, 5f); //식사시 감소하는 청결도 수치
         _mouthAnim.SetTrigger("Eat");
+        _pet.Petmanager.UpdateStatus();
         Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 
@@ -54,6 +54,7 @@ public sealed class PetController : MonoBehaviour
     {
         if (_pet == null || Status == null) return;
         Status.IncreaseStat(PetStat.Cleanliness, 50f); // 목욕시 증가하는 청결도 수치
+        _pet.Petmanager.UpdateStatus();
         Debug.Log($"목욕. 청결도 : {Status.Cleanliness}");
     }
     public void Heal()
@@ -69,6 +70,7 @@ public sealed class PetController : MonoBehaviour
         
         Status.SetFlag(PetFlag.IsSick, false);
         Status.IncreaseStat(PetStat.Health, 20f); //치료시 증가하는 체력 수치
+        _pet.Petmanager.UpdateStatus();
         Debug.Log($"아픔 : {Status.IsSick}");
     }
     public void ShowStatus()
