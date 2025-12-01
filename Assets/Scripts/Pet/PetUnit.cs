@@ -10,6 +10,7 @@ public class PetUnit : MonoBehaviour
     public PetStatusCore Status => _status;
 
     private string _petId;
+    public string PetId => _petId;
 
     private PetVisualController _visul;
 

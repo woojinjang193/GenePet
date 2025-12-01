@@ -75,6 +75,8 @@ public class GameManager : Singleton<GameManager>
             case PartType.Wing: return g.Wing;
             case PartType.Color: return g.Color;
             case PartType.Personality: return g.Personality;
+            case PartType.Tail: return g.Tail;
+            case PartType.Whiskers: return g.Whiskers;
         }
         return null;
     }
@@ -116,6 +118,8 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.PartColors.FeetColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.PatternColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.WingColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.TailColorId = PickColorId(dom, rec);
 
         newPet.Rarity = highestRarity; //저장 안해도 되면 PetSaveData에서 지우기
 
@@ -143,7 +147,4 @@ public class GameManager : Singleton<GameManager>
             return dominant;
         }
         return recessive;
-    }
-
-    
-}
+    }}

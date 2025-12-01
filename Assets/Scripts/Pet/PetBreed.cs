@@ -26,6 +26,8 @@ public class PetBreed : MonoBehaviour
         CombinePart(PartType.Acc, myPet.Genes.Acc, islandPet.Genes.Acc, baby.Genes.Acc);
         CombinePart(PartType.Blush, myPet.Genes.Blush, islandPet.Genes.Blush, baby.Genes.Blush);
         CombinePart(PartType.Wing, myPet.Genes.Wing, islandPet.Genes.Wing, baby.Genes.Wing);
+        CombinePart(PartType.Tail, myPet.Genes.Tail, islandPet.Genes.Tail, baby.Genes.Tail);
+        CombinePart(PartType.Whiskers, myPet.Genes.Whiskers, islandPet.Genes.Whiskers, baby.Genes.Whiskers);
 
         CombinePart(PartType.Color, myPet.Genes.Color, islandPet.Genes.Color, baby.Genes.Color);
 
@@ -34,6 +36,8 @@ public class PetBreed : MonoBehaviour
         baby.Genes.PartColors.FeetColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.PatternColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.EarColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
+        baby.Genes.PartColors.WingColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
+        baby.Genes.PartColors.TailColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         //egg.Genes.PartColors.BlushColorId = Choose(egg.Genes.Color.DominantId, egg.Genes.Color.RecessiveId);
 
         var eggImage = Manager.Game.Config.EggRaritySO;

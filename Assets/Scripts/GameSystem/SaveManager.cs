@@ -98,7 +98,7 @@ public class SaveManager : Singleton<SaveManager>
         CurrentData.UserData.IslandPetList.Add(islandPet);
     }
 
-    public void RemovePet(string id)
+    public void RemovePetData(string id)
     {
         for (int i = 0; i < CurrentData.UserData.HavePetList.Count; i++)
         {

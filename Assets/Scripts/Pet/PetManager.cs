@@ -230,4 +230,22 @@ public class PetManager : MonoBehaviour
 
         RunTick(offlineSec);
     }
+
+    public void RemovePet()
+    {
+        string targetID = ZoomedPet.ID;
+
+        for (int i = 0; i < _activePets.Count; i++)
+        {
+            var activePet = _activePets[i];
+            
+            if (activePet.PetId == targetID)
+            {
+                Destroy(activePet.gameObject);
+                _activePets.RemoveAt(i);
+                Manager.Save.RemovePetData(targetID);
+                return;
+            }
+        }
+    }
 }

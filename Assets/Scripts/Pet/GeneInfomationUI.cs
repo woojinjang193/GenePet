@@ -241,6 +241,8 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Acc: return _noneImage;
             case PartType.Wing: return _noneImage;
             case PartType.Pattern: return _noneImage;
+            case PartType.Tail: return _noneImage;
+            case PartType.Whiskers : return _noneImage;
             default: return null;
         }
     }
@@ -258,6 +260,8 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Pattern: return new Vector3(1f, 1f, 1f);
             case PartType.Wing: return new Vector3(1.2f, 1.2f, 1f);
             case PartType.Blush: return new Vector3(2f, 2f, 1f);
+            case PartType.Tail: return new Vector3(2f, 2f, 1f);
+            case PartType.Whiskers: return new Vector3(2f, 2f, 1f);
         }
         return Vector3.one;
     }
@@ -278,6 +282,8 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Pattern: return Manager.Gene.GetPartSOByID<PatternSO>(part, id)?.sprite;
             case PartType.Wing: return Manager.Gene.GetPartSOByID<WingSO>(part, id)?.sprite;
             case PartType.Blush: return Manager.Gene.GetPartSOByID<BlushSO>(part, id)?.sprite;
+            case PartType.Tail: return Manager.Gene.GetPartSOByID<TailSO>(part, id)?.sprite;
+            case PartType.Whiskers: return Manager.Gene.GetPartSOByID<WhiskersSO>(part, id)?.sprite;
         }
         return null;
     }
@@ -292,11 +298,13 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Mouth: return null;
             case PartType.Pattern: return null;
             case PartType.Blush: return null;
+            case PartType.Whiskers: return null;
             case PartType.Body: return Manager.Gene.GetPartSOByID<BodySO>(part, id)?.Outline;
             case PartType.Arm: return Manager.Gene.GetPartSOByID<ArmSO>(part, id)?.Outline;
             case PartType.Feet: return Manager.Gene.GetPartSOByID<FeetSO>(part, id)?.Outline;
             case PartType.Wing: return Manager.Gene.GetPartSOByID<WingSO>(part, id)?.Outline;
             case PartType.Ear: return Manager.Gene.GetPartSOByID<EarSO>(part, id)?.Outline;
+            case PartType.Tail: return Manager.Gene.GetPartSOByID<TailSO>(part, id)?.Outline;
         }
         return null;
     }
@@ -317,6 +325,8 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Wing: return g.Wing;
             case PartType.Blush: return g.Blush;
             case PartType.Color: return g.Color;
+            case PartType.Tail: return g.Tail;
+            case PartType.Whiskers: return g.Whiskers;
             default: return g.Body;
         }
     }

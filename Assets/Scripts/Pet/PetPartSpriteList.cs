@@ -15,6 +15,8 @@ public class PetPartSpriteList
     public SpriteRenderer Mouth;
     public SpriteRenderer Pattern;
     public SpriteRenderer Wing;
+    public SpriteRenderer Tail;
+    public SpriteRenderer Whiskers;
 
     [Header("아웃라인 파츠")]
     //public SpriteRenderer AccOut;
@@ -24,6 +26,7 @@ public class PetPartSpriteList
     public SpriteRenderer EarOut;
     public SpriteRenderer FeetOut;
     public SpriteRenderer WingOut;
+    public SpriteRenderer TailOut;
 
     [Header("마스크")]
     public SpriteMask PatternMask;
@@ -42,6 +45,8 @@ public class PetPartImageList
     public Image Mouth;
     public Image Pattern;
     public Image Wing;
+    public Image Tail;
+    public Image Whiskers;
 
     [Header("아웃라인 파츠")]
     public Image ArmOut;
@@ -49,6 +54,7 @@ public class PetPartImageList
     public Image EarOut;
     public Image FeetOut;
     public Image WingOut;
+    public Image TailOut;
 
     [Header("마스크")]
     public Image PatternMask;

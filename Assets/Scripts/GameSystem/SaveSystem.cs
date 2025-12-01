@@ -33,7 +33,9 @@ public class GenesContainer
     public GenePair Ear;         
     public GenePair Acc;
     public GenePair Blush;
-    public GenePair Wing;       
+    public GenePair Wing;
+    public GenePair Tail;
+    public GenePair Whiskers;
 
     public GenePair Color;      
     public GenePair Personality;
@@ -51,6 +53,8 @@ public class GenesContainer
         Acc = new GenePair();        
         Wing = new GenePair();       
         Blush = new GenePair();
+        Tail = new GenePair();
+        Whiskers = new GenePair();
 
         Color = new GenePair();       
         Personality = new GenePair();
@@ -66,6 +70,9 @@ public class PartColorGenes
     public string FeetColorId;
     public string PatternColorId;
     public string EarColorId;
+    public string WingColorId;
+    public string TailColorId;
+    //public string WhiskersColorId;
     //public string BlushColorId;
 
     public PartColorGenes()
@@ -75,7 +82,9 @@ public class PartColorGenes
         FeetColorId = "";
         PatternColorId = "";
         EarColorId = "";
-        //BlushColorId = "";
+        WingColorId = "";
+        TailColorId = "";
+        //WhiskersColorId = "";
     }
 }
 [Serializable]

@@ -13,7 +13,7 @@ public class GeneManager : Singleton<GeneManager>
     private List<PartBaseSO> _options = new List<PartBaseSO>();
 
     private int _loadedTypeCount = 0;
-    private int _totalTypes = 10;
+    private int _totalTypes = 14;
     private bool _ready = false;
 
     public bool IsReady { get { return _ready; } }
@@ -38,6 +38,8 @@ public class GeneManager : Singleton<GeneManager>
         if (_parts.ContainsKey(PartType.Pattern) == false) _parts[PartType.Pattern] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Personality) == false) _parts[PartType.Personality] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Wing) == false) _parts[PartType.Wing] = new List<PartBaseSO>();
+        if (_parts.ContainsKey(PartType.Tail) == false) _parts[PartType.Tail] = new List<PartBaseSO>();
+        if (_parts.ContainsKey(PartType.Whiskers) == false) _parts[PartType.Whiskers] = new List<PartBaseSO>();
     }
 
     private void LoadAllGenes()
@@ -77,6 +79,12 @@ public class GeneManager : Singleton<GeneManager>
 
         AsyncOperationHandle<IList<WingSO>> handle_Wing = Addressables.LoadAssetsAsync<WingSO>("WingSO", null);
         handle_Wing.Completed += OnWingsLoaded;
+
+        AsyncOperationHandle<IList<TailSO>> handle_Tail = Addressables.LoadAssetsAsync<TailSO>("TailSO", null);
+        handle_Tail.Completed += OnTailsLoaded;
+
+        AsyncOperationHandle<IList<WhiskersSO>> handle_Whiskers = Addressables.LoadAssetsAsync<WhiskersSO>("WhiskersSO", null);
+        handle_Whiskers.Completed += OnWhiskersLoaded;
 
     }
     private void OnAccsLoaded(AsyncOperationHandle<IList<AccSO>> handle)
@@ -279,7 +287,45 @@ public class GeneManager : Singleton<GeneManager>
         }
 
     }
-    
+    private void OnTailsLoaded(AsyncOperationHandle<IList<TailSO>> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _parts[PartType.Tail].Clear();
+
+            for (int i = 0; i < handle.Result.Count; i++)
+            {
+                _parts[PartType.Tail].Add(handle.Result[i]);
+            }
+            Debug.Log($"TailSO 로드: {_parts[PartType.Tail].Count}개");
+            CheckIsReady();
+        }
+        else
+        {
+            Debug.LogError($"TailSO 로드 실패: {handle.OperationException}");
+        }
+
+    }
+    private void OnWhiskersLoaded(AsyncOperationHandle<IList<WhiskersSO>> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _parts[PartType.Whiskers].Clear();
+
+            for (int i = 0; i < handle.Result.Count; i++)
+            {
+                _parts[PartType.Whiskers].Add(handle.Result[i]);
+            }
+            Debug.Log($"WhiskersSO 로드: {_parts[PartType.Whiskers].Count}개");
+            CheckIsReady();
+        }
+        else
+        {
+            Debug.LogError($"WhiskersSO 로드 실패: {handle.OperationException}");
+        }
+
+    }
+
     private void OnWingsLoaded(AsyncOperationHandle<IList<WingSO>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -407,6 +453,8 @@ public class GeneManager : Singleton<GeneManager>
     public PatternSO GetRandomPatternSO() { return GetRandomPart<PatternSO>(PartType.Pattern); }
     public PersonalitySO GetRandomPersonalitySO() { return GetRandomPart<PersonalitySO>(PartType.Personality); }
     public WingSO GetRandomWingSO() { return GetRandomPart<WingSO>(PartType.Wing); }
+    public TailSO GetRandomTailSO() { return GetRandomPart<TailSO>(PartType.Tail); }
+    public WhiskersSO GetRandomWhiskersSO() { return GetRandomPart<WhiskersSO>(PartType.Whiskers); }
 
     public T GetPartSOByID<T>(PartType part, string id) where T : PartBaseSO
     {
@@ -479,8 +527,6 @@ public class GeneManager : Singleton<GeneManager>
             _ready = true;
         }
     }
-
-
 }
 
 
