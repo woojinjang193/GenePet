@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,6 +29,8 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
 
     [SerializeField] private Button _giveUpButton;
     [SerializeField] private Button _closeButton;
+
+    public event Action OnClickMissingPoster;
 
     private Language _curLanguage;
 
@@ -80,7 +83,8 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         }
         items.MissingPoster--;
 
-        //펫 돌려받기 처리 여기에
+        OnClickMissingPoster?.Invoke(); //펫 매니저가 구독함
+        gameObject.SetActive(false);
     }
     private void OnGiveUpClicked() 
     {

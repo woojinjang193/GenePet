@@ -28,6 +28,7 @@ public class PetManager : MonoBehaviour
     public PetSaveData ZoomedPet { get; private set; }
     public PetUnit ZoomedUnit { get; private set; }
 
+    private LetterPanel _letterPanel; //이벤트 구독용
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
 
     private void Awake()
@@ -45,6 +46,15 @@ public class PetManager : MonoBehaviour
         }
 
         LoadPetListFromSave();
+    }
+    private void Start()
+    {
+        _letterPanel = FindObjectOfType<LetterPanel>(true);
+        _letterPanel.OnClickMissingPoster += PetComeBack;
+    }
+    private void OnDestroy()
+    {
+        _letterPanel.OnClickMissingPoster -= PetComeBack;
     }
     private void LoadPetListFromSave()
     {
@@ -97,7 +107,7 @@ public class PetManager : MonoBehaviour
             if (_configMap.TryGetValue(unit.Status.Growth, out var cfg))
             {
                 unit.SetConfig(cfg);
-                Debug.Log($"{unit.Status.ID}의 성장 상태: {cfg.name}");
+                Debug.Log($"{unit.PetId}의 성장 상태: {cfg.name}");
             }
         }
     }
@@ -162,7 +172,7 @@ public class PetManager : MonoBehaviour
             // 같은 ID 찾기
             for (int j = 0; j < saveList.Count; j++)
             {
-                if (saveList[j].ID == status.ID)
+                if (saveList[j].ID == unit.PetId)
                 {
                     var pet = saveList[j];
 
@@ -194,13 +204,12 @@ public class PetManager : MonoBehaviour
             Debug.LogError("카메라 컨트롤러 없음");
             return;
         }
-
         //카메라 줌인
         for (int i = 0; i < _activePets.Count; i++)
         {
             var pet = _activePets[i];
 
-            if (pet.Status.ID == id)
+            if (pet.PetId == id)
             {
                 Vector3 pos = pet.gameObject.transform.position;
                 _camera.CameraZoomIn(pos);
@@ -208,7 +217,6 @@ public class PetManager : MonoBehaviour
                 break;
             }
         }
-
         //선택된 펫 정보 캐싱
         var petlist = Manager.Save.CurrentData.UserData.HavePetList;
         for (int i = 0; i < petlist.Count; i++)
@@ -278,11 +286,30 @@ public class PetManager : MonoBehaviour
             Debug.LogError("펫 비주얼 컨트롤러 못찾음");
         }
     }
-    public void PetComeBack()
+    private void PetComeBack()
     {
-        //ZoomedUnit.Status.SetValues()
-        ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
+        if(ZoomedUnit == null) return;
 
+        GameConfig status = Manager.Game.Config;
+
+        ZoomedUnit.Status.SetValues(PetStat.Hunger, status.ComeBackHunger);
+        ZoomedUnit.Status.SetValues(PetStat.Cleanliness, status.ComeBackCleanliness);
+        ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, status.ComeBackHappiness);
+        ZoomedUnit.Status.SetValues(PetStat.Health, status.ComeBackHealth);
+
+        ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
+        ZoomedUnit.LeftHandled = false;
+
+        ZoomedUnit.gameObject.TryGetComponent<PetVisualController>(out PetVisualController petvisul);
+
+        if (petvisul)
+        {
+            petvisul.SetSprite(ZoomedUnit.Status.Growth);
+        }
+        else
+        {
+            Debug.LogError("펫 비주얼 컨트롤러 못찾음");
+        }
     }
     private LeftReason FineReasonForLeaving(PetStatusCore stats)
     {

@@ -4,7 +4,6 @@ using UnityEngine;
 [Serializable]
 public class PetStatusCore
 {
-    public string ID { get; private set; }
     public float Hunger { get; private set; }
     public float Health { get; private set; }
     public float Cleanliness { get; private set; }
@@ -36,7 +35,7 @@ public class PetStatusCore
                 return;
             }
             _growth = value;
-            Debug.Log($"ID: {ID} 성장 단계 {_growth}로 세팅");
+            Debug.Log($"ID: 성장 단계 {_growth}로 세팅");
         }
     }
  
@@ -108,13 +107,24 @@ public class PetStatusCore
         Clamp();
     }
 
-    public void SetValues(string id, float hunger, float health, float cleanliness, float happiness)
+    public void SetValues(PetStat stat, float value)
     {
-        ID = id;
-        Hunger = hunger;
-        Health = health;
-        Cleanliness = cleanliness;
-        Happiness = happiness;
+        switch (stat)
+        {
+            case PetStat.Health:
+                Health = value;
+                break;
+            case PetStat.Cleanliness:
+                Cleanliness = value;
+                break;
+            case PetStat.Hunger:
+                Hunger = value;
+                break;
+            case PetStat.Happiness:
+                Happiness = value;
+                break;
+        }
+        Clamp();
     }
     public void SetFlag(PetFlag flag, bool on)
     {

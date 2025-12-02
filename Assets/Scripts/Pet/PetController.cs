@@ -4,12 +4,21 @@ public sealed class PetController : MonoBehaviour
 {
     private PetUnit _pet;
 
-    [Header("입")]
+    [Header("입 파츠")]
     [SerializeField] private SpriteRenderer _mouth;
+    [Header("눈 파츠")]
     [SerializeField] private SpriteRenderer _eye;
+    [Header("일반 입 벌림 스프라이트 ")]
     [SerializeField] private Sprite _openMouthSprite;
+    [Header("간식 입 벌림 스프라이트 ")]
+    [SerializeField] private Sprite _openMouthForSnackSprite;
+    [Header("씹는 입 스프라이트 ")]
+    [SerializeField] private Sprite _chewingMouthSprite;
+    [Header("약 입 벌림 스프라이트 ")]
     [SerializeField] private Sprite _openMouthForMedicine;
+    [Header("눈물 눈")]
     [SerializeField] private Sprite _closeEyesWithTear;
+    [Header("감은 눈")]
     [SerializeField] private Sprite _closeEyesSprite;
 
     [SerializeField] private Animator _mouthAnim;
@@ -73,23 +82,6 @@ public sealed class PetController : MonoBehaviour
         _pet.Petmanager.UpdateStatus();
         Debug.Log($"아픔 : {Status.IsSick}");
     }
-    public void ShowStatus()
-    {
-        if (Status == null)
-        {
-            Debug.LogError("스테이터스 없음");
-            return;
-        }
-
-        string msg =
-            "건강: " + Status.Health.ToString("F1") +
-            ", 포만: " + Status.Hunger.ToString("F1") +
-            ", 행복: " + Status.Happiness.ToString("F1") +
-            ", 청결: " + Status.Cleanliness.ToString("F1") +
-            ", 아픔: " + (Status.IsSick ? "T" : "F");
-        Debug.Log("[펫 스테이터스] " + msg);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Food"))
@@ -98,15 +90,15 @@ public sealed class PetController : MonoBehaviour
             _ogEye = _eye.sprite;
             _mouth.sprite = _openMouthSprite;
             _eye.sprite = _closeEyesSprite;
-            Debug.Log("음식 트리거 충돌");
+            //Debug.Log("음식 트리거 충돌");
         }
         else if (collision.CompareTag("Snack"))
         {
             _ogMouth = _mouth.sprite;
             _ogEye = _eye.sprite;
-            _mouth.sprite = _openMouthSprite;
+            _mouth.sprite = _openMouthForSnackSprite;
             _eye.sprite = _closeEyesSprite;
-            Debug.Log("간식 트리거 충돌");
+            //Debug.Log("간식 트리거 충돌");
 
         }
         else if (collision.CompareTag("Medicine"))
@@ -115,7 +107,7 @@ public sealed class PetController : MonoBehaviour
             _ogEye = _eye.sprite;
             _mouth.sprite = _openMouthForMedicine;
             _eye.sprite = _closeEyesWithTear;
-            Debug.Log("약 트리거 충돌");
+            //Debug.Log("약 트리거 충돌");
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -124,20 +116,20 @@ public sealed class PetController : MonoBehaviour
         {
             _mouth.sprite = _ogMouth;
             _eye.sprite = _ogEye;
-            Debug.Log("음식 멀어짐");
+            //Debug.Log("음식 멀어짐");
         }
         else if (collision.CompareTag("Snack"))
         {
             _mouth.sprite = _ogMouth;
             _eye.sprite = _ogEye;
-            Debug.Log("간식 멀어짐");
+            //Debug.Log("간식 멀어짐");
 
         }
         else if (collision.CompareTag("Medicine"))
         {
             _mouth.sprite = _ogMouth;
             _eye.sprite = _ogEye;
-            Debug.Log("약 멀어짐");
+            //Debug.Log("약 멀어짐");
         }
     }
 }

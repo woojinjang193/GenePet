@@ -16,7 +16,6 @@ public class PetMouth : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             _petController.Feed();
-            Debug.Log("밥 먹음");
             //_animator.SetTrigger("Eat");
             //먹는 사운드 출력
         }
@@ -24,7 +23,6 @@ public class PetMouth : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             _petController.Feed();
-            Debug.Log("간식 먹음");
             //먹는 사운드 출력
         }
         else if(collision.CompareTag("Medicine"))

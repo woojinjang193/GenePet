@@ -1676,10 +1676,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mouth: {fileID: 3057165162546585831}
   _eye: {fileID: 6802942868390645036}
-  _openMouthSprite: {fileID: 21300000, guid: e9c5638894ed7ac4a8b6805b019136c3, type: 3}
-  _openMouthForMedicine: {fileID: 21300000, guid: 0fab98f85fd37d94198231e620ab517b, type: 3}
-  _closeEyesWithTear: {fileID: 21300000, guid: e0f23ba30da307247b11ce968339ef19, type: 3}
-  _closeEyesSprite: {fileID: 21300000, guid: 952cde05b8285984ca74b66919aeb103, type: 3}
+  _openMouthSprite: {fileID: 21300000, guid: e9ff47e05e8b3854f8c632b503eaf378, type: 3}
+  _openMouthForSnackSprite: {fileID: 21300000, guid: 6ee5d73f70f7b35408bf2d6c32265bc6, type: 3}
+  _openMouthForMedicine: {fileID: 21300000, guid: e9ff47e05e8b3854f8c632b503eaf378, type: 3}
+  _closeEyesWithTear: {fileID: 21300000, guid: b2f09bd294ad50241aeaa3d977a468f4, type: 3}
+  _closeEyesSprite: {fileID: 21300000, guid: 71685818cee235c4eb45e3a19a840646, type: 3}
   _mouthAnim: {fileID: 261560373855071590}
 --- !u!1 &6111303871882449901
 GameObject:

@@ -106,7 +106,7 @@ public class PetVisualController : MonoBehaviour
     private void HideAllParts()
     {
         if (_egg != null) _egg.gameObject.SetActive(false);
-
+        _letter.gameObject.SetActive(false);
         // 베이스 끄기
         _renderers.Acc?.gameObject.SetActive(false);
         _renderers.Arm?.gameObject.SetActive(false);

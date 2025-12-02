@@ -22,8 +22,11 @@ public class PetUnit : MonoBehaviour
         Petmanager = petManager;
         _petId = save.ID;
 
-        _status.SetValues( save.ID, save.Hunger, save.Health, save.Cleanliness, save.Happiness );
-
+        _status.SetValues(PetStat.Hunger, save.Hunger);
+        _status.SetValues(PetStat.Health, save.Health);
+        _status.SetValues(PetStat.Cleanliness, save.Cleanliness);
+        _status.SetValues(PetStat.Happiness, save.Happiness);
+ 
         _status.SetFlag(PetFlag.IsLeft, save.IsLeft);
         _status.SetFlag(PetFlag.IsSick, save.IsSick);
 
