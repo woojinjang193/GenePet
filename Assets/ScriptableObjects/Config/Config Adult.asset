@@ -15,8 +15,12 @@ MonoBehaviour:
   GrowthType: 3
   TimeToGrow: 0
   ExpToGrow: 0
-  HungerDecreasePerSec: 0.5
-  HappinessDecreasePerSec: 0
-  CleanlinessDecreasePerSec: 0.1
+  HungerDecreasePerSec: 0.05
+  HappinessDecreasePerSec: 0.05
+  CleanlinessDecreasePerSec: 0.05
   PlayHappinessGain: 3
   HealthDecreasePerSec: 0.5
+  HealthIncreasePerSec: 0.5
+  HungerAmountHealthIncrease: 80
+  CleanlinessAmountGetSick: 20
+  TimeToGetSick: 3600

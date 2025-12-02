@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,7 +51,26 @@ public class PetManager : MonoBehaviour
     {
         _letterPanel = FindObjectOfType<LetterPanel>(true);
         _letterPanel.OnClickMissingPoster += PetComeBack;
+
+        ApplyOfflineTimeFromSave();
     }
+    private void OnDisable()
+    {
+        SaveAllStatus();
+        Debug.Log("펫 스테이터스 저장 완료");
+
+        // 메인 씬을 떠나는 지금 시간기록
+        Manager.Save.SavePlayTime();
+
+        // 상태 + 시간까지 포함해서 저장
+        Manager.Save.SaveGame();
+    }
+    private void OnApplicationPause(bool pause)
+    {
+        if (!pause)
+            ApplyOfflineTimeFromSave();
+    }
+
     private void OnDestroy()
     {
         _letterPanel.OnClickMissingPoster -= PetComeBack;
@@ -129,6 +149,8 @@ public class PetManager : MonoBehaviour
     }
     private void RunTick(float sec)
     {
+        if(_activePets.Count <= 0 || _activePets ==  null) return;
+
         for (int i = 0; i < _activePets.Count; i++)
         {
             var unit = _activePets[i];
@@ -148,12 +170,8 @@ public class PetManager : MonoBehaviour
             }
         }
     }
-    private void OnDisable()
-    {
-        SaveAllStatus();
-        Debug.Log("펫 스테이터스 저장 완료");
-        Manager.Save.SaveGame();
-    }
+
+
     private void SaveAllStatus()
     {
         if (Manager.Save.CurrentData == null)
@@ -245,8 +263,25 @@ public class PetManager : MonoBehaviour
             _uiManager.OnZoomOutPet(); // UI 버튼 비활성화
         }
     }
-    public void ApplyOfflineTime(int offlineSec)
+    private void ApplyOfflineTimeFromSave()
     {
+        long last = Manager.Save.CurrentData.UserData.LastPlayedUnixTime;
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        int offlineSec = (int)(now - last);
+
+        if (offlineSec > 0)
+        {
+            ApplyOfflineTime(offlineSec);
+        }
+
+        // 이거 필요한가?
+        //Manager.Save.CurrentData.UserData.LastPlayedUnixTime = now;
+    }
+
+    private void ApplyOfflineTime(int offlineSec)
+    {
+        Debug.Log($"오프라인 틱 적용양: {offlineSec}");
         if (offlineSec <= 0) return;
 
         RunTick(offlineSec);

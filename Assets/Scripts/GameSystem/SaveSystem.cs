@@ -198,6 +198,8 @@ public class UserItemData
 [Serializable]
 public class UserData
 {
+    public long LastPlayedUnixTime;
+
     public string UID;
     public Language CurLanguage;
     public string UserDisplayName;
@@ -212,6 +214,8 @@ public class UserData
 
     public UserData()
     {
+        LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
         UID = "";
         CurLanguage = Language.ENG;
         UserDisplayName = "";
