@@ -75,4 +75,10 @@ public class PetUnit : MonoBehaviour
             default: return cur;
         }
     }
+
+    public void ZoomThisPet(bool on)
+    {
+        //Debug.Log($"줌됨 {on}");
+        _visul.AllowToClickLetter(on);
+    }
 }

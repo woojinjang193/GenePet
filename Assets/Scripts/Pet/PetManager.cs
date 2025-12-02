@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.UI.CanvasScaler;
 
 public class PetManager : MonoBehaviour
 {
@@ -195,6 +191,7 @@ public class PetManager : MonoBehaviour
     public void ZoomInPet(PetUnit unit)
     {
         ZoomedUnit = unit;
+        ZoomedUnit.ZoomThisPet(true);
 
         string id = unit.PetId;
 
@@ -241,6 +238,7 @@ public class PetManager : MonoBehaviour
             _camera.CameraZoomOut(); // 카메라 원상 복귀
         }
 
+        ZoomedUnit.ZoomThisPet(false);
         ZoomedPet = null;
         ZoomedUnit = null;
 

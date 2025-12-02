@@ -19,7 +19,7 @@ public class ConfirmMessage : MonoBehaviour
     private void Awake()
     {
         _confirmButton.onClick.AddListener(OnClickedConfirm);
-        _confirmButton.onClick.AddListener(OnClickedCancel);
+        _cancelButton.onClick.AddListener(OnClickedCancel);
     }
     public void OpenConfirmUI(Confirm confirm, IConfirmRequester requster)
     {

@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LetterPanel : MonoBehaviour
+public class LetterPanel : MonoBehaviour, IConfirmRequester
 {
+    [Header("컨펌 메세지")]
+    [SerializeField] private ConfirmMessage _confirmMessage;
+
     [Header("유저가 보게될 그림")]
     [SerializeField] private Image _reasonSprite;
 
@@ -15,8 +19,29 @@ public class LetterPanel : MonoBehaviour
     [SerializeField] private Sprite[] _sick;
     [SerializeField] private Sprite[] _noReason;
 
+    [Header("버튼 & 아이템 소지 수")]
+    [SerializeField] private Button _callingButton;
+    [SerializeField] private TMP_Text _callingAmount;
+
+    [SerializeField] private Button _missingPosterButton;
+    [SerializeField] private TMP_Text _missingPosterAmount;
+
+    [SerializeField] private Button _giveUpButton;
+    [SerializeField] private TMP_Text _giveUpAmount;
+
+    [SerializeField] private Button _closeButton;
+    [SerializeField] private TMP_Text _closeAmount;
+
     private Language _curLanguage;
- 
+
+    private void Awake()
+    {
+        _callingButton.onClick.AddListener(OnCallingClicked);
+        _missingPosterButton.onClick.AddListener(OnMissingPosterClicked);
+        _giveUpButton.onClick.AddListener(OnGiveUpClicked);
+        _closeButton.onClick.AddListener(OnCloseClicked);
+
+    }
     public void WriteLetter(LeftReason reason)
     {
         _curLanguage = Manager.Lang.CurLanguage;
@@ -39,4 +64,42 @@ public class LetterPanel : MonoBehaviour
                 break;
         }
     }
+    private void OnCallingClicked()
+    {
+    }
+    private void OnMissingPosterClicked()
+    {
+        int amount = Manager.Save.CurrentData.UserData.Items.MissingPoster;
+        
+        if (amount <= 0)
+        {
+            Debug.Log("포스터 수량 부족");
+            return;
+        }
+
+        amount--;
+        //펫 돌려받기 처리 여기에
+    }
+    private void OnGiveUpClicked() 
+    {
+        if (_confirmMessage == null)
+        {
+            _confirmMessage = FindObjectOfType<ConfirmMessage>(true);
+        }
+        _confirmMessage.OpenConfirmUI(Confirm.GiveUpPet, this);
+    }
+    private void OnCloseClicked() 
+    { 
+        gameObject.SetActive(false);
+    }
+    public void Confirmed()
+    {
+        PetManager petManager = FindObjectOfType<PetManager>();
+        if (petManager != null)
+        {
+            gameObject.SetActive (false);
+            petManager.RemovePet();
+        }
+    }
+    public void Canceled() { }
 }

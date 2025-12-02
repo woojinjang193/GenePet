@@ -135,4 +135,12 @@ public class PetVisualController : MonoBehaviour
         _letter.gameObject.SetActive(true);
         _letter.Init(_pet, reason);
     }
+    public void AllowToClickLetter(bool on)
+    {
+        if(_letter.gameObject.activeSelf)
+        {
+            //Debug.Log($"편지한테 알려줌 {on}");
+            _letter.SetClickable(on);
+        }
+    }
 }
