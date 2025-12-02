@@ -12,8 +12,6 @@ public sealed class PetController : MonoBehaviour
     [SerializeField] private Sprite _openMouthSprite;
     [Header("간식 입 벌림 스프라이트 ")]
     [SerializeField] private Sprite _openMouthForSnackSprite;
-    [Header("씹는 입 스프라이트 ")]
-    [SerializeField] private Sprite _chewingMouthSprite;
     [Header("약 입 벌림 스프라이트 ")]
     [SerializeField] private Sprite _openMouthForMedicine;
     [Header("눈물 눈")]

@@ -15,6 +15,8 @@ public class PetStatusCore
 
     private PetConfigSO _config;
 
+    private float _sickTimer;
+
     private float _growthTimer;
     private float _growthExp;
 
@@ -38,7 +40,6 @@ public class PetStatusCore
             Debug.Log($"ID: 성장 단계 {_growth}로 세팅");
         }
     }
- 
     public void Tick(float sec)
     {
         if (IsLeft) return;
@@ -52,20 +53,54 @@ public class PetStatusCore
         Hunger -= _config.HungerDecreasePerSec * sec;
         Cleanliness -= _config.CleanlinessDecreasePerSec * sec;
 
-        //조건 감소
+        //체력 감소 조건
         if(Hunger < 0f)
+        {
             Health -= _config.HealthDecreasePerSec * sec;
-
+        }
         if(IsSick)
+        {
             Health -= _config.HealthDecreasePerSec * sec;
+        }
 
-        if(Cleanliness < 0f)
-            Health -= _config.HealthDecreasePerSec * sec;
+        //아픔 조건
+        if(!IsSick)
+        {
+            if (Cleanliness < _config.CleanlinessAmountGetSick)
+            {
+                _sickTimer += sec;
 
-        if (Health <= 0f)
+                if (_sickTimer >= _config.TimeToGetSick)
+                {
+                    IsSick = true;
+                    _sickTimer = 0f;
+                }  
+            }
+            else
+            {
+                _sickTimer = 0f;
+            }
+        }
+
+        //체력 증가 조건
+        if(Hunger > _config.HungerAmountHealthIncrease)
+        {
+            if(Cleanliness > 90f)
+            {
+                Health += _config.HealthIncreasePerSec * sec * 1.5f; //깨끗하고 배부르면 더 빨리 오름
+            }
+            else
+            {
+                Health += _config.HealthIncreasePerSec * sec;
+            }   
+        }
+
+        //떠남처리
+        if (Health <= 0f) 
         {
             IsLeft = true;
         }
+
         Clamp();
     }
     public void IncreaseStat(PetStat stat, float value)
@@ -106,7 +141,6 @@ public class PetStatusCore
         }
         Clamp();
     }
-
     public void SetValues(PetStat stat, float value)
     {
         switch (stat)
@@ -151,7 +185,6 @@ public class PetStatusCore
         Cleanliness = Mathf.Clamp(Cleanliness, 0, 100);
         Happiness = Mathf.Clamp(Happiness, 0, 100);
     }
-
     public void ResetGrowthProgress()
     {
         _growthTimer = 0f;

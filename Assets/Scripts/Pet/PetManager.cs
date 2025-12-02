@@ -30,7 +30,6 @@ public class PetManager : MonoBehaviour
 
     private LetterPanel _letterPanel; //이벤트 구독용
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
-
     private void Awake()
     {
         _accum = 0f;
@@ -296,6 +295,7 @@ public class PetManager : MonoBehaviour
         ZoomedUnit.Status.SetValues(PetStat.Cleanliness, status.ComeBackCleanliness);
         ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, status.ComeBackHappiness);
         ZoomedUnit.Status.SetValues(PetStat.Health, status.ComeBackHealth);
+        _StatusUI.UpdateGauges(ZoomedUnit.Status);
 
         ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
         ZoomedUnit.LeftHandled = false;
@@ -331,5 +331,4 @@ public class PetManager : MonoBehaviour
         }
         return LeftReason.NoReason;
     }
-
 }

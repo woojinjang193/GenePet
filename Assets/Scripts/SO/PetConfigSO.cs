@@ -12,7 +12,7 @@ public class PetConfigSO : ScriptableObject
     [Header("다음 성장까지 필요한 경험치")]
     public float ExpToGrow;
 
-    [Header("배고픔 초당 감소")]
+    [Header("포만도 초당 감소")]
     public float HungerDecreasePerSec;
 
     [Header("행복도 초당 감소")]
@@ -26,4 +26,16 @@ public class PetConfigSO : ScriptableObject
 
     [Header("체력 초당 감소")]
     public float HealthDecreasePerSec;
+
+    [Header("체력 초당 증가")]
+    public float HealthIncreasePerSec;
+
+    [Header("체력 증가 기준 포만도")]
+    public float HungerAmountHealthIncrease;
+
+    [Header("병걸리는 청결도 기준")]
+    public float CleanlinessAmountGetSick;
+
+    [Header("기준 청결도 이하일때 병걸리는 시간")]
+    public float TimeToGetSick;
 }
