@@ -23,7 +23,6 @@ public class PetManager : MonoBehaviour
     [SerializeField] private StatusUI _StatusUI;
 
     private float _accum;
-    private float _statusUpdateTimer;
 
     private CameraController _camera;
     private InGameUIManager _uiManager;
@@ -117,16 +116,13 @@ public class PetManager : MonoBehaviour
         while (_accum >= _tickInterval)
         {
             RunTick(_tickInterval);
-            _accum -= _tickInterval;
-        }
-
-        _statusUpdateTimer += Time.deltaTime;
-
-        if (ZoomedUnit != null && _statusUpdateTimer >= _statusUpdateDuration) // 줌된 펫 있을 때만
-        {
-            _StatusUI.UpdateGauges(ZoomedUnit.Status); // UI 갱신
-            _statusUpdateTimer = 0f; // 타이머 리셋
-        }
+            
+            if (ZoomedUnit != null) // 줌된 펫 있을 때만
+            {
+                _StatusUI.UpdateGauges(ZoomedUnit.Status); // UI 갱신
+            }
+            _accum -= _tickInterval; //타이머 1초 빼기
+        }     
     }
 
     private void RunTick(float sec)
@@ -191,8 +187,6 @@ public class PetManager : MonoBehaviour
 
     public void ZoomInPet(PetUnit unit)
     {
-        _statusUpdateTimer = 0f;
-
         ZoomedUnit = unit;
 
         string id = unit.PetId;
@@ -235,8 +229,6 @@ public class PetManager : MonoBehaviour
 
     public void ZoomOutPet()
     {
-        _statusUpdateTimer = 0f;
-
         if (_camera != null)
         {
             _camera.CameraZoomOut(); // 카메라 원상 복귀
@@ -285,7 +277,7 @@ public class PetManager : MonoBehaviour
         //}
     }
 
-    public void UpdateStatus()
+    public void UpdateStatus() //스테이터스 게이지 업데이트
     {
         _StatusUI.UpdateGauges(ZoomedUnit.Status);
     }
