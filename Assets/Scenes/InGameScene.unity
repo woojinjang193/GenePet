@@ -4416,7 +4416,6 @@ GameObject:
   - component: {fileID: 208738930}
   - component: {fileID: 208738929}
   - component: {fileID: 208738928}
-  - component: {fileID: 208738931}
   m_Layer: 5
   m_Name: Take It Back Button
   m_TagString: Untagged
@@ -4527,20 +4526,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208738926}
   m_CullTransparentMesh: 1
---- !u!114 &208738931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 208738926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f921cda910c21a949b74e2d8a6b39f51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pet: {fileID: 0}
-  _letterPanel: {fileID: 1937883587}
 --- !u!1 &220393063
 GameObject:
   m_ObjectHideFlags: 0
@@ -11853,7 +11838,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32a39da9b473d24295f38f4b3c33e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _letterPanel: {fileID: 1937883587}
 --- !u!61 &489903341
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17875,6 +17859,7 @@ MonoBehaviour:
   _zoomOutButton: {fileID: 1221254014}
   _mainUI: {fileID: 180050541}
   _zoomedUI: {fileID: 920031017}
+  _letterPanel: {fileID: 1937883591}
   _camera: {fileID: 519420033}
   _petManager: {fileID: 1811970253}
 --- !u!1 &779477955
@@ -27604,7 +27589,7 @@ GameObject:
   - component: {fileID: 1161699307}
   - component: {fileID: 1161699306}
   m_Layer: 5
-  m_Name: Letter UI
+  m_Name: Letter Paper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37991,7 +37976,6 @@ GameObject:
   - component: {fileID: 1538082395}
   - component: {fileID: 1538082397}
   - component: {fileID: 1538082396}
-  - component: {fileID: 1538082398}
   m_Layer: 5
   m_Name: Handwriting
   m_TagString: Untagged
@@ -38056,26 +38040,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1538082394}
   m_CullTransparentMesh: 1
---- !u!114 &1538082398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538082394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bd85d1e00a1e0f40adc645ff5ed93fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _handwritingImage: {fileID: 1538082396}
-  _korLetters:
-  - {fileID: 21300000, guid: 90059280b8217744e91c8181b06a414f, type: 3}
-  _engLetters:
-  - {fileID: 21300000, guid: 161072a3b8e7e3f4b894965ce017f0c5, type: 3}
-  _jpLetters: []
-  _deLetters:
-  - {fileID: 21300000, guid: 551789f615a0f594a9e5129d9768921a, type: 3}
 --- !u!1 &1538624250
 GameObject:
   m_ObjectHideFlags: 0
@@ -44915,19 +44879,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1887272674}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 248434503}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1887272674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46198,6 +46150,7 @@ GameObject:
   - component: {fileID: 1937883588}
   - component: {fileID: 1937883590}
   - component: {fileID: 1937883589}
+  - component: {fileID: 1937883591}
   m_Layer: 5
   m_Name: Letter Panel
   m_TagString: Untagged
@@ -46263,6 +46216,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1937883587}
   m_CullTransparentMesh: 1
+--- !u!114 &1937883591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937883587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bde04af93cfe1a7478d745b9c36c3c24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _reasonSprite: {fileID: 1538082396}
+  _hunger:
+  - {fileID: 21300000, guid: 90059280b8217744e91c8181b06a414f, type: 3}
+  - {fileID: 21300000, guid: 161072a3b8e7e3f4b894965ce017f0c5, type: 3}
+  - {fileID: 21300000, guid: 551789f615a0f594a9e5129d9768921a, type: 3}
+  _dirty:
+  - {fileID: 21300000, guid: 7e18b6336a980c44a9fe425b88bf10cb, type: 3}
+  - {fileID: 21300000, guid: b7e53c85525ea49918976cee801b77c5, type: 3}
+  - {fileID: 21300000, guid: 2950c7a2bb5da41e08efde7e1e71e171, type: 3}
+  _unhappy:
+  - {fileID: 21300000, guid: ab30815065ec94a46b82a72c3423188a, type: 3}
+  - {fileID: 21300000, guid: ad084886cd00d402b99424dd39f8245e, type: 3}
+  - {fileID: 21300000, guid: 78afc2860f31c465e9a615e823d37711, type: 3}
+  _sick:
+  - {fileID: 21300000, guid: df7af048799f042c1a3b6bc8c2e2f4d3, type: 3}
+  - {fileID: 21300000, guid: 814745158a5ef4e9c911c23af42173c5, type: 3}
+  - {fileID: 21300000, guid: 33252979615a941c69ae2c7d09eb47df, type: 3}
+  _noReason:
+  - {fileID: 21300000, guid: de00b5e2a30ca4a2cad58b02a4c0eabb, type: 3}
+  - {fileID: 21300000, guid: 54e5a5213021c41a89a7c4cad953eb44, type: 3}
+  - {fileID: 21300000, guid: 04a38f45c0d50406499906af1d31adb8, type: 3}
 --- !u!1 &1941154428
 GameObject:
   m_ObjectHideFlags: 0

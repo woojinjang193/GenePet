@@ -63,6 +63,10 @@ public class PetStatusCore
         if(Cleanliness < 0f)
             Health -= _config.HealthDecreasePerSec * sec;
 
+        if (Health <= 0f)
+        {
+            IsLeft = true;
+        }
         Clamp();
     }
     public void IncreaseStat(PetStat stat, float value)

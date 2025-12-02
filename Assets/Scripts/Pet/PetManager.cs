@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.UI.CanvasScaler;
 
 public class PetManager : MonoBehaviour
 {
@@ -28,7 +29,6 @@ public class PetManager : MonoBehaviour
     private InGameUIManager _uiManager;
     private List<PetUnit> _activePets = new List<PetUnit>();
     public List<PetUnit> ActivePets => _activePets;
-
     public PetSaveData ZoomedPet { get; private set; }
     public PetUnit ZoomedUnit { get; private set; }
 
@@ -90,6 +90,8 @@ public class PetManager : MonoBehaviour
             visual.Init(save, unit);
         }
 
+        if (save.IsLeft) { PetLeft(unit); } //이미 떠난펫일경우 바로 떠남 처리
+
         RegisterPet(unit);
     }
 
@@ -132,6 +134,11 @@ public class PetManager : MonoBehaviour
             var unit = _activePets[i];
             unit.Status.Tick(sec);
 
+            if (unit.Status.IsLeft && !unit.LeftHandled)
+            {
+                //Debug.Log("펫떠남 호출 ");
+                PetLeft(unit);
+            }
             if (unit.TryGrow())
             {
                 if (_configMap.TryGetValue(unit.Status.Growth, out var cfg))
@@ -260,25 +267,51 @@ public class PetManager : MonoBehaviour
             ZoomOutPet();
             return;
         }
-        //string targetID = ZoomedPet.ID;
-        //
-        //for (int i = 0; i < _activePets.Count; i++)
-        //{
-        //    var activePet = _activePets[i];
-        //    
-        //    if (activePet.PetId == targetID)
-        //    {
-        //        Destroy(activePet.gameObject);
-        //        _activePets.RemoveAt(i);
-        //        Manager.Save.RemovePetData(targetID);
-        //        ZoomOutPet();
-        //        return;
-        //    }
-        //}
     }
 
     public void UpdateStatus() //스테이터스 게이지 업데이트
     {
         _StatusUI.UpdateGauges(ZoomedUnit.Status);
+    }
+
+    private void PetLeft(PetUnit pet)
+    {
+        LeftReason reason = FineReasonForLeaving(pet.Status);
+
+        pet.LeftHandled = true;
+
+        Debug.Log("펫 떠남");
+
+        pet.gameObject.TryGetComponent<PetVisualController>(out PetVisualController petvisul);
+
+        if(petvisul)
+        {
+            petvisul.LetterOn(reason);
+        }
+        else
+        {
+            Debug.LogError("펫 비주얼 컨트롤러 못찾음");
+        }
+    }
+
+    private LeftReason FineReasonForLeaving(PetStatusCore stats)
+    {
+        if(stats.Hunger <= 0f)
+        {
+            return LeftReason.Hunger;
+        }
+        if (stats.Cleanliness <= 0f)
+        {
+            return LeftReason.Dirty;
+        }
+        if(stats.Happiness <= 0f)
+        {
+            return LeftReason.Unhappy;
+        }
+        if(stats.IsSick)
+        {
+            return LeftReason.Sick;
+        }
+        return LeftReason.NoReason;
     }
 }

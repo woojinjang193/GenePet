@@ -7,11 +7,15 @@ public class PetVisualController : MonoBehaviour
     [Header("알")]
     [SerializeField] private SpriteRenderer _egg;
 
+    [Header("편지")]
+    [SerializeField] private Letter _letter;
+
     [Header("파츠")]
     [SerializeField] private PetPartSpriteList _renderers;
 
     public void Init(PetSaveData save, PetUnit unit)
     {
+        if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
         _egg.sprite = save.EggSprite;
         _pet = unit;
         ApplyVisual(save.Genes); //비주얼 로더
@@ -117,7 +121,6 @@ public class PetVisualController : MonoBehaviour
         _renderers.Tail?.gameObject.SetActive(false);
         _renderers.Whiskers?.gameObject.SetActive(false);
 
-
         // 아웃라인 끄기
         _renderers.ArmOut?.gameObject.SetActive(false);
         _renderers.BodyOut?.gameObject.SetActive(false);
@@ -125,5 +128,11 @@ public class PetVisualController : MonoBehaviour
         _renderers.FeetOut?.gameObject.SetActive(false);
         _renderers.WingOut?.gameObject.SetActive(false);
         _renderers.TailOut?.gameObject.SetActive(false);
+    }
+    public void LetterOn(LeftReason reason)
+    {
+        HideAllParts();
+        _letter.gameObject.SetActive(true);
+        _letter.Init(_pet, reason);
     }
 }

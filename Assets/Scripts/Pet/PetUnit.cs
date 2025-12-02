@@ -15,6 +15,7 @@ public class PetUnit : MonoBehaviour
     public string PetId => _petId;
 
     private PetVisualController _visul;
+    public bool LeftHandled { get; set; }
 
     public void Init(PetSaveData save, PetManager petManager)
     {

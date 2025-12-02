@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Letter : MonoBehaviour
 {
-    [SerializeField] private GameObject _letterPanel;
-
-    private void Awake()
+    private PetUnit _pet;
+    private LeftReason _reason;
+    public void Init(PetUnit pet, LeftReason reason)
     {
-        
+        _pet = pet;
+        _reason = reason;
     }
-    public void OnMouseDown()
+    private void OnMouseDown()
     {
-        _letterPanel.SetActive(true);
-        gameObject.SetActive(false);
+        Debug.Log("편지 클릭");
+        InGameUIManager ui = FindObjectOfType<InGameUIManager>();
+        if (ui == null)
+        {
+            return;
+        }
+        ui.TryOpenLetter(_pet, _reason);
     }
 }
