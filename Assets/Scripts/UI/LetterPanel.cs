@@ -27,10 +27,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     [SerializeField] private TMP_Text _missingPosterAmount;
 
     [SerializeField] private Button _giveUpButton;
-    [SerializeField] private TMP_Text _giveUpAmount;
-
     [SerializeField] private Button _closeButton;
-    [SerializeField] private TMP_Text _closeAmount;
 
     private Language _curLanguage;
 
@@ -41,6 +38,11 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         _giveUpButton.onClick.AddListener(OnGiveUpClicked);
         _closeButton.onClick.AddListener(OnCloseClicked);
 
+    }
+    private void OnEnable()
+    {
+        _callingAmount.text = "0";
+        _missingPosterAmount.text = Manager.Save.CurrentData.UserData.Items.MissingPoster.ToString();
     }
     public void WriteLetter(LeftReason reason)
     {
@@ -69,15 +71,15 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     }
     private void OnMissingPosterClicked()
     {
-        int amount = Manager.Save.CurrentData.UserData.Items.MissingPoster;
+        UserItemData items = Manager.Save.CurrentData.UserData.Items;
         
-        if (amount <= 0)
+        if (items.MissingPoster <= 0)
         {
             Debug.Log("포스터 수량 부족");
             return;
         }
+        items.MissingPoster--;
 
-        amount--;
         //펫 돌려받기 처리 여기에
     }
     private void OnGiveUpClicked() 

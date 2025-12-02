@@ -58,7 +58,6 @@ public class PetUnit : MonoBehaviour
         _visul.SetSprite(_status.Growth);
         return true;
     }
-
     private GrowthStatus GetNextGrowth(GrowthStatus cur)
     {
         switch (cur)
@@ -75,7 +74,6 @@ public class PetUnit : MonoBehaviour
             default: return cur;
         }
     }
-
     public void ZoomThisPet(bool on)
     {
         //Debug.Log($"줌됨 {on}");

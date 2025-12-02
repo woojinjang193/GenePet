@@ -46,7 +46,6 @@ public class PetManager : MonoBehaviour
 
         LoadPetListFromSave();
     }
-
     private void LoadPetListFromSave()
     {
         var saveList = Manager.Save.CurrentData.UserData.HavePetList;
@@ -60,7 +59,6 @@ public class PetManager : MonoBehaviour
             }
         }
     }
-
     public void SpawnPet(PetSaveData save)
     {
         if (_petPrefab == null)
@@ -90,7 +88,6 @@ public class PetManager : MonoBehaviour
 
         RegisterPet(unit);
     }
-
     public void RegisterPet(PetUnit unit)
     {
         if (!_activePets.Contains(unit))
@@ -104,7 +101,6 @@ public class PetManager : MonoBehaviour
             }
         }
     }
-
     private void Update()
     {
         if (_activePets.Count == 0) return;
@@ -122,7 +118,6 @@ public class PetManager : MonoBehaviour
             _accum -= _tickInterval; //타이머 1초 빼기
         }     
     }
-
     private void RunTick(float sec)
     {
         for (int i = 0; i < _activePets.Count; i++)
@@ -144,14 +139,12 @@ public class PetManager : MonoBehaviour
             }
         }
     }
-
     private void OnDisable()
     {
         SaveAllStatus();
         Debug.Log("펫 스테이터스 저장 완료");
         Manager.Save.SaveGame();
     }
-
     private void SaveAllStatus()
     {
         if (Manager.Save.CurrentData == null)
@@ -187,7 +180,6 @@ public class PetManager : MonoBehaviour
             }
         }
     }
-
     public void ZoomInPet(PetUnit unit)
     {
         ZoomedUnit = unit;
@@ -230,7 +222,6 @@ public class PetManager : MonoBehaviour
 
         _StatusUI.UpdateGauges(ZoomedUnit.Status);
     }
-
     public void ZoomOutPet()
     {
         if (_camera != null)
@@ -247,14 +238,12 @@ public class PetManager : MonoBehaviour
             _uiManager.OnZoomOutPet(); // UI 버튼 비활성화
         }
     }
-
     public void ApplyOfflineTime(int offlineSec)
     {
         if (offlineSec <= 0) return;
 
         RunTick(offlineSec);
     }
-
     public void RemovePet()
     {
         if (ZoomedPet.ID == ZoomedUnit.PetId )
@@ -266,12 +255,10 @@ public class PetManager : MonoBehaviour
             return;
         }
     }
-
     public void UpdateStatus() //스테이터스 게이지 업데이트
     {
         _StatusUI.UpdateGauges(ZoomedUnit.Status);
     }
-
     private void PetLeft(PetUnit pet)
     {
         LeftReason reason = FineReasonForLeaving(pet.Status);
@@ -291,7 +278,12 @@ public class PetManager : MonoBehaviour
             Debug.LogError("펫 비주얼 컨트롤러 못찾음");
         }
     }
+    public void PetComeBack()
+    {
+        //ZoomedUnit.Status.SetValues()
+        ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
 
+    }
     private LeftReason FineReasonForLeaving(PetStatusCore stats)
     {
         if(stats.Hunger <= 0f)
@@ -312,4 +304,5 @@ public class PetManager : MonoBehaviour
         }
         return LeftReason.NoReason;
     }
+
 }

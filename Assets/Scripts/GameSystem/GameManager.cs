@@ -180,7 +180,6 @@ public class GameManager : Singleton<GameManager>
             _isManagerReady = true;
         }
     }
-
     public void ShowPopup(string msg)
     {
         _popupInstance.ShowMessage(msg);
