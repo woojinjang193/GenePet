@@ -118,17 +118,27 @@ public class PetManager : MonoBehaviour
     }
     public void SpawnPet(PetSaveData save)
     {
+        int index = -1;
+
         if (_petPrefab == null)
         {
             Debug.LogWarning("프리팹 없음");
             return;
         }
 
-        int index = _activePets.Count;
-
-        if (index >= _Positions.Length)
+        for (int i = 0; i < _Positions.Length; i++)
         {
-            Debug.LogWarning("더이상 스폰 불가능. 최대 수에 도달");
+            if(_Positions[i].childCount == 0)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index < 0 || index >= _Positions.Length)
+        {
+            Debug.LogWarning("스폰 불가능. 빈자리 없음");
+            return;
         }
 
         PetUnit unit = Instantiate(_petPrefab, _Positions[index]).GetComponent<PetUnit>();

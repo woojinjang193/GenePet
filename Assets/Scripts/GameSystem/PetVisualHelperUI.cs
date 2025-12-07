@@ -68,8 +68,8 @@ public static class PetVisualHelperUI
 
         ApplyColorsUI(genes.PartColors, images);
 
-        if (images.PatternMask)
-            images.PatternMask.sprite = images.Body.sprite;
+        //if (images.PatternMask)
+        //    images.PatternMask.sprite = images.Body.sprite;
     }
 
     private static void ApplyColorsUI(PartColorGenes c, PetPartImageList t)
