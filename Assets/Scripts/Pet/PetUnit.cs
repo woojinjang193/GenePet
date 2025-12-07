@@ -33,7 +33,7 @@ public class PetUnit : MonoBehaviour
         _status.Growth = save.GrowthStage;
         _visul = GetComponent<PetVisualController>();
 
-        Debug.Log($"데이터 로드완료 ID: {_petId}");
+        //Debug.Log($"데이터 로드완료 ID: {_petId}");
     }
     public void SetConfig(PetConfigSO cfg)
     {
@@ -54,10 +54,11 @@ public class PetUnit : MonoBehaviour
         if (_status.GrowthExp < _currentConfig.ExpToGrow)
             return false;
 
+        _status.ResetGrowthProgress();
+
         GrowthStatus next = GetNextGrowth(_status.Growth);
         _status.Growth = next;
-
-        _status.ResetGrowthProgress();
+        
         _visul.SetSprite(_status.Growth);
         return true;
     }

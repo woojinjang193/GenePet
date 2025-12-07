@@ -187,7 +187,10 @@ public class PetStatusCore
     }
     public void ResetGrowthProgress()
     {
-        _growthTimer = 0f;
-        _growthExp = 0f;
+        float passedTime = _config.TimeToGrow;
+        float reachedExp = _config.ExpToGrow;
+
+        _growthTimer -= passedTime;
+        _growthExp -= reachedExp;
     }
 }

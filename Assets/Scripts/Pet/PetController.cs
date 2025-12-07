@@ -38,7 +38,7 @@ public sealed class PetController : MonoBehaviour
     {
         if (_pet == null || Status == null ) return;
 
-        if (Status.Hunger > 95f)
+        if (Status.Hunger > 99f)
         {
             Debug.Log("이미 배부름");
             _mouthAnim.SetTrigger("Full");

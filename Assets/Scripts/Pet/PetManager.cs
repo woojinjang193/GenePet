@@ -21,6 +21,8 @@ public class PetManager : MonoBehaviour
     [SerializeField] private StatusUI _StatusUI;
 
     private float _accum;
+    private bool _isQuitting = false;
+
 
     private CameraController _camera;
     private InGameUIManager _uiManager;
@@ -56,6 +58,19 @@ public class PetManager : MonoBehaviour
     }
     private void OnDisable()
     {
+        if (_isQuitting)
+        {
+            Debug.Log("종료중이라 리턴");
+            return;
+        }
+        
+
+        if (Manager.Save == null || Manager.Save.CurrentData == null || Manager.Save.CurrentData.UserData == null)
+        {
+            Debug.LogError("저장 불가: saveManager 준비 전");
+            return;
+        }
+
         SaveAllStatus();
         Debug.Log("펫 스테이터스 저장 완료");
 
@@ -67,9 +82,22 @@ public class PetManager : MonoBehaviour
     }
     private void OnApplicationPause(bool pause)
     {
+        if (pause)
+        {
+            Debug.Log("앱 백그라운드 전환. 즉시 저장");
+
+            SaveAllStatus();
+            Manager.Save.SavePlayTime();
+            Manager.Save.SaveGame();
+
+            return;
+        }
+
+        // 복귀 시 오프라인 시간 적용
         if (!pause)
             ApplyOfflineTimeFromSave();
     }
+
 
     private void OnDestroy()
     {
@@ -184,6 +212,9 @@ public class PetManager : MonoBehaviour
         for (int i = 0; i < _activePets.Count; i++)
         {
             var unit = _activePets[i];
+
+            if (unit == null) continue;
+
             var status = unit.Status;
 
             // 같은 ID 찾기
@@ -206,6 +237,9 @@ public class PetManager : MonoBehaviour
                 }
             }
         }
+
+        Debug.Log("<color=green>펫 데이터 저장완료</color>");
+
     }
     public void ZoomInPet(PetUnit unit)
     {
@@ -285,6 +319,20 @@ public class PetManager : MonoBehaviour
         if (offlineSec <= 0) return;
 
         RunTick(offlineSec);
+
+        for (int i = 0; i < _activePets.Count; i++) //성장 가능하면 성장시킴
+        {
+            var unit = _activePets[i];
+
+            // 성장할 수 있을 때까지 반복
+            while (unit.TryGrow())
+            {
+                if (_configMap.TryGetValue(unit.Status.Growth, out var cfg))
+                {
+                    unit.SetConfig(cfg);
+                }
+            }
+        }
     }
     public void RemovePet()
     {
@@ -366,4 +414,16 @@ public class PetManager : MonoBehaviour
         }
         return LeftReason.NoReason;
     }
+
+    private void OnApplicationQuit()
+    {
+        Debug.Log("_isQuitting = true");
+
+        SaveAllStatus();
+        Manager.Save.SavePlayTime();
+        Manager.Save.SaveGame();
+
+        _isQuitting = true;
+    }
+
 }

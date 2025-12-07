@@ -140,11 +140,16 @@ public class SaveManager : Singleton<SaveManager>
     private void OnApplicationPause(bool pause)
     {
         if (pause)
+        {
+            Debug.Log("SaveManager Pause 시간 저장");
             SavePlayTime();
+        } 
     }
     private void OnApplicationQuit()
     {
+        Debug.Log("SaveManager Quit 시간 + 전체 저장");
         SavePlayTime();
+        SaveGame();
     }
     public void SavePlayTime()
     {
