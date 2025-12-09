@@ -89,10 +89,16 @@ public class IslandManager : MonoBehaviour
             return;
         }
 
-        if (!CanGetReward()) { return; }
+        if(IslandMypetData.Cleanliness < 50f) //방문시 청결도가 50 아래일 경우
+        {
+            ChangeAffinity(-5);
+            Debug.Log($"청결도 :{IslandMypetData.Cleanliness}, 호감도 감소");
+        }
+
+        if (!CanGetReward()) { return; } //쿨타임 돌았는지 확인
 
         //방문시 호감도 증가
-        AddAffinity(_visitingPoint);
+        ChangeAffinity(_visitingPoint);
 
         if (!_isLeft && !_isMarried)
         {
@@ -140,7 +146,7 @@ public class IslandManager : MonoBehaviour
         }
     }
 
-    public void AddAffinity(float amount)
+    public void ChangeAffinity(float amount)
     {
         Manager.Save.CurrentData.UserData.Island.Affinity += amount;
     }
