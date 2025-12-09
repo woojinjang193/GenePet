@@ -17,6 +17,7 @@ public class IslandManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Button _goBackHomeButton;
     [SerializeField] private GeneInfomationUI _GeneInfoUI;
+    [SerializeField] private GameObject _geneInfoButton;
 
     public string IslandMyPetID { get; private set; }
 
@@ -76,6 +77,7 @@ public class IslandManager : MonoBehaviour
         if (egg != null)
         {
             _egg.gameObject.SetActive(true);
+            _geneInfoButton.SetActive(false); //유전자 정보 버튼 끔
             _egg.Init(egg);
         }
     }
@@ -90,7 +92,7 @@ public class IslandManager : MonoBehaviour
         if (!CanGetReward()) { return; }
 
         //방문시 호감도 증가
-        Manager.Save.CurrentData.UserData.Island.Affinity += _visitingPoint;
+        AddAffinity(_visitingPoint);
 
         if (!_isLeft && !_isMarried)
         {

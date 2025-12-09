@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EggObj : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class EggObj : MonoBehaviour
             
             _data = null;
             _sprite.sprite = null;
+
             gameObject.SetActive(false);
             Debug.Log($"알 추가. 현재: {eggHaveList.Count}");
         }

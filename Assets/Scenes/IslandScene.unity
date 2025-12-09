@@ -12130,7 +12130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d7b84af218dd04c88a4c9f002bc8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visitingPoint: 50
   _visualLoader: {fileID: 772058423}
   _myPetVisualLoader: {fileID: 9169061508645110287}
   _islandPet: {fileID: 772058421}
@@ -12138,6 +12137,7 @@ MonoBehaviour:
   _egg: {fileID: 2095789991}
   _goBackHomeButton: {fileID: 914707276}
   _GeneInfoUI: {fileID: 29615705}
+  _geneInfoButton: {fileID: 349639017}
 --- !u!4 &1929747565
 Transform:
   m_ObjectHideFlags: 0
