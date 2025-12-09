@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d366fc8715f848c4cb8ae3e74057ac4b, type: 3}
   m_Name: Ear F 3
   m_EditorClassIdentifier: 
-  ID: 08
+  ID: 23
   DisplayName: 00
   Rarity: 0
   sprite: {fileID: 21300000, guid: 8808b0753085ebf499c448173042c4eb, type: 3}
   Outline: {fileID: 21300000, guid: fbe8eca0c6ff81a4a8980cc54169387c, type: 3}
-  OrderInLayer: 8
+  OrderInLayer: 9
