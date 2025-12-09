@@ -43,33 +43,37 @@ public static class PetVisualHelperUI
         if (images.WingOut != null) images.WingOut.sprite = wing.Outline;
         if (images.TailOut != null) images.TailOut.sprite = tail.Outline;
 
-        //베이스 레이어 순서 셋
-        images.Acc.transform.SetSiblingIndex(acc.OrderInLayer);
-        images.Arm.transform.SetSiblingIndex(arm.OrderInLayer);
-        images.Blush.transform.SetSiblingIndex(blush.OrderInLayer);
-        images.Body.transform.SetSiblingIndex(body.OrderInLayer);
-        images.Pattern.transform.SetSiblingIndex(pattern.OrderInLayer);
-        images.Ear.transform.SetSiblingIndex(ear.OrderInLayer);
-        images.Eye.transform.SetSiblingIndex(eye.OrderInLayer);
-        images.Feet.transform.SetSiblingIndex(feet.OrderInLayer);
-        images.Mouth.transform.SetSiblingIndex(mouth.OrderInLayer);
-        images.Wing.transform.SetSiblingIndex(wing.OrderInLayer);
-        images.Tail.transform.SetSiblingIndex(tail.OrderInLayer);
-        images.Whiskers.transform.SetSiblingIndex(whiskers.OrderInLayer);
+        var orderList = new List<(Transform tf, int order)>(); // 튜플 리스트 생성
 
-        //아웃라인 레이어 순서 셋
-        images.ArmOut.transform.SetSiblingIndex(arm.OrderInLayer + 1);
-        //_blushOut.transform.SetSiblingIndex(blush.OrderInLayer + 1);
-        images.BodyOut.transform.SetSiblingIndex(body.OrderInLayer + 2);
-        images.EarOut.transform.SetSiblingIndex(ear.OrderInLayer + 1);
-        images.FeetOut.transform.SetSiblingIndex(feet.OrderInLayer + 1);
-        images.WingOut.transform.SetSiblingIndex(wing.OrderInLayer + 1);
-        images.TailOut.transform.SetSiblingIndex(tail.OrderInLayer + 1);
+        orderList.Add((images.Body.transform, body.OrderInLayer));
+        orderList.Add((images.Arm.transform, arm.OrderInLayer));
+        orderList.Add((images.Acc.transform, acc.OrderInLayer));
+        orderList.Add((images.Blush.transform, blush.OrderInLayer));
+        orderList.Add((images.Pattern.transform, pattern.OrderInLayer));
+        orderList.Add((images.Ear.transform, ear.OrderInLayer));
+        orderList.Add((images.Eye.transform, eye.OrderInLayer));
+        orderList.Add((images.Feet.transform, feet.OrderInLayer));
+        orderList.Add((images.Mouth.transform, mouth.OrderInLayer));
+        orderList.Add((images.Wing.transform, wing.OrderInLayer));
+        orderList.Add((images.Tail.transform, tail.OrderInLayer));
+        orderList.Add((images.Whiskers.transform, whiskers.OrderInLayer));
+
+        // 아웃라인 파츠 추가
+        if (images.BodyOut != null) orderList.Add((images.BodyOut.transform, body.OrderInLayer + 2));
+        if (images.ArmOut != null) orderList.Add((images.ArmOut.transform, arm.OrderInLayer + 1));
+        if (images.EarOut != null) orderList.Add((images.EarOut.transform, ear.OrderInLayer + 1));
+        if (images.FeetOut != null) orderList.Add((images.FeetOut.transform, feet.OrderInLayer + 1));
+        if (images.WingOut != null) orderList.Add((images.WingOut.transform, wing.OrderInLayer + 1));
+        if (images.TailOut != null) orderList.Add((images.TailOut.transform, tail.OrderInLayer + 1));
+
+        orderList.Sort((a, b) => a.order.CompareTo(b.order)); // order 오름차순 정렬 
+
+        for (int i = 0; i < orderList.Count; i++)
+        {
+            orderList[i].tf.SetSiblingIndex(i); // SiblingIndex를 안전하게 한 번에 재배치
+        }
 
         ApplyColorsUI(genes.PartColors, images);
-
-        //if (images.PatternMask)
-        //    images.PatternMask.sprite = images.Body.sprite;
     }
 
     private static void ApplyColorsUI(PartColorGenes c, PetPartImageList t)
