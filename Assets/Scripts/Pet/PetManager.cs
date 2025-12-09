@@ -21,6 +21,7 @@ public class PetManager : MonoBehaviour
     [SerializeField] private StatusUI _StatusUI;
 
     private float _accum;
+    private float _energyTimer; // 에너지 회복 누적시간
     private bool _isQuitting = false;
 
 
@@ -170,13 +171,16 @@ public class PetManager : MonoBehaviour
     }
     private void Update()
     {
-        if (_activePets.Count == 0) return;
-
-        _accum += Time.deltaTime;
+        _accum += Time.deltaTime; // 타이머
 
         while (_accum >= _tickInterval)
         {
-            RunTick(_tickInterval);
+            RecoverEnergy(_tickInterval); // 에너지 증가
+
+            if (_activePets.Count > 0) //펫이 있다면
+            {
+                RunTick(_tickInterval); // 틱
+            }
             
             if (ZoomedUnit != null) // 줌된 펫 있을 때만
             {
@@ -187,6 +191,8 @@ public class PetManager : MonoBehaviour
     }
     private void RunTick(float sec)
     {
+        RecoverEnergy(sec); // 플레이어 에너지 회복
+
         if(_activePets.Count <= 0 || _activePets ==  null) return;
 
         for (int i = 0; i < _activePets.Count; i++)
@@ -207,6 +213,30 @@ public class PetManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void RecoverEnergy(float sec)
+    {
+        _energyTimer += sec; // 시간 누적
+
+        float need = Manager.Game.Config.EnergyRecoveringTime; // 1 오르는 시간
+
+        if (_energyTimer >= need)
+        {
+            int amount = (int)(_energyTimer / need); // 오를 수 있는 양 계산
+            _energyTimer %= need; // 남은 시간만 저장
+
+            AddEnergy(amount); // 실제 증가 처리
+        }
+    }
+
+    private void AddEnergy(int amount)
+    {
+        var user = Manager.Save.CurrentData.UserData;
+
+        user.Energy = Mathf.Clamp(user.Energy + amount, 0, Manager.Game.Config.MaxEnergy);
+
+        _uiManager.UpdateEnergyBar(user.Energy); // UI 갱신
     }
 
 

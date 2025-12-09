@@ -11,6 +11,8 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private GameObject _zoomedUI;
     [Header("편지 UI")]
     [SerializeField] private LetterPanel _letterPanel;
+    [Header("에너지 슬라이더")]
+    [SerializeField] private EnergySlider _energySlider;
 
     [Header("의존")]
     [SerializeField] private CameraController _camera;
@@ -30,6 +32,10 @@ public class InGameUIManager : MonoBehaviour
         {
             _zoomOutButton.onClick.AddListener(OnClickZoomOut);
             _zoomOutButton.gameObject.SetActive(false);
+        }
+        if (_energySlider == null)
+        {
+            _energySlider = FindObjectOfType<EnergySlider>();
         }
     }
 
@@ -68,5 +74,10 @@ public class InGameUIManager : MonoBehaviour
     {
         _letterPanel.gameObject.SetActive(true);
         _letterPanel.WriteLetter(reason);
+    }
+
+    public void UpdateEnergyBar(int newValue)
+    {
+        _energySlider.SetEnergy(newValue);
     }
 }

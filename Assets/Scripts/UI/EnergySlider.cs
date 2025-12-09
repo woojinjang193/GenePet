@@ -12,7 +12,9 @@ public class EnergySlider : MonoBehaviour
     private int _curEnergy;
     private void Awake()
     {
-        if( _slider == null )
+        _slider.maxValue = Manager.Game.Config.MaxEnergy;
+
+        if ( _slider == null )
         {
             _slider = GetComponent<Slider>();
         }
@@ -20,11 +22,11 @@ public class EnergySlider : MonoBehaviour
         _slider.value = _curEnergy;
         _text.text = $"{_curEnergy} / {_slider.maxValue}";
     }
-
-    public void UpdateEnergu(int amount)
+    public void SetEnergy(int value)
     {
-        _curEnergy += amount;
-        _slider.value = Mathf.Clamp(_curEnergy, _slider.minValue, _slider.maxValue) ;
-        _text.text = _curEnergy.ToString();
+        _curEnergy = value;
+        _slider.value = value;
+        _text.text = $"{value} / {_slider.maxValue}";
     }
+
 }

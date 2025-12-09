@@ -7,6 +7,11 @@ public class GameConfig : ScriptableObject
     public int MaxPetAmount;
     [Header("최대 소유 알 수")]
     public int MaxEggAmount;
+    [Header("맥스 에너지")]
+    public int MaxEnergy;
+    [Header("에너지 1오르는데 걸리는 시간")]
+    public float EnergyRecoveringTime;
+
     [Header("알SO")]
     public EggSO EggRaritySO;
 
