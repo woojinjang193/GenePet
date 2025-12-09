@@ -13,6 +13,8 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private LetterPanel _letterPanel;
     [Header("에너지 슬라이더")]
     [SerializeField] private EnergySlider _energySlider;
+    [Header("리워드 UI")]
+    [SerializeField] private RewardBackground _rewardUI;
 
     [Header("의존")]
     [SerializeField] private CameraController _camera;
@@ -36,6 +38,10 @@ public class InGameUIManager : MonoBehaviour
         if (_energySlider == null)
         {
             _energySlider = FindObjectOfType<EnergySlider>();
+        }
+        if (_rewardUI == null)
+        {
+            _rewardUI = FindObjectOfType<RewardBackground>();
         }
     }
 
@@ -79,5 +85,11 @@ public class InGameUIManager : MonoBehaviour
     public void UpdateEnergyBar(int newValue)
     {
         _energySlider.SetEnergy(newValue);
+    }
+
+    public void ShowReward(Sprite image)
+    {
+        _rewardUI.gameObject.SetActive(true);
+        _rewardUI.SetImage(image);
     }
 }

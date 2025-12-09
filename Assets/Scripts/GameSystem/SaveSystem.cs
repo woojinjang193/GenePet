@@ -162,6 +162,7 @@ public class IslandData
     public PetSaveData IslandPetSaveData;
     public float Affinity;
     public int VisitCount;
+    public long LastVisitTime;
 
     public IslandData()
     {
@@ -172,6 +173,7 @@ public class IslandData
         IslandPetSaveData = new PetSaveData();
         Affinity = 50f;
         VisitCount = 0;
+        LastVisitTime = 0;
     }
 }
 

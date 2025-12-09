@@ -1798,7 +1798,6 @@ GameObject:
   - component: {fileID: 188752950}
   - component: {fileID: 188752949}
   - component: {fileID: 188752948}
-  - component: {fileID: 188752947}
   - component: {fileID: 188752946}
   m_Layer: 5
   m_Name: Select Panel
@@ -1833,30 +1832,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &188752947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188752945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a09a8139b30325d488493f23f7c250ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _foodListPanel: {fileID: 0}
-  _cleanListPanel: {fileID: 0}
-  _foodButton: {fileID: 1529280185}
-  _snackButton: {fileID: 389733740}
-  _medicineButton: {fileID: 1657643230}
-  _food: {fileID: 0}
-  _snack: {fileID: 0}
-  _medicine: {fileID: 0}
-  _showerBallButton: {fileID: 0}
-  _showerBall: {fileID: 0}
-  _feedButton: {fileID: 0}
-  _cleanButton: {fileID: 0}
 --- !u!114 &188752948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2001,7 +1976,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 40.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2437,7 +2412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32a39da9b473d24295f38f4b3c33e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _letterPanel: {fileID: 0}
+  _button: {fileID: 0}
 --- !u!212 &241263420
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2655,7 +2630,7 @@ GameObject:
   - component: {fileID: 349639020}
   - component: {fileID: 349639019}
   m_Layer: 5
-  m_Name: Gene Test Button
+  m_Name: Gene Test Button Island Pet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2678,8 +2653,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 354, y: 329}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: 250, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &349639019
 MonoBehaviour:
@@ -7130,8 +7105,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -251, y: 329}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: -250, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1145279026
 MonoBehaviour:
@@ -7790,7 +7765,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 40.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9457,6 +9432,7 @@ GameObject:
   - component: {fileID: 1577693691}
   - component: {fileID: 1577693690}
   - component: {fileID: 1577693689}
+  - component: {fileID: 1577693692}
   m_Layer: 5
   m_Name: Panel Down
   m_TagString: Untagged
@@ -9549,6 +9525,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577693687}
   m_CullTransparentMesh: 1
+--- !u!114 &1577693692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577693687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a09a8139b30325d488493f23f7c250ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _foodListPanel: {fileID: 188752945}
+  _cleanListPanel: {fileID: 0}
+  _foodButton: {fileID: 1529280185}
+  _snackButton: {fileID: 389733740}
+  _medicineButton: {fileID: 1657643230}
+  _food: {fileID: 0}
+  _snack: {fileID: 0}
+  _medicine: {fileID: 0}
+  _showerBallButton: {fileID: 0}
+  _showerBall: {fileID: 0}
+  _feedButton: {fileID: 0}
+  _cleanButton: {fileID: 0}
 --- !u!1 &1604868961
 GameObject:
   m_ObjectHideFlags: 0
@@ -13269,6 +13269,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _petController: {fileID: 0}
+  _chewMouth: {fileID: 0}
+  _ogMouth: {fileID: 0}
 --- !u!4 &2826565349180238781
 Transform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,10 @@ public class GameConfig : ScriptableObject
     public int MaxEnergy;
     [Header("에너지 1오르는데 걸리는 시간")]
     public float EnergyRecoveringTime;
+    [Header("섬 방문 호감도 쿨타임")]
+    public float VisitingAffinityCooldown;
+    [Header("섬 방문 호감도 양")]
+    public float VisitingAffinityGain;
 
     [Header("알SO")]
     public EggSO EggRaritySO;
