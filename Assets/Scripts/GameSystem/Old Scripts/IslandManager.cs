@@ -89,6 +89,9 @@ public class IslandManager : MonoBehaviour
 
         if (!CanGetReward()) { return; }
 
+        //방문시 호감도 증가
+        Manager.Save.CurrentData.UserData.Island.Affinity += _visitingPoint;
+
         if (!_isLeft && !_isMarried)
         {
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
@@ -97,9 +100,7 @@ public class IslandManager : MonoBehaviour
                 _isMarried = true;
                 return;
             }
-            //방문시 호감도 증가
-            Manager.Save.CurrentData.UserData.Island.Affinity += _visitingPoint;
-
+            
             Debug.Log($"방문 포인트 +{_visitingPoint}. 현재 호감도 {Manager.Save.CurrentData.UserData.Island.Affinity}");
         }
     }
