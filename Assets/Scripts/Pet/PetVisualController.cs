@@ -13,6 +13,12 @@ public class PetVisualController : MonoBehaviour
     [Header("파츠")]
     [SerializeField] private PetPartSpriteList _renderers;
 
+    [Header("더러움")]
+    [SerializeField] private SpriteRenderer _dirtRenderer;
+    [SerializeField] private Sprite _dirtLow;
+    [SerializeField] private Sprite _dirtMid;
+    [SerializeField] private Sprite _dirtHigh;
+
     public void Init(PetSaveData save, PetUnit unit)
     {
         if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
@@ -141,6 +147,37 @@ public class PetVisualController : MonoBehaviour
         {
             //Debug.Log($"편지한테 알려줌 {on}");
             _letter.SetClickable(on);
+        }
+    }
+    public void OnCleanlinessChanged(float newValue)
+    {
+        if(newValue < 10f)
+        {
+            if(_dirtRenderer.sprite != _dirtHigh)
+            {
+                _dirtRenderer.sprite = _dirtHigh;
+            }   
+        }
+        else if(newValue < 30f)
+        {
+            if (_dirtRenderer.sprite != _dirtMid)
+            {
+                _dirtRenderer.sprite = _dirtMid;
+            }
+        }
+        else if(newValue < 50f)
+        {
+            if (_dirtRenderer.sprite != _dirtLow)
+            {
+                _dirtRenderer.sprite = _dirtLow;
+            }
+        }
+        else
+        {
+            if (_dirtRenderer.sprite != null)
+            {
+                _dirtRenderer.sprite = null;
+            }
         }
     }
 }

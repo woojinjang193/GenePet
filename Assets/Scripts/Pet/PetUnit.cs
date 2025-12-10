@@ -17,6 +17,10 @@ public class PetUnit : MonoBehaviour
     private PetVisualController _visul;
     public bool LeftHandled { get; set; }
 
+    private void OnDestroy()
+    {
+        _status.OnCleanlinessChanged -= _visul.OnCleanlinessChanged;
+    }
     public void Init(PetSaveData save, PetManager petManager)
     {
         Petmanager = petManager;
@@ -32,6 +36,8 @@ public class PetUnit : MonoBehaviour
 
         _status.Growth = save.GrowthStage;
         _visul = GetComponent<PetVisualController>();
+
+        _status.OnCleanlinessChanged += _visul.OnCleanlinessChanged;
 
         //Debug.Log($"데이터 로드완료 ID: {_petId}");
     }

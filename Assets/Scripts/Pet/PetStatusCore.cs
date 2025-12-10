@@ -23,6 +23,8 @@ public class PetStatusCore
     public float GrowthTimer => _growthTimer;
     public float GrowthExp => _growthExp;
 
+    public event Action<float> OnCleanlinessChanged;
+
     public void SetConfig(PetConfigSO config)
     {
         _config = config;
@@ -61,6 +63,12 @@ public class PetStatusCore
         if(IsSick)
         {
             Health -= _config.HealthDecreasePerSec * sec;
+        }
+
+        //청결도 조건
+        if (Cleanliness < 50f)
+        {
+            OnCleanlinessChanged?.Invoke(Cleanliness);
         }
 
         //아픔 조건
@@ -112,6 +120,7 @@ public class PetStatusCore
                 break;
             case PetStat.Cleanliness:
                 Cleanliness += value;
+                OnCleanlinessChanged?.Invoke(Cleanliness);
                 break;
             case PetStat.Hunger:
                 Hunger += value;
@@ -131,6 +140,7 @@ public class PetStatusCore
                 break;
             case PetStat.Cleanliness:
                 Cleanliness -= value;
+                OnCleanlinessChanged?.Invoke(Cleanliness);
                 break;
             case PetStat.Hunger:
                 Hunger -= value;
@@ -150,6 +160,7 @@ public class PetStatusCore
                 break;
             case PetStat.Cleanliness:
                 Cleanliness = value;
+                OnCleanlinessChanged?.Invoke(Cleanliness);
                 break;
             case PetStat.Hunger:
                 Hunger = value;

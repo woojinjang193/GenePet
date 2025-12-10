@@ -465,5 +465,4 @@ public class PetManager : MonoBehaviour
 
         _isQuitting = true;
     }
-
 }
