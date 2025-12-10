@@ -3,6 +3,7 @@ using UnityEngine;
 public sealed class PetController : MonoBehaviour
 {
     private PetUnit _pet;
+    private float _cleaningAccum = 0f;
 
     [Header("입 파츠")]
     [SerializeField] private SpriteRenderer _mouth;
@@ -57,12 +58,23 @@ public sealed class PetController : MonoBehaviour
         //미니게임 실행
     }
 
-    public void Clean()
+    //public void Clean()
+    //{
+    //    if (_pet == null || Status == null) return;
+    //    Status.IncreaseStat(PetStat.Cleanliness, 50f); // 목욕시 증가하는 청결도 수치
+    //    _pet.Petmanager.UpdateStatus();
+    //    Debug.Log($"목욕. 청결도 : {Status.Cleanliness}");
+    //}
+    public void AddCleaningProgress(float amount)
     {
-        if (_pet == null || Status == null) return;
-        Status.IncreaseStat(PetStat.Cleanliness, 50f); // 목욕시 증가하는 청결도 수치
-        _pet.Petmanager.UpdateStatus();
-        Debug.Log($"목욕. 청결도 : {Status.Cleanliness}");
+        _cleaningAccum += amount; //이동거리 누적
+
+        if (_cleaningAccum >= 0.6f) //0.6 이상 문지르면
+        {
+            Status.IncreaseStat(PetStat.Cleanliness, 2f); //청결도 +2
+            _pet.Petmanager.UpdateStatus(); //UI 갱신
+            _cleaningAccum = 0f;  //리셋
+        }
     }
     public void Heal()
     {
@@ -107,6 +119,12 @@ public sealed class PetController : MonoBehaviour
             _eye.sprite = _closeEyesWithTear;
             //Debug.Log("약 트리거 충돌");
         }
+        else if (collision.CompareTag("CleaningTool"))
+        {
+            _ogEye = _eye.sprite;
+            _eye.sprite = _closeEyesSprite;
+            //Debug.Log("씻는중");
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -128,6 +146,11 @@ public sealed class PetController : MonoBehaviour
             _mouth.sprite = _ogMouth;
             _eye.sprite = _ogEye;
             //Debug.Log("약 멀어짐");
+        }
+        else if (collision.CompareTag("CleaningTool"))
+        {
+            _eye.sprite = _ogEye;
+            //Debug.Log("샤워도구 멀어짐");
         }
     }
 }

@@ -15,6 +15,7 @@ public class PetVisualController : MonoBehaviour
 
     [Header("더러움")]
     [SerializeField] private SpriteRenderer _dirtRenderer;
+    [SerializeField] private SpriteMask _dirtMask;
     [SerializeField] private Sprite _dirtLow;
     [SerializeField] private Sprite _dirtMid;
     [SerializeField] private Sprite _dirtHigh;
@@ -30,6 +31,8 @@ public class PetVisualController : MonoBehaviour
     private void ApplyVisual(GenesContainer save)
     {
         PetVisualHelper.ApplyVisual(save, _renderers);
+        _dirtMask.sprite = _renderers.Body.sprite; // 얼룩 마스크 설정
+        _dirtRenderer.sortingOrder = 8; //얼룩 레이어 오더 설정
     }
 
     public void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
