@@ -167,6 +167,8 @@ public class IslandManager : MonoBehaviour
     }
     public void OpenGeneInfoForMyPet() //테스트용. OpenGeneInfo()랑 로직 합쳐야함
     {
+        if (IslandMypetData == null) { return; }
+
         _GeneInfoUI.gameObject.SetActive(true);
         _GeneInfoUI.Init(IslandMypetData);
     }
