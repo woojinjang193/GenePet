@@ -200,24 +200,24 @@ public class UserItemData
 [Serializable]
 public class UserData
 {
-    public long LastPlayedUnixTime;
-
-    public string UID;
-    public Language CurLanguage;
-    public string UserDisplayName;
-    public int MaxPetAmount;
-    public int Energy;
-    public List<EggData> EggList;
-    public List<PetSaveData> HavePetList;
-    public List<PetSaveData> HadPetList;
-    public IslandData Island;
-    public List<PetSaveData> IslandPetList;
-    public UserItemData Items;
+    public int Money; //소지금
+    public long LastPlayedUnixTime; //마지막 접속 시간
+    public string UID; // UID
+    public Language CurLanguage; //현재 언어
+    public string UserDisplayName; // 유저네임
+    public int MaxPetAmount; // 최대 보유 가능 펫 수
+    public int Energy; //에너지
+    public List<EggData> EggList; // 보유 알 리스트
+    public List<PetSaveData> HavePetList; // 보유 펫 리스트
+    public List<PetSaveData> HadPetList; // 보유했던 펫 리스트
+    public IslandData Island; // 섬 정보
+    public List<PetSaveData> IslandPetList; //만난 섬 펫 리스트
+    public UserItemData Items; // 아이템
 
     public UserData()
     {
         LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
+        Money = 0;
         UID = "";
         CurLanguage = Language.ENG;
         UserDisplayName = "";

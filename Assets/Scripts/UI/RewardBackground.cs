@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RewardBackground : MonoBehaviour
@@ -8,7 +9,10 @@ public class RewardBackground : MonoBehaviour
 
     private void Awake()
     {
-        _button = GetComponentInChildren<Button>();
+        if(_button == null)
+        {
+            _button = GetComponentInChildren<Button>();
+        }
         _button.onClick.AddListener(Close);
     }
     public void SetImage(Sprite sprite)
@@ -17,6 +21,10 @@ public class RewardBackground : MonoBehaviour
     }
     private void Close()
     {
+        if (SceneManager.GetActiveScene().name == "IslandScene")
+        {
+            SceneManager.LoadScene("InGameScene");
+        }
         gameObject.SetActive(false);
     }
 }
