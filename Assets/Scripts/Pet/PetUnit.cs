@@ -20,6 +20,8 @@ public class PetUnit : MonoBehaviour
     private void OnDestroy()
     {
         _status.OnCleanlinessChanged -= _visul.OnCleanlinessChanged;
+        _status.OnSick -= _visul.OnSick;
+        _status.OnHealthReducing -= _visul.OnHealthReducing;
     }
     public void Init(PetSaveData save, PetManager petManager)
     {
@@ -38,6 +40,8 @@ public class PetUnit : MonoBehaviour
         _visul = GetComponent<PetVisualController>();
 
         _status.OnCleanlinessChanged += _visul.OnCleanlinessChanged;
+        _status.OnSick += _visul.OnSick;
+        _status.OnHealthReducing += _visul.OnHealthReducing;
 
         //Debug.Log($"데이터 로드완료 ID: {_petId}");
     }

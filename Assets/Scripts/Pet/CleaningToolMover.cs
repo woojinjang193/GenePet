@@ -55,7 +55,7 @@ public class CleaningToolMover : MonoBehaviour
                     Debug.Log("버블 멈춤 (0.3초 지속)");
                 }
             }
-            _target.AddCleaningProgress(dist); //펫에게 이동량 전달
+            _target.Clean(dist); //펫에게 이동량 전달
         }
     }
     private void OnTriggerEnter2D(Collider2D col)

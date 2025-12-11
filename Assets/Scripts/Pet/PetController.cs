@@ -58,14 +58,7 @@ public sealed class PetController : MonoBehaviour
         //미니게임 실행
     }
 
-    //public void Clean()
-    //{
-    //    if (_pet == null || Status == null) return;
-    //    Status.IncreaseStat(PetStat.Cleanliness, 50f); // 목욕시 증가하는 청결도 수치
-    //    _pet.Petmanager.UpdateStatus();
-    //    Debug.Log($"목욕. 청결도 : {Status.Cleanliness}");
-    //}
-    public void AddCleaningProgress(float amount)
+    public void Clean(float amount)
     {
         _cleaningAccum += amount; //이동거리 누적
 

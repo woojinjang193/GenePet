@@ -20,6 +20,10 @@ public class PetVisualController : MonoBehaviour
     [SerializeField] private Sprite _dirtMid;
     [SerializeField] private Sprite _dirtHigh;
 
+    [Header("아픔/ 체력감소")]
+    [SerializeField] private GameObject _sickImage;
+    [SerializeField] private GameObject _healthReducingParticle;
+
     public void Init(PetSaveData save, PetUnit unit)
     {
         if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
@@ -187,5 +191,17 @@ public class PetVisualController : MonoBehaviour
                 _dirtRenderer.sprite = null;
             }
         }
+    }
+
+    public void OnSick(bool on)
+    {
+        _sickImage.SetActive(on);
+        Debug.Log($"아픔이미지: {on}");
+    }
+
+    public void OnHealthReducing(bool on)
+    {
+        _healthReducingParticle.SetActive(on);
+        Debug.Log($"체력감소 파티클: {on}");
     }
 }

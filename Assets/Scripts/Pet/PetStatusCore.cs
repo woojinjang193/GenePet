@@ -24,6 +24,11 @@ public class PetStatusCore
     public float GrowthExp => _growthExp;
 
     public event Action<float> OnCleanlinessChanged;
+    public event Action<bool> OnSick;
+    public event Action<bool> OnHealthReducing;
+
+    private bool _wasHealthReducing = false;
+
 
     public void SetConfig(PetConfigSO config)
     {
@@ -48,6 +53,8 @@ public class PetStatusCore
         if (_config == null) return;
         if (sec <= 0f) return;
 
+        bool isReducing = false;
+
         //성장 타이머
         _growthTimer += sec;
 
@@ -56,13 +63,21 @@ public class PetStatusCore
         Cleanliness -= _config.CleanlinessDecreasePerSec * sec;
 
         //체력 감소 조건
-        if(Hunger < 0f)
+        if (Hunger < 0f)
         {
             Health -= _config.HealthDecreasePerSec * sec;
+            isReducing = true;
         }
         if(IsSick)
         {
             Health -= _config.HealthDecreasePerSec * sec;
+            isReducing = true;
+        }
+
+        if (_wasHealthReducing != isReducing) // 상태 변화가 일어났을 때만 이벤트 발송
+        {
+            _wasHealthReducing = isReducing;
+            OnHealthReducing?.Invoke(isReducing);
         }
 
         //청결도 조건
@@ -81,6 +96,8 @@ public class PetStatusCore
                 if (_sickTimer >= _config.TimeToGetSick)
                 {
                     IsSick = true;
+                    OnSick?.Invoke(true); //자연병
+                    Debug.Log("자연스럽게 아픔");
                     _sickTimer = 0f;
                 }  
             }
@@ -178,7 +195,8 @@ public class PetStatusCore
             case PetFlag.IsSick:
                 if (IsSick != on) 
                 {
-                    IsSick = on; 
+                    IsSick = on;
+                    OnSick?.Invoke(on);
                 }
                 break;
             case PetFlag.IsLeft:
