@@ -46,13 +46,13 @@ public class CleaningToolMover : MonoBehaviour
             {
                 _notMovingTimer += Time.deltaTime;
 
-                // 0.5초 이상 멈춘 경우만 Stop
-                if (_notMovingTimer >= 0.5f && _isBubbling)
+                // 0.3초 이상 멈춘 경우만 Stop
+                if (_notMovingTimer >= 0.3f && _isBubbling)
                 {
                     _isBubbling = false;
                     _bubble.Stop();
                     _foam.Stop();
-                    Debug.Log("버블 멈춤 (0.5초 지속)");
+                    Debug.Log("버블 멈춤 (0.3초 지속)");
                 }
             }
             _target.AddCleaningProgress(dist); //펫에게 이동량 전달
@@ -65,6 +65,7 @@ public class CleaningToolMover : MonoBehaviour
             _target = col.GetComponent<PetController>();   //펫 컨트롤러 가져오기
             _lastPos = transform.position; //초기 위치 저장
             _movedDist = 0f;  //누적 이동거리 초기화
+            _notMovingTimer = 0f; // 파티클 스탑 타이머 초기화
         }
     }
     private void OnTriggerExit2D(Collider2D col)
@@ -73,8 +74,11 @@ public class CleaningToolMover : MonoBehaviour
         {
             _bubble.Stop();
             _foam.Stop();
-            Debug.Log("버블 스탑");
+            _isBubbling = false;
+            _notMovingTimer = 0f; // 파티클 스탑 타이머 초기화
+            
             _target = null;  //연결 해제
+            Debug.Log("버블 스탑");
         }
     }
 }

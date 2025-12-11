@@ -60,6 +60,8 @@ public class PetVisualController : MonoBehaviour
             _renderers.EarOut.gameObject.SetActive(true);
             _renderers.TailOut.gameObject.SetActive(true);
 
+            _dirtRenderer.gameObject.SetActive(true);
+
             Debug.Log("Baby 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Teen) //성장기
@@ -78,6 +80,7 @@ public class PetVisualController : MonoBehaviour
             _renderers.FeetOut.gameObject.SetActive(true);
             _renderers.TailOut.gameObject.SetActive(true);
 
+            _dirtRenderer.gameObject.SetActive(true);
             Debug.Log("Teen 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Adult) //어른
@@ -102,6 +105,7 @@ public class PetVisualController : MonoBehaviour
             _renderers.WingOut.gameObject.SetActive(true);
             _renderers.TailOut.gameObject.SetActive(true);
 
+            _dirtRenderer.gameObject.SetActive(true);
             Debug.Log("Adult 상태 스프라이트 세팅");
         }
         else
@@ -129,6 +133,7 @@ public class PetVisualController : MonoBehaviour
         _renderers.Wing?.gameObject.SetActive(false);
         _renderers.Tail?.gameObject.SetActive(false);
         _renderers.Whiskers?.gameObject.SetActive(false);
+        _dirtRenderer?.gameObject.SetActive(false);
 
         // 아웃라인 끄기
         _renderers.ArmOut?.gameObject.SetActive(false);
