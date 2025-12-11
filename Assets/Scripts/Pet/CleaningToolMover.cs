@@ -32,6 +32,10 @@ public class CleaningToolMover : MonoBehaviour
         {
             if (moving)
             {
+                //파티클 샤워도구 따라다니기
+                _bubble.transform.position = transform.position;
+                _foam.transform.position = transform.position;
+
                 _notMovingTimer = 0f;
 
                 if (!_isBubbling)

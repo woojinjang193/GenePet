@@ -31,6 +31,8 @@ public class PetVisualController : MonoBehaviour
         _pet = unit;
         ApplyVisual(save.Genes); //비주얼 로더
         SetSprite(_pet.Status.Growth);
+
+        OnSick(_pet.Status.IsSick); //아픈상태면 아픔 이미지 켜줌
     }
     private void ApplyVisual(GenesContainer save)
     {
