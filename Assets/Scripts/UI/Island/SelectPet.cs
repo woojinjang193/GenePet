@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -124,8 +125,9 @@ public class SelectPet : MonoBehaviour
         Manager.Save.CurrentData.UserData.Island.IslandMyPetID = _petList[newIndex].ID;
         _islandManager.UpdateIslandMyPetID(_petList[newIndex]);
 
-        Manager.Save.CurrentData.UserData.Island.Affinity = 0;
-        Debug.Log("호감도 초기화");
+        Manager.Save.CurrentData.UserData.Island.Affinity = 0; //호감도 초기화
+        Manager.Save.CurrentData.UserData.Island.LastVisitTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //방문시간 초기화
+        Debug.Log("호감도, 방문시간 초기화");
 
         gameObject.SetActive(false);
     }

@@ -359,22 +359,22 @@ public class GeneManager : Singleton<GeneManager>
 
         if (randV < legendary)
         {
-            Debug.Log("레전드");
+            //Debug.Log("레전드");
             return RarityType.Legendary;
         }
         else if (randV < epicCut)
         {
-            Debug.Log("에픽");
+            //Debug.Log("에픽");
             return RarityType.Epic;
         }
         else if (randV < rareCut)
         {
-            Debug.Log("레어");
+            //Debug.Log("레어");
             return RarityType.Rare;
         }
         else
         {
-            Debug.Log("커먼");
+            //Debug.Log("커먼");
             return RarityType.Common;
         }
     }

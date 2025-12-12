@@ -8,6 +8,7 @@ TagManager:
   - Snack
   - Medicine
   - CleaningTool
+  - Pet
   layers:
   - Default
   - TransparentFX

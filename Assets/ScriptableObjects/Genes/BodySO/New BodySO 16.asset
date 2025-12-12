@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c4359bff6b6ba94097ee35f410a19d9, type: 3}
+  m_Name: New BodySO 16
+  m_EditorClassIdentifier: 
+  ID: 14
+  DisplayName: Body01
+  Rarity: 3
+  sprite: {fileID: 21300000, guid: 8acafa3d173cdf7479404b30852924d3, type: 3}
+  Outline: {fileID: 21300000, guid: 9956e22ea4d6e5a4a852cfbb14fc08c7, type: 3}
+  OrderInLayer: 6

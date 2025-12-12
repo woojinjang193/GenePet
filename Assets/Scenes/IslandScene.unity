@@ -1798,7 +1798,6 @@ GameObject:
   - component: {fileID: 188752950}
   - component: {fileID: 188752949}
   - component: {fileID: 188752948}
-  - component: {fileID: 188752947}
   - component: {fileID: 188752946}
   m_Layer: 5
   m_Name: Select Panel
@@ -1833,30 +1832,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &188752947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188752945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a09a8139b30325d488493f23f7c250ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _foodListPanel: {fileID: 0}
-  _cleanListPanel: {fileID: 0}
-  _foodButton: {fileID: 1529280185}
-  _snackButton: {fileID: 389733740}
-  _medicineButton: {fileID: 1657643230}
-  _food: {fileID: 0}
-  _snack: {fileID: 0}
-  _medicine: {fileID: 0}
-  _showerBallButton: {fileID: 0}
-  _showerBall: {fileID: 0}
-  _feedButton: {fileID: 0}
-  _cleanButton: {fileID: 0}
 --- !u!114 &188752948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1934,7 +1909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &203274673
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2001,7 +1976,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 40.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2437,7 +2412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32a39da9b473d24295f38f4b3c33e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _letterPanel: {fileID: 0}
+  _button: {fileID: 0}
 --- !u!212 &241263420
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2655,7 +2630,7 @@ GameObject:
   - component: {fileID: 349639020}
   - component: {fileID: 349639019}
   m_Layer: 5
-  m_Name: Gene Test Button
+  m_Name: Gene Test Button Island Pet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2678,8 +2653,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 354, y: 329}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: 250, y: 65}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &349639019
 MonoBehaviour:
@@ -2757,8 +2732,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 71156beeef4cc4f0fa1536fcc8b97613, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3112,7 +3087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &406391984
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3179,7 +3154,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.95
+  m_fontSize: 35.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3555,6 +3530,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1882229555}
   - {fileID: 349639018}
   - {fileID: 1145279025}
   - {fileID: 1936091268}
@@ -5738,10 +5714,10 @@ RectTransform:
   - {fileID: 1665309402}
   m_Father: {fileID: 1936091268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 100, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &914707276
 MonoBehaviour:
@@ -5807,8 +5783,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: b64abc7b83e604531bf8003323da13e0, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -7130,8 +7106,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -251, y: 329}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: -250, y: 65}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1145279026
 MonoBehaviour:
@@ -7209,8 +7185,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 71156beeef4cc4f0fa1536fcc8b97613, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -7723,7 +7699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1217597469
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7790,7 +7766,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 40.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8582,7 +8558,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1882229555}
   - {fileID: 970891724}
   - {fileID: 811968400}
   m_Father: {fileID: 1577693688}
@@ -9457,6 +9432,7 @@ GameObject:
   - component: {fileID: 1577693691}
   - component: {fileID: 1577693690}
   - component: {fileID: 1577693689}
+  - component: {fileID: 1577693692}
   m_Layer: 5
   m_Name: Panel Down
   m_TagString: Untagged
@@ -9549,6 +9525,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577693687}
   m_CullTransparentMesh: 1
+--- !u!114 &1577693692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577693687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a09a8139b30325d488493f23f7c250ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _foodListPanel: {fileID: 188752945}
+  _cleanListPanel: {fileID: 0}
+  _foodButton: {fileID: 1529280185}
+  _snackButton: {fileID: 389733740}
+  _medicineButton: {fileID: 1657643230}
+  _food: {fileID: 0}
+  _snack: {fileID: 0}
+  _medicine: {fileID: 0}
+  _showerBallButton: {fileID: 0}
+  _showerBall: {fileID: 0}
+  _feedButton: {fileID: 0}
+  _cleanButton: {fileID: 0}
 --- !u!1 &1604868961
 GameObject:
   m_ObjectHideFlags: 0
@@ -10109,7 +10109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1665309402
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11718,12 +11718,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 406391984}
-  m_Father: {fileID: 1372397633}
+  m_Father: {fileID: 521787112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -380, y: 65}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1882229556
 MonoBehaviour:
@@ -11801,8 +11801,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 6b6ae7e67d4044d64b3a6474cef255b3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -12130,7 +12130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d7b84af218dd04c88a4c9f002bc8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visitingPoint: 50
   _visualLoader: {fileID: 772058423}
   _myPetVisualLoader: {fileID: 9169061508645110287}
   _islandPet: {fileID: 772058421}
@@ -12138,6 +12137,7 @@ MonoBehaviour:
   _egg: {fileID: 2095789991}
   _goBackHomeButton: {fileID: 914707276}
   _GeneInfoUI: {fileID: 29615705}
+  _geneInfoButton: {fileID: 349639017}
 --- !u!4 &1929747565
 Transform:
   m_ObjectHideFlags: 0
@@ -12201,8 +12201,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -175.47}
-  m_SizeDelta: {x: 1080, y: 350.93}
+  m_AnchoredPosition: {x: 0, y: -71.00366}
+  m_SizeDelta: {x: 1080, y: 141.9973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1936091269
 MonoBehaviour:
@@ -13269,6 +13269,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _petController: {fileID: 0}
+  _chewMouth: {fileID: 0}
+  _ogMouth: {fileID: 0}
 --- !u!4 &2826565349180238781
 Transform:
   m_ObjectHideFlags: 0

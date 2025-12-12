@@ -42,16 +42,17 @@ public enum PartType
 public enum LeftReason
 {
     Hunger,
+    Sick,
     Unhappy,
     Dirty,
-    LayEgg,
+    NoReason
 }
 
 public enum Language
 {
     KOR = 0,
     ENG = 1,
-    JP = 2,
-    DE = 3,
+    DE = 2,
+    JP = 3,
     CH = 4,
 }

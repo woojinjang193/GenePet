@@ -52,7 +52,7 @@ public class SaveManager : Singleton<SaveManager>
             Debug.LogWarning("저장할 데이터가 없습니다.");
             return;
         }
-        //게임 매니저에서 펫 목록 받아와서 수치 저장
+        //게임 매니저에서 펫 목록 받아와서 수치 저장 
 
         CurrentData.SnapshotVersion = CurrentData.SnapshotVersion + 1; // 저장 횟수 증가
         bool result = SaveSystem.SaveSnapshot(CurrentData); // 세이브 파일로 저장 시도
@@ -136,8 +136,24 @@ public class SaveManager : Singleton<SaveManager>
         SaveGame();
     }
 
+    //앱 종료, 씬전환, 앱 퍼즈시
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            Debug.Log("SaveManager Pause 시간 저장");
+            SavePlayTime();
+        } 
+    }
     private void OnApplicationQuit()
     {
+        Debug.Log("SaveManager Quit 시간 + 전체 저장");
+        SavePlayTime();
         SaveGame();
+    }
+    public void SavePlayTime()
+    {
+        CurrentData.UserData.LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        Debug.Log($"떠난 시간 저장: {CurrentData.UserData.LastPlayedUnixTime}");
     }
 }

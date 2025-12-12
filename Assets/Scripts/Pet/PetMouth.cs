@@ -5,10 +5,17 @@ using UnityEngine;
 public class PetMouth : MonoBehaviour
 {
     [SerializeField] private PetController _petController;
-    //private Animator _animator;
+    
+    [SerializeField] private Sprite _chewMouth;
+    private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Sprite _ogMouth;
     private void Awake()
     {
-        //_animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+    private void Start()
+    {
+        _ogMouth = _spriteRenderer.sprite;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,7 +23,6 @@ public class PetMouth : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             _petController.Feed();
-            Debug.Log("밥 먹음");
             //_animator.SetTrigger("Eat");
             //먹는 사운드 출력
         }
@@ -24,7 +30,6 @@ public class PetMouth : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             _petController.Feed();
-            Debug.Log("간식 먹음");
             //먹는 사운드 출력
         }
         else if(collision.CompareTag("Medicine"))
@@ -34,5 +39,17 @@ public class PetMouth : MonoBehaviour
             Debug.Log("약 먹음");
             //먹는 사운드 출력
         }
+    }
+
+    //애니메이션 전용
+    public void ChangeToChewMouth()
+    {
+        //Debug.Log("애니메이션 시작");
+        _spriteRenderer.sprite = _chewMouth;
+    }
+    public void ChangeToOgMouth()
+    {
+        //Debug.Log("애니메이션 종료");
+        _spriteRenderer.sprite = _ogMouth;
     }
 }

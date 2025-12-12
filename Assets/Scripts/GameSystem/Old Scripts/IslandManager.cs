@@ -1,12 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class IslandManager : MonoBehaviour
 {
-    [Header("방문 점수")]
-    [SerializeField] private int _visitingPoint;
-
     [Header("비주얼로더")]
     [SerializeField] private IslandPetVisualLoader _visualLoader;
     [SerializeField] private IslandPetVisualLoader _myPetVisualLoader;
@@ -19,8 +17,8 @@ public class IslandManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Button _goBackHomeButton;
     [SerializeField] private GeneInfomationUI _GeneInfoUI;
+    [SerializeField] private GameObject _geneInfoButton;
 
-    private float _lastVisitTime;
     public string IslandMyPetID { get; private set; }
 
     public PetSaveData IslandMypetData { get; private set; }
@@ -28,11 +26,13 @@ public class IslandManager : MonoBehaviour
 
     private PetBreed _breedManager;
 
+    private float _visitingPoint;
     private bool _isMarried;
     private bool _isLeft;
 
     private void Awake()
     {
+        _visitingPoint = Manager.Game.Config.VisitingAffinityGain;
         _isMarried = Manager.Save.CurrentData.UserData.Island.IsMarried;
         _isLeft = Manager.Save.CurrentData.UserData.Island.IsLeft;
         _breedManager = GetComponent<PetBreed>();
@@ -77,6 +77,7 @@ public class IslandManager : MonoBehaviour
         if (egg != null)
         {
             _egg.gameObject.SetActive(true);
+            _geneInfoButton.SetActive(false); //유전자 정보 버튼 끔
             _egg.Init(egg);
         }
     }
@@ -88,7 +89,17 @@ public class IslandManager : MonoBehaviour
             return;
         }
 
-        //시간 제한 둬야함
+        if(IslandMypetData.Cleanliness < 50f) //방문시 청결도가 50 아래일 경우
+        {
+            ChangeAffinity(-5);
+            Debug.Log($"청결도 :{IslandMypetData.Cleanliness}, 호감도 감소");
+        }
+
+        if (!CanGetReward()) { return; } //쿨타임 돌았는지 확인
+
+        //방문시 호감도 증가
+        ChangeAffinity(_visitingPoint);
+
         if (!_isLeft && !_isMarried)
         {
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
@@ -97,9 +108,7 @@ public class IslandManager : MonoBehaviour
                 _isMarried = true;
                 return;
             }
-            //방문시 호감도 증가
-            Manager.Save.CurrentData.UserData.Island.Affinity += _visitingPoint;
-
+            
             Debug.Log($"방문 포인트 +{_visitingPoint}. 현재 호감도 {Manager.Save.CurrentData.UserData.Island.Affinity}");
         }
     }
@@ -137,7 +146,7 @@ public class IslandManager : MonoBehaviour
         }
     }
 
-    public void AddAffinity(float amount)
+    public void ChangeAffinity(float amount)
     {
         Manager.Save.CurrentData.UserData.Island.Affinity += amount;
     }
@@ -148,14 +157,18 @@ public class IslandManager : MonoBehaviour
         IslandMyPetID = data.ID;
     }
 
-    public void OpenGeneInfo()
+    public void OpenGeneInfo() //유전자 정보 UI
     {
+        if(IslandPetData == null) { return; }
+
         //TODO: 조건분기 넣어야함
         _GeneInfoUI.gameObject.SetActive(true);
         _GeneInfoUI.Init(IslandPetData);
     }
     public void OpenGeneInfoForMyPet() //테스트용. OpenGeneInfo()랑 로직 합쳐야함
     {
+        if (IslandMypetData == null) { return; }
+
         _GeneInfoUI.gameObject.SetActive(true);
         _GeneInfoUI.Init(IslandMypetData);
     }
@@ -177,4 +190,20 @@ public class IslandManager : MonoBehaviour
         return egg;
     }
 
+    private bool CanGetReward()
+    {
+        var coolTime = Manager.Game.Config.VisitingAffinityCooldown;
+        var last = Manager.Save.CurrentData.UserData.Island.LastVisitTime;
+        var now  = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        int offlineSec = (int)(now - last);
+
+        if (offlineSec > coolTime) //쿨타임 지났으면
+        {
+            Manager.Save.CurrentData.UserData.Island.LastVisitTime = now; //지금 시간 마지막 방문 시간으로 설정
+            return true;
+        }
+
+        return false;
+    }
 }

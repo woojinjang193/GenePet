@@ -15,21 +15,35 @@ public class PetUnit : MonoBehaviour
     public string PetId => _petId;
 
     private PetVisualController _visul;
+    public bool LeftHandled { get; set; }
 
+    private void OnDestroy()
+    {
+        _status.OnCleanlinessChanged -= _visul.OnCleanlinessChanged;
+        _status.OnSick -= _visul.OnSick;
+        _status.OnHealthReducing -= _visul.OnHealthReducing;
+    }
     public void Init(PetSaveData save, PetManager petManager)
     {
         Petmanager = petManager;
         _petId = save.ID;
 
-        _status.SetValues( save.ID, save.Hunger, save.Health, save.Cleanliness, save.Happiness );
-
+        _status.SetValues(PetStat.Hunger, save.Hunger);
+        _status.SetValues(PetStat.Health, save.Health);
+        _status.SetValues(PetStat.Cleanliness, save.Cleanliness);
+        _status.SetValues(PetStat.Happiness, save.Happiness);
+ 
         _status.SetFlag(PetFlag.IsLeft, save.IsLeft);
         _status.SetFlag(PetFlag.IsSick, save.IsSick);
 
         _status.Growth = save.GrowthStage;
         _visul = GetComponent<PetVisualController>();
 
-        Debug.Log($"데이터 로드완료 ID: {_petId}");
+        _status.OnCleanlinessChanged += _visul.OnCleanlinessChanged;
+        _status.OnSick += _visul.OnSick;
+        _status.OnHealthReducing += _visul.OnHealthReducing;
+
+        //Debug.Log($"데이터 로드완료 ID: {_petId}");
     }
     public void SetConfig(PetConfigSO cfg)
     {
@@ -50,14 +64,14 @@ public class PetUnit : MonoBehaviour
         if (_status.GrowthExp < _currentConfig.ExpToGrow)
             return false;
 
+        _status.ResetGrowthProgress();
+
         GrowthStatus next = GetNextGrowth(_status.Growth);
         _status.Growth = next;
-
-        _status.ResetGrowthProgress();
+        
         _visul.SetSprite(_status.Growth);
         return true;
     }
-
     private GrowthStatus GetNextGrowth(GrowthStatus cur)
     {
         switch (cur)
@@ -73,5 +87,10 @@ public class PetUnit : MonoBehaviour
 
             default: return cur;
         }
+    }
+    public void ZoomThisPet(bool on)
+    {
+        //Debug.Log($"줌됨 {on}");
+        _visul.AllowToClickLetter(on);
     }
 }

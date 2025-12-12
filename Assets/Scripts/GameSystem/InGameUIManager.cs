@@ -9,7 +9,13 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private GameObject _mainUI;
     [Header("줌 UI")]
     [SerializeField] private GameObject _zoomedUI;
- 
+    [Header("편지 UI")]
+    [SerializeField] private LetterPanel _letterPanel;
+    [Header("에너지 슬라이더")]
+    [SerializeField] private EnergySlider _energySlider;
+    [Header("리워드 UI")]
+    [SerializeField] private RewardBackground _rewardUI;
+
     [Header("의존")]
     [SerializeField] private CameraController _camera;
     [SerializeField] private PetManager _petManager;
@@ -28,6 +34,14 @@ public class InGameUIManager : MonoBehaviour
         {
             _zoomOutButton.onClick.AddListener(OnClickZoomOut);
             _zoomOutButton.gameObject.SetActive(false);
+        }
+        if (_energySlider == null)
+        {
+            _energySlider = FindObjectOfType<EnergySlider>();
+        }
+        if (_rewardUI == null)
+        {
+            _rewardUI = FindObjectOfType<RewardBackground>();
         }
     }
 
@@ -54,5 +68,28 @@ public class InGameUIManager : MonoBehaviour
         {
             _petManager.ZoomOutPet();
         }
+    }
+    public void TryOpenLetter(PetUnit pet, LeftReason reason)
+    {
+        if (_petManager.ZoomedUnit != pet)
+            return;
+
+        OpenLetterPanel(reason);
+    }
+    private void OpenLetterPanel(LeftReason reason)
+    {
+        _letterPanel.gameObject.SetActive(true);
+        _letterPanel.WriteLetter(reason);
+    }
+
+    public void UpdateEnergyBar(int newValue)
+    {
+        _energySlider.SetEnergy(newValue);
+    }
+
+    public void ShowReward(Sprite image)
+    {
+        _rewardUI.gameObject.SetActive(true);
+        _rewardUI.SetImage(image);
     }
 }

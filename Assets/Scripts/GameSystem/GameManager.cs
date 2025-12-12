@@ -10,12 +10,17 @@ public class GameManager : Singleton<GameManager>
     public GameConfig Config { get; private set; }
     private bool _isManagerReady = false;
     public bool IsReady { get { return _isManagerReady; } }
+    private int _loadingDataAmount = 2;
+    private int _loadingCount = 0;
+    private PopupMessage _popupInstance;
 
     protected override void Awake()
     {
         base.Awake();
         var handle = Addressables.LoadAssetAsync<GameConfig>("GameConfig");
         handle.Completed += OnConfigLoaded;
+        var popupMessage = Addressables.LoadAssetAsync<GameObject>("PopupMessage");
+        popupMessage.Completed += OnPopupPrefabLoaded;
     }
     private void OnConfigLoaded(AsyncOperationHandle<GameConfig> handle)
     {
@@ -23,11 +28,31 @@ public class GameManager : Singleton<GameManager>
         {
             Config = handle.Result;
             Debug.Log("GameConfig 로드 완료");
-            _isManagerReady = true;
+            _loadingCount++;
+            ManagerReadyCheck();
         }
         else
         {
             Debug.LogError("GameConfig 로드 실패");
+        }
+    }
+    private void OnPopupPrefabLoaded(AsyncOperationHandle<GameObject> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            GameObject prefab = handle.Result;
+            GameObject instance = Instantiate(prefab, transform);
+
+            _popupInstance = instance.GetComponent<PopupMessage>();
+
+            _loadingCount++;
+            ManagerReadyCheck();
+
+            Debug.Log("popupMessage 로드 완료");
+        }
+        else
+        {
+            Debug.LogError("popupMessage 로드 실패");
         }
     }
     public void CreateRandomPet(bool isMine)
@@ -147,4 +172,16 @@ public class GameManager : Singleton<GameManager>
             return dominant;
         }
         return recessive;
-    }}
+    }
+    private void ManagerReadyCheck()
+    {
+        if(_loadingCount >= _loadingDataAmount)
+        {
+            _isManagerReady = true;
+        }
+    }
+    public void ShowPopup(string msg)
+    {
+        _popupInstance.ShowMessage(msg);
+    }
+}

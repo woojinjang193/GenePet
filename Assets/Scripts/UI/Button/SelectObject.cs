@@ -86,12 +86,12 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
         }
         else if (target == _medicineButton.gameObject)
         {
-            Debug.Log("간식 클릭");
+            Debug.Log("약 클릭");
             Spawn(_medicine);
         }
         else if (target == _snackButton.gameObject)
         {
-            Debug.Log("약 클릭");
+            Debug.Log("간식 클릭");
             Spawn(_snack);
         }
         else if (target == _showerBallButton.gameObject)

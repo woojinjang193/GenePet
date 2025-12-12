@@ -39,7 +39,8 @@ public class MoveToIslandButton : MonoBehaviour
 
         if (!hasAdult)
         {
-            Debug.Log("섬은 어른만 갈 수 있음");
+            //Debug.Log("섬은 어른만 갈 수 있음");
+            Manager.Game.ShowPopup("You're Too Younggggg");
             return;
         }
         bool isIslandOpen = userData.Island.IsOpen;
@@ -63,7 +64,8 @@ public class MoveToIslandButton : MonoBehaviour
 
         if (userData.Items.IslandTicket <= 0)
         {
-            Debug.Log("티켓이 부족합니다");
+            Manager.Game.ShowPopup("Lack of ticketttt");
+            //Debug.Log("티켓이 부족합니다");
         }
     }
 }

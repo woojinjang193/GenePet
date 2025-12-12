@@ -4,7 +4,6 @@ using UnityEngine;
 [Serializable]
 public class PetStatusCore
 {
-    public string ID { get; private set; }
     public float Hunger { get; private set; }
     public float Health { get; private set; }
     public float Cleanliness { get; private set; }
@@ -16,11 +15,20 @@ public class PetStatusCore
 
     private PetConfigSO _config;
 
+    private float _sickTimer;
+
     private float _growthTimer;
     private float _growthExp;
 
     public float GrowthTimer => _growthTimer;
     public float GrowthExp => _growthExp;
+
+    public event Action<float> OnCleanlinessChanged;
+    public event Action<bool> OnSick;
+    public event Action<bool> OnHealthReducing;
+
+    private bool _wasHealthReducing = false;
+
 
     public void SetConfig(PetConfigSO config)
     {
@@ -36,15 +44,16 @@ public class PetStatusCore
                 return;
             }
             _growth = value;
-            Debug.Log($"ID: {ID} 성장 단계 {_growth}로 세팅");
+            Debug.Log($"ID: 성장 단계 {_growth}로 세팅");
         }
     }
- 
     public void Tick(float sec)
     {
         if (IsLeft) return;
         if (_config == null) return;
         if (sec <= 0f) return;
+
+        bool isReducing = false;
 
         //성장 타이머
         _growthTimer += sec;
@@ -53,15 +62,69 @@ public class PetStatusCore
         Hunger -= _config.HungerDecreasePerSec * sec;
         Cleanliness -= _config.CleanlinessDecreasePerSec * sec;
 
-        //조건 감소
-        if(Hunger < 0f)
+        //체력 감소 조건
+        if (Hunger < 0f)
+        {
             Health -= _config.HealthDecreasePerSec * sec;
-
+            isReducing = true;
+        }
         if(IsSick)
+        {
             Health -= _config.HealthDecreasePerSec * sec;
+            isReducing = true;
+        }
 
-        if(Cleanliness < 0f)
-            Health -= _config.HealthDecreasePerSec * sec;
+        if (_wasHealthReducing != isReducing) // 상태 변화가 일어났을 때만 이벤트 발송
+        {
+            _wasHealthReducing = isReducing;
+            OnHealthReducing?.Invoke(isReducing);
+        }
+
+        //청결도 조건
+        if (Cleanliness < 50f)
+        {
+            OnCleanlinessChanged?.Invoke(Cleanliness);
+        }
+
+        //아픔 조건
+        if(!IsSick)
+        {
+            if (Cleanliness < _config.CleanlinessAmountGetSick)
+            {
+                _sickTimer += sec;
+
+                if (_sickTimer >= _config.TimeToGetSick)
+                {
+                    IsSick = true;
+                    OnSick?.Invoke(true); //자연병
+                    Debug.Log("자연스럽게 아픔");
+                    _sickTimer = 0f;
+                }  
+            }
+            else
+            {
+                _sickTimer = 0f;
+            }
+        }
+
+        //체력 증가 조건
+        if(Hunger > _config.HungerAmountHealthIncrease)
+        {
+            if(Cleanliness > 90f)
+            {
+                Health += _config.HealthIncreasePerSec * sec * 1.5f; //깨끗하고 배부르면 더 빨리 오름
+            }
+            else
+            {
+                Health += _config.HealthIncreasePerSec * sec;
+            }   
+        }
+
+        //떠남처리
+        if (Health <= 0f) 
+        {
+            IsLeft = true;
+        }
 
         Clamp();
     }
@@ -74,6 +137,7 @@ public class PetStatusCore
                 break;
             case PetStat.Cleanliness:
                 Cleanliness += value;
+                OnCleanlinessChanged?.Invoke(Cleanliness);
                 break;
             case PetStat.Hunger:
                 Hunger += value;
@@ -93,6 +157,7 @@ public class PetStatusCore
                 break;
             case PetStat.Cleanliness:
                 Cleanliness -= value;
+                OnCleanlinessChanged?.Invoke(Cleanliness);
                 break;
             case PetStat.Hunger:
                 Hunger -= value;
@@ -103,14 +168,25 @@ public class PetStatusCore
         }
         Clamp();
     }
-
-    public void SetValues(string id, float hunger, float health, float cleanliness, float happiness)
+    public void SetValues(PetStat stat, float value)
     {
-        ID = id;
-        Hunger = hunger;
-        Health = health;
-        Cleanliness = cleanliness;
-        Happiness = happiness;
+        switch (stat)
+        {
+            case PetStat.Health:
+                Health = value;
+                break;
+            case PetStat.Cleanliness:
+                Cleanliness = value;
+                OnCleanlinessChanged?.Invoke(Cleanliness);
+                break;
+            case PetStat.Hunger:
+                Hunger = value;
+                break;
+            case PetStat.Happiness:
+                Happiness = value;
+                break;
+        }
+        Clamp();
     }
     public void SetFlag(PetFlag flag, bool on)
     {
@@ -119,7 +195,8 @@ public class PetStatusCore
             case PetFlag.IsSick:
                 if (IsSick != on) 
                 {
-                    IsSick = on; 
+                    IsSick = on;
+                    OnSick?.Invoke(on);
                 }
                 break;
             case PetFlag.IsLeft:
@@ -137,10 +214,12 @@ public class PetStatusCore
         Cleanliness = Mathf.Clamp(Cleanliness, 0, 100);
         Happiness = Mathf.Clamp(Happiness, 0, 100);
     }
-
     public void ResetGrowthProgress()
     {
-        _growthTimer = 0f;
-        _growthExp = 0f;
+        float passedTime = _config.TimeToGrow;
+        float reachedExp = _config.ExpToGrow;
+
+        _growthTimer -= passedTime;
+        _growthExp -= reachedExp;
     }
 }
