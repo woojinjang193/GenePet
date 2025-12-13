@@ -49,6 +49,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bcaaab2a80754634abfabb6595e62c95, type: 2}
   - {fileID: 11400000, guid: eae355df2291e9644858487d01296b2e, type: 2}
   - {fileID: 11400000, guid: 0d9c735ae97dc874cb22aad5d7a7d03d, type: 2}
+  - {fileID: 11400000, guid: 230a954e8aee52b4fb93becd53706f3e, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -106,6 +107,7 @@ MonoBehaviour:
     - TailSO
     - WhiskersSO
     - PopupMessage
+    - CatalogSO
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a7b4fc742809d0248a5926f35c350558, type: 2}

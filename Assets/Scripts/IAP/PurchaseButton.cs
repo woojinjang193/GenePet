@@ -36,7 +36,6 @@ public class PurchaseButton : MonoBehaviour
 
     private void Start()
     {
-        GetCurrentPrice();
         if (string.IsNullOrEmpty(_productId))
         {
             Debug.LogWarning($"{gameObject.name} : 상품이름 없어서 버튼 비활성화");
@@ -52,6 +51,7 @@ public class PurchaseButton : MonoBehaviour
             return;
         }
 
+        GetCurrentPrice();
         OnProductsReady(Manager.IAP.IsReady());
     }
 

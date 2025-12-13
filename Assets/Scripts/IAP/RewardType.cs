@@ -1,8 +1,11 @@
 public enum RewardType
 {
-    Heart,
+    Energy,
     Coin,
-    UseItem,
-    BoosterItem,
-    RemovedAD
+    RemovedAD,
+    GeneticScissors,
+    GeneticTester,
+    MissingPoster,
+    Snack
+    
 }

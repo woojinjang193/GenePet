@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
-//[CreateAssetMenu(fileName = "New Catalog", menuName = "PangTasticSO/Catalog")]
+[CreateAssetMenu(fileName = "New Catalog", menuName = "GameSO/Catalog")]
 public class ProductCatalogSO : ScriptableObject
 {
     [System.Serializable]

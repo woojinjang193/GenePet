@@ -180,19 +180,25 @@ public class IslandData
 [Serializable]
 public class UserItemData
 {
+    public int Money; //소지금
+    public bool IsAdRemoved;
     public int IslandTicket;
     public int MissingPoster;
     public int GeneticScissors;
     public int geneticTester;
     public int RandomGene;
+    public int Snack;
 
     public UserItemData()
     {
-        IslandTicket = 100;
-        MissingPoster = 100;
-        GeneticScissors = 100;
-        geneticTester = 50;
-        RandomGene = 50;
+        Money = 0;
+        IsAdRemoved = false;
+        IslandTicket = 1;
+        MissingPoster = 1;
+        GeneticScissors = 1;
+        geneticTester = 1;
+        RandomGene = 1;
+        Snack = 1;
     }
 
 }
@@ -200,7 +206,7 @@ public class UserItemData
 [Serializable]
 public class UserData
 {
-    public int Money; //소지금
+    
     public long LastPlayedUnixTime; //마지막 접속 시간
     public string UID; // UID
     public Language CurLanguage; //현재 언어
@@ -217,7 +223,6 @@ public class UserData
     public UserData()
     {
         LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        Money = 0;
         UID = "";
         CurLanguage = Language.ENG;
         UserDisplayName = "";
