@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Purchasing;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class IAPManager : Singleton<IAPManager>
+public class ShopManager : Singleton<ShopManager>
 {
     [Header("카탈로그SO")]
     private ProductCatalogSO _catalog;
@@ -285,5 +285,11 @@ public class IAPManager : Singleton<IAPManager>
         return false;
     }
 
-    
+    //골드구매
+
+    public void PurchaseWithGold(string productId) //골드 아이템구매
+    {
+        ProductCatalogSO.Entry entry = _catalog.GetEntryById(productId);
+        Manager.Item.GiveReward(entry); //보상 지급
+    }
 }

@@ -93,9 +93,9 @@ public class InGameUIManager : MonoBehaviour
         _energySlider.SetEnergy(newValue);
     }
 
-    //public void ShowReward(Sprite image)
-    //{
-    //    _rewardUI.gameObject.SetActive(true);
-    //    _rewardUI.SetImage(image);
-    //}
+    public void ShowReward()
+    {
+        _rewardUI.gameObject.SetActive(true);
+        _rewardUI.ShowNext();
+    }
 }

@@ -22,15 +22,14 @@ public class PurchaseButton : MonoBehaviour
         if (!isSubscribe)
         {
             _button.onClick.AddListener(OnClickBuy);
-            Manager.IAP.OnProductsReady += OnProductsReady;
-            Manager.IAP.OnNonConsumableOwned += OnNonConsumableOwned;
+            Manager.Shop.OnProductsReady += OnProductsReady;
+            Manager.Shop.OnNonConsumableOwned += OnNonConsumableOwned;
             isSubscribe = true;
         }
 
         _button.interactable = false;
         //_buttonText.text = "";
     }
-
     private void Start()
     {
         if (string.IsNullOrEmpty(_productId))
@@ -41,21 +40,20 @@ public class PurchaseButton : MonoBehaviour
             if (isSubscribe)
             {
                 _button.onClick.RemoveListener(OnClickBuy);
-                Manager.IAP.OnProductsReady -= OnProductsReady;
-                Manager.IAP.OnNonConsumableOwned -= OnNonConsumableOwned;
+                Manager.Shop.OnProductsReady -= OnProductsReady;
+                Manager.Shop.OnNonConsumableOwned -= OnNonConsumableOwned;
                 isSubscribe = false;
             }
             return;
         }
 
         GetCurrentPrice();
-        OnProductsReady(Manager.IAP.IsReady());
+        OnProductsReady(Manager.Shop.IsReady());
     }
-
     private void GetCurrentPrice()
     {
         (string priceString, decimal currentPrice, string currencyCode) =
-        Manager.IAP.GetPriceInfo(_productId);
+        Manager.Shop.GetPriceInfo(_productId);
         _currentPriceText.text = priceString;
         if (_originalPriceText != null)
         {
@@ -63,19 +61,16 @@ public class PurchaseButton : MonoBehaviour
             _originalPriceText.text = $"{currencyCode} {originalPrice:#,##0.00}";
         }
     }
-
-
     private void OnDestroy()
     {
         if (isSubscribe)
         {
             _button.onClick.RemoveListener(OnClickBuy);
-            Manager.IAP.OnProductsReady -= OnProductsReady;
-            Manager.IAP.OnNonConsumableOwned -= OnNonConsumableOwned;
+            Manager.Shop.OnProductsReady -= OnProductsReady;
+            Manager.Shop.OnNonConsumableOwned -= OnNonConsumableOwned;
             isSubscribe = false;
         }
     }
-
     private void OnProductsReady(bool isProductsReady)
     {
         _button.interactable = isProductsReady;
@@ -87,7 +82,7 @@ public class PurchaseButton : MonoBehaviour
         //    return;
         //}
 
-        if (isProductsReady && Manager.IAP.CheckNonConsumableOwned(_productId))
+        if (isProductsReady && Manager.Shop.CheckNonConsumableOwned(_productId))
         {
             _button.interactable = false;
             Debug.Log($"{_productId} 이미 구매함. 버튼 비활성화");
@@ -97,7 +92,6 @@ public class PurchaseButton : MonoBehaviour
 
         }
     }
-
     private void OnNonConsumableOwned(string id)
     {
         if (id == _productId)
@@ -106,10 +100,9 @@ public class PurchaseButton : MonoBehaviour
             Debug.Log($"{id} 구매 완료. 버튼 비활성화");
         }
     }
-
     private void OnClickBuy()
     {
-        Manager.IAP.TryPurchase(_productId);
+        Manager.Shop.TryPurchase(_productId);
         Debug.Log($"구매 시도: {_productId}");
     }
 }

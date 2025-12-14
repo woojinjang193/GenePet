@@ -32,7 +32,7 @@ public class RewardPopUp : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    private void ShowNext() // 다음 보상 표시
+    public void ShowNext() // 다음 보상 표시
     {
         Debug.Log("큐 스타트");
 
