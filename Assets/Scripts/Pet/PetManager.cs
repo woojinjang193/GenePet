@@ -412,22 +412,22 @@ public class PetManager : MonoBehaviour
     {
         if(ZoomedUnit == null) return;
 
-        GameConfig status = Manager.Game.Config;
+        GameConfig gameConfig = Manager.Game.Config;
 
-        ZoomedUnit.Status.SetValues(PetStat.Hunger, status.ComeBackHunger);
-        ZoomedUnit.Status.SetValues(PetStat.Cleanliness, status.ComeBackCleanliness);
-        ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, status.ComeBackHappiness);
-        ZoomedUnit.Status.SetValues(PetStat.Health, status.ComeBackHealth);
-        _StatusUI.UpdateGauges(ZoomedUnit.Status);
-
-        ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
-        ZoomedUnit.LeftHandled = false;
-
-        ZoomedUnit.gameObject.TryGetComponent<PetVisualController>(out PetVisualController petvisul);
+        ZoomedUnit.gameObject.TryGetComponent<PetVisualController>(out PetVisualController petvisul); //비주얼 로더 찾기
 
         if (petvisul)
         {
             petvisul.SetSprite(ZoomedUnit.Status.Growth);
+
+            ZoomedUnit.Status.SetValues(PetStat.Hunger, gameConfig.ComeBackHunger);
+            ZoomedUnit.Status.SetValues(PetStat.Cleanliness, gameConfig.ComeBackCleanliness);
+            ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, gameConfig.ComeBackHappiness);
+            ZoomedUnit.Status.SetValues(PetStat.Health, gameConfig.ComeBackHealth);
+            _StatusUI.UpdateGauges(ZoomedUnit.Status);
+
+            ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
+            ZoomedUnit.LeftHandled = false;
         }
         else
         {

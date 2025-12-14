@@ -74,7 +74,7 @@ public class PetStatusCore
             isReducing = true;
         }
 
-        if (_wasHealthReducing != isReducing) // 상태 변화가 일어났을 때만 이벤트 발송
+        if (_wasHealthReducing != isReducing) // 상태 변화가 일어났을 때만 이벤트 발송 (PetUnit 에서 구독)
         {
             _wasHealthReducing = isReducing;
             OnHealthReducing?.Invoke(isReducing);
@@ -83,7 +83,7 @@ public class PetStatusCore
         //청결도 조건
         if (Cleanliness < 50f)
         {
-            OnCleanlinessChanged?.Invoke(Cleanliness);
+            OnCleanlinessChanged?.Invoke(Cleanliness); //PetUnit 에서 구독
         }
 
         //아픔 조건
