@@ -16,8 +16,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private EnergySlider _energySlider;
     [Header("리워드 UI")]
     [SerializeField] private RewardPopUp _rewardUI;
-    [Header("소지금 텍스트")]
-    [SerializeField] private TMP_Text _moneyText;
+    
 
     [Header("의존")]
     [SerializeField] private CameraController _camera;
@@ -47,23 +46,22 @@ public class InGameUIManager : MonoBehaviour
             _rewardUI = FindObjectOfType<RewardPopUp>();
         }
 
-        _moneyText.text = Manager.Save.CurrentData.UserData.Items.Money.ToString(); // 소지금 초기화
-
         //메인씬 돌아왔을때 보상 있으면 실행
         if (Manager.Item.RewardQueue.Count > 0)
         {
             ShowReward();
         }
 
-        Manager.Item.OnMoneyChanged += UpdateMoney;
-        Manager.Item.OnRewardGranted += ShowReward;
+        Manager.Item.OnRewardsGiven += ShowReward;
     }
     private void OnDestroy()
     {
-        Manager.Item.OnMoneyChanged -= UpdateMoney;
-        Manager.Item.OnRewardGranted -= ShowReward;
+        if (Manager.Item != null)
+        {
+            Manager.Item.OnRewardsGiven -= ShowReward;
+        }
     }
-
+    
     // 펫 줌인 시
     public void OnZoomInPet()
     {
@@ -113,8 +111,5 @@ public class InGameUIManager : MonoBehaviour
         _rewardUI.gameObject.SetActive(true);
         _rewardUI.ShowNext();
     }
-    private void UpdateMoney(int value)
-    {
-        _moneyText.text = value.ToString();
-    }
+ 
 }

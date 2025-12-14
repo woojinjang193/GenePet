@@ -9,7 +9,6 @@ public class ShopManager : Singleton<ShopManager>
 {
     [Header("카탈로그SO")]
     private ProductCatalogSO _catalog;
-
     public ProductCatalogSO Catalog => _catalog;
 
     private StoreController _store;
@@ -61,6 +60,13 @@ public class ShopManager : Singleton<ShopManager>
     {
         _store = UnityIAPServices.StoreController();
 
+        // ==콜백 등록==
+        _store.OnStoreDisconnected += OnStoreDisconnected; // 연결 끊김 콜백 등록
+        _store.OnProductsFetched += OnProductsFetched; // 상품 정보 수신 콜백
+        _store.OnProductsFetchFailed += OnProductsFetchFailed; // 상품 정보 수신 실패 콜백
+        _store.OnPurchasesFetched += OnPurchasesFetched; // 구매 내역 수신 콜백 등록
+        _store.OnPurchasesFetchFailed += OnPurchasesFetchFailed;
+
         _store.OnPurchasePending += OnPurchasePending;
         _store.OnPurchaseConfirmed += OnPurchaseConfirmed;
         _store.OnPurchaseFailed += OnPurchaseFailed;
@@ -76,11 +82,6 @@ public class ShopManager : Singleton<ShopManager>
             Debug.LogError("IAP 연결실패 " + exception.Message);
             return;
         }
-
-        _store.OnProductsFetched += OnProductsFetched; // 상품 정보 수신 콜백
-        _store.OnProductsFetchFailed += OnProductsFetchFailed; // 상품 정보 수신 실패 콜백
-        _store.OnPurchasesFetched += OnPurchasesFetched; // 구매 내역 수신 콜백 등록
-        _store.OnStoreDisconnected += OnStoreDisconnected; // 연결 끊김 콜백 등록
 
         if (_catalog == null)
         {
@@ -99,6 +100,7 @@ public class ShopManager : Singleton<ShopManager>
         //_store.FetchPurchases(); // 구매내역 조회
     }
 
+    // ====== 콜백 구현부 ======
     private void OnStoreDisconnected(StoreConnectionFailureDescription description)
     {
         _isConnected = false;
@@ -106,21 +108,6 @@ public class ShopManager : Singleton<ShopManager>
         // 재연결 시도나 UI 비활성화 등 대응 로직을 여기
         OnProductsReady?.Invoke(false);
     }
-
-    public (string priceString, decimal priceValue, string currencyCode) GetPriceInfo(string productId)
-    {
-        if (_store == null) return ("", 0m, "");
-        Product product = _store.GetProductById(productId);
-        if (product == null || product.metadata == null) return ("", 0m, "");
-
-        return (
-            product.metadata.localizedPriceString,
-            product.metadata.localizedPrice,
-            product.metadata.isoCurrencyCode
-        );
-    }
-
-
 
     private void OnProductsFetched(List<Product> products)
     {
@@ -163,8 +150,10 @@ public class ShopManager : Singleton<ShopManager>
         _isProductsReady = true;
         OnProductsReady?.Invoke(true);
     }
-
-
+    private void OnPurchasesFetchFailed(PurchasesFetchFailureDescription failure)
+    {
+        Debug.LogWarning($"구매내역 조회 실패: {failure.FailureReason}");
+    }
     private void OnPurchasePending(PendingOrder order)
     {
         Debug.Log($"구매 팬딩중: {order.Info.PurchasedProductInfo}");
@@ -285,7 +274,7 @@ public class ShopManager : Singleton<ShopManager>
         return false;
     }
 
-    //골드구매
+    //===============골드구매===============
 
     public void PurchaseWithGold(string productId, int price) //골드 아이템구매
     {
@@ -301,4 +290,20 @@ public class ShopManager : Singleton<ShopManager>
         Manager.Item.PurchaseWithGold(entry, price); // 구매 시도
 
     }
+
+    public (string priceString, decimal priceValue, string currencyCode) GetPriceInfo(string productId)
+    {
+        if (_store == null) return ("", 0m, "");
+        Product product = _store.GetProductById(productId);
+        if (product == null || product.metadata == null) return ("", 0m, "");
+
+        return (
+            product.metadata.localizedPriceString,
+            product.metadata.localizedPrice,
+            product.metadata.isoCurrencyCode
+        );
+    }
+
+
+
 }
