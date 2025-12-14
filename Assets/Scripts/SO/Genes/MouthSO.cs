@@ -6,4 +6,5 @@ using UnityEngine;
 public class MouthSO : PartBaseSO
 {
     public Sprite sprite;
+    public int OrderInLayer;
 }

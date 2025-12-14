@@ -6,6 +6,8 @@ using UnityEngine;
 public class SaveManager : Singleton<SaveManager>
 {
     public GameSaveSnapshot CurrentData;
+    private bool _isReady = false;
+    public bool IsReady { get { return _isReady; } }
 
     protected override void Awake()
     {
@@ -22,11 +24,13 @@ public class SaveManager : Singleton<SaveManager>
         {
             Debug.Log("기존 세이브파일 로드 완료");
             CurrentData = data;
+            _isReady = true;
         }
         else
         {
             Debug.Log("세이브파일 없음. 새로 생성");
             CurrentData = CreateNewSave();
+            _isReady = true;
         }
     }
 
@@ -38,25 +42,7 @@ public class SaveManager : Singleton<SaveManager>
         snapshot.SnapshotVersion = 1;
         CurrentData = snapshot;
 
-        if (Manager.Gene.IsReady == true)
-        {
-            Manager.Game.CreateRandomPet(true);
-        }
-        else
-        {
-            StartCoroutine(WaitGeneAndCreatePetRoutine());
-        }
-
         return snapshot;
-    }
-
-    private IEnumerator WaitGeneAndCreatePetRoutine()
-    {
-        while (Manager.Gene.IsReady == false)
-        {
-            yield return null;
-        }
-        Manager.Game.CreateRandomPet(true);
     }
 
     public void SaveGame()
@@ -66,6 +52,7 @@ public class SaveManager : Singleton<SaveManager>
             Debug.LogWarning("저장할 데이터가 없습니다.");
             return;
         }
+        //게임 매니저에서 펫 목록 받아와서 수치 저장 
 
         CurrentData.SnapshotVersion = CurrentData.SnapshotVersion + 1; // 저장 횟수 증가
         bool result = SaveSystem.SaveSnapshot(CurrentData); // 세이브 파일로 저장 시도
@@ -79,35 +66,94 @@ public class SaveManager : Singleton<SaveManager>
         }
     }
 
-    public void RegisterNewPet(PetSaveData pet)
+    public void RegisterNewPet(PetSaveData pet, bool isMine)
     {
         if (CurrentData == null)
         {
-            Debug.LogWarning("세이브 데이터가 없습니다.");
+            Debug.LogError("세이브 데이터가 없습니다.");
             return;
         }
 
-        CurrentData.UserData.HavePet = pet;
-        PetRecordData record = new PetRecordData(pet);
-        record.Remark = "Raising";
-        CurrentData.UserData.HadPetList.Add(record);
+        if (isMine) // 플레이어 소유 펫일 때
+        {
+            if (CurrentData.UserData.HavePetList == null)
+            {
+                CurrentData.UserData.HavePetList = new List<PetSaveData>();
+            }
+
+            CurrentData.UserData.HavePetList.Add(pet);
+            CurrentData.UserData.HadPetList.Add(pet);
+
+            Debug.Log($"펫 ID: {pet.ID} 등록");
+        }
+        else //섬 펫일때
+        {
+            CurrentData.UserData.Island.IslandPetSaveData = pet;
+        }
 
         SaveGame();
+    }
+    public void RecordIslandPet(PetSaveData islandPet)
+    {
+        CurrentData.UserData.IslandPetList.Add(islandPet);
+    }
+
+    public void RemovePetData(string id)
+    {
+        for (int i = 0; i < CurrentData.UserData.HavePetList.Count; i++)
+        {
+            var pet = CurrentData.UserData.HavePetList[i];
+            if(pet.ID == id)
+            {
+                CurrentData.UserData.HavePetList.RemoveAt(i);
+                Debug.Log($"펫 {id} 삭제");
+                break;
+            }
+        }
+        SaveGame();
+    }
+    public void RemoveIslandPet()
+    {
+        if (CurrentData.UserData.Island.IslandPetSaveData == null)
+        {
+            Debug.Log("삭제할 펫 정보 없음");
+            return;
+        }
+        CurrentData.UserData.Island.IslandPetSaveData = new PetSaveData();
+        Debug.Log($"섬펫 삭제 완료");
+        SaveGame();
+    }
+
+    public void RemoveIsland()
+    {
+        if (CurrentData.UserData.Island == null)
+        {
+            Debug.Log("삭제할 섬 정보 없음");
+            return;
+        }
+        CurrentData.UserData.Island = new IslandData();
+        Debug.Log($"섬 삭제 완료");
+        SaveGame();
+    }
+
+    //앱 종료, 씬전환, 앱 퍼즈시
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            Debug.Log("SaveManager Pause 시간 저장");
+            SavePlayTime();
+        } 
     }
     private void OnApplicationQuit()
     {
-        // 현재 씬에 존재하는 모든 펫 검색
-        var pet = FindObjectOfType<PetUnit>();
-
-        // 세이브 데이터가 비었으면 저장 불가
-        if (CurrentData == null || CurrentData.UserData.HavePet == null)
-            return;
-
-        // 저장
-        pet.UpdatePetSaveData(CurrentData.UserData.HavePet);
-
-        // 모든 펫 데이터 반영 후 실제 세이브 파일 저장
+        Debug.Log("SaveManager Quit 시간 + 전체 저장");
+        SavePlayTime();
         SaveGame();
     }
-
+    public void SavePlayTime()
+    {
+        CurrentData.UserData.LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        Debug.Log($"떠난 시간 저장: {CurrentData.UserData.LastPlayedUnixTime}");
+    }
 }

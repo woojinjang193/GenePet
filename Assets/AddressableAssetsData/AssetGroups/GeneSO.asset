@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: GeneSO
+  m_EditorClassIdentifier: 
+  m_GroupName: GeneSO
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 48b606be25e3f5d4aa7c14fdd634a8bd
+  m_SerializeEntries:
+  - m_GUID: 1d19686c8a4fb424a992b6866dafbf8a
+    m_Address: Assets/ScriptableObjects/Genes/ArmSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ArmSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29d3dbcdb9ac76740bba5ddc12e78696
+    m_Address: Assets/ScriptableObjects/Genes/EyeSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EyeSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36a0abd056a60bd439777bb4e35ac82b
+    m_Address: Assets/ScriptableObjects/Genes/BlushSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BlushSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 398a064fe7485e644944e81ac8631d47
+    m_Address: Assets/ScriptableObjects/Genes/ColorSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ColorSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3da865086548859438b2cc01e197d732
+    m_Address: Assets/ScriptableObjects/Genes/PatternSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PatternSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 488abada07ea8884c984e9d27fd65acf
+    m_Address: Assets/ScriptableObjects/Genes/BodySO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BodySO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5152e6b92257f4e4aaa4e0492ca150f0
+    m_Address: Assets/ScriptableObjects/Genes/PersonalitySO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PersonalitySO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54167e418d9d1f44e92be07eb4ee76c6
+    m_Address: Assets/ScriptableObjects/Genes/WhiskersSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WhiskersSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a9f4e4c1d2d9ba42b87f250a42483c9
+    m_Address: Assets/ScriptableObjects/Genes/TailSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TailSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6eb8d9d241100b3468994332fc93a811
+    m_Address: Assets/ScriptableObjects/Genes/Feet
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FeetSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8368d64d581f8ed4599948b38da79ad4
+    m_Address: Assets/ScriptableObjects/Genes/MouthSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MouthSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f825eb98aa203041a2f2c89127eb6e5
+    m_Address: Assets/ScriptableObjects/Genes/WingSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WingSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0bbde5d3874d974ca7daa58e23c5f93
+    m_Address: Assets/ScriptableObjects/Genes/EarSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EarSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c56bfd68f32b5914daee4b23ca5890d5
+    m_Address: Assets/ScriptableObjects/Genes/AccSO
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AccSO
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: a118a132ee8ea17438ac4f5f68878a17, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 94eb008fe3440074492dff09a71f99ef, type: 2}
+    - {fileID: 11400000, guid: d592317062b05f746913565db5f459f1, type: 2}

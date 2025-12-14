@@ -1,59 +1,41 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New ConfigSO", menuName = "SO/PetConfigSO")]
 public class PetConfigSO : ScriptableObject
 {
-    [Header("¼ºÀå»óÅÂ")]
+    [Header("ì„±ì¥ìƒíƒœ")]
     public GrowthStatus GrowthType;
 
-    [Header("¼ºÀå°¡´É ¿©ºÎ")]
-    public bool canGrow;
-
-    [Header("´ÙÀ½ ¼ºÀå±îÁö °É¸®´Â ½Ã°£")]
+    [Header("ë‹¤ìŒ ì„±ì¥ê¹Œì§€ ê±¸ë¦¬ëŠ” ì‹œê°„")]
     public float TimeToGrow;
 
-    [Header("´ÙÀ½ ¼ºÀå±îÁö ÇÊ¿äÇÑ °æÇèÄ¡")]
+    [Header("ë‹¤ìŒ ì„±ì¥ê¹Œì§€ í•„ìš”í•œ ê²½í—˜ì¹˜")]
     public float ExpToGrow;
 
-    [Header("¹è°íÇÄ ÃÊ´ç °¨¼Ò")]
+    [Header("í¬ë§Œë„ ì´ˆë‹¹ ê°ì†Œ")]
     public float HungerDecreasePerSec;
 
-    [Header("Çàº¹µµ ÃÊ´ç °¨¼Ò")]
+    [Header("í–‰ë³µë„ ì´ˆë‹¹ ê°ì†Œ")]
     public float HappinessDecreasePerSec;
 
-    [Header("¿¡³ÊÁö ÃÊ´ç °¨¼Ò")]
-    public float EnergyDecreasePerSec;
-
-    [Header("Ã»°áµµ ÃÊ´ç °¨¼Ò")]
+    [Header("ì²­ê²°ë„ ì´ˆë‹¹ ê°ì†Œ")]
     public float CleanlinessDecreasePerSec;
 
-    [Header("½ºÆ®·¹½º ÃÊ´ç Áõ°¡")]
-    public float StressIncreasePerSec;
-
-    [Header("½ºÆ®·¹½º ÃÊ´ç °¨¼Ò")]
-    public float StressDecreasePerSec;
-
-    [Header("¸ÔÀÌÁÖ±â½Ã ¿À¸£´Â ¹è°íÇÄ ¼öÄ¡")]
-    public float FeedHungerGain;
-
-    [Header("³î¾ÆÁÖ±â½Ã ¿À¸£´Â Çàº¹µµ ¼öÄ¡")]
+    [Header("ë†€ì•„ì£¼ê¸°ì‹œ ì˜¤ë¥´ëŠ” í–‰ë³µë„ ìˆ˜ì¹˜")]
     public float PlayHappinessGain;
 
-    [Header("¾Ä±â½Ã ¿À¸£´Â Ã»°áµµ ¼öÄ¡")]
-    public float CleanGain;
-
-    [Header("ÀáÀÚ±â½Ã ¿À¸£´Â ¿¡³ÊÁö ÃÊ´ç ¼öÄ¡")]
-    public float SleepEnergyGainPerSec;
-
-    [Header("³î¾ÆÁÖ±â½Ã ¿¡³ÊÁö ºñ¿ë")]
-    public float PlayEnergyCost;
-
-    [Header("Ä¡·á½Ã Ã¼·ÂÈ¸º¹·®")]
-    public float HealAmount;
-
-    [Header("¾ÆÇÃ¶§ Ã¼·Â ÃÊ´ç °¨¼Ò")]
+    [Header("ì²´ë ¥ ì´ˆë‹¹ ê°ì†Œ")]
     public float HealthDecreasePerSec;
+
+    [Header("ì²´ë ¥ ì´ˆë‹¹ ì¦ê°€")]
+    public float HealthIncreasePerSec;
+
+    [Header("ì²´ë ¥ ì¦ê°€ ê¸°ì¤€ í¬ë§Œë„")]
+    public float HungerAmountHealthIncrease;
+
+    [Header("ë³‘ê±¸ë¦¬ëŠ” ì²­ê²°ë„ ê¸°ì¤€")]
+    public float CleanlinessAmountGetSick;
+
+    [Header("ê¸°ì¤€ ì²­ê²°ë„ ì´í•˜ì¼ë•Œ ë³‘ê±¸ë¦¬ëŠ” ì‹œê°„")]
+    public float TimeToGetSick;
 }

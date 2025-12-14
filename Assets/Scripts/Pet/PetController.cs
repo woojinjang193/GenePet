@@ -2,104 +2,148 @@ using UnityEngine;
 
 public sealed class PetController : MonoBehaviour
 {
-    [SerializeField] private PetUnit _pet;
+    private PetUnit _pet;
+    private float _cleaningAccum = 0f;
+
+    [Header("입 파츠")]
+    [SerializeField] private SpriteRenderer _mouth;
+    [Header("눈 파츠")]
+    [SerializeField] private SpriteRenderer _eye;
+    [Header("일반 입 벌림 스프라이트 ")]
+    [SerializeField] private Sprite _openMouthSprite;
+    [Header("간식 입 벌림 스프라이트 ")]
+    [SerializeField] private Sprite _openMouthForSnackSprite;
+    [Header("약 입 벌림 스프라이트 ")]
+    [SerializeField] private Sprite _openMouthForMedicine;
+    [Header("눈물 눈")]
+    [SerializeField] private Sprite _closeEyesWithTear;
+    [Header("감은 눈")]
+    [SerializeField] private Sprite _closeEyesSprite;
+
+    [SerializeField] private Animator _mouthAnim;
+
+    private Sprite _ogMouth;
+    private Sprite _ogEye;
+
+    private void Awake()
+    {
+        _pet = GetComponent<PetUnit>();
+    }
 
     public PetStatusCore Status
     {
         get { return _pet != null ? _pet.Status : null; }
     }
-    public PetConfigSO Config
-    {
-        get { return _pet != null ? _pet.CurrentConfig : null; }
-    }
 
     public void Feed()
     {
-        if (_pet == null || Status == null || Config == null) return;
+        if (_pet == null || Status == null ) return;
 
-        if (Status.GetStat(PetStat.Hunger) > 95f)
+        if (Status.Hunger > 99f)
         {
             Debug.Log("이미 배부름");
+            _mouthAnim.SetTrigger("Full");
             return;
         }
-        Debug.Log($"밥먹음. 허기짐 : {Status.GetStat(PetStat.Hunger)}, 청결도 : {Status.GetStat(PetStat.Cleanliness)}");
-        Status.AddStat(PetStat.Hunger, Config.FeedHungerGain);
-
-        Status.AddStat(PetStat.Cleanliness, -5f); 
+        
+        Status.IncreaseStat(PetStat.Hunger, 10f); //식사 포만도 오르는 수치
+        Status.DecreaseStat(PetStat.Cleanliness, 5f); //식사시 감소하는 청결도 수치
+        _mouthAnim.SetTrigger("Eat");
+        _pet.Petmanager.UpdateStatus();
+        Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 
-    public void Play(float resultScale = 1f)
+    public void Play()
     {
-        if (_pet == null || Status == null || Config == null) return;
+        //미니게임 실행
+    }
 
-        if (Status.GetStat(PetStat.Energy) < Config.PlayEnergyCost)
+    public void Clean(float amount)
+    {
+        _cleaningAccum += amount; //이동거리 누적
+
+        if (_cleaningAccum >= 0.6f) //0.6 이상 문지르면
         {
-            Debug.Log($"에너지가 부족합니다 :{Status.GetStat(PetStat.Energy)}");
-            return;
+            Status.IncreaseStat(PetStat.Cleanliness, 2f); //청결도 +2
+            _pet.Petmanager.UpdateStatus(); //UI 갱신
+            _cleaningAccum = 0f;  //리셋
         }
-
-        float happyGain = Config.PlayHappinessGain * Mathf.Clamp01(resultScale);
-
-        Status.AddStat(PetStat.Happiness, happyGain);
-        Status.AddStat(PetStat.Energy, -Config.PlayEnergyCost);
-        Status.AddStat(PetStat.Cleanliness, -8f);
-        Debug.Log($"놀아줌. 행복도 : {Status.GetStat(PetStat.Happiness)}, 에너지 : {Status.GetStat(PetStat.Energy)}");
     }
-
-    public void Sleep(bool on)
-    {
-        if (_pet == null || Status == null) return;
-        Status.SetFlag(PetFlag.IsSleeping, on);
-    }
-
-    public void Clean()
-    {
-        if (_pet == null || Status == null || Config == null) return;
-        Status.AddStat(PetStat.Cleanliness, Config.CleanGain);
-        Debug.Log($"목욕. 청결도 : {Status.GetStat(PetStat.Cleanliness)}");
-    }
-
     public void Heal()
     {
-        if (_pet == null || Status == null || Config == null) return;
+        if (_pet == null || Status == null) return;
 
-        bool isSick = Status.GetFlag(PetFlag.IsSick);
+        bool isSick = Status.IsSick;
         if (!isSick)
         {
             Debug.Log("안아픔");
             return;
         }
         
-
-        // 간단히 아픔 해제 + 체력 회복
         Status.SetFlag(PetFlag.IsSick, false);
-        Status.AddStat(PetStat.Health, Config.HealAmount);
-        Debug.Log($"아픔 : {Status.GetFlag(PetFlag.IsSick)}");
+        Status.IncreaseStat(PetStat.Health, 10f); //치료시 증가하는 체력 수치
+        _pet.Petmanager.UpdateStatus();
+        Debug.Log($"아픔 : {Status.IsSick}");
     }
-
-    public void SetGrowth(GrowthStatus next)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_pet == null || Status == null) return;
-        Status.Growth = next;
-    }
-
-    public void ShowStatus()
-    {
-        if (Status == null)
+        if (collision.CompareTag("Food"))
         {
-            Debug.LogError("스테이터스 없음");
-            return;
+            _ogMouth = _mouth.sprite;
+            _ogEye = _eye.sprite;
+            _mouth.sprite = _openMouthSprite;
+            _eye.sprite = _closeEyesSprite;
+            //Debug.Log("음식 트리거 충돌");
         }
+        else if (collision.CompareTag("Snack"))
+        {
+            _ogMouth = _mouth.sprite;
+            _ogEye = _eye.sprite;
+            _mouth.sprite = _openMouthForSnackSprite;
+            _eye.sprite = _closeEyesSprite;
+            //Debug.Log("간식 트리거 충돌");
 
-        string msg =
-            "건강: " + Status.GetStat(PetStat.Health).ToString("F1") +
-            ", 포만: " + Status.GetStat(PetStat.Hunger).ToString("F1") +
-            ", 행복: " + Status.GetStat(PetStat.Happiness).ToString("F1") +
-            ", 에너지: " + Status.GetStat(PetStat.Energy).ToString("F1") +
-            ", 청결: " + Status.GetStat(PetStat.Cleanliness).ToString("F1") +
-            ", 수면: " + (Status.GetFlag(PetFlag.IsSleeping) ? "T" : "F") +
-            ", 아픔: " + (Status.GetFlag(PetFlag.IsSick) ? "T" : "F") +
-            ", 불행포인트 :" + _pet._unHappyScore;
-        Debug.Log("[PetController] " + msg);
+        }
+        else if (collision.CompareTag("Medicine"))
+        {
+            _ogMouth = _mouth.sprite;
+            _ogEye = _eye.sprite;
+            _mouth.sprite = _openMouthForMedicine;
+            _eye.sprite = _closeEyesWithTear;
+            //Debug.Log("약 트리거 충돌");
+        }
+        else if (collision.CompareTag("CleaningTool"))
+        {
+            _ogEye = _eye.sprite;
+            _eye.sprite = _closeEyesSprite;
+            //Debug.Log("씻는중");
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Food"))
+        {
+            _mouth.sprite = _ogMouth;
+            _eye.sprite = _ogEye;
+            //Debug.Log("음식 멀어짐");
+        }
+        else if (collision.CompareTag("Snack"))
+        {
+            _mouth.sprite = _ogMouth;
+            _eye.sprite = _ogEye;
+            //Debug.Log("간식 멀어짐");
+
+        }
+        else if (collision.CompareTag("Medicine"))
+        {
+            _mouth.sprite = _ogMouth;
+            _eye.sprite = _ogEye;
+            //Debug.Log("약 멀어짐");
+        }
+        else if (collision.CompareTag("CleaningTool"))
+        {
+            _eye.sprite = _ogEye;
+            //Debug.Log("샤워도구 멀어짐");
+        }
     }
 }

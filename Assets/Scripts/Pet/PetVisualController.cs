@@ -1,161 +1,117 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PetVisualController : MonoBehaviour
 {
-    [SerializeField] private PetUnit _pet;
+    private PetUnit _pet;
 
+    [Header("알")]
     [SerializeField] private SpriteRenderer _egg;
 
-    [SerializeField] private SpriteRenderer _acc;
-    [SerializeField] private SpriteRenderer _arm;
-    [SerializeField] private SpriteRenderer _blush;
-    [SerializeField] private SpriteRenderer _body;
-    [SerializeField] private SpriteRenderer _ear;
-    [SerializeField] private SpriteRenderer _eye;
-    [SerializeField] private SpriteRenderer _feet;
-    [SerializeField] private SpriteRenderer _mouth;
-    [SerializeField] private SpriteRenderer _pattern;
-    [SerializeField] private SpriteRenderer _wing;
+    [Header("편지")]
+    [SerializeField] private Letter _letter;
 
-    //[SerializeField] private Color _color1;
-    //[SerializeField] private Color _color2;
+    [Header("파츠")]
+    [SerializeField] private PetPartSpriteList _renderers;
 
-    [SerializeField] private Button _button; //테스트용. 지워야함
+    [Header("더러움")]
+    [SerializeField] private SpriteRenderer _dirtRenderer;
+    [SerializeField] private SpriteMask _dirtMask;
+    [SerializeField] private Sprite _dirtLow;
+    [SerializeField] private Sprite _dirtMid;
+    [SerializeField] private Sprite _dirtHigh;
 
-    public PetStatusCore Status
+    [Header("아픔/ 체력감소")]
+    [SerializeField] private GameObject _sickImage;
+    [SerializeField] private GameObject _healthReducingParticle;
+
+    public void Init(PetSaveData save, PetUnit unit)
     {
-        get { return _pet != null ? _pet.Status : null; }
+        if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
+        _egg.sprite = save.EggSprite;
+        _pet = unit;
+        ApplyVisual(save.Genes); //비주얼 로더
+        SetSprite(_pet.Status.Growth);
+
+        OnSick(_pet.Status.IsSick); //아픈상태면 아픔 이미지 켜줌
+    }
+    private void ApplyVisual(GenesContainer save)
+    {
+        PetVisualHelper.ApplyVisual(save, _renderers);
+        _dirtMask.sprite = _renderers.Body.sprite; // 얼룩 마스크 설정
+        _dirtRenderer.sortingOrder = 8; //얼룩 레이어 오더 설정
     }
 
-    private void Awake()
+    public void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
     {
-        Status.OnGrowthChanged += OnGrowthChanged;
-        _button.onClick.AddListener(ButtonClicked); //테스트용. 지워야함
-    }
-
-    private void ButtonClicked() //테스트용. 지워야함
-    {
-        LoadOwnPet();
-        SetSprite(Status.Growth);
-    }
-
-    private void OnEnable()
-    {
-        if (Status != null)
-        {
-            Status.OnGrowthChanged += OnGrowthChanged;
-            //SetSprite(Status.Growth);
-        }
-        else
-        {
-            Debug.LogWarning("스테이터스 없음");
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (Status != null)
-        {
-            Status.OnGrowthChanged -= OnGrowthChanged;
-        }
-    }
-
-    private void LoadOwnPet()
-    {
-        if (!AreAllRenderersAssigned())
-        {
-            Debug.LogError("스프라이트 랜더러 없음");
-            return;
-        }
-        var saveData = Manager.Save.CurrentData.UserData.HavePet;
-        var pet = saveData.Genes;
-
-        if (Enum.TryParse(saveData.GrowthStage, out GrowthStatus savedGrowth))
-        {
-            _pet.Status.Growth = savedGrowth;
-        }
-
-        _acc.sprite = Manager.Gene.GetPartSOByID<AccSO>(PartType.Acc, pet.Acc.DominantId).sprite;
-        _arm.sprite = Manager.Gene.GetPartSOByID<ArmSO>(PartType.Arm, pet.Arm.DominantId).sprite;
-        _blush.sprite = Manager.Gene.GetPartSOByID<BlushSO>(PartType.Blush, pet.Blush.DominantId).sprite;
-        _body.sprite = Manager.Gene.GetPartSOByID<BodySO>(PartType.Body, pet.Body.DominantId).sprite;
-        _pattern.sprite = Manager.Gene.GetPartSOByID<PatternSO>(PartType.Pattern, pet.Pattern.DominantId).sprite;
-        _ear.sprite = Manager.Gene.GetPartSOByID<EarSO>(PartType.Ear, pet.Ear.DominantId).sprite;
-        _eye.sprite = Manager.Gene.GetPartSOByID<EyeSO>(PartType.Eye, pet.Eye.DominantId).sprite;
-        _feet.sprite = Manager.Gene.GetPartSOByID<FeetSO>(PartType.Feet, pet.Feet.DominantId).sprite;
-        _mouth.sprite = Manager.Gene.GetPartSOByID<MouthSO>(PartType.Mouth, pet.Mouth.DominantId).sprite;
-        _wing.sprite = Manager.Gene.GetPartSOByID<WingSO>(PartType.Wing, pet.Wing.DominantId).sprite;
-        
-        ApplyColorsFromGenes(pet.PartColors);
-    }
-
-    private void OnGrowthChanged(GrowthStatus growth)
-    {
-        SetSprite(growth);
-    }
-
-    private void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
-    {
-        if (!AreAllRenderersAssigned())
-        {
-            return;
-        }
-
         HideAllParts();
 
         if (growth == GrowthStatus.Egg) //알일때
         {
             _egg.gameObject.SetActive(true);
+
+            Debug.Log("Egg 상태 스프라이트 세팅");
             return;
         }
 
         if (growth == GrowthStatus.Baby) //애기일때
         {
-            _eye.gameObject.SetActive(true);
-            _body.gameObject.SetActive(true);
-            _blush.gameObject.SetActive(true);
-            _mouth.gameObject.SetActive(false); //고민중
+            _renderers.Eye.gameObject.SetActive(true);
+            _renderers.Body.gameObject.SetActive(true);
+            _renderers.Ear.gameObject.SetActive(true);
+            _renderers.Blush.gameObject.SetActive(true);
+            _renderers.Mouth.gameObject.SetActive(true);
+            _renderers.Tail.gameObject.SetActive(true);
+
+            _renderers.BodyOut.gameObject.SetActive(true);
+            _renderers.EarOut.gameObject.SetActive(true);
+            _renderers.TailOut.gameObject.SetActive(true);
+
+            _dirtRenderer.gameObject.SetActive(true);
 
             Debug.Log("Baby 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Teen) //성장기
         {
-            _blush.gameObject.SetActive(true);
-            _body.gameObject.SetActive(true);
-            _ear.gameObject.SetActive(true);
-            _eye.gameObject.SetActive(true);
-            _feet.gameObject.SetActive(true);
-            _mouth.gameObject.SetActive(true);
+            _renderers.Blush.gameObject.SetActive(true);
+            _renderers.Body.gameObject.SetActive(true);
+            _renderers.Ear.gameObject.SetActive(true);
+            _renderers.Eye.gameObject.SetActive(true);
+            _renderers.Feet.gameObject.SetActive(true);
+            _renderers.Mouth.gameObject.SetActive(true);
+            _renderers.Tail.gameObject.SetActive(true);
+            _renderers.Whiskers.gameObject.SetActive(true);
+
+            _renderers.BodyOut.gameObject.SetActive(true);
+            _renderers.EarOut.gameObject.SetActive(true);
+            _renderers.FeetOut.gameObject.SetActive(true);
+            _renderers.TailOut.gameObject.SetActive(true);
+
+            _dirtRenderer.gameObject.SetActive(true);
             Debug.Log("Teen 상태 스프라이트 세팅");
-        }
-        else if (growth == GrowthStatus.Teen_Rebel) //반항기
-        {
-            _acc.gameObject.SetActive(true);
-            _blush.gameObject.SetActive(true);
-            _body.gameObject.SetActive(true);
-            _ear.gameObject.SetActive(true);
-            _eye.gameObject.SetActive(true);
-            _feet.gameObject.SetActive(true);
-            _mouth.gameObject.SetActive(true);
-            Debug.Log("Teen_Rebel 상태 스프라이트 세팅");
         }
         else if (growth == GrowthStatus.Adult) //어른
         {
-            _acc.gameObject.SetActive(true);
-            _arm.gameObject.SetActive(true);
-            _blush.gameObject.SetActive(true);
-            _body.gameObject.SetActive(true);
-            _ear.gameObject.SetActive(true);
-            _eye.gameObject.SetActive(true);
-            _feet.gameObject.SetActive(true);
-            _mouth.gameObject.SetActive(true);
-            _pattern.gameObject.SetActive(true);
-            _wing.gameObject.SetActive(true);
+            _renderers.Acc.gameObject.SetActive(true);
+            _renderers.Arm.gameObject.SetActive(true);
+            _renderers.Blush.gameObject.SetActive(true);
+            _renderers.Body.gameObject.SetActive(true);
+            _renderers.Ear.gameObject.SetActive(true);
+            _renderers.Eye.gameObject.SetActive(true);
+            _renderers.Feet.gameObject.SetActive(true);
+            _renderers.Mouth.gameObject.SetActive(true);
+            _renderers.Pattern.gameObject.SetActive(true);
+            _renderers.Wing.gameObject.SetActive(true);
+            _renderers.Tail.gameObject.SetActive(true);
+            _renderers.Whiskers.gameObject.SetActive(true);
 
+            _renderers.ArmOut.gameObject.SetActive(true);
+            _renderers.BodyOut.gameObject.SetActive(true);
+            _renderers.EarOut.gameObject.SetActive(true);
+            _renderers.FeetOut.gameObject.SetActive(true);
+            _renderers.WingOut.gameObject.SetActive(true);
+            _renderers.TailOut.gameObject.SetActive(true);
+
+            _dirtRenderer.gameObject.SetActive(true);
             Debug.Log("Adult 상태 스프라이트 세팅");
         }
         else
@@ -166,53 +122,88 @@ public class PetVisualController : MonoBehaviour
         _egg.gameObject.SetActive(false);
     }
 
-    private void ApplyColorsFromGenes(PartColorGenes colors)
+    private void HideAllParts()
     {
-        if (colors == null)
+        if (_egg != null) _egg.gameObject.SetActive(false);
+        _letter.gameObject.SetActive(false);
+        // 베이스 끄기
+        _renderers.Acc?.gameObject.SetActive(false);
+        _renderers.Arm?.gameObject.SetActive(false);
+        _renderers.Blush?.gameObject.SetActive(false);
+        _renderers.Body?.gameObject.SetActive(false);
+        _renderers.Ear?.gameObject.SetActive(false);
+        _renderers.Eye?.gameObject.SetActive(false);
+        _renderers.Feet?.gameObject.SetActive(false);
+        _renderers.Mouth?.gameObject.SetActive(false);
+        _renderers.Pattern?.gameObject.SetActive(false);
+        _renderers.Wing?.gameObject.SetActive(false);
+        _renderers.Tail?.gameObject.SetActive(false);
+        _renderers.Whiskers?.gameObject.SetActive(false);
+        _dirtRenderer?.gameObject.SetActive(false);
+
+        // 아웃라인 끄기
+        _renderers.ArmOut?.gameObject.SetActive(false);
+        _renderers.BodyOut?.gameObject.SetActive(false);
+        _renderers.EarOut?.gameObject.SetActive(false);
+        _renderers.FeetOut?.gameObject.SetActive(false);
+        _renderers.WingOut?.gameObject.SetActive(false);
+        _renderers.TailOut?.gameObject.SetActive(false);
+    }
+    public void LetterOn(LeftReason reason)
+    {
+        HideAllParts();
+        _letter.gameObject.SetActive(true);
+        _letter.Init(_pet, reason);
+    }
+    public void AllowToClickLetter(bool on)
+    {
+        if(_letter.gameObject.activeSelf)
         {
-            Debug.LogWarning("PartColorGenes 없음");
-            return;
+            //Debug.Log($"편지한테 알려줌 {on}");
+            _letter.SetClickable(on);
         }
-
-        _arm.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.ArmColorId).color;
-        _body.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.BodyColorId).color;
-        _blush.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.BlushColorId).color;
-        _ear.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.EarColorId).color;
-        _feet.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.FeetColorId).color;
-        _pattern.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, colors.PatternColorId).color;
     }
-
-    private void HideAllParts()                                    
+    public void OnCleanlinessChanged(float newValue)
     {
-        if (_egg != null) _egg.gameObject.SetActive(false);        
-        if (_acc != null) _acc.gameObject.SetActive(false);     
-        if (_arm != null) _arm.gameObject.SetActive(false);
-        if (_blush != null) _blush.gameObject.SetActive(false);
-        if (_body != null) _body.gameObject.SetActive(false);      
-        if (_ear != null) _ear.gameObject.SetActive(false);
-        if (_eye != null) _eye.gameObject.SetActive(false);
-        if (_feet != null) _feet.gameObject.SetActive(false);
-        if (_mouth != null) _mouth.gameObject.SetActive(false);
-        if (_pattern != null) _pattern.gameObject.SetActive(false);
-        if (_wing != null) _wing.gameObject.SetActive(false);         
+        if(newValue < 10f)
+        {
+            if(_dirtRenderer.sprite != _dirtHigh)
+            {
+                _dirtRenderer.sprite = _dirtHigh;
+            }   
+        }
+        else if(newValue < 30f)
+        {
+            if (_dirtRenderer.sprite != _dirtMid)
+            {
+                _dirtRenderer.sprite = _dirtMid;
+            }
+        }
+        else if(newValue < 50f)
+        {
+            if (_dirtRenderer.sprite != _dirtLow)
+            {
+                _dirtRenderer.sprite = _dirtLow;
+            }
+        }
+        else
+        {
+            if (_dirtRenderer.sprite != null)
+            {
+                _dirtRenderer.sprite = null;
+            }
+        }
     }
 
-    private bool AreAllRenderersAssigned()
+    public void OnSick(bool on)
     {
-        if (_egg == null) return false;   
-        if (_acc == null) return false;
-        if (_arm == null) return false;
-        if (_body == null) return false;
-        if (_blush == null) return false;
-        if (_ear == null) return false;
-        if (_eye == null) return false;
-        if (_feet == null) return false;
-        if (_mouth == null) return false;
-        if (_pattern == null) return false;
-        if (_wing == null) return false;  
-     
-        return true;                      
+        _sickImage.SetActive(on);
+        Debug.Log($"아픔이미지: {on}");
     }
 
-
+    public void OnHealthReducing(bool on)
+    {
+        _healthReducingParticle.SetActive(on);
+        Debug.Log($"체력감소 파티클: {on}");
+    }
 }

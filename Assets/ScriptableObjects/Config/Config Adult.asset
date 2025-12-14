@@ -12,20 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03bb6bf9e9f58f40bbf1439253a9fb5, type: 3}
   m_Name: Config Adult
   m_EditorClassIdentifier: 
-  GrowthType: 4
-  canGrow: 0
+  GrowthType: 3
   TimeToGrow: 0
   ExpToGrow: 0
-  HungerDecreasePerSec: 0
-  HappinessDecreasePerSec: 0
-  EnergyDecreasePerSec: 0
-  CleanlinessDecreasePerSec: 0
-  StressIncreasePerSec: 0
-  StressDecreasePerSec: 0
-  FeedHungerGain: 0
-  PlayHappinessGain: 0
-  CleanGain: 0
-  SleepEnergyGainPerSec: 0
-  PlayEnergyCost: 0
-  HealAmount: 0
-  HealthDecreasePerSec: 0
+  HungerDecreasePerSec: 0.3
+  HappinessDecreasePerSec: 0.05
+  CleanlinessDecreasePerSec: 0.5
+  PlayHappinessGain: 3
+  HealthDecreasePerSec: 0.005
+  HealthIncreasePerSec: 0.5
+  HungerAmountHealthIncrease: 80
+  CleanlinessAmountGetSick: 20
+  TimeToGetSick: 3600

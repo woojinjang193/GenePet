@@ -1,69 +1,167 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+
 
 public class GameManager : Singleton<GameManager>
 {
+    public GameConfig Config { get; private set; }
+    private bool _isManagerReady = false;
+    public bool IsReady { get { return _isManagerReady; } }
+    private int _loadingDataAmount = 2;
+    private int _loadingCount = 0;
+    private PopupMessage _popupInstance;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        var handle = Addressables.LoadAssetAsync<GameConfig>("GameConfig");
+        handle.Completed += OnConfigLoaded;
+        var popupMessage = Addressables.LoadAssetAsync<GameObject>("PopupMessage");
+        popupMessage.Completed += OnPopupPrefabLoaded;
+    }
+    private void OnConfigLoaded(AsyncOperationHandle<GameConfig> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            Config = handle.Result;
+            Debug.Log("GameConfig 로드 완료");
+            _loadingCount++;
+            ManagerReadyCheck();
+        }
+        else
+        {
+            Debug.LogError("GameConfig 로드 실패");
+        }
+    }
+    private void OnPopupPrefabLoaded(AsyncOperationHandle<GameObject> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            GameObject prefab = handle.Result;
+            GameObject instance = Instantiate(prefab, transform);
+
+            _popupInstance = instance.GetComponent<PopupMessage>();
+
+            _loadingCount++;
+            ManagerReadyCheck();
+
+            Debug.Log("popupMessage 로드 완료");
+        }
+        else
+        {
+            Debug.LogError("popupMessage 로드 실패");
+        }
+    }
     public void CreateRandomPet(bool isMine)
     {
+        if (isMine)
+        {
+            int userMaxAmount = Manager.Save.CurrentData.UserData.MaxPetAmount;
+            int curAmount = Manager.Save.CurrentData.UserData.HavePetList.Count;
+            int gameMaxAmount = Manager.Game.Config.MaxPetAmount;
+
+            if (curAmount >= gameMaxAmount)
+            {
+                Debug.Log($"게임이 허용하는 최대 펫 수 : {gameMaxAmount}.\n현재 펫 수 {curAmount}");
+                return;
+            }
+            if (curAmount >= userMaxAmount)
+            {
+                Debug.Log($"현재 유저가 키울 수 있는 최대 펫 수 : {userMaxAmount}.\n현재 펫 수 {curAmount}");
+                //TODO: 여기에 슬롯 구매 바로가기 창 띄우기
+                return;
+            } 
+        }
+        PetSaveData newpet = CreateRandomPetData(isMine);
+        Manager.Save.RegisterNewPet(newpet, isMine);
+
+        PetManager petManager = FindObjectOfType<PetManager>();
+        if(isMine && petManager != null)
+        {
+            petManager.SpawnPet(newpet);
+        }
+    }
+    private GenePair GetPair(GenesContainer g, PartType part) // GenePair 매핑
+    {
+        switch (part) // 파트별 GenePair 반환
+        {
+            case PartType.Body: return g.Body;
+            case PartType.Arm: return g.Arm;
+            case PartType.Feet: return g.Feet;
+            case PartType.Pattern: return g.Pattern;
+            case PartType.Eye: return g.Eye;
+            case PartType.Mouth: return g.Mouth;
+            case PartType.Ear: return g.Ear;
+            case PartType.Acc: return g.Acc;
+            case PartType.Blush: return g.Blush;
+            case PartType.Wing: return g.Wing;
+            case PartType.Color: return g.Color;
+            case PartType.Personality: return g.Personality;
+            case PartType.Tail: return g.Tail;
+            case PartType.Whiskers: return g.Whiskers;
+        }
+        return null;
+    }
+    private PetSaveData CreateRandomPetData(bool isMine)
+    {
         PetSaveData newPet = new PetSaveData();
+
         newPet.ID = Guid.NewGuid().ToString();
         newPet.DisplayName = "";
-        newPet.Seed = UnityEngine.Random.Range(0, 999999);
 
-        newPet.Genes.Acc.DominantId = Manager.Gene.GetRandomAccSO().ID;
-        newPet.Genes.Acc.RecessiveId = Manager.Gene.GetRandomAccSO().ID;
+        RarityType highestRarity = RarityType.Common;
 
-        newPet.Genes.Arm.DominantId = Manager.Gene.GetRandomArmSO().ID;
-        newPet.Genes.Arm.RecessiveId = Manager.Gene.GetRandomArmSO().ID;
+        //PartType 전체 순회
+        foreach (PartType part in Enum.GetValues(typeof(PartType))) // enum 전체 루프
+        {
+            GenePair pair = GetPair(newPet.Genes, part); // GenePair 가져오기
+            if (pair == null)
+            {
+                Debug.LogWarning($"{part.ToString()} 파츠 없음");
+                continue; // 안전 처리
+            }
+            
+            PartBaseSO dominant = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 우성 랜덤
+            PartBaseSO recessive = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 열성 랜덤
 
-        newPet.Genes.Blush.DominantId = Manager.Gene.GetRandomBlushSO().ID;
-        newPet.Genes.Blush.RecessiveId = Manager.Gene.GetRandomBlushSO().ID;
+            if (dominant.Rarity > highestRarity) highestRarity = dominant.Rarity; // 최고 레어도 갱신
+            if (recessive.Rarity > highestRarity) highestRarity = recessive.Rarity;
 
-        newPet.Genes.Body.DominantId = Manager.Gene.GetRandomBodySO().ID;
-        newPet.Genes.Body.RecessiveId = Manager.Gene.GetRandomBodySO().ID;
-
-        newPet.Genes.Color.DominantId = Manager.Gene.GetRandomColorSO().ID;
-        newPet.Genes.Color.RecessiveId = Manager.Gene.GetRandomColorSO().ID;
-
-        newPet.Genes.Ear.DominantId = Manager.Gene.GetRandomEarSO().ID;
-        newPet.Genes.Ear.RecessiveId = Manager.Gene.GetRandomEarSO().ID;
-
-        newPet.Genes.Eye.DominantId = Manager.Gene.GetRandomEyeSO().ID;
-        newPet.Genes.Eye.RecessiveId = Manager.Gene.GetRandomEyeSO().ID;
-
-        newPet.Genes.Feet.DominantId = Manager.Gene.GetRandomFeetSO().ID;
-        newPet.Genes.Feet.RecessiveId = Manager.Gene.GetRandomFeetSO().ID;
-
-        newPet.Genes.Mouth.DominantId = Manager.Gene.GetRandomMouthSO().ID;
-        newPet.Genes.Mouth.RecessiveId = Manager.Gene.GetRandomMouthSO().ID;
-
-        newPet.Genes.Pattern.DominantId = Manager.Gene.GetRandomPatternSO().ID;
-        newPet.Genes.Pattern.RecessiveId = Manager.Gene.GetRandomPatternSO().ID;
-
-        newPet.Genes.Personality.DominantId = Manager.Gene.GetRandomPersonalitySO().ID;
-        newPet.Genes.Personality.RecessiveId = Manager.Gene.GetRandomPersonalitySO().ID;
-
-        newPet.Genes.Wing.DominantId = Manager.Gene.GetRandomWingSO().ID;
-        newPet.Genes.Wing.RecessiveId = Manager.Gene.GetRandomWingSO().ID;
+            pair.DominantId = dominant.ID; // 우성 유전자 ID 설정
+            pair.RecessiveId = recessive.ID; // 열성 유전자 ID 설정
+        }
 
         string dom = newPet.Genes.Color.DominantId;
         string rec = newPet.Genes.Color.RecessiveId;
 
+        //컬러 설정
         newPet.Genes.PartColors.ArmColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.BodyColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.FeetColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.PatternColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.EarColorId = PickColorId(dom, rec);
-        newPet.Genes.PartColors.BlushColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.WingColorId = PickColorId(dom, rec);
+        newPet.Genes.PartColors.TailColorId = PickColorId(dom, rec);
 
-        if (isMine)
+        newPet.Rarity = highestRarity; //저장 안해도 되면 PetSaveData에서 지우기
+
+        //알 이미지 저장
+        switch (highestRarity)
         {
-            Manager.Save.RegisterNewPet(newPet);
+            case RarityType.Legendary:
+                newPet.EggSprite = Config.EggRaritySO.LegendarySprite; break;
+            case RarityType.Epic:
+                newPet.EggSprite = Config.EggRaritySO.EpicSprite; break;
+            case RarityType.Rare:
+                newPet.EggSprite = Config.EggRaritySO.RareSprite; break;
+            default:
+                newPet.EggSprite = Config.EggRaritySO.CommonSprite; break;
         }
-        
+
+        return newPet;
     }
 
     private string PickColorId(string dominant, string recessive)
@@ -74,5 +172,16 @@ public class GameManager : Singleton<GameManager>
             return dominant;
         }
         return recessive;
+    }
+    private void ManagerReadyCheck()
+    {
+        if(_loadingCount >= _loadingDataAmount)
+        {
+            _isManagerReady = true;
+        }
+    }
+    public void ShowPopup(string msg)
+    {
+        _popupInstance.ShowMessage(msg);
     }
 }

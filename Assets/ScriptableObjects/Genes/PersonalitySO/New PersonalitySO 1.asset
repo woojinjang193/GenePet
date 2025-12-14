@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 01
   DisplayName: 01
-  Rarity: 0
+  Rarity: 1
   Personality: 1

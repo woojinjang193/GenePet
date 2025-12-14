@@ -6,4 +6,5 @@ using UnityEngine;
 public class PatternSO : PartBaseSO
 {
     public Sprite sprite;
+    public int OrderInLayer;
 }

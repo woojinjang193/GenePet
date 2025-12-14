@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1fd8f802b68acd41a8e39f5a7219ee8, type: 3}
   m_Name: New WingSO 1
   m_EditorClassIdentifier: 
-  ID: 02
-  DisplayName: 02
-  Rarity: 0
-  sprite: {fileID: 0}
+  ID: 01
+  DisplayName: 01
+  Rarity: 1
+  sprite: {fileID: 21300000, guid: 48dd7da36bd94ff49aaddeffbd566248, type: 3}
+  Outline: {fileID: 21300000, guid: 2b20bd2497434014894d1b6fb94dfda8, type: 3}
+  OrderInLayer: 2

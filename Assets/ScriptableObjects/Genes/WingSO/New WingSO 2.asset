@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1fd8f802b68acd41a8e39f5a7219ee8, type: 3}
+  m_Name: New WingSO 2
+  m_EditorClassIdentifier: 
+  ID: 02
+  DisplayName: 01
+  Rarity: 2
+  sprite: {fileID: 21300000, guid: 55700f6769cd8d74aa226a43204c5c34, type: 3}
+  Outline: {fileID: 21300000, guid: 620f803bec76c934e9bf50a40697ee49, type: 3}
+  OrderInLayer: 2

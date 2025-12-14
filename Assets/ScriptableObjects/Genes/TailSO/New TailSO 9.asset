@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2c4d2b0bbf3a1e4989ff7b78de6d828, type: 3}
+  m_Name: New TailSO 9
+  m_EditorClassIdentifier: 
+  ID: 09
+  DisplayName: 
+  Rarity: 2
+  sprite: {fileID: 21300000, guid: 8bc5964e9eec57f4ea1e0b4e1a8ca108, type: 3}
+  Outline: {fileID: 21300000, guid: c0ec2afae09b2764784ee722a49c6133, type: 3}
+  OrderInLayer: 0

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -6,15 +5,15 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GeneManager : Singleton<GeneManager>
 {
-    [SerializeField] private float _legendaryPerc = 0.0005f;   //0 하나씩 지워야함
-    [SerializeField] private float _epicPerc = 0.001f;         //0 하나씩 지워야함
-    [SerializeField] private float _rarePerc = 0.005f;         //0 하나씩 지워야함
+    [SerializeField] private float _legendaryPerc = 0.05f; //하나라도 나올 확률 : 1.2%
+    [SerializeField] private float _epicPerc = 0.25f; //하나라도 나올 확률 : 5.8%
+    [SerializeField] private float _rarePerc = 0.5f; //하나라도 나올 확률 : 11.3%
 
     private Dictionary<PartType, List<PartBaseSO>> _parts = new Dictionary<PartType, List<PartBaseSO>>();
     private List<PartBaseSO> _options = new List<PartBaseSO>();
 
     private int _loadedTypeCount = 0;
-    private int _totalTypes = 10;
+    private int _totalTypes = 14;
     private bool _ready = false;
 
     public bool IsReady { get { return _ready; } }
@@ -39,6 +38,8 @@ public class GeneManager : Singleton<GeneManager>
         if (_parts.ContainsKey(PartType.Pattern) == false) _parts[PartType.Pattern] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Personality) == false) _parts[PartType.Personality] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Wing) == false) _parts[PartType.Wing] = new List<PartBaseSO>();
+        if (_parts.ContainsKey(PartType.Tail) == false) _parts[PartType.Tail] = new List<PartBaseSO>();
+        if (_parts.ContainsKey(PartType.Whiskers) == false) _parts[PartType.Whiskers] = new List<PartBaseSO>();
     }
 
     private void LoadAllGenes()
@@ -79,6 +80,12 @@ public class GeneManager : Singleton<GeneManager>
         AsyncOperationHandle<IList<WingSO>> handle_Wing = Addressables.LoadAssetsAsync<WingSO>("WingSO", null);
         handle_Wing.Completed += OnWingsLoaded;
 
+        AsyncOperationHandle<IList<TailSO>> handle_Tail = Addressables.LoadAssetsAsync<TailSO>("TailSO", null);
+        handle_Tail.Completed += OnTailsLoaded;
+
+        AsyncOperationHandle<IList<WhiskersSO>> handle_Whiskers = Addressables.LoadAssetsAsync<WhiskersSO>("WhiskersSO", null);
+        handle_Whiskers.Completed += OnWhiskersLoaded;
+
     }
     private void OnAccsLoaded(AsyncOperationHandle<IList<AccSO>> handle)
     {
@@ -90,12 +97,12 @@ public class GeneManager : Singleton<GeneManager>
             {
                 _parts[PartType.Acc].Add(handle.Result[i]);
             }
-            Debug.Log($"TailSO 로드: {_parts[PartType.Acc].Count}개");
+            Debug.Log($"AccSO 로드: {_parts[PartType.Acc].Count}개");
             CheckIsReady();
         }
         else
         {
-            Debug.LogError($"TailSO 로드 실패: {handle.OperationException}");
+            Debug.LogError($"AccSO 로드 실패: {handle.OperationException}");
         }
 
     }
@@ -280,7 +287,45 @@ public class GeneManager : Singleton<GeneManager>
         }
 
     }
-    
+    private void OnTailsLoaded(AsyncOperationHandle<IList<TailSO>> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _parts[PartType.Tail].Clear();
+
+            for (int i = 0; i < handle.Result.Count; i++)
+            {
+                _parts[PartType.Tail].Add(handle.Result[i]);
+            }
+            Debug.Log($"TailSO 로드: {_parts[PartType.Tail].Count}개");
+            CheckIsReady();
+        }
+        else
+        {
+            Debug.LogError($"TailSO 로드 실패: {handle.OperationException}");
+        }
+
+    }
+    private void OnWhiskersLoaded(AsyncOperationHandle<IList<WhiskersSO>> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _parts[PartType.Whiskers].Clear();
+
+            for (int i = 0; i < handle.Result.Count; i++)
+            {
+                _parts[PartType.Whiskers].Add(handle.Result[i]);
+            }
+            Debug.Log($"WhiskersSO 로드: {_parts[PartType.Whiskers].Count}개");
+            CheckIsReady();
+        }
+        else
+        {
+            Debug.LogError($"WhiskersSO 로드 실패: {handle.OperationException}");
+        }
+
+    }
+
     private void OnWingsLoaded(AsyncOperationHandle<IList<WingSO>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -305,24 +350,31 @@ public class GeneManager : Singleton<GeneManager>
     {
         float randV = UnityEngine.Random.value;
 
-        float legendaryCut = _legendaryPerc;
-        float epicCut = _legendaryPerc + _epicPerc;
-        float rareCut = _legendaryPerc + _epicPerc + _rarePerc;
+        float legendary = _legendaryPerc / 100f;
+        float epic = _epicPerc / 100f;
+        float rare = _rarePerc / 100f;
 
-        if (randV < legendaryCut)
+        float epicCut = legendary + epic;
+        float rareCut = legendary + epic + rare;
+
+        if (randV < legendary)
         {
+            //Debug.Log("레전드");
             return RarityType.Legendary;
         }
         else if (randV < epicCut)
         {
+            //Debug.Log("에픽");
             return RarityType.Epic;
         }
         else if (randV < rareCut)
         {
+            //Debug.Log("레어");
             return RarityType.Rare;
         }
         else
         {
+            //Debug.Log("커먼");
             return RarityType.Common;
         }
     }
@@ -372,7 +424,7 @@ public class GeneManager : Singleton<GeneManager>
         return pick;
     }
 
-    private T GetRandomPart<T>(PartType type) where T : PartBaseSO
+    public T GetRandomPart<T>(PartType type) where T : PartBaseSO
     {
         List<PartBaseSO> list;
 
@@ -401,6 +453,8 @@ public class GeneManager : Singleton<GeneManager>
     public PatternSO GetRandomPatternSO() { return GetRandomPart<PatternSO>(PartType.Pattern); }
     public PersonalitySO GetRandomPersonalitySO() { return GetRandomPart<PersonalitySO>(PartType.Personality); }
     public WingSO GetRandomWingSO() { return GetRandomPart<WingSO>(PartType.Wing); }
+    public TailSO GetRandomTailSO() { return GetRandomPart<TailSO>(PartType.Tail); }
+    public WhiskersSO GetRandomWhiskersSO() { return GetRandomPart<WhiskersSO>(PartType.Whiskers); }
 
     public T GetPartSOByID<T>(PartType part, string id) where T : PartBaseSO
     {
@@ -441,7 +495,30 @@ public class GeneManager : Singleton<GeneManager>
         Debug.LogWarning($"GetPartSOByID: {part} 에서 id '{id}' 찾지 못함");
         return null;
     }
+    public RarityType CheckRarity(PartType part, string father, string mother)
+    {
+        var fatherSO = Manager.Gene.GetPartSOByID<PartBaseSO>(part, father);
+        var motherSO = Manager.Gene.GetPartSOByID<PartBaseSO>(part, mother);
 
+        if (fatherSO == null || motherSO == null)
+        {
+            Debug.Log($"{part.ToString()} 유전자 정보 부족함. 마이펫: {false}, 섬펫: {mother}");
+            return RarityType.Common;
+        }
+        if (fatherSO.Rarity == RarityType.Rare || motherSO.Rarity == RarityType.Rare)
+        {
+            return RarityType.Rare;
+        }
+        if (fatherSO.Rarity == RarityType.Epic || motherSO.Rarity == RarityType.Epic)
+        {
+            return RarityType.Epic;
+        }
+        if (fatherSO.Rarity == RarityType.Legendary || motherSO.Rarity == RarityType.Legendary)
+        {
+            return RarityType.Legendary;
+        }
+        return RarityType.Common;
+    }
     private void CheckIsReady()
     {
         _loadedTypeCount++;
