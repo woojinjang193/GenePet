@@ -44,7 +44,6 @@ public class PetVisualController : MonoBehaviour
     public void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
     {
         HideAllParts();
-        _dirtRenderer.gameObject.SetActive(true);
 
         if (growth == GrowthStatus.Egg) //알일때
         {
@@ -154,7 +153,7 @@ public class PetVisualController : MonoBehaviour
     {
         HideAllParts();
 
-        _dirtRenderer.gameObject.SetActive(false);
+        _sickImage.SetActive(false);
         _healthReducingParticle.SetActive(false);
 
         _letter.gameObject.SetActive(true);
