@@ -191,7 +191,7 @@ public class UserItemData
 
     public UserItemData()
     {
-        Money = 0;
+        Money = 5000;
         IsAdRemoved = false;
         IslandTicket = 1;
         MissingPoster = 1;

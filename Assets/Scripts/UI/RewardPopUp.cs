@@ -12,10 +12,10 @@ public class RewardPopUp : MonoBehaviour
     [SerializeField] private TMP_Text _amount;
 
     private Queue<object> _rewardQueue;
-    private bool _isShowing = false;
+
     private void Awake()
     {
-        if(_button == null)
+        if (_button == null)
         {
             _button = GetComponentInChildren<Button>();
         }
@@ -23,14 +23,6 @@ public class RewardPopUp : MonoBehaviour
         _button.onClick.AddListener(ShowNext);
 
         Debug.Log($"보상 개수: {_rewardQueue.Count}");
-        if (_rewardQueue.Count > 0) //메인씬 진입 시 보상 있으면
-        {
-            ShowNext(); // 바로 표시
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
     }
     public void ShowNext() // 다음 보상 표시
     {
@@ -39,14 +31,10 @@ public class RewardPopUp : MonoBehaviour
         if (_rewardQueue.Count == 0) // 남은 보상 없으면
         {
             Debug.Log("큐 종료");
-            _isShowing = false; // 표시 종료
             gameObject.SetActive(false); // 팝업 숨김
             Manager.Item.ClearRewardQueue(); //큐 클리어
             return;
         }
-
-        _isShowing = true; // 표시 상태
-        gameObject.SetActive(true); // 팝업 표시
 
         object reward = _rewardQueue.Dequeue(); //다음 보상 꺼냄
 

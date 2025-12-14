@@ -16,5 +16,43 @@ MonoBehaviour:
   - ProductId: coin5000
     ProductType: 0
     Rewards:
-    - RewardType: 1
+    - RewardType: 2
       RewardAmount: 5000
+  - ProductId: ticket
+    ProductType: 0
+    Rewards:
+    - RewardType: 4
+      RewardAmount: 1
+  - ProductId: geneticScissors
+    ProductType: 0
+    Rewards:
+    - RewardType: 5
+      RewardAmount: 1
+  - ProductId: genetictester
+    ProductType: 0
+    Rewards:
+    - RewardType: 6
+      RewardAmount: 1
+  - ProductId: missingposter
+    ProductType: 0
+    Rewards:
+    - RewardType: 7
+      RewardAmount: 1
+  - ProductId: snack
+    ProductType: 0
+    Rewards:
+    - RewardType: 8
+      RewardAmount: 10
+  - ProductId: package
+    ProductType: 0
+    Rewards:
+    - RewardType: 8
+      RewardAmount: 10
+    - RewardType: 2
+      RewardAmount: 1000
+    - RewardType: 5
+      RewardAmount: 1
+    - RewardType: 6
+      RewardAmount: 1
+    - RewardType: 7
+      RewardAmount: 1

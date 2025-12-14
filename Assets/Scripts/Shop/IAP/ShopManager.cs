@@ -287,9 +287,18 @@ public class ShopManager : Singleton<ShopManager>
 
     //골드구매
 
-    public void PurchaseWithGold(string productId) //골드 아이템구매
+    public void PurchaseWithGold(string productId, int price) //골드 아이템구매
     {
+        int haveMoney = Manager.Save.CurrentData.UserData.Items.Money;
+
+        if (haveMoney < price)
+        {
+            Manager.Game.ShowPopup("You are broke");
+            return;
+        }
+
         ProductCatalogSO.Entry entry = _catalog.GetEntryById(productId);
-        Manager.Item.GiveReward(entry); //보상 지급
+        Manager.Item.PurchaseWithGold(entry, price); // 구매 시도
+
     }
 }
