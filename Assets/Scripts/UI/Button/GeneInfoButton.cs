@@ -27,7 +27,7 @@ public class GeneInfoButton : MonoBehaviour
     private void OpenGeneInfo()
     {
         var zoomedPet = _petManager.ZoomedPet;
-        if (zoomedPet != null)
+        if (zoomedPet != null && !_petManager.ZoomedUnit.Status.IsLeft)
         {
             _geneInfo.gameObject.SetActive(true);
             _geneInfo.Init(zoomedPet);
