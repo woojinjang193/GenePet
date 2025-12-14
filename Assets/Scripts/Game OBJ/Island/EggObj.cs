@@ -14,7 +14,7 @@ public class EggObj : MonoBehaviour
         _data = egg;
     }
 
-    public void OnMouseDown()
+    public void OnMouseDown() //알 획득시
     {
         var eggHaveList = Manager.Save.CurrentData.UserData.EggList;
         int maxHave = Manager.Game.Config.MaxEggAmount;

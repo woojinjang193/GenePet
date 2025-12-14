@@ -186,7 +186,7 @@ public class UserItemData
     public int MissingPoster;
     public int GeneticScissors;
     public int geneticTester;
-    public int RandomGene;
+    //public int RandomGene;
     public int Snack;
 
     public UserItemData()
@@ -197,7 +197,7 @@ public class UserItemData
         MissingPoster = 1;
         GeneticScissors = 1;
         geneticTester = 1;
-        RandomGene = 1;
+        //RandomGene = 1;
         Snack = 1;
     }
 

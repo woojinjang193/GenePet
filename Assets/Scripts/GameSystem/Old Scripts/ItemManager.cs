@@ -19,6 +19,8 @@ public class ItemManager : Singleton<ItemManager>
     // 실제 보상 적용 함수
     private void ApplyReward(RewardType type, int amount)
     {
+        var user = Manager.Save.CurrentData.UserData;
+
         switch (type)
         {
             case RewardType.RemovedAD:
@@ -28,7 +30,6 @@ public class ItemManager : Singleton<ItemManager>
                 break;
 
             case RewardType.Energy:
-                var user = Manager.Save.CurrentData.UserData;
                 user.Energy += amount;
 
                 var uiManager = FindObjectOfType<InGameUIManager>();    
@@ -40,31 +41,31 @@ public class ItemManager : Singleton<ItemManager>
                 break;
 
             case RewardType.Coin:
-                Manager.Save.CurrentData.UserData.Items.Money += amount;
+                user.Items.Money += amount;
                 Debug.Log($"코인 +{amount}");
                 break;
 
             case RewardType.Snack:
                 // 보상 여기
-                Manager.Save.CurrentData.UserData.Items.Snack += amount;
+                user.Items.Snack += amount;
                 Debug.Log($"스낵 +{amount}");
                 break;
 
             case RewardType.MissingPoster:
                 // 보상 여기
-                Manager.Save.CurrentData.UserData.Items.MissingPoster += amount;
+                user.Items.MissingPoster += amount;
                 Debug.Log($"MissingPoster +{amount}");
                 break;
 
             case RewardType.GeneticScissors:
                 // 보상 여기
-                Manager.Save.CurrentData.UserData.Items.GeneticScissors += amount;
+                user.Items.GeneticScissors += amount;
                 Debug.Log($"GeneticScissors +{amount}");
                 break;
 
             case RewardType.GeneticTester:
                 // 보상 여기
-                Manager.Save.CurrentData.UserData.Items.geneticTester += amount;
+                user.Items.geneticTester += amount;
                 Debug.Log($"GeneticScissors +{amount}");
                 break;
         }
