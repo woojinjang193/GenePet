@@ -14,7 +14,7 @@ public class InGameUIManager : MonoBehaviour
     [Header("에너지 슬라이더")]
     [SerializeField] private EnergySlider _energySlider;
     [Header("리워드 UI")]
-    [SerializeField] private RewardBackground _rewardUI;
+    [SerializeField] private RewardPopUp _rewardUI;
 
     [Header("의존")]
     [SerializeField] private CameraController _camera;
@@ -41,7 +41,13 @@ public class InGameUIManager : MonoBehaviour
         }
         if (_rewardUI == null)
         {
-            _rewardUI = FindObjectOfType<RewardBackground>();
+            _rewardUI = FindObjectOfType<RewardPopUp>();
+        }
+
+        if (Manager.Item.RewardQueue.Count > 0)
+        {
+            //Debug.Log("리워드 UI 오픈");
+            _rewardUI.gameObject.SetActive(true);
         }
     }
 

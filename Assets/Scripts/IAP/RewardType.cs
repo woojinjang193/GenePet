@@ -1,5 +1,6 @@
 public enum RewardType
 {
+    Egg,
     Energy,
     Coin,
     RemovedAD,

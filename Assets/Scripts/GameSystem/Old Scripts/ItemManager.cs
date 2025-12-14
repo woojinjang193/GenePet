@@ -2,16 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 public class ItemManager : Singleton<ItemManager>
 {
-    // 보상 지급 완료 이벤트
-    public event System.Action<RewardType, int> OnRewardGranted;
+    // 보상 지급 완료 이벤트 (필요하게되면 활성화)
+    //public event System.Action<RewardType, int> OnRewardGranted;
 
+    private Queue<object> _rewardQueue = new Queue<object>();
+    public Queue<object> RewardQueue => _rewardQueue;
     public void GiveReward(ProductCatalogSO.Entry entry)
     {
         if (entry == null) return;
 
         for (int i = 0; i < entry.Rewards.Count; i++) // 보상 개수만큼 반복
         {
-            ProductCatalogSO.RewardEntry reward = entry.Rewards[i]; // 현재 보상
+            var reward = entry.Rewards[i]; // 현재 보상
             ApplyReward(reward.RewardType, reward.RewardAmount);    // 실제 지급
         }
     }
@@ -25,7 +27,7 @@ public class ItemManager : Singleton<ItemManager>
         {
             case RewardType.RemovedAD:
                 // 광고 제거 영구 플래그 저장
-                Manager.Save.CurrentData.UserData.Items.IsAdRemoved = true;
+                user.Items.IsAdRemoved = true;
                 Debug.Log("광고 제거 적용");
                 break;
 
@@ -69,7 +71,19 @@ public class ItemManager : Singleton<ItemManager>
                 Debug.Log($"GeneticScissors +{amount}");
                 break;
         }
-        // 외부(UI, 저장 등)에 알림
-        OnRewardGranted?.Invoke(type, amount);
+        //큐에 추가 (메인씬에서 보여줄예정)
+        _rewardQueue.Enqueue((type, amount));
+
+        // 외부(UI, 저장 등)에 알림 (이벤트 필요해지면 활성화)
+        //OnRewardGranted?.Invoke(type, amount);
+    }
+    public void EnqueueEgg(EggData egg) //알 보상 큐 적재 전용
+    {
+        Debug.Log($"알 큐에 들어옴 {egg}");
+        _rewardQueue.Enqueue(egg);
+    }
+    public void ClearRewardQueue() //보상 다 보여준 뒤 정리
+    {
+        _rewardQueue.Clear();
     }
 }
