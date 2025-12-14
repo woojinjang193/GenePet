@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Purchasing;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class IAPManager : Singleton<IAPManager>
+public class ShopManager : Singleton<ShopManager>
 {
     [Header("카탈로그SO")]
-    [SerializeField] private ProductCatalogSO _catalog;
+    private ProductCatalogSO _catalog;
+    public ProductCatalogSO Catalog => _catalog;
 
     private StoreController _store;
     private bool _isConnected;
@@ -21,6 +24,23 @@ public class IAPManager : Singleton<IAPManager>
     protected override void Awake()
     {
         base.Awake();
+
+        AsyncOperationHandle<ProductCatalogSO> handle = Addressables.LoadAssetAsync<ProductCatalogSO>("CatalogSO");
+        handle.Completed += OnCatalogLoaded;
+    }
+    private void OnCatalogLoaded(AsyncOperationHandle<ProductCatalogSO> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _catalog = handle.Result;
+
+            Debug.Log($"카탈로그 로드 완료.");
+            InitializeIAP();
+        }
+        else
+        {
+            Debug.LogError($"카탈로그 로드 실패:{handle.OperationException}");
+        }
     }
 
     public void RefreshOwnership()
@@ -40,6 +60,13 @@ public class IAPManager : Singleton<IAPManager>
     {
         _store = UnityIAPServices.StoreController();
 
+        // ==콜백 등록==
+        _store.OnStoreDisconnected += OnStoreDisconnected; // 연결 끊김 콜백 등록
+        _store.OnProductsFetched += OnProductsFetched; // 상품 정보 수신 콜백
+        _store.OnProductsFetchFailed += OnProductsFetchFailed; // 상품 정보 수신 실패 콜백
+        _store.OnPurchasesFetched += OnPurchasesFetched; // 구매 내역 수신 콜백 등록
+        _store.OnPurchasesFetchFailed += OnPurchasesFetchFailed;
+
         _store.OnPurchasePending += OnPurchasePending;
         _store.OnPurchaseConfirmed += OnPurchaseConfirmed;
         _store.OnPurchaseFailed += OnPurchaseFailed;
@@ -55,11 +82,6 @@ public class IAPManager : Singleton<IAPManager>
             Debug.LogError("IAP 연결실패 " + exception.Message);
             return;
         }
-
-        _store.OnProductsFetched += OnProductsFetched; // 상품 정보 수신 콜백
-        _store.OnProductsFetchFailed += OnProductsFetchFailed; // 상품 정보 수신 실패 콜백
-        _store.OnPurchasesFetched += OnPurchasesFetched; // 구매 내역 수신 콜백 등록
-        _store.OnStoreDisconnected += OnStoreDisconnected; // 연결 끊김 콜백 등록
 
         if (_catalog == null)
         {
@@ -78,6 +100,7 @@ public class IAPManager : Singleton<IAPManager>
         //_store.FetchPurchases(); // 구매내역 조회
     }
 
+    // ====== 콜백 구현부 ======
     private void OnStoreDisconnected(StoreConnectionFailureDescription description)
     {
         _isConnected = false;
@@ -85,21 +108,6 @@ public class IAPManager : Singleton<IAPManager>
         // 재연결 시도나 UI 비활성화 등 대응 로직을 여기
         OnProductsReady?.Invoke(false);
     }
-
-    public (string priceString, decimal priceValue, string currencyCode) GetPriceInfo(string productId)
-    {
-        if (_store == null) return ("", 0m, "");
-        Product product = _store.GetProductById(productId);
-        if (product == null || product.metadata == null) return ("", 0m, "");
-
-        return (
-            product.metadata.localizedPriceString,
-            product.metadata.localizedPrice,
-            product.metadata.isoCurrencyCode
-        );
-    }
-
-
 
     private void OnProductsFetched(List<Product> products)
     {
@@ -142,8 +150,10 @@ public class IAPManager : Singleton<IAPManager>
         _isProductsReady = true;
         OnProductsReady?.Invoke(true);
     }
-
-
+    private void OnPurchasesFetchFailed(PurchasesFetchFailureDescription failure)
+    {
+        Debug.LogWarning($"구매내역 조회 실패: {failure.FailureReason}");
+    }
     private void OnPurchasePending(PendingOrder order)
     {
         Debug.Log($"구매 팬딩중: {order.Info.PurchasedProductInfo}");
@@ -158,7 +168,9 @@ public class IAPManager : Singleton<IAPManager>
             _owned.Add(_lastTriedProductId);
             Debug.Log($"구매 완료 ID: {_lastTriedProductId}");
 
-            GiveReward(_lastTriedProductId); //보상 지급
+            ProductCatalogSO.Entry entry = _catalog.GetEntryById(_lastTriedProductId);
+
+            Manager.Item.GiveReward(entry); //보상 지급
 
             //논컨슈머블 처리
             Product product = _store.GetProductById(_lastTriedProductId);
@@ -168,8 +180,6 @@ public class IAPManager : Singleton<IAPManager>
             }
 
             _lastTriedProductId = null;
-
-
         }
     }
     private void OnPurchaseFailed(FailedOrder order)
@@ -264,52 +274,36 @@ public class IAPManager : Singleton<IAPManager>
         return false;
     }
 
-    private void GiveReward(string productId)
-    {
-        ProductCatalogSO.Entry entry = _catalog.GetEntryById(productId);
+    //===============골드구매===============
 
-        if (entry == null)
+    public void PurchaseWithGold(string productId, int price) //골드 아이템구매
+    {
+        int haveMoney = Manager.Save.CurrentData.UserData.Items.Money;
+
+        if (haveMoney < price)
         {
+            Manager.Game.ShowPopup("You are broke");
             return;
         }
 
-        for (int i = 0; i < entry.Rewards.Count; i++)
-        {
-            ProductCatalogSO.RewardEntry reward = entry.Rewards[i];
-            Debug.Log($"보상 지급: {reward.RewardType} x{reward.RewardAmount}");
+        ProductCatalogSO.Entry entry = _catalog.GetEntryById(productId);
+        Manager.Item.PurchaseWithGold(entry, price); // 구매 시도
 
-            //switch (reward.RewardType)
-            //{
-            //    case RewardType.RemovedAD:
-            //        Manager.Ad.BuyRemoveAD();
-            //        Debug.Log("광고제거 구매 성공");
-            //        break;
-            //    case RewardType.Heart:
-            //        OutGameManager.AddIHReward(reward.RewardAmount);
-            //        break;
-            //    case RewardType.Coin:
-            //        OutGameManager.AddReward(Goods.Gold, reward.RewardAmount);
-            //        break;
-            //    case RewardType.UseItem:
-            //        OutGameManager.AddReward(Goods.Whisk, reward.RewardAmount);
-            //        OutGameManager.AddReward(Goods.Scissors, reward.RewardAmount);
-            //        OutGameManager.AddReward(Goods.DonutPan, reward.RewardAmount);
-            //        OutGameManager.AddReward(Goods.Coffee, reward.RewardAmount);
-            //        break;
-            //    case RewardType.BoosterItem:
-            //        OutGameManager.AddReward(Goods.Roller, reward.RewardAmount);
-            //        OutGameManager.AddReward(Goods.DonutBox, reward.RewardAmount);
-            //        OutGameManager.AddReward(Goods.Oven, reward.RewardAmount);
-            //        break;
-            //
-            //}
-
-        }
-        //OutGameManager.ShowRewardPopup();
     }
 
-    public void TestPurchasing(string productId)
+    public (string priceString, decimal priceValue, string currencyCode) GetPriceInfo(string productId)
     {
-        GiveReward(productId);
+        if (_store == null) return ("", 0m, "");
+        Product product = _store.GetProductById(productId);
+        if (product == null || product.metadata == null) return ("", 0m, "");
+
+        return (
+            product.metadata.localizedPriceString,
+            product.metadata.localizedPrice,
+            product.metadata.isoCurrencyCode
+        );
     }
+
+
+
 }

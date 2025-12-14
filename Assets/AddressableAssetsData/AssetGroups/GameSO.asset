@@ -10,13 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: GameConfig
+  m_Name: GameSO
   m_EditorClassIdentifier: 
-  m_GroupName: GameConfig
+  m_GroupName: GameSO
   m_Data:
     m_SerializedData: []
   m_GUID: bcb9b557656bb3640b52dde56ff01115
   m_SerializeEntries:
+  - m_GUID: 2b13a7ebf5a5f4644991af4d76a9dd70
+    m_Address: Assets/ScriptableObjects/New Catalog.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CatalogSO
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81cee763da8e9dc4888ab709dff5d85d
+    m_Address: Assets/ScriptableObjects/ItemSO.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemSO
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa2fd2cc6662fb343b7beef621680756
     m_Address: Assets/ScriptableObjects/GameConfig.asset
     m_ReadOnly: 0

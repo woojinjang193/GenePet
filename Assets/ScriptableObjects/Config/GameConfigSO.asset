@@ -16,8 +16,8 @@ MonoBehaviour:
   MaxEggAmount: 3
   MaxEnergy: 50
   EnergyRecoveringTime: 120
-  VisitingAffinityCooldown: 30
-  VisitingAffinityGain: 50
+  VisitingAffinityCooldown: 5
+  VisitingAffinityGain: 100
   EggRaritySO: {fileID: 11400000, guid: db4ee66b79c21dd4a85d20408b471776, type: 2}
   ComeBackHunger: 20
   ComeBackCleanliness: 10

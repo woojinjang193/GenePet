@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EggObj : MonoBehaviour
@@ -14,7 +15,7 @@ public class EggObj : MonoBehaviour
         _data = egg;
     }
 
-    public void OnMouseDown()
+    public void OnMouseDown() //알 획득시
     {
         var eggHaveList = Manager.Save.CurrentData.UserData.EggList;
         int maxHave = Manager.Game.Config.MaxEggAmount;
@@ -23,23 +24,21 @@ public class EggObj : MonoBehaviour
         {
             Manager.Game.ShowPopup("You have too many eggs");
             Debug.Log($"알을 더이상 가질 수 없음. 현재: {eggHaveList.Count}");
+            return;
         }
-        else //알 획득
-        {
-            eggHaveList.Add(_data); //리스트에 추가
 
-            Manager.Save.RemoveIsland();// 섬 삭제
+        //알 획득 
+        eggHaveList.Add(_data); //리스트에 추가
+        Manager.Item.EnqueueEgg(_data); //알을 보상 큐로 전달
 
-            //UI 표시
-            var background = FindObjectOfType<RewardBackground>(true);
-            background.gameObject.SetActive(true);
-            background.SetImage(_sprite.sprite);
-            
-            _data = null;
-            _sprite.sprite = null;
+        Manager.Save.RemoveIsland();// 섬 삭제
 
-            gameObject.SetActive(false);
-            Debug.Log($"알 추가. 현재: {eggHaveList.Count}");
-        }
+        _data = null;
+        _sprite.sprite = null;
+        Debug.Log($"알 추가. 현재: {eggHaveList.Count}");
+
+        //알 획득 연출 넣을거면 여기서
+
+        SceneManager.LoadScene("InGameScene");
     }
 }
