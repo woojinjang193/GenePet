@@ -1,16 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PetMouth : MonoBehaviour
+public class IslandPetMouthController : MonoBehaviour
 {
-    [SerializeField] private PetController _petController;
-    
     [SerializeField] private Sprite _chewMouth;
+
+    private Animator _anim;
     private SpriteRenderer _spriteRenderer;
     private Sprite _ogMouth;
+
+
+    public Action<Gift> OnGiveTaken;
+
     private void Awake()
     {
+        _anim = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void Start()
@@ -19,25 +25,40 @@ public class PetMouth : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Food"))
+        if (collision.CompareTag("Item1"))
         {
             collision.gameObject.SetActive(false);
-            _petController.Feed();
-            //_animator.SetTrigger("Eat");
+            OnGiveTaken?.Invoke(Gift.Fish);
             //먹는 사운드 출력
         }
-        else if (collision.CompareTag("Snack"))
+        else if (collision.CompareTag("Item2"))
         {
             collision.gameObject.SetActive(false);
-            _petController.Feed();
+            OnGiveTaken?.Invoke(Gift.Something);
             //먹는 사운드 출력
         }
-        else if(collision.CompareTag("Medicine"))
+        else if (collision.CompareTag("Item3"))
         {
-            _petController.Heal();
             collision.gameObject.SetActive(false);
-            Debug.Log("약 먹음");
+            OnGiveTaken?.Invoke(Gift.Toy);
             //먹는 사운드 출력
+        }
+        else if (collision.CompareTag("Item4"))
+        {
+            collision.gameObject.SetActive(false);
+            OnGiveTaken?.Invoke(Gift.Younggi);
+            //먹는 사운드 출력
+        }
+    }
+    public void StartAnimation(bool isWanted)
+    {
+        if (isWanted)
+        {
+            _anim.SetTrigger("Eat");
+        }
+        else
+        {
+            _anim.SetTrigger("Full");
         }
     }
 
