@@ -33,6 +33,9 @@ public class ConfirmMessage : MonoBehaviour
             case Confirm.GiveUpPet:
                 _text.text = "Give up Pet?";
                 break;
+            case Confirm.DeleteIsland:
+                _text.text = "Delete Island?";
+                break;
         }
     }
     private void OnClickedConfirm()

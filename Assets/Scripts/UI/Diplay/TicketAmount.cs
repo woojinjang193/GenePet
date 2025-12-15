@@ -14,7 +14,10 @@ public class TicketAmount : MonoBehaviour
     }
     private void OnDestroy()
     {
-        Manager.Item.OnRewardGranted -= OnRewardGranted;
+        if(Manager.Item != null)
+        {
+            Manager.Item.OnRewardGranted -= OnRewardGranted;
+        }
     }
     private void OnEnable()
     {
