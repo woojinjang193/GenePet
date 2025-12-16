@@ -11,7 +11,6 @@ public class IslandPetMouthController : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Sprite _ogMouth;
 
-
     public Action<Gift> OnGiveTaken;
 
     private void Awake()
@@ -28,25 +27,25 @@ public class IslandPetMouthController : MonoBehaviour
         if (collision.CompareTag("Item1"))
         {
             collision.gameObject.SetActive(false);
-            OnGiveTaken?.Invoke(Gift.Fish);
+            OnGiveTaken?.Invoke(Gift.Gift1);
             //먹는 사운드 출력
         }
         else if (collision.CompareTag("Item2"))
         {
             collision.gameObject.SetActive(false);
-            OnGiveTaken?.Invoke(Gift.Something);
+            OnGiveTaken?.Invoke(Gift.Gift2);
             //먹는 사운드 출력
         }
         else if (collision.CompareTag("Item3"))
         {
             collision.gameObject.SetActive(false);
-            OnGiveTaken?.Invoke(Gift.Toy);
+            OnGiveTaken?.Invoke(Gift.Gift3);
             //먹는 사운드 출력
         }
         else if (collision.CompareTag("Item4"))
         {
             collision.gameObject.SetActive(false);
-            OnGiveTaken?.Invoke(Gift.Younggi);
+            OnGiveTaken?.Invoke(Gift.Gift4);
             //먹는 사운드 출력
         }
     }
@@ -61,7 +60,6 @@ public class IslandPetMouthController : MonoBehaviour
             _anim.SetTrigger("Full");
         }
     }
-
     //애니메이션 전용
     public void ChangeToChewMouth()
     {

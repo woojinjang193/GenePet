@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 public class ItemManager : Singleton<ItemManager>
 {
+    private ItemsSO _ItemsSO;
+    public ItemsSO ItemImages => _ItemsSO;
     // 보상 지급 완료 이벤트
     public event Action OnRewardsGiven;
 
@@ -11,6 +16,26 @@ public class ItemManager : Singleton<ItemManager>
 
     private Queue<object> _rewardQueue = new Queue<object>();
     public Queue<object> RewardQueue => _rewardQueue;
+    public bool IsReady {  get; private set; }
+
+    protected override void Awake()
+    {
+        var handle = Addressables.LoadAssetAsync<ItemsSO>("ItemSO");
+        handle.Completed += OnItemSOLoaded;
+    }
+    private void OnItemSOLoaded(AsyncOperationHandle<ItemsSO> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _ItemsSO = handle.Result;
+            Debug.Log("ItemSO 로드 완료");
+            IsReady = true;
+        }
+        else
+        {
+            Debug.LogError("GameConfig 로드 실패");
+        }
+    }
     public void GiveReward(ProductCatalogSO.Entry entry)
     {
         if (entry == null) return;

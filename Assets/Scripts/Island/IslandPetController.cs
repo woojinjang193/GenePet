@@ -3,16 +3,15 @@ using UnityEngine;
 
 public class IslandPetController : MonoBehaviour
 {
-    [Header("선물 스프라이트")]
-    [SerializeField] private Sprite _gift1;
-    [SerializeField] private Sprite _gift2;
-    [SerializeField] private Sprite _gift3;
-    [SerializeField] private Sprite _gift4;
-
     [Header("위시버블 컴포넌트")]
     [SerializeField] private WishBubble _wishBubble;
     [Header("마우스 컨트롤러")]
     [SerializeField] private IslandPetMouthController _mouth;
+
+    private Sprite _gift1;
+    private Sprite _gift2;
+    private Sprite _gift3;
+    private Sprite _gift4;
 
     private IslandManager _islandManager;
 
@@ -21,6 +20,7 @@ public class IslandPetController : MonoBehaviour
     {
         if (CanGiveGift())
         {
+            GetGiftSprites();
             _curWish = Manager.Save.CurrentData.UserData.Island.CurWish;
             _wishBubble.Init(GetSprite());
             _mouth.OnGiveTaken += OnGiveTaken;
@@ -55,10 +55,10 @@ public class IslandPetController : MonoBehaviour
         switch (_curWish)
         {
             case Gift.None: return GetRandomGifg();
-            case Gift.Fish: return _gift1;
-            case Gift.Something: return _gift2;
-            case Gift.Toy: return _gift3;
-            case Gift.Younggi: return _gift4;
+            case Gift.Gift1: return _gift1;
+            case Gift.Gift2: return _gift2;
+            case Gift.Gift3: return _gift3;
+            case Gift.Gift4: return _gift4;
             default: return null;
         }
     }
@@ -68,10 +68,10 @@ public class IslandPetController : MonoBehaviour
 
         switch (rand)
         {
-            case 0: _curWish = Gift.Fish; return _gift1;
-            case 1: _curWish = Gift.Something; return _gift2;
-            case 2: _curWish = Gift.Toy; return _gift3;
-            case 3: _curWish = Gift.Younggi; return _gift4;
+            case 0: _curWish = Gift.Gift1; return _gift1;
+            case 1: _curWish = Gift.Gift2; return _gift2;
+            case 2: _curWish = Gift.Gift3; return _gift3;
+            case 3: _curWish = Gift.Gift4; return _gift4;
             default: _curWish = Gift.None; return null;
         }
     }
@@ -85,6 +85,17 @@ public class IslandPetController : MonoBehaviour
         _islandManager.ChangeAffinity(10); // 필요하면 컨피그에 넣기
     }
 
+    private void GetGiftSprites() //선물 이미지 세팅
+    {
+        if( Manager.Item == null ) return;
+
+        var icon = Manager.Item.ItemImages;
+
+        _gift1 = icon.Gift1;
+        _gift2 = icon.Gift2;
+        _gift3 = icon.Gift3;
+        _gift4 = icon.Gift4;
+    }
 
     //private void OnTriggerEnter2D(Collider2D collision) //테그 수정해야함
     //{

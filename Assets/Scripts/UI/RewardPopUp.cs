@@ -6,15 +6,21 @@ using UnityEngine.UI;
 
 public class RewardPopUp : MonoBehaviour
 {
-    [SerializeField] private ItemsSO _ItemsSO;
     [SerializeField] private Image _icon;
     [SerializeField] private Button _button;
     [SerializeField] private TMP_Text _amount;
+    
+    private ItemsSO _ItemsSO;
 
     private Queue<object> _rewardQueue;
 
     private void Awake()
     {
+        if(Manager.Item != null)
+        {
+            _ItemsSO = Manager.Item.ItemImages;
+        }
+  
         if (_button == null)
         {
             _button = GetComponentInChildren<Button>();

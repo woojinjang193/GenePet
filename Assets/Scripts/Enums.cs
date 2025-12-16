@@ -5,7 +5,7 @@ public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, GrowthTime
 public enum PetFlag { IsSick, IsLeft }
 public enum RarityType { Common, Rare, Epic, Legendary } //GeneManager 에서 확률 설정
 public enum Confirm { RemovePet, GiveUpPet, DeleteIsland }
-public enum Gift { None, Fish, Something, Toy, Younggi }
+public enum Gift { None, Gift1, Gift2, Gift3, Gift4 }
 public enum PersonalityType 
 {
     Brave,          // 용감한 - 체력·행동력 높음, 싸움 잘함
