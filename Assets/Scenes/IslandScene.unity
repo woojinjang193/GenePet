@@ -1958,7 +1958,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.00000011920929, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 689490940}
@@ -2003,8 +2003,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 97bb6976832134437b006828ce26b818, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2907,7 +2907,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: 65}
+  m_AnchoredPosition: {x: 250, y: 324}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &349639019
@@ -5558,6 +5558,7 @@ GameObject:
   - component: {fileID: 772058422}
   - component: {fileID: 772058423}
   - component: {fileID: 772058424}
+  - component: {fileID: 772058425}
   m_Layer: 0
   m_Name: Island Pet
   m_TagString: Untagged
@@ -5635,6 +5636,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75367452d76baba419236965cfc94b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _visual: {fileID: 772058425}
+--- !u!114 &772058425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772058421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82db71760300264dac20ba5fde972b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _wishBubble: {fileID: 310442517}
@@ -7801,7 +7815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -250, y: 65}
+  m_AnchoredPosition: {x: -250, y: 324}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1145279026
@@ -8200,6 +8214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1195173825}
+  - component: {fileID: 1195173826}
   m_Layer: 0
   m_Name: GameObjects
   m_TagString: Untagged
@@ -8229,6 +8244,23 @@ Transform:
   - {fileID: 1432268252}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1195173826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195173824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a45d3b650d32e64dab46b0dc7aa64ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gifts:
+  - {fileID: 784565194}
+  - {fileID: 1849284717}
+  - {fileID: 1758680432}
+  - {fileID: 2071385972}
 --- !u!1 &1204202741
 GameObject:
   m_ObjectHideFlags: 0
@@ -12745,7 +12777,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -380, y: 65}
+  m_AnchoredPosition: {x: -380, y: 324}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1882229556

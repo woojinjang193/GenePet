@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class IslandGiftSelector : MonoBehaviour
+public class IslandGiftSelector : MonoBehaviour, IPointerDownHandler
 {
     [Header("선물 리스트 판넬")]
     [SerializeField] private GameObject _giftListPanel;

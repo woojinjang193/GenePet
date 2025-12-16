@@ -1,153 +1,72 @@
-using System;
 using UnityEngine;
+using System.Collections.Generic;
+using System;
 
 public class IslandPetController : MonoBehaviour
 {
-    [Header("위시버블 컴포넌트")]
-    [SerializeField] private WishBubble _wishBubble;
-    [Header("마우스 컨트롤러")]
-    [SerializeField] private IslandPetMouthController _mouth;
+    [SerializeField] private IslandPetVisualController _visual; //비주얼 컨트롤러
 
-    private Sprite _gift1;
-    private Sprite _gift2;
-    private Sprite _gift3;
-    private Sprite _gift4;
+    private IslandManager _islandManager; //섬 매니저
+    private GiftCooldownService _cooldownService; //쿨타임 서비스
+    private GiftWishController _wishController; //위시 로직
 
-    private IslandManager _islandManager;
+    private Gift _currentWish; //현재 위시
 
-    private Gift _curWish;
     private void Awake()
     {
-        if (CanGiveGift())
-        {
-            GetGiftSprites();
-            _curWish = Manager.Save.CurrentData.UserData.Island.CurWish;
-            _wishBubble.Init(GetSprite());
-            _mouth.OnGiveTaken += OnGiveTaken;
-        }
+        _islandManager = FindObjectOfType<IslandManager>(); //섬 매니저 찾기
+        _cooldownService = new GiftCooldownService(Manager.Game.Config.GiftCooldown); //쿨타임 초기화
+        _wishController = new GiftWishController(GetGiftList()); //가능한 선물 목록
+
+        long lastGiftTime = Manager.Save.CurrentData.UserData.Island.LastGiftGivenTime; //마지막 선물 시간
+
+        if (!_cooldownService.CanGiveGift(lastGiftTime)) return; //쿨타임 미완료면 종료
+
+        _currentWish = _wishController.CreateWish(); //위시 생성
+
+        Sprite wishSprite = Manager.Item.ItemImages.GetGiftSprite(_currentWish); //아이콘 가져오기
+        _visual.ShowWish(wishSprite); //위시 표시
+
+        _visual.Mouth.OnGiveTaken += OnGiveTaken; //선물 전달 이벤트 구독
     }
+
     private void OnDestroy()
     {
-        _mouth.OnGiveTaken -= OnGiveTaken;
-    }
-    private void Start()
-    {
-        _islandManager = FindObjectOfType<IslandManager>();
+        _visual.Mouth.OnGiveTaken -= OnGiveTaken; //이벤트 해제
     }
 
-    private bool CanGiveGift() //선물 주기 가능여부 확인
-    {
-        float giftCooldown = Manager.Game.Config.GiftCooldown;
-        long lastTimeGiftGiven = Manager.Save.CurrentData.UserData.Island.LastGiftGivenTime;
-        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-        if(now - lastTimeGiftGiven > giftCooldown)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    private Sprite GetSprite() //선물 스프라이트 받아오기
-    {
-        switch (_curWish)
-        {
-            case Gift.None: return GetRandomGifg();
-            case Gift.Gift1: return _gift1;
-            case Gift.Gift2: return _gift2;
-            case Gift.Gift3: return _gift3;
-            case Gift.Gift4: return _gift4;
-            default: return null;
-        }
-    }
-    private Sprite GetRandomGifg() //바라는게 None일경우 랜덤 선물 선택
-    {
-        int rand = UnityEngine.Random.Range(0, 4);
-
-        switch (rand)
-        {
-            case 0: _curWish = Gift.Gift1; return _gift1;
-            case 1: _curWish = Gift.Gift2; return _gift2;
-            case 2: _curWish = Gift.Gift3; return _gift3;
-            case 3: _curWish = Gift.Gift4; return _gift4;
-            default: _curWish = Gift.None; return null;
-        }
-    }
     private void OnGiveTaken(Gift gift)
     {
-        if (_curWish != gift) { _mouth.StartAnimation(false); return; }
-           
-        //선물별로 호감도 수치 다르게 적용할거면 나중에 스위치문 추가 (위의 GetRandomGifg() 스위치문 복사해서 쓰면 됨)
-        _wishBubble.GiftGiven();
-        _mouth.StartAnimation(true);
-        _islandManager.ChangeAffinity(10); // 필요하면 컨피그에 넣기
+        if (!_wishController.IsCorrect(gift)) //선물 불일치
+        {
+            _visual.PlayFail(); //실패 연출
+            Debug.Log("선물 실패");
+            return;
+        }
+
+        _visual.PlaySuccess(); //성공 연출
+        Debug.Log("선물 성공");
+        int affinity = _wishController.GetAffinity(); //호감도 획득
+        _islandManager.ChangeAffinity(affinity); //호감도 적용
+
+        Manager.Save.CurrentData.UserData.Island.LastGiftGivenTime = _cooldownService.RecordGiftTime(); //선물 시간 기록
     }
 
-    private void GetGiftSprites() //선물 이미지 세팅
+    private List<Gift> GetGiftList()
     {
-        if( Manager.Item == null ) return;
+        var list = new List<Gift>();
+        var values = (Gift[])Enum.GetValues(typeof(Gift));
 
-        var icon = Manager.Item.ItemImages;
+        for (int i = 0; i < values.Length; i++)
+        {
+            if (values[i] == Gift.None)
+            {
+                continue;
+            }
+            list.Add(values[i]);
+        }
 
-        _gift1 = icon.Gift1;
-        _gift2 = icon.Gift2;
-        _gift3 = icon.Gift3;
-        _gift4 = icon.Gift4;
+        return list;
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision) //테그 수정해야함
-    //{
-    //    if (collision.CompareTag("Item1"))
-    //    {
-    //        _ogMouth = _mouth.sprite;
-    //        _ogEye = _eye.sprite;
-    //        _mouth.sprite = _openMouthSprite;
-    //        _eye.sprite = _closeEyesSprite;
-    //    }
-    //    else if (collision.CompareTag("Item2"))
-    //    {
-    //        _ogMouth = _mouth.sprite;
-    //        _ogEye = _eye.sprite;
-    //        _mouth.sprite = _openMouthForSnackSprite;
-    //        _eye.sprite = _closeEyesSprite;
-    //
-    //    }
-    //    else if (collision.CompareTag("Medicine"))
-    //    {
-    //        _ogMouth = _mouth.sprite;
-    //        _ogEye = _eye.sprite;
-    //        _mouth.sprite = _openMouthForMedicine;
-    //        _eye.sprite = _closeEyesWithTear;
-    //    }
-    //    else if (collision.CompareTag("CleaningTool"))
-    //    {
-    //        _ogEye = _eye.sprite;
-    //        _eye.sprite = _closeEyesSprite;
-    //    }
-    //}
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag("Food"))
-    //    {
-    //        _mouth.sprite = _ogMouth;
-    //        _eye.sprite = _ogEye;
-    //    }
-    //    else if (collision.CompareTag("Snack"))
-    //    {
-    //        _mouth.sprite = _ogMouth;
-    //        _eye.sprite = _ogEye;
-    //
-    //    }
-    //    else if (collision.CompareTag("Medicine"))
-    //    {
-    //        _mouth.sprite = _ogMouth;
-    //        _eye.sprite = _ogEye;
-    //    }
-    //    else if (collision.CompareTag("CleaningTool"))
-    //    {
-    //        _eye.sprite = _ogEye;
-    //    }
-    //}
 }

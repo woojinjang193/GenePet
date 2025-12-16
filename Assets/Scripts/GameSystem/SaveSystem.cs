@@ -176,7 +176,7 @@ public class IslandData
         Affinity = 50f;
         VisitCount = 0;
         LastVisitTime = 0;
-        LastGiftGivenTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        LastGiftGivenTime = 0;
         CurWish = Gift.None;
     }
 }

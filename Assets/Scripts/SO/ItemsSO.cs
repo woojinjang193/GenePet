@@ -23,4 +23,16 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     [SerializeField] public Sprite GeneticScissorsSprite;
     [SerializeField] public Sprite geneticTesterSprite;
 
+    public Sprite GetGiftSprite(Gift gift)
+    {
+        switch (gift)
+        {
+            case Gift.Gift1: return Gift1;
+            case Gift.Gift2: return Gift2;
+            case Gift.Gift3: return Gift3;
+            case Gift.Gift4: return Gift4;
+            default: return null;
+        }
+    }
+
 }

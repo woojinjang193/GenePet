@@ -139,4 +139,5 @@ public class ItemManager : Singleton<ItemManager>
     {
         _rewardQueue.Clear();
     }
+
 }
