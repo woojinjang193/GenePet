@@ -14,8 +14,8 @@ public class ItemManager : Singleton<ItemManager>
     public event Action<int> OnMoneyChanged;
     public event Action<RewardType, int> OnRewardGranted;
 
-    private Queue<object> _rewardQueue = new Queue<object>();
-    public Queue<object> RewardQueue => _rewardQueue;
+    private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
+
     public bool IsReady {  get; private set; }
 
     protected override void Awake()
@@ -36,6 +36,23 @@ public class ItemManager : Singleton<ItemManager>
             Debug.LogError("GameConfig 로드 실패");
         }
     }
+    public bool HasReward()
+    {
+        return _rewardQueue.Count > 0;
+    }
+
+    public bool TryDequeueReward(out RewardData reward)
+    {
+        if (_rewardQueue.Count == 0)
+        {
+            reward = null;
+            return false;
+        }
+
+        reward = _rewardQueue.Dequeue();
+        return true;
+    }
+
     public void GiveReward(ProductCatalogSO.Entry entry)
     {
         if (entry == null) return;
@@ -108,7 +125,7 @@ public class ItemManager : Singleton<ItemManager>
                 break;
         }
         //큐에 추가 
-        _rewardQueue.Enqueue((type, amount));
+        _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
 
         //유아이 업데이트용
         OnRewardGranted?.Invoke(type, newValue); // 바로 업데이트 해야하는 유아이 있으면 구독하면 됨
@@ -116,9 +133,9 @@ public class ItemManager : Singleton<ItemManager>
     public void EnqueueEgg(EggData egg) //알 보상 큐 적재 전용
     {
         Debug.Log($"알 큐에 들어옴 {egg}");
-        _rewardQueue.Enqueue(egg);
+        _rewardQueue.Enqueue(RewardData.CreateEgg(egg));
     }
-    public void ClearRewardQueue() //보상 다 보여준 뒤 정리
+    public void ClearRewardQueue() //보상 다 보여준 뒤 정리 (필요없으면 삭제)
     {
         _rewardQueue.Clear();
     }

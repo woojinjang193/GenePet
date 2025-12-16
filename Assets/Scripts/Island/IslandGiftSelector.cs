@@ -10,10 +10,10 @@ public class IslandGiftSelector : MonoBehaviour
     [SerializeField] private GameObject _giftListPanel;
 
     [Header("선물 이미지버튼 이미지")]
-    [SerializeField] private SpriteRenderer _gift1Button;
-    [SerializeField] private SpriteRenderer _gift2Button;
-    [SerializeField] private SpriteRenderer _gift3Button;
-    [SerializeField] private SpriteRenderer _gift4Button;
+    [SerializeField] private Image _gift1Button;
+    [SerializeField] private Image _gift2Button;
+    [SerializeField] private Image _gift3Button;
+    [SerializeField] private Image _gift4Button;
 
     [Header("소환될 선물 오브젝트")]
     [SerializeField] private GameObject _gift1;

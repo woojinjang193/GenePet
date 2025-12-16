@@ -6,6 +6,23 @@ public enum PetFlag { IsSick, IsLeft }
 public enum RarityType { Common, Rare, Epic, Legendary } //GeneManager 에서 확률 설정
 public enum Confirm { RemovePet, GiveUpPet, DeleteIsland }
 public enum Gift { None, Gift1, Gift2, Gift3, Gift4 }
+public enum RewardCategory
+{
+    Item,   //일반 아이템 보상
+    Egg     //알 보상
+}
+public enum RewardType
+{
+    //Egg,
+    Energy,
+    Coin,
+    RemovedAD,
+    IslandTicket,
+    GeneticScissors,
+    GeneticTester,
+    MissingPoster,
+    Snack
+}
 public enum PersonalityType 
 {
     Brave,          // 용감한 - 체력·행동력 높음, 싸움 잘함

@@ -47,7 +47,7 @@ public class InGameUIManager : MonoBehaviour
         }
 
         //메인씬 돌아왔을때 보상 있으면 실행
-        if (Manager.Item.RewardQueue.Count > 0)
+        if (Manager.Item.HasReward())
         {
             ShowReward();
         }
