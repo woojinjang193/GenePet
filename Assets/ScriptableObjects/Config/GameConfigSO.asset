@@ -18,7 +18,8 @@ MonoBehaviour:
   EnergyRecoveringTime: 120
   VisitingAffinityCooldown: 300
   VisitingAffinityGain: 5
-  GiftCooldown: 60
+  GiftCooldown: 20
+  GiftingPoint: 0
   DisappointingPoint: 5
   EggRaritySO: {fileID: 11400000, guid: db4ee66b79c21dd4a85d20408b471776, type: 2}
   ComeBackHunger: 20

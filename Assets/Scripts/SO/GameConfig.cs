@@ -20,6 +20,8 @@ public class GameConfig : ScriptableObject
     public float VisitingAffinityGain;
     [Header("선물주기 가능 쿨타임")]
     public float GiftCooldown;
+    [Header("선물주기 호감도 증가량")]
+    public float GiftingPoint;
     [Header("선물 안주면 줄어드는 호감도 양")]
     public float DisappointingPoint;
 

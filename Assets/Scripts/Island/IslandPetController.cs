@@ -11,7 +11,6 @@ public class IslandPetController : MonoBehaviour
     private GiftWishController _wishController; //위시 로직
 
     private IslandData _islandData;
-    private Gift _currentWish; //현재 위시
 
     private void Start()
     {
@@ -70,11 +69,10 @@ public class IslandPetController : MonoBehaviour
         else
         {
             // 새 위시 생성
-            _currentWish = _wishController.CreateWish();
-            _islandData.CurWish = _currentWish;
+            _islandData.CurWish = _wishController.CreateWish();
             _islandData.GiftCooldownStartTime = _cooldownService.RecordGiftTime(); //쿨타임 초기화
 
-            Sprite wishSprite = Manager.Item.ItemImages.GetGiftSprite(_currentWish);
+            Sprite wishSprite = Manager.Item.ItemImages.GetGiftSprite(_islandData.CurWish);
             _visual.ShowWish(wishSprite);
         }
     }
@@ -82,7 +80,7 @@ public class IslandPetController : MonoBehaviour
     //============이벤트 발생시==============
     private void OnGiveTaken(Gift gift) //선물 먹음 이벤트
     {
-        if (!_wishController.IsCorrect(gift)) //선물 불일치
+        if (_islandData.CurWish != gift) //선물 불일치
         {
             _visual.PlayFail(); //실패 연출
             Debug.Log("선물 실패");
@@ -92,8 +90,7 @@ public class IslandPetController : MonoBehaviour
         _visual.PlaySuccess(); //성공 연출
         Debug.Log("선물 성공");
 
-        int affinity = _wishController.GetAffinity(); //호감도 획득
-        _islandManager.ChangeAffinity(affinity); //호감도 적용
+        _islandManager.ChangeAffinity(Manager.Game.Config.GiftingPoint); //호감도 적용
 
         ResetGiftState();
     }
@@ -108,9 +105,7 @@ public class IslandPetController : MonoBehaviour
 
     private void ResetGiftState() // 펫 변경 전용 초기화
     {
-        _currentWish = Gift.None; //위시 제거
-        _islandData.CurWish = _currentWish;
-        _wishController.ResetWish();
+        _islandData.CurWish = Gift.None; //위시 제거
 
         _islandData.GiftCooldownStartTime = _cooldownService.RecordGiftTime(); //쿨타임 초기화
         _visual.CloseWishBubble(); //위시 닫기
