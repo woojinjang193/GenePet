@@ -19,6 +19,8 @@ public class IslandManager : MonoBehaviour
     [SerializeField] private GeneInfomationUI _GeneInfoUI;
     [SerializeField] private GameObject _geneInfoButton;
 
+    public Action OnIslandMyPetChange;
+
     public string IslandMyPetID { get; private set; }
 
     public PetSaveData IslandMypetData { get; private set; }
@@ -99,6 +101,7 @@ public class IslandManager : MonoBehaviour
 
         //방문시 호감도 증가
         ChangeAffinity(_visitingPoint);
+       
 
         if (!_isLeft && !_isMarried)
         {
@@ -154,8 +157,14 @@ public class IslandManager : MonoBehaviour
 
     public void UpdateIslandMyPetID(PetSaveData data)
     {
+        Manager.Save.CurrentData.UserData.Island.Affinity = 0; //호감도 초기화
+        Manager.Save.CurrentData.UserData.Island.LastVisitTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //방문시간 초기화
+        Debug.Log("호감도, 방문시간 초기화");
+
         IslandMypetData = data;
         IslandMyPetID = data.ID;
+
+        OnIslandMyPetChange?.Invoke();
     }
 
     public void OpenGeneInfo() //유전자 정보 UI

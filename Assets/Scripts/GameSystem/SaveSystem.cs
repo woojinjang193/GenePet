@@ -163,7 +163,7 @@ public class IslandData
     public float Affinity;
     public int VisitCount;
     public long LastVisitTime;
-    public long GiftRequestStartTime;
+    public long GiftCooldownStartTime;
     public Gift CurWish;
 
     public IslandData()
@@ -176,7 +176,7 @@ public class IslandData
         Affinity = 50f;
         VisitCount = 0;
         LastVisitTime = 0;
-        GiftRequestStartTime = 0;
+        GiftCooldownStartTime = 0;
         CurWish = Gift.None;
     }
 }

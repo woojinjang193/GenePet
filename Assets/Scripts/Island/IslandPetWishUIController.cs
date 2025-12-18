@@ -20,6 +20,11 @@ public class IslandPetVisualController : MonoBehaviour
     {
         _mouth.StartAnimation(false); //실패 애니메이션
     }
+    
+    public void CloseWishBubble()
+    {
+        _wishBubble.gameObject.SetActive(false);
+    }
 
     public IslandPetMouthController Mouth => _mouth; //외부 이벤트 연결용
 }
