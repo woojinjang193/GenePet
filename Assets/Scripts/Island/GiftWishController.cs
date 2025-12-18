@@ -30,4 +30,9 @@ public class GiftWishController
         _currentWish = Gift.None;
         return _affinityValue; //호감도 반환
     }
+
+    public void ResetWish()
+    {
+        _currentWish = Gift.None;
+    }
 }

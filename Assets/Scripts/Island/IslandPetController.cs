@@ -62,13 +62,17 @@ public class IslandPetController : MonoBehaviour
         {
             float disappointingPoint = Manager.Game.Config.DisappointingPoint;
             _islandManager.ChangeAffinity(-disappointingPoint);
+            ResetGiftState();
             Debug.Log("선물 안줘서 호감도 감소");
+
+            return;
         }
         else
         {
             // 새 위시 생성
             _currentWish = _wishController.CreateWish();
             _islandData.CurWish = _currentWish;
+            _islandData.GiftCooldownStartTime = _cooldownService.RecordGiftTime(); //쿨타임 초기화
 
             Sprite wishSprite = Manager.Item.ItemImages.GetGiftSprite(_currentWish);
             _visual.ShowWish(wishSprite);
@@ -76,7 +80,7 @@ public class IslandPetController : MonoBehaviour
     }
                             
     //============이벤트 발생시==============
-    private void OnGiveTaken(Gift gift)
+    private void OnGiveTaken(Gift gift) //선물 먹음 이벤트
     {
         if (!_wishController.IsCorrect(gift)) //선물 불일치
         {
@@ -93,10 +97,10 @@ public class IslandPetController : MonoBehaviour
 
         ResetGiftState();
     }
-    private void OnIslandMyPetChange()
+    private void OnIslandMyPetChange() //펫 변경 이벤트
     {
         ResetGiftState();     // 펫 변경 시 초기화
-        TryShowWish();   // 쿨타임 끝났으면 위시 표시
+        //TryShowWish();   // 쿨타임 끝났으면 위시 표시
     }
 
     //===============================================
@@ -105,8 +109,10 @@ public class IslandPetController : MonoBehaviour
     private void ResetGiftState() // 펫 변경 전용 초기화
     {
         _currentWish = Gift.None; //위시 제거
-        _islandData.CurWish = _currentWish; 
-        _islandData.GiftCooldownStartTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //쿨타임 초기화
+        _islandData.CurWish = _currentWish;
+        _wishController.ResetWish();
+
+        _islandData.GiftCooldownStartTime = _cooldownService.RecordGiftTime(); //쿨타임 초기화
         _visual.CloseWishBubble(); //위시 닫기
     }
 
