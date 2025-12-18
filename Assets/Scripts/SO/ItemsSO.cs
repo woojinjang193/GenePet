@@ -13,6 +13,7 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
 
     [Header("섬 아이템")]
     [SerializeField] public Sprite IslandTicketSprite;
+    [SerializeField] public Sprite MasterGiftSprite;
     [SerializeField] public Sprite Gift1;
     [SerializeField] public Sprite Gift2;
     [SerializeField] public Sprite Gift3;

@@ -190,8 +190,14 @@ public class UserItemData
     public int MissingPoster;
     public int GeneticScissors;
     public int geneticTester;
-    //public int RandomGene;
     public int Snack;
+
+    //선물
+    public int MasterGift;
+    public int Gift1;
+    public int Gift2;
+    public int Gift3;
+    public int Gift4;
 
     public UserItemData()
     {
@@ -201,10 +207,14 @@ public class UserItemData
         MissingPoster = 1;
         GeneticScissors = 1;
         geneticTester = 1;
-        //RandomGene = 1;
         Snack = 1;
-    }
 
+        MasterGift = 5;
+        Gift1 = 1;
+        Gift2 = 1;
+        Gift3 = 1;
+        Gift4 = 1;
+    }
 }
 
 [Serializable]

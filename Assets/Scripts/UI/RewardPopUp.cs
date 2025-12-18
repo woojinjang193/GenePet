@@ -62,6 +62,7 @@ public class RewardPopUp : MonoBehaviour
             case RewardType.GeneticScissors: return _ItemsSO.GeneticScissorsSprite;
             case RewardType.GeneticTester: return _ItemsSO.geneticTesterSprite;
             case RewardType.Snack: return _ItemsSO.SnackSprite;
+            case RewardType.MasterGift: return _ItemsSO.MasterGiftSprite;
         }
         return null;
     }

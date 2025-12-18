@@ -21,7 +21,8 @@ public enum RewardType
     GeneticScissors,
     GeneticTester,
     MissingPoster,
-    Snack
+    Snack,
+    MasterGift,
 }
 public enum PersonalityType 
 {

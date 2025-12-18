@@ -13,6 +13,7 @@ public class ItemManager : Singleton<ItemManager>
 
     public event Action<int> OnMoneyChanged;
     public event Action<RewardType, int> OnRewardGranted;
+    public event Action OnGiftAmountChanged;
 
     private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
 
@@ -123,6 +124,11 @@ public class ItemManager : Singleton<ItemManager>
                 newValue = user.Items.geneticTester += amount;
                 Debug.Log($"유전자 테스터 +{amount}");
                 break;
+
+            case RewardType.MasterGift:
+                newValue = user.Items.MasterGift += amount;
+                Debug.Log($"만능 선물 +{amount}");
+                break;
         }
         //큐에 추가 
         _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
@@ -140,4 +146,17 @@ public class ItemManager : Singleton<ItemManager>
         _rewardQueue.Clear();
     }
 
+    public void UseGift(Gift gift)
+    {
+        var item = Manager.Save.CurrentData.UserData.Items;
+
+        switch (gift)
+        {
+            case Gift.Gift1: if (item.Gift1 <= 0) { return; }; item.Gift1--; break;
+            case Gift.Gift2: if (item.Gift2 <= 0) { return; }; item.Gift2--; break;
+            case Gift.Gift3: if (item.Gift3 <= 0) { return; }; item.Gift3--; break;
+            case Gift.Gift4: if (item.Gift4 <= 0) { return; }; item.Gift4--; break;
+        }
+        OnGiftAmountChanged?.Invoke();
+    }
 }
