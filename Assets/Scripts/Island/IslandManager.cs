@@ -149,6 +149,7 @@ public class IslandManager : MonoBehaviour
     public void ChangeAffinity(float amount)
     {
         Manager.Save.CurrentData.UserData.Island.Affinity += amount;
+        Debug.Log($"호감도 변동:{amount}. 현재 호감도 {Manager.Save.CurrentData.UserData.Island.Affinity}");
     }
 
     public void UpdateIslandMyPetID(PetSaveData data)

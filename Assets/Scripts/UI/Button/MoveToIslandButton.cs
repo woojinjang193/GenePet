@@ -31,7 +31,7 @@ public class MoveToIslandButton : MonoBehaviour
         {
             if(petList[i].Status.Growth == GrowthStatus.Adult)
             {
-                Debug.Log("어른 확인");
+                //Debug.Log("어른 확인");
                 hasAdult = true;
                 break;
             }

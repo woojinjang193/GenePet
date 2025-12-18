@@ -18,16 +18,43 @@ public class IslandPetController : MonoBehaviour
         _cooldownService = new GiftCooldownService(Manager.Game.Config.GiftCooldown); //쿨타임 초기화
         _wishController = new GiftWishController(GetGiftList()); //가능한 선물 목록
 
-        long lastGiftTime = Manager.Save.CurrentData.UserData.Island.LastGiftGivenTime; //마지막 선물 시간
+        var islandData = Manager.Save.CurrentData.UserData.Island;
 
-        if (!_cooldownService.CanGiveGift(lastGiftTime)) return; //쿨타임 미완료면 종료
+        long requestStartTime = islandData.GiftRequestStartTime; //퀘스트 요청시간
+        bool canGiveGift = _cooldownService.CanGiveGift(requestStartTime); //쿨타임 완료 여부
+        bool hasPendingWish = islandData.CurWish != Gift.None; //미지급 위시 존재 여부
 
-        _currentWish = _wishController.CreateWish(); //위시 생성
+        if (canGiveGift) // 쿨타임 완료 상태
+        {
+            if (hasPendingWish)
+            {
+                // 선물 안 준 채로 쿨타임 넘김 > 패널티
+                Debug.Log("선물 안 준 채로 쿨타임 넘김");
+                _islandManager.ChangeAffinity(-Manager.Game.Config.DisappointingPoint);
+            }
 
-        Sprite wishSprite = Manager.Item.ItemImages.GetGiftSprite(_currentWish); //아이콘 가져오기
-        _visual.ShowWish(wishSprite); //위시 표시
+            // 새 위시 생성
+            _currentWish = _wishController.CreateWish();
+            islandData.CurWish = _currentWish;
 
-        _visual.Mouth.OnGiveTaken += OnGiveTaken; //선물 전달 이벤트 구독
+            islandData.GiftRequestStartTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //시간 저장
+            Sprite wishSprite = Manager.Item.ItemImages.GetGiftSprite(_currentWish);
+            _visual.ShowWish(wishSprite);
+        }
+        else
+        {
+            // 쿨타임 미완료 상태
+            if (hasPendingWish)
+            {
+                // 저장된 위시 그대로 표시
+                _currentWish = islandData.CurWish;
+                Sprite wishSprite = Manager.Item.ItemImages.GetGiftSprite(_currentWish);
+                _visual.ShowWish(wishSprite);
+            }
+            // else : 이미 선물 준 상태 > 아무것도 안 함
+        }
+
+        _visual.Mouth.OnGiveTaken += OnGiveTaken; //이벤트 구독
     }
 
     private void OnDestroy()
@@ -37,6 +64,8 @@ public class IslandPetController : MonoBehaviour
 
     private void OnGiveTaken(Gift gift)
     {
+        var islandData = Manager.Save.CurrentData.UserData.Island;
+
         if (!_wishController.IsCorrect(gift)) //선물 불일치
         {
             _visual.PlayFail(); //실패 연출
@@ -46,10 +75,12 @@ public class IslandPetController : MonoBehaviour
 
         _visual.PlaySuccess(); //성공 연출
         Debug.Log("선물 성공");
+
         int affinity = _wishController.GetAffinity(); //호감도 획득
         _islandManager.ChangeAffinity(affinity); //호감도 적용
 
-        Manager.Save.CurrentData.UserData.Island.LastGiftGivenTime = _cooldownService.RecordGiftTime(); //선물 시간 기록
+        islandData.CurWish = Gift.None; //원하는 선물 None으로 변경
+        islandData.GiftRequestStartTime = _cooldownService.RecordGiftTime(); //선물 시간 기록
     }
 
     private List<Gift> GetGiftList()

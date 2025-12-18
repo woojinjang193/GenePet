@@ -10,10 +10,10 @@ public class GiftCooldownService
         _cooldown = cooldown; //쿨타임 저장
     }
 
-    public bool CanGiveGift(long lastGiftTime)
+    public bool CanGiveGift(long requestStartTime)
     {
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //현재 UTC 시간
-        return now - lastGiftTime > _cooldown; //쿨타임 초과 여부 반환
+        return now - requestStartTime > _cooldown; //쿨타임 초과 여부 반환
     }
 
     public long RecordGiftTime()
