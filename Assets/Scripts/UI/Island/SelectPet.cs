@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class SelectPet : MonoBehaviour
 {
-    [Header("파츠 리스트")]
-    [SerializeField] private PetPartSpriteList _renderers;
+    [Header("비쥬얼 로더")]
+    [SerializeField] private IslandPetVisualLoader _visualLoader;
 
     [Header("좌우 버튼")]
     [SerializeField] private Button _leftButton;
@@ -62,14 +62,12 @@ public class SelectPet : MonoBehaviour
         if (_ogIndex == _curIndex)
         {
             gameObject.SetActive(false);
-            Debug.Log("아 이거 뭔데ㅔㅔㅔㅔㅔㅔㅔ");
             return;
         }
 
         if(_ogIndex == -1)
         {
             ApplyFinalChange(_curIndex);
-            Debug.Log("아 이거 뭔야ㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑ");
             return;
         }
 
@@ -120,9 +118,12 @@ public class SelectPet : MonoBehaviour
 
         var data = _petList[index];
 
-        if (data.IsLeft) return;
-
-        PetVisualHelper.ApplyVisual(data.Genes, _renderers);
+        if (data.IsLeft)
+        {
+            _visualLoader.LoadIslandPet(null);
+            return;
+        }
+        _visualLoader.LoadIslandPet(data);
     }
     public void ApplyFinalChange(int newIndex)
     {

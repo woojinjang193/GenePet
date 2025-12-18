@@ -10,6 +10,8 @@ public class IslandPetVisualLoader : MonoBehaviour
     {
         if (data == null)
         {
+            PetVisualHelper.OffAllParts(_renderers);
+            _renderers.Body.color = Color.white;
             _renderers.Body.sprite = _leftPetImage;
             return;
         }

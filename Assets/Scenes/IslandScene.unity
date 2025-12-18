@@ -1508,26 +1508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16db22d75125d1345a51829c5a7ad9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderers:
-    Acc: {fileID: 6818163774538982868}
-    Arm: {fileID: 1337181843564092969}
-    Blush: {fileID: 6400240723123859436}
-    Body: {fileID: 7588438175253858539}
-    Ear: {fileID: 7877794005306766871}
-    Eye: {fileID: 7293042906128096375}
-    Feet: {fileID: 7540796423628335865}
-    Mouth: {fileID: 1239549930948325820}
-    Pattern: {fileID: 4169600879609393864}
-    Wing: {fileID: 6659619237412109086}
-    Tail: {fileID: 359406719}
-    Whiskers: {fileID: 188711689}
-    ArmOut: {fileID: 8775877295495828916}
-    BodyOut: {fileID: 4830974617535297720}
-    EarOut: {fileID: 5280762655876689077}
-    FeetOut: {fileID: 1779152433004362207}
-    WingOut: {fileID: 660863169565036214}
-    TailOut: {fileID: 71227885}
-    PatternMask: {fileID: 5861275968263396743}
+  _visualLoader: {fileID: 9169061508645110287}
   _leftButton: {fileID: 1178093665}
   _rightButton: {fileID: 454771879}
   _confirmButton: {fileID: 1919725966}
