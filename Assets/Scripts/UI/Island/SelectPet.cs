@@ -62,12 +62,14 @@ public class SelectPet : MonoBehaviour
         if (_ogIndex == _curIndex)
         {
             gameObject.SetActive(false);
+            Debug.Log("아 이거 뭔데ㅔㅔㅔㅔㅔㅔㅔ");
             return;
         }
 
         if(_ogIndex == -1)
         {
             ApplyFinalChange(_curIndex);
+            Debug.Log("아 이거 뭔야ㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑ");
             return;
         }
 
@@ -118,6 +120,8 @@ public class SelectPet : MonoBehaviour
 
         var data = _petList[index];
 
+        if (data.IsLeft) return;
+
         PetVisualHelper.ApplyVisual(data.Genes, _renderers);
     }
     public void ApplyFinalChange(int newIndex)
@@ -143,12 +147,16 @@ public class SelectPet : MonoBehaviour
         return 0;
     }
 
-    private void GetPetList() //어른 개체만 담음
+    private void GetPetList() //떠나지않은 어른 개체만 담음
     {
         var petListFromSave = Manager.Save.CurrentData.UserData.HavePetList;
+        PetSaveData curPet = _islandManager.IslandMypetData;
+
+        if(curPet.IsLeft) _petList.Add(curPet);
+        
         for (int i = 0; i < petListFromSave.Count;i++)
         {
-            if (petListFromSave[i].GrowthStage == GrowthStatus.Adult)
+            if (petListFromSave[i].GrowthStage == GrowthStatus.Adult && !petListFromSave[i].IsLeft)
             {
                 _petList.Add(petListFromSave[i]);
             }

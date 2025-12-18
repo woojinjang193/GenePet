@@ -29,7 +29,7 @@ public class MoveToIslandButton : MonoBehaviour
 
         for(int i = 0;  i < petList.Count; i++)
         {
-            if(petList[i].Status.Growth == GrowthStatus.Adult)
+            if(petList[i].Status.Growth == GrowthStatus.Adult && !petList[i].Status.IsLeft) //떠나지않은 어른만 찾음
             {
                 //Debug.Log("어른 확인");
                 hasAdult = true;

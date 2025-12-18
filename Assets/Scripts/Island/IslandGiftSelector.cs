@@ -31,11 +31,18 @@ public class IslandGiftSelector : MonoBehaviour, IPointerDownHandler
     [Header("옵션 오픈 버튼")]
     [SerializeField] private Button _giftButton;
 
+    [Header("섬 매니저")]
+    [SerializeField] private IslandManager _islandManager;
+
     private bool _isDragging = false;
     private GameObject _currentObj;
 
     private void Awake()
     {
+        if(_islandManager ==  null)
+        {
+            _islandManager = FindObjectOfType<IslandManager>();
+        }
         UpdateAmount();
         SetGiftSprite();
         _giftButton.onClick.AddListener(OpenFoodList);
@@ -67,6 +74,8 @@ public class IslandGiftSelector : MonoBehaviour, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (_islandManager.IslandMypetData.IsLeft) return;
+
         var target = eventData.pointerCurrentRaycast.gameObject;
         var item = Manager.Save.CurrentData.UserData.Items;
 

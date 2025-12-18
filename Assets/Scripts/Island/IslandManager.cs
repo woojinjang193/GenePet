@@ -40,7 +40,7 @@ public class IslandManager : MonoBehaviour
         _breedManager = GetComponent<PetBreed>();
         _goBackHomeButton.onClick.AddListener(OnClickedGoHome);
 
-        TrySpawnPet();
+        TrySpawnMyPet();
 
         if (_isLeft)
         {
@@ -85,24 +85,21 @@ public class IslandManager : MonoBehaviour
     }
     private void VisitReward()
     {
-        if (string.IsNullOrWhiteSpace(IslandMyPetID))
+        if (string.IsNullOrWhiteSpace(IslandMyPetID) || IslandMypetData.IsLeft)
         {
             Debug.Log("섬펫 없어서 호감도 안오름");
             return;
         }
 
-        if(IslandMypetData.Cleanliness < 50f) //방문시 청결도가 50 아래일 경우
-        {
-            ChangeAffinity(-5);
-            Debug.Log($"청결도 :{IslandMypetData.Cleanliness}, 호감도 감소");
-        }
-
         if (!CanGetReward()) { return; } //쿨타임 돌았는지 확인
 
         //방문시 호감도 증가
-        ChangeAffinity(_visitingPoint);
-       
-
+        if (IslandMypetData.Cleanliness > 50f) //방문시 청결도가 50 위일 경우 방문점수 받음
+        {
+            ChangeAffinity(_visitingPoint);
+            Debug.Log($"청결도:{IslandMypetData.Cleanliness}. 호감도 {_visitingPoint}증가");
+        }
+        
         if (!_isLeft && !_isMarried)
         {
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
@@ -111,8 +108,6 @@ public class IslandManager : MonoBehaviour
                 _isMarried = true;
                 return;
             }
-            
-            Debug.Log($"방문 포인트 +{_visitingPoint}. 현재 호감도 {Manager.Save.CurrentData.UserData.Island.Affinity}");
         }
     }
     private void SpawnIslandPet()
@@ -126,9 +121,10 @@ public class IslandManager : MonoBehaviour
         IslandPetData = data;
         _visualLoader.LoadIslandPet(data);
     }
-    public void TrySpawnPet() //전에 설정해놓은 펫 있으면 그걸로 소환, 없으면 소환 안함
+    public void TrySpawnMyPet() //전에 설정해놓은 펫 있으면 그걸로 소환, 없으면 소환 안함
     {
         IslandMyPetID = Manager.Save.CurrentData.UserData.Island.IslandMyPetID;
+        //bool canSpawn = false;
 
         if (string.IsNullOrWhiteSpace(IslandMyPetID))
         {
@@ -137,15 +133,24 @@ public class IslandManager : MonoBehaviour
         }
 
         var petList = Manager.Save.CurrentData.UserData.HavePetList;
-        foreach (var pet in petList)
+        foreach (PetSaveData pet in petList)
         {
-            if (pet.ID == IslandMyPetID)
+            if (pet.ID == IslandMyPetID) //아이디 일치하고 안떠난 상태라면
             {
+                //canSpawn = true;
                 IslandMypetData = pet;
-                _myPetVisualLoader.LoadIslandPet(pet);
-                Debug.Log("저장된 마이펫 소환");
                 break;
             }
+        }
+
+        if (!IslandMypetData.IsLeft) //소환 가능한 상태라면
+        {
+            _myPetVisualLoader.LoadIslandPet(IslandMypetData);
+            Debug.Log("저장된 마이펫 소환");
+        }
+        else
+        {
+            _myPetVisualLoader.LoadIslandPet(null);
         }
     }
 
@@ -177,7 +182,7 @@ public class IslandManager : MonoBehaviour
     }
     public void OpenGeneInfoForMyPet() //테스트용. OpenGeneInfo()랑 로직 합쳐야함
     {
-        if (IslandMypetData == null) { return; }
+        if (IslandMypetData == null || IslandMypetData.IsLeft) { return; }
 
         _GeneInfoUI.gameObject.SetActive(true);
         _GeneInfoUI.Init(IslandMypetData);
