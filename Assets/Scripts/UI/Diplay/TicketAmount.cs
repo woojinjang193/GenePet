@@ -21,14 +21,14 @@ public class TicketAmount : MonoBehaviour
     }
     private void OnEnable()
     {
-        _text.text = Manager.Save.CurrentData.UserData.Items.IslandTicket.ToString();
+        _text.text = $"x {Manager.Save.CurrentData.UserData.Items.IslandTicket.ToString()}";
     }
 
     private void OnRewardGranted(RewardType type, int newValue)
     {
         if(type == RewardType.IslandTicket)
         {
-            _text.text = newValue.ToString();
+            _text.text = $"x {newValue.ToString()}";
         }
     }
 }

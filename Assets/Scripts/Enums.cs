@@ -23,6 +23,7 @@ public enum RewardType
     MissingPoster,
     Snack,
     MasterGift,
+    PetSlot,
 }
 public enum PersonalityType 
 {

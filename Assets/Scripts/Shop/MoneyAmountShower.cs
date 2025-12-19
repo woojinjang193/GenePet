@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ShopController : MonoBehaviour
+public class MoneyAmountShower : MonoBehaviour
 {
     [Header("코인 소지량")]
     [SerializeField] private TMP_Text _moneyAmount;

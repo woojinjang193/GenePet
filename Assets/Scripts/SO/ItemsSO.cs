@@ -10,6 +10,7 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     [SerializeField] public Sprite RemoveAdSprite;
     [SerializeField] public Sprite SnackSprite;
     [SerializeField] public Sprite Energy;
+    [SerializeField] public Sprite PetSlot;
 
     [Header("섬 아이템")]
     [SerializeField] public Sprite IslandTicketSprite;

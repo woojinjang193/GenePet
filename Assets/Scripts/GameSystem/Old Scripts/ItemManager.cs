@@ -129,6 +129,11 @@ public class ItemManager : Singleton<ItemManager>
                 newValue = user.Items.MasterGift += amount;
                 Debug.Log($"만능 선물 +{amount}");
                 break;
+
+            case RewardType.PetSlot:
+                newValue = Mathf.Clamp(user.MaxPetAmount += amount, 0, Manager.Game.Config.MaxPetAmount); //초과 방어
+                Debug.Log($"펫 슬롯 +{amount}");
+                break;
         }
         //큐에 추가 
         _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
