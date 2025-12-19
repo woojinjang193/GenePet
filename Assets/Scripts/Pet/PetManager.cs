@@ -272,6 +272,7 @@ public class PetManager : MonoBehaviour
                     pet.IsLeft = status.IsLeft;
                     pet.IsSick = status.IsSick;
                     pet.GrowthStage = status.Growth;
+                    pet.GrowthExp = status.GrowthExp;
 
                     break;
                 }

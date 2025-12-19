@@ -125,6 +125,7 @@ public class PetSaveData
     public float Health;
 
     public float AgeSeconds;
+    public float GrowthExp;
 
     public PetSaveData()
     {
@@ -148,7 +149,8 @@ public class PetSaveData
         Cleanliness = 100f;
         Health = 100f;
 
-        AgeSeconds = 0f;
+        AgeSeconds = 0f; //필요없나?
+        GrowthExp = 0f;
     }
 }
 

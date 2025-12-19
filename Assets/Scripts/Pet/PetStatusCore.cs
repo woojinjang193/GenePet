@@ -222,4 +222,9 @@ public class PetStatusCore
         _growthTimer -= passedTime;
         _growthExp -= reachedExp;
     }
+
+    public void SetGrowthExp(float value)
+    {
+        _growthExp = value;
+    }
 }

@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GrowthType: 1
   TimeToGrow: 10
-  ExpToGrow: 0
+  ExpToGrow: 10
   HungerDecreasePerSec: 0
   HappinessDecreasePerSec: 0
   CleanlinessDecreasePerSec: 0
   PlayHappinessGain: 0
   HealthDecreasePerSec: 0
+  HealthIncreasePerSec: 0
+  HungerAmountHealthIncrease: 0
+  CleanlinessAmountGetSick: 0
+  TimeToGetSick: 0
