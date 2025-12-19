@@ -130,6 +130,26 @@ public class ItemManager : Singleton<ItemManager>
                 Debug.Log($"만능 선물 +{amount}");
                 break;
 
+            case RewardType.Gift1:
+                newValue = user.Items.Gift1 += amount;
+                Debug.Log($"선물1 +{amount}");
+                break;
+
+            case RewardType.Gift2:
+                newValue = user.Items.Gift2 += amount;
+                Debug.Log($"선물2 +{amount}");
+                break;
+
+            case RewardType.Gift3:
+                newValue = user.Items.Gift3 += amount;
+                Debug.Log($"선물3 +{amount}");
+                break;
+
+            case RewardType.Gift4:
+                newValue = user.Items.Gift4 += amount;
+                Debug.Log($"선물4 +{amount}");
+                break;
+
             case RewardType.PetSlot:
                 newValue = Mathf.Clamp(user.MaxPetAmount += amount, 0, Manager.Game.Config.MaxPetAmount); //초과 방어
                 Debug.Log($"펫 슬롯 +{amount}");
@@ -161,6 +181,7 @@ public class ItemManager : Singleton<ItemManager>
             case Gift.Gift2: if (item.Gift2 <= 0) { return; }; item.Gift2--; break;
             case Gift.Gift3: if (item.Gift3 <= 0) { return; }; item.Gift3--; break;
             case Gift.Gift4: if (item.Gift4 <= 0) { return; }; item.Gift4--; break;
+            case Gift.MasterGift: if (item.MasterGift <= 0) { return; }; item.MasterGift--; break;
         }
         OnGiftAmountChanged?.Invoke();
     }

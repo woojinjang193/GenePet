@@ -153,7 +153,10 @@ public class SelectPet : MonoBehaviour
         var petListFromSave = Manager.Save.CurrentData.UserData.HavePetList;
         PetSaveData curPet = _islandManager.IslandMypetData;
 
-        if(curPet.IsLeft) _petList.Add(curPet);
+        if (curPet != null)
+        {
+            if (curPet.IsLeft) _petList.Add(curPet);
+        }
         
         for (int i = 0; i < petListFromSave.Count;i++)
         {

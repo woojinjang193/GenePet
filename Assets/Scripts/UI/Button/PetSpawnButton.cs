@@ -23,14 +23,16 @@ public class PetSpawnButton : MonoBehaviour
     {
         var eggs = Manager.Save.CurrentData.UserData.EggList;
 
-        if (eggs.Count > 0)
-        {
-            _eggList.Open();
-        }
-        else
-        {
-            Manager.Game.CreateRandomPet(true);
-        }
+        _eggList.Open();
+
+        //if (eggs.Count > 0)
+        //{
+        //    _eggList.Open();
+        //}
+        //else
+        //{
+        //    Manager.Game.CreateRandomPet(true);
+        //}
     }
 }
 

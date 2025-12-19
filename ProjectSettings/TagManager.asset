@@ -13,6 +13,7 @@ TagManager:
   - Item2
   - Item3
   - Item4
+  - MasterGift
   layers:
   - Default
   - TransparentFX

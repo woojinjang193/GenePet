@@ -34,6 +34,9 @@ public class PetManager : MonoBehaviour
 
     private LetterPanel _letterPanel; //이벤트 구독용
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
+
+    public Action OnPetSpawned;
+    public Action OnPetRemoved;
     private void Awake()
     {
         _accum = 0f;
@@ -155,6 +158,8 @@ public class PetManager : MonoBehaviour
         if (save.IsLeft) { PetLeft(unit); } //이미 떠난펫일경우 바로 떠남 처리
 
         RegisterPet(unit);
+
+        OnPetSpawned?.Invoke();
     }
     public void RegisterPet(PetUnit unit)
     {
@@ -383,6 +388,7 @@ public class PetManager : MonoBehaviour
             _activePets.Remove(ZoomedUnit);
             Manager.Save.RemovePetData(ZoomedPet.ID);
             ZoomOutPet();
+            OnPetRemoved?.Invoke();
             return;
         }
     }

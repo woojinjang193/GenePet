@@ -5,7 +5,7 @@ public enum PetStat { Hunger, Happiness, Energy, Cleanliness, Health, GrowthTime
 public enum PetFlag { IsSick, IsLeft }
 public enum RarityType { Common, Rare, Epic, Legendary } //GeneManager 에서 확률 설정
 public enum Confirm { RemovePet, GiveUpPet, DeleteIsland, ChangingIslandMyPet }
-public enum Gift { None, Gift1, Gift2, Gift3, Gift4 }
+public enum Gift { None, Gift1, Gift2, Gift3, Gift4, MasterGift }
 public enum RewardCategory
 {
     Item,   //일반 아이템 보상
@@ -22,6 +22,7 @@ public enum RewardType
     GeneticTester,
     MissingPoster,
     Snack,
+    Gift1, Gift2, Gift3, Gift4,
     MasterGift,
     PetSlot,
 }

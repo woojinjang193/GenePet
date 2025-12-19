@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PetInfoShower : MonoBehaviour
+public class PetInfoShower : MonoBehaviour //현재 펫 수 보여주는 스크립트
 {
     [SerializeField] private TMP_Text _petInfo;
+    [SerializeField] private PetManager _petManager;
 
     private void Awake()
     {
         UpdateText();
 
-        //이벤트 구독 여기에
+        if( _petManager == null )
+        {
+            _petManager = FindObjectOfType<PetManager>();
+        }
+        _petManager.OnPetSpawned += UpdateText;
+        _petManager.OnPetRemoved += UpdateText;
     }
     private void OnDestroy()
     {
-        //이벤트 해제 여기에
+        _petManager.OnPetSpawned -= UpdateText;
+        _petManager.OnPetRemoved -= UpdateText;
     }
 
     private void UpdateText()
