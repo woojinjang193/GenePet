@@ -21,7 +21,7 @@ public class EggListUI : MonoBehaviour
     private List<EggData> _curEggList;
     private void Awake()
     {
-        if(_petManager == null)
+        if (_petManager == null)
         {
             _petManager = FindObjectOfType<PetManager>();
         }
@@ -42,31 +42,38 @@ public class EggListUI : MonoBehaviour
     private void Init()
     {
         _curEggList = Manager.Save.CurrentData.UserData.EggList;
-
         int maxEgg = Manager.Game.Config.MaxEggAmount;
 
         if (_curEggList == null) return;
 
-        for (int i = 0; i < _images.Length; i++)
+        for (int i = 0; i < _buttons.Length; i++)
         {
             if (i >= maxEgg)
             {
-                Debug.LogWarning("알 소지 숫자 이상함 확인해야함");
-                break;
+                _buttons[i].interactable = false;
+                _images[i].sprite = null;
+                Debug.LogWarning("알 개수 이상함");
+                continue;
             }
 
             if (i < _curEggList.Count)
             {
-                Sprite eggSprite = _curEggList[i].PetSaveData.EggSprite;
-                _images[i].sprite = eggSprite;
-                continue;
+                _buttons[i].interactable = true;
+                _images[i].sprite = _curEggList[i].PetSaveData.EggSprite;
             }
-            _images[i].sprite = null;
+            else
+            {
+                _buttons[i].interactable = false;
+                _images[i].sprite = null;
+            }
         }
     }
     private void OnEggClicked(int index)
     {
-        if(CanSpawn())
+        if (_curEggList == null) return;
+        if (index < 0 || index >= _curEggList.Count) return;
+
+        if (CanSpawn())
         {
             _petManager.SpawnPet(_curEggList[index].PetSaveData);
             Manager.Save.RegisterNewPet(_curEggList[index].PetSaveData, true);
@@ -93,9 +100,10 @@ public class EggListUI : MonoBehaviour
         int playerMaxAmount = Manager.Save.CurrentData.UserData.PetSlot;
         int havePet = Manager.Save.CurrentData.UserData.HavePetList.Count;
 
-        if (havePet > maxPetAmount || havePet > playerMaxAmount)
+        if (havePet >= maxPetAmount || havePet >= playerMaxAmount)
         {
             Debug.Log("펫 자리 없음");
+            Manager.Game.ShowPopup("Lack of slot");
             return false;
         }
         else
