@@ -90,7 +90,7 @@ public class EggListUI : MonoBehaviour
     private bool CanSpawn()
     {
         int maxPetAmount = Manager.Game.Config.MaxPetAmount;
-        int playerMaxAmount = Manager.Save.CurrentData.UserData.MaxPetAmount;
+        int playerMaxAmount = Manager.Save.CurrentData.UserData.PetSlot;
         int havePet = Manager.Save.CurrentData.UserData.HavePetList.Count;
 
         if (havePet > maxPetAmount || havePet > playerMaxAmount)

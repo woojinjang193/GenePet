@@ -175,7 +175,7 @@ public class IslandData
         IsMarried = false;
         IslandMyPetID = "";
         IslandPetSaveData = new PetSaveData();
-        Affinity = 50f;
+        Affinity = 0f;
         VisitCount = 0;
         LastVisitTime = 0;
         GiftCooldownStartTime = 0;
@@ -203,7 +203,7 @@ public class UserItemData
 
     public UserItemData()
     {
-        Money = 5000;
+        Money = 0;
         IsAdRemoved = false;
         IslandTicket = 1;
         MissingPoster = 1;
@@ -227,7 +227,7 @@ public class UserData
     public string UID; // UID
     public Language CurLanguage; //현재 언어
     public string UserDisplayName; // 유저네임
-    public int MaxPetAmount; // 최대 보유 가능 펫 수
+    public int PetSlot; // 최대 보유 가능 펫 수
     public int Energy; //에너지
     public List<EggData> EggList; // 보유 알 리스트
     public List<PetSaveData> HavePetList; // 보유 펫 리스트
@@ -242,7 +242,7 @@ public class UserData
         UID = "";
         CurLanguage = Language.ENG;
         UserDisplayName = "";
-        MaxPetAmount = 5; //플레이어 맥스 펫 수
+        PetSlot = 1; //플레이어 맥스 펫 수
         Energy = 10;
         EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();

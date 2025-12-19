@@ -8,12 +8,11 @@ public class ItemManager : Singleton<ItemManager>
 {
     private ItemsSO _ItemsSO;
     public ItemsSO ItemImages => _ItemsSO;
-    // 보상 지급 완료 이벤트
-    public event Action OnRewardsGiven;
-
-    public event Action<int> OnMoneyChanged;
-    public event Action<RewardType, int> OnRewardGranted;
-    public event Action OnGiftAmountChanged;
+    
+    public event Action OnRewardsGiven; // 한 묶음 보상 지급 완료 알림, 보상 팝업 열기용
+    public event Action<int> OnMoneyChanged; //현재 소지 골드 변경 알림
+    public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림
+    public event Action OnGiftAmountChanged; //선물 수량 감소 알림
 
     private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
 
@@ -151,7 +150,7 @@ public class ItemManager : Singleton<ItemManager>
                 break;
 
             case RewardType.PetSlot:
-                newValue = Mathf.Clamp(user.MaxPetAmount += amount, 0, Manager.Game.Config.MaxPetAmount); //초과 방어
+                newValue = Mathf.Clamp(user.PetSlot += amount, 0, Manager.Game.Config.MaxPetAmount); //초과 방어
                 Debug.Log($"펫 슬롯 +{amount}");
                 break;
         }

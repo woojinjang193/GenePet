@@ -43,16 +43,26 @@ MonoBehaviour:
     Rewards:
     - RewardType: 7
       RewardAmount: 10
+  - ProductId: mastergift
+    ProductType: 0
+    Rewards:
+    - RewardType: 12
+      RewardAmount: 1
+  - ProductId: petslot
+    ProductType: 0
+    Rewards:
+    - RewardType: 13
+      RewardAmount: 1
   - ProductId: package
     ProductType: 0
     Rewards:
     - RewardType: 8
-      RewardAmount: 10
-    - RewardType: 2
-      RewardAmount: 1000
-    - RewardType: 5
       RewardAmount: 1
-    - RewardType: 6
+    - RewardType: 9
       RewardAmount: 1
-    - RewardType: 7
+    - RewardType: 10
+      RewardAmount: 1
+    - RewardType: 11
+      RewardAmount: 1
+    - RewardType: 12
       RewardAmount: 1
