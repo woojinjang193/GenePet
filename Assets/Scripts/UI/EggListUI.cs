@@ -81,8 +81,8 @@ public class EggListUI : MonoBehaviour
 
         if (CanSpawn())
         {
-            _petManager.SpawnPet(_curEggList[index].PetSaveData);
             Manager.Save.RegisterNewPet(_curEggList[index].PetSaveData, true);
+            _petManager.SpawnPet(_curEggList[index].PetSaveData);
             _curEggList.RemoveAt(index);
             Init();
             gameObject.SetActive(false);

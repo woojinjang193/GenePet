@@ -29,6 +29,7 @@ public class IslandPetController : MonoBehaviour
     private void OnDestroy()
     {
         _visual.Mouth.OnGiveTaken -= OnGiveTaken; //이벤트 해제
+        if( _islandManager != null )
         _islandManager.OnIslandMyPetChange -= OnIslandMyPetChange;
     }
     private void TryShowWish()

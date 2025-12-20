@@ -24,7 +24,6 @@ public class PetManager : MonoBehaviour
     private float _energyTimer; // 에너지 회복 누적시간
     private bool _isQuitting = false;
 
-
     private CameraController _camera;
     private InGameUIManager _uiManager;
     private List<PetUnit> _activePets = new List<PetUnit>();
@@ -130,7 +129,7 @@ public class PetManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < _Positions.Length; i++)
+        for (int i = 0; i < _Positions.Length; i++) //빈자리 확인
         {
             if(_Positions[i].childCount == 0)
             {
