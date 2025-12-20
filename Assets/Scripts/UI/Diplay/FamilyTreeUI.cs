@@ -7,14 +7,14 @@ public class FamilyTreeUI : MonoBehaviour
 {
     [SerializeField] private PetVisualLoaderForUI[] _blocks;
 
-    public void Init(PetSaveData curPet)
+    public void Init(PetSaveData curPet, GrowthStatus growth)
     {
         AllOff();
 
         PetSaveData now = curPet;
 
         _blocks[0].gameObject.SetActive(true);
-        _blocks[0].SetMyPet(now.Genes); //본인표시
+        _blocks[0].SetMyPet(now, growth); //본인표시
 
         // 1번 블록부터 부모 표시 시작
         for (int i = 1; i < _blocks.Length; i++)

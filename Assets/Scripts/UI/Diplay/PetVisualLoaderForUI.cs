@@ -18,11 +18,38 @@ public class PetVisualLoaderForUI : MonoBehaviour
         PetVisualHelperUI.ApplyVisualUI(myPetParent, _mypetImages);
         PetVisualHelperUI.ApplyVisualUI(islandPetParent, _islandPetImages);
     }
-    public void SetMyPet(GenesContainer myPet)
+    public void SetMyPet(PetSaveData myPet, GrowthStatus growth)
     {
-        PetVisualHelperUI.ApplyVisualUI(myPet, _mypetImages);
+        var genes = myPet.Genes;
+
+        PetVisualHelperUI.ApplyVisualUI(genes, _mypetImages);
+        SetImageByGrowth(myPet, growth);
         _noPartnerImage.SetActive(true);
         _heartAndArrow.SetActive(false);
     }
+    private void SetImageByGrowth(PetSaveData pet, GrowthStatus growth)
+    {
+        switch (growth)
+        {
+            case GrowthStatus.Egg:
+                _mypetImages.OffAll();
+                _mypetImages.Acc.gameObject.SetActive(true);
+                _mypetImages.Acc.sprite = pet.EggSprite;
+                break;
 
+            case GrowthStatus.Baby:
+                _mypetImages.OffAll();
+                _mypetImages.SetBaby();
+                break;
+
+            case GrowthStatus.Teen:
+                _mypetImages.OffAll();
+                _mypetImages.SetTeen();
+                break;
+
+            case GrowthStatus.Adult:
+                _mypetImages.SetAdult();
+                break;
+        }
+    }
 }
