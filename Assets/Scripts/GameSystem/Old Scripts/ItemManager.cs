@@ -184,4 +184,13 @@ public class ItemManager : Singleton<ItemManager>
         }
         OnGiftAmountChanged?.Invoke();
     }
+
+    public void AddOrSubtractMoney(int amount) //돈 액수만 빠르게 변화시킬때
+    {
+        var user = Manager.Save.CurrentData.UserData;
+
+        user.Items.Money += amount;
+
+        OnMoneyChanged?.Invoke(user.Items.Money); // UI 알림
+    }
 }

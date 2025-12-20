@@ -25,8 +25,11 @@ public class GameConfig : ScriptableObject
     [Header("선물 안주면 줄어드는 호감도 양")]
     public float DisappointingPoint;
 
+    [Header("<color=yellow>소환 설정</color>")]
     [Header("알SO")]
     public EggSO EggRaritySO;
+    [Header("랜덤 스폰 가격")]
+    public int RandomSpawnPrice;
 
     [Header("<color=yellow>가출후 데려온 후 스텟</color>")]
     [Header("포만감")]

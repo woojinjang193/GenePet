@@ -19,6 +19,12 @@ public class FamilyTreeButton : MonoBehaviour
     private void OnClicked()
     {
         PetSaveData pet = _petManager.ZoomedPet;
+        if (pet.GrowthStage != GrowthStatus.Adult)//어른이 아니면 리턴
+        {
+            Manager.Game.ShowPopup("Wait until it grows up");
+            return; 
+        } 
+
         _familyTreeUI.gameObject.SetActive(true);
         _familyTreeUI.Init(pet);
     }

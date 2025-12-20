@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class EggListUI : MonoBehaviour
 
     [Header("랜덤스폰 버튼")]
     [SerializeField] private Button _randomSpawnButton;
+    [SerializeField] private TMP_Text _priceText;
 
     [Header("닫기 버튼")]
     [SerializeField] private Button _closeButton;
@@ -19,6 +21,7 @@ public class EggListUI : MonoBehaviour
     [SerializeField] private PetManager _petManager;
 
     private List<EggData> _curEggList;
+    private int _randomSpawnPrice;
     private void Awake()
     {
         if (_petManager == null)
@@ -33,13 +36,16 @@ public class EggListUI : MonoBehaviour
             int idx = i;
             _buttons[i].onClick.AddListener(() => OnEggClicked(idx));
         }
+
+        _randomSpawnPrice = Manager.Game.Config.RandomSpawnPrice; //가격
+        _priceText.text = _randomSpawnPrice.ToString();
     }
     public void Open()
     {
         gameObject.SetActive(true);
         Init();
     }
-    private void Init()
+    private void Init() //초기화
     {
         _curEggList = Manager.Save.CurrentData.UserData.EggList;
         int maxEgg = Manager.Game.Config.MaxEggAmount;
@@ -68,7 +74,7 @@ public class EggListUI : MonoBehaviour
             }
         }
     }
-    private void OnEggClicked(int index)
+    private void OnEggClicked(int index) //알 클릭시
     {
         if (_curEggList == null) return;
         if (index < 0 || index >= _curEggList.Count) return;
@@ -82,11 +88,19 @@ public class EggListUI : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    private void OnRandomClicked()
+    private void OnRandomClicked() //랜덤소환 클릭
     {
+        int haveMoney = Manager.Save.CurrentData.UserData.Items.Money;
+
+        if (_randomSpawnPrice > haveMoney)
+        {
+            Manager.Game.ShowPopup("You are broke");
+            return;
+        }
         if (CanSpawn())
         {
             Manager.Game.CreateRandomPet(true);
+            Manager.Item.AddOrSubtractMoney(_randomSpawnPrice);
             gameObject.SetActive(false);
         }
     }
@@ -94,7 +108,7 @@ public class EggListUI : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    private bool CanSpawn()
+    private bool CanSpawn() //소환 가능 여부
     {
         int maxPetAmount = Manager.Game.Config.MaxPetAmount;
         int playerMaxAmount = Manager.Save.CurrentData.UserData.PetSlot;
