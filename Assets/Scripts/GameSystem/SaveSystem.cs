@@ -243,7 +243,7 @@ public class UserData
         CurLanguage = Language.ENG;
         UserDisplayName = "";
         PetSlot = 1; //플레이어 맥스 펫 수
-        Energy = 10;
+        Energy = 50;
         EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetSaveData>();

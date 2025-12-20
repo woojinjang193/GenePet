@@ -91,15 +91,6 @@ public class IslandManager : MonoBehaviour
             return;
         }
 
-        if (!CanGetReward()) { return; } //쿨타임 돌았는지 확인
-
-        //방문시 호감도 증가
-        if (IslandMypetData.Cleanliness > 50f) //방문시 청결도가 50 위일 경우 방문점수 받음
-        {
-            ChangeAffinity(_visitingPoint);
-            Debug.Log($"청결도:{IslandMypetData.Cleanliness}. 호감도 {_visitingPoint}증가");
-        }
-        
         if (!_isLeft && !_isMarried)
         {
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
@@ -108,6 +99,15 @@ public class IslandManager : MonoBehaviour
                 _isMarried = true;
                 return;
             }
+        }
+
+        if (!CanGetReward()) { return; } //쿨타임 돌았는지 확인
+
+        //방문시 호감도 증가
+        if (IslandMypetData.Cleanliness > 50f) //방문시 청결도가 50 위일 경우 방문점수 받음
+        {
+            ChangeAffinity(_visitingPoint);
+            Debug.Log($"청결도:{IslandMypetData.Cleanliness}. 호감도 {_visitingPoint}증가");
         }
     }
     private void SpawnIslandPet()
