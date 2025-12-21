@@ -14,6 +14,10 @@ public class TextLoader : MonoBehaviour
 
         Manager.Lang._OnLanguageChanged += UpdateText;
     }
+    private void OnEnable()
+    {
+        _text.text = Manager.Lang.GetText(_textID);
+    }
 
     private void OnDestroy()
     {
