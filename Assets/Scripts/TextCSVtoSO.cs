@@ -7,7 +7,7 @@ using UnityEngine;
 public class TextCSVtoSO
 {
     private static string csvPath = "Assets/CSV/Text.csv"; // CSV 경로
-    private static string textSoDir = "Assets/ScriptableObject/TextSO"; // SO 저장 경로
+    private static string textSoDir = "Assets/ScriptableObjects/TextSO"; // SO 저장 경로
     private static int startRow = 1; // 데이터 시작 행
     private static int columnCount = 6; //열 개수
 
@@ -45,7 +45,7 @@ public class TextCSVtoSO
 
             var splitData = Regex.Matches(
                 line,
-                "\"([^\"]*(\"\"[^\"]*)*)\" | ([^,]+)" //쉼표 기준으로 분리하지만 ""안에있는 쉼표는 무시
+                "\"([^\"]*(\"\"[^\"]*)*)\"|([^,]+)" //쉼표 기준으로 분리하지만 ""안에있는 쉼표는 무시
             );
 
             if (splitData.Count < columnCount) //열개수 부족시
