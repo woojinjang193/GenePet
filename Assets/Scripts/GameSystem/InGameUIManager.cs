@@ -54,6 +54,11 @@ public class InGameUIManager : MonoBehaviour
 
         Manager.Item.OnRewardsGiven += ShowReward;
     }
+
+    private void Start()
+    {
+        Manager.Audio.PlayBGM("BGM_Test"); //비지엠 재생
+    }
     private void OnDestroy()
     {
         if (Manager.Item != null)

@@ -32,6 +32,7 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
             return;
         }
 
+        Manager.Audio.PlaySFX("Button");
         SceneManager.LoadScene("InGameScene");
     }
 
