@@ -1,10 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting.Dependencies.Sqlite;
-using UnityEngine;
-using UnityEngine.XR;
 
 public static class PetVisualHelper
 {
