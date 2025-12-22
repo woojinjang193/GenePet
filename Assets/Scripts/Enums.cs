@@ -6,6 +6,7 @@ public enum PetFlag { IsSick, IsLeft }
 public enum RarityType { Common, Rare, Epic, Legendary } //GeneManager 에서 확률 설정
 public enum Confirm { RemovePet, GiveUpPet, DeleteIsland, ChangingIslandMyPet }
 public enum Gift { None, Gift1, Gift2, Gift3, Gift4, MasterGift }
+public enum Room { Default, Room1, Room2, Room3, Room4, Room5 }
 public enum RewardCategory
 {
     Item,   //일반 아이템 보상

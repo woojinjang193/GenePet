@@ -324,6 +324,7 @@ public class PetManager : MonoBehaviour
             }
         }
 
+        _camera.SetBackGround(ZoomedPet.RoomType); //배경정보 넘겨줌
         _StatusUI.UpdateGauges(ZoomedUnit.Status);
     }
     public void ZoomOutPet()

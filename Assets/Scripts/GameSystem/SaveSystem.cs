@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 [Serializable]
@@ -106,6 +107,7 @@ public class PetSaveData
 {
     public RarityType Rarity;
     public Sprite EggSprite;
+    public Room RoomType;
 
     public bool IsLeft;
     public bool IsSick;
@@ -131,6 +133,7 @@ public class PetSaveData
     {
         Rarity = RarityType.Common;
         EggSprite = null;
+        RoomType = Room.Default;
 
         IsLeft = false;
         IsSick = false;
@@ -193,6 +196,7 @@ public class UserItemData
     public int GeneticScissors;
     public int geneticTester;
     public int Snack;
+    public List<Room> Rooms;
 
     //선물
     public int MasterGift;
@@ -210,6 +214,7 @@ public class UserItemData
         GeneticScissors = 1;
         geneticTester = 1;
         Snack = 1;
+        Rooms = new List<Room>();
 
         MasterGift = 5;
         Gift1 = 1;

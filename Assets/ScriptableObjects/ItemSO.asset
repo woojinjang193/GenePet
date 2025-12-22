@@ -26,3 +26,10 @@ MonoBehaviour:
   MissingPosterSprite: {fileID: 21300000, guid: bfaa6a06070d3461a8c6b100e9fd503c, type: 3}
   GeneticScissorsSprite: {fileID: 21300000, guid: 29e5d67fce7594545ba233e35a6cd6b5, type: 3}
   geneticTesterSprite: {fileID: 21300000, guid: 00eddc939769743f583671854c5f7593, type: 3}
+  Default: {fileID: 21300000, guid: 866f7aa4ad57345fc80e27cdd788f832, type: 3}
+  Room1: {fileID: 21300000, guid: 34577d24b2ff24e14b570a0a7c5a3151, type: 3}
+  Room2: {fileID: 21300000, guid: f9547745481b24515beb10c9abd31ba6, type: 3}
+  Room3: {fileID: 21300000, guid: 0b547dcab0dfd4765ab375a9fd704451, type: 3}
+  Room4: {fileID: 21300000, guid: 4e1f8f293b03e4f9197b6219fe2ede5e, type: 3}
+  Room5: {fileID: 21300000, guid: e57d758667ec647ba9a894dcad8b24ef, type: 3}
+  Room6: {fileID: 21300000, guid: 688676d0d0c064d60bfc8e5a481917ee, type: 3}

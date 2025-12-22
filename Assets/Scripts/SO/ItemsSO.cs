@@ -25,6 +25,29 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     [SerializeField] public Sprite GeneticScissorsSprite;
     [SerializeField] public Sprite geneticTesterSprite;
 
+    [Header("방 배경")]
+    public Sprite Default;
+    public Sprite Room1;
+    public Sprite Room2;
+    public Sprite Room3;
+    public Sprite Room4;
+    public Sprite Room5;
+    public Sprite Room6;
+
+    public Sprite GetRoomSprite(Room room)
+    {
+        switch (room)
+        {
+            case Room.Room1: return Room1;
+            case Room.Room2: return Room1;
+            case Room.Room3: return Room1;
+            case Room.Room4: return Room1;
+            case Room.Room5: return Room1;
+                //case Room.Room6: return Room1;
+        }
+        return Default;
+    }
+
     public Sprite GetGiftSprite(Gift gift)
     {
         switch (gift)
