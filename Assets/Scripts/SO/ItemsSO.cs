@@ -39,10 +39,10 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
         switch (room)
         {
             case Room.Room1: return Room1;
-            case Room.Room2: return Room1;
-            case Room.Room3: return Room1;
-            case Room.Room4: return Room1;
-            case Room.Room5: return Room1;
+            case Room.Room2: return Room2;
+            case Room.Room3: return Room3;
+            case Room.Room4: return Room4;
+            case Room.Room5: return Room5;
                 //case Room.Room6: return Room1;
         }
         return Default;

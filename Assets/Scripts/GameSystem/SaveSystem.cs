@@ -214,7 +214,7 @@ public class UserItemData
         GeneticScissors = 1;
         geneticTester = 1;
         Snack = 1;
-        Rooms = new List<Room>();
+        Rooms = new List<Room>() { Room.Default, Room.Room1, Room.Room2, Room.Room3, Room.Room4, Room.Room5};
 
         MasterGift = 5;
         Gift1 = 1;
@@ -240,6 +240,7 @@ public class UserData
     public IslandData Island; // 섬 정보
     public List<PetSaveData> IslandPetList; //만난 섬 펫 리스트
     public UserItemData Items; // 아이템
+
 
     public UserData()
     {

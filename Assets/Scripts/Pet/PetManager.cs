@@ -141,6 +141,7 @@ public class PetManager : MonoBehaviour
         if (index < 0 || index >= _Positions.Length)
         {
             Debug.LogWarning("스폰 불가능. 빈자리 없음");
+            Debug.LogWarning("스폰 불가능. 빈자리 없음");
             return;
         }
 
