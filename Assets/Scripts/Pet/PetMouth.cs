@@ -29,6 +29,7 @@ public class PetMouth : MonoBehaviour
         else if (collision.CompareTag("Snack"))
         {
             collision.gameObject.SetActive(false);
+            Manager.Item.UseItem(RewardType.Snack, 1);
             _petController.Feed();
             //먹는 사운드 출력
         }

@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,6 +17,7 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
     [Header("먹이 오브젝트")]
     [SerializeField] private GameObject _food;
     [SerializeField] private GameObject _snack;
+    [SerializeField] private TMP_Text _snackAmount;
     [SerializeField] private GameObject _medicine;
 
     [Header("씻기기 클릭이미지")]
@@ -37,13 +37,23 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
     {
         _feedButton.onClick.AddListener(OpenFoodList);
         _cleanButton.onClick.AddListener(OpenCleanList);
+
+        Manager.Item.OnItemConsumed += OnSnackConsumed;
     }
     private void OnEnable()
     {
         _foodListPanel.SetActive(false);
         _cleanListPanel.SetActive(false);
-    }
 
+        _snackAmount.text = $"x {Manager.Save.CurrentData.UserData.Items.Snack.ToString()}";
+    }
+    private void OnDestroy()
+    {
+        if(Manager.Item != null)
+        {
+            Manager.Item.OnItemConsumed -= OnSnackConsumed;
+        }
+    }
     private void OpenFoodList()
     {
         if(_cleanListPanel.activeSelf)
@@ -78,6 +88,8 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        var userItem = Manager.Save.CurrentData.UserData.Items;
+
         var target = eventData.pointerCurrentRaycast.gameObject;
         if (target == _foodButton.gameObject)
         {
@@ -91,7 +103,9 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
         }
         else if (target == _snackButton.gameObject)
         {
-            Debug.Log("간식 클릭");
+            if (userItem.Snack <= 0) return;
+
+            Debug.Log($"간식 클릭. 현재 수량 : {userItem.Snack}");
             Spawn(_snack);
         }
         else if (target == _showerBallButton.gameObject)
@@ -122,5 +136,11 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
             _isDragging = false;
             _currentObj = null;
         }
+    }
+    private void OnSnackConsumed(RewardType type, int newValue)
+    {
+        if (type != RewardType.Snack) return;
+
+        _snackAmount.text = $"x {newValue.ToString()}";
     }
 }

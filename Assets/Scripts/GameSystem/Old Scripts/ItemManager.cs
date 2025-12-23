@@ -12,7 +12,10 @@ public class ItemManager : Singleton<ItemManager>
     public event Action OnRewardsGiven; // 한 묶음 보상 지급 완료 알림, 보상 팝업 열기용
     public event Action<int> OnMoneyChanged; //현재 소지 골드 변경 알림
     public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림
+
     public event Action OnGiftAmountChanged; //선물 수량 감소 알림
+    public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림
+
 
     private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
 
@@ -192,5 +195,38 @@ public class ItemManager : Singleton<ItemManager>
         user.Items.Money += amount;
 
         OnMoneyChanged?.Invoke(user.Items.Money); // UI 알림
+    }
+
+    public void UseItem(RewardType type, int amount)
+    {
+        var items = Manager.Save.CurrentData.UserData.Items;
+        int newValue;
+
+        switch (type)
+        {
+            case RewardType.Snack: 
+                if (amount <= 0) 
+                {
+                    break; 
+                }
+                else
+                {
+                    newValue = items.Snack -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+
+            case RewardType.GeneticScissors:
+                if (amount <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    newValue = items.GeneticScissors -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+        }
     }
 }
