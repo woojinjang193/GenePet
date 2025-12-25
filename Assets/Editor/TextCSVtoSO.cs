@@ -8,7 +8,7 @@ public class TextCSVtoSO
     private static string csvPath = "Assets/CSV/Text.csv"; // CSV 경로
     private static string textSoDir = "Assets/ScriptableObjects/TextSO"; // SO 저장 경로
     private static int startRow = 1; // 데이터 시작 행
-    private static int columnCount = 6; //열 개수
+    private static int columnCount = 7; //열 개수
 
     [MenuItem("CSV TO SO/Import Text")]
     public static void StartImportingText()
@@ -59,6 +59,7 @@ public class TextCSVtoSO
             string de = Clean(GetString(splitData, 3));
             string jp = Clean(GetString(splitData, 4));
             string ch = Clean(GetString(splitData, 5));
+            string sp = Clean(GetString(splitData, 6));
 
             string soPath = $"{textSoDir}/{id}.asset"; //SO 경로
 
@@ -76,6 +77,7 @@ public class TextCSVtoSO
             so.DE = de;
             so.JP = jp;
             so.CH = ch;
+            so.SP = sp;
 
             EditorUtility.SetDirty(so);
         }

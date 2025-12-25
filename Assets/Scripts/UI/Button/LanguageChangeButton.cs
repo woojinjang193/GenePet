@@ -5,44 +5,26 @@ using UnityEngine.UI;
 
 public class LanguageChangeButton : MonoBehaviour
 {
-    [SerializeField] private Button _korButton;
-    [SerializeField] private Button _engButton;
-    [SerializeField] private Button _jpButton;
+    [SerializeField] private Button _krButton;
+    [SerializeField] private Button _enButton;
     [SerializeField] private Button _deButton;
+    [SerializeField] private Button _jpButton;
     [SerializeField] private Button _chButton;
+    [SerializeField] private Button _spButton;
 
     private void Awake()
     {
-        _korButton.onClick.AddListener(ChangeToKor);
-        _engButton.onClick.AddListener(ChangeToEng);
-        _jpButton.onClick.AddListener(ChangeToJP);
-        _deButton.onClick.AddListener(ChangeToDE);
-        _chButton.onClick.AddListener(ChangeToCH);
+        _krButton.onClick.AddListener(() => Change(Language.KR));
+        _enButton.onClick.AddListener(() => Change(Language.EN));
+        _jpButton.onClick.AddListener(() => Change(Language.JP));
+        _deButton.onClick.AddListener(() => Change(Language.DE));
+        _chButton.onClick.AddListener(() => Change(Language.CH));
+        _spButton.onClick.AddListener(() => Change(Language.SP));
     }
 
-    private void ChangeToKor()
+    private void Change(Language lang)
     {
-        Manager.Lang.ChangeLanguage(Language.KOR);
-        gameObject.SetActive(false);
-    }
-    private void ChangeToEng()
-    {
-        Manager.Lang.ChangeLanguage(Language.ENG);
-        gameObject.SetActive(false);
-    }
-    private void ChangeToJP()
-    {
-        Manager.Lang.ChangeLanguage(Language.JP);
-        gameObject.SetActive(false);
-    }
-    private void ChangeToDE()
-    {
-        Manager.Lang.ChangeLanguage(Language.DE);
-        gameObject.SetActive(false);
-    }
-    private void ChangeToCH()
-    {
-        Manager.Lang.ChangeLanguage(Language.CH);
+        Manager.Lang.ChangeLanguage(lang);
         gameObject.SetActive(false);
     }
 }

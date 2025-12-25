@@ -90,8 +90,8 @@ public class LanguageManager : Singleton<LanguageManager>
         {
             switch (CurLanguage)
             {
-                case Language.KOR: return text = _textDic[textID].KOR;
-                case Language.ENG: return text = _textDic[textID].ENG;
+                case Language.KR: return text = _textDic[textID].KOR;
+                case Language.EN: return text = _textDic[textID].ENG;
                 case Language.DE:  return text = _textDic[textID].DE;
                 case Language.JP:  return text = _textDic[textID].JP;
                 case Language.CH:  return text = _textDic[textID].CH;

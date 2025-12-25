@@ -246,7 +246,7 @@ public class UserData
     {
         LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         UID = "";
-        CurLanguage = Language.ENG;
+        CurLanguage = Language.EN;
         UserDisplayName = "";
         PetSlot = 1; //플레이어 맥스 펫 수
         Energy = 50;

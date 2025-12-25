@@ -71,9 +71,10 @@ public enum LeftReason
 
 public enum Language
 {
-    KOR = 0,
-    ENG = 1,
+    KR = 0,
+    EN = 1,
     DE = 2,
     JP = 3,
     CH = 4,
+    SP = 5,
 }

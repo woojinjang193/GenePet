@@ -10,4 +10,5 @@ public class TextSO : ScriptableObject
     public string DE;
     public string JP;
     public string CH;
+    public string SP;
 }
