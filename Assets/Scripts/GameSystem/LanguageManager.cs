@@ -106,6 +106,7 @@ public class LanguageManager : Singleton<LanguageManager>
 
     public void ChangeLanguage(Language language) //언어 변경시 호출
     {
+        if (CurLanguage == language) return;
         CurLanguage = language;
         Debug.Log($"언어 변경됨: {CurLanguage}");
 
