@@ -301,6 +301,17 @@ public class PetManager : MonoBehaviour
             Debug.LogError("카메라 컨트롤러 없음");
             return;
         }
+
+        var petlist = Manager.Save.CurrentData.UserData.HavePetList;   //선택된 펫 정보 캐싱
+        for (int i = 0; i < petlist.Count; i++)
+        {
+            if (petlist[i].ID == id)
+            {
+                ZoomedPet = petlist[i];
+                break;
+            }
+        }
+
         //카메라 줌인
         for (int i = 0; i < _activePets.Count; i++)
         {
@@ -311,16 +322,6 @@ public class PetManager : MonoBehaviour
                 Vector3 pos = pet.gameObject.transform.position;
                 _camera.CameraZoomIn(pos);
                 if (_uiManager != null) _uiManager.OnZoomInPet();
-                break;
-            }
-        }
-        //선택된 펫 정보 캐싱
-        var petlist = Manager.Save.CurrentData.UserData.HavePetList;
-        for (int i = 0; i < petlist.Count; i++)
-        {
-            if (petlist[i].ID == id)
-            {
-                ZoomedPet = petlist[i];
                 break;
             }
         }
