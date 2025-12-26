@@ -92,7 +92,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         {
             _confirmMessage = FindObjectOfType<ConfirmMessage>(true);
         }
-        _confirmMessage.OpenConfirmUI(Confirm.GiveUpPet, this);
+        _confirmMessage.OpenConfirmUI("Warning_RemovePet", this);
     }
     private void OnCloseClicked() 
     { 

@@ -20,7 +20,7 @@ public class IslandDeleteButton : MonoBehaviour, IConfirmRequester
         {
             _confirmMessage = FindObjectOfType<ConfirmMessage>(true);
         }
-        _confirmMessage.OpenConfirmUI(Confirm.DeleteIsland, this);
+        _confirmMessage.OpenConfirmUI("Warning_DeleteIsland", this);
     }
 
     public void Confirmed()

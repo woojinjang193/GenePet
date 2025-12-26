@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
-  m_Name: TouchToPlay
+  m_Name: Warning_DeleteIsland
   m_EditorClassIdentifier: 
-  KOR: "\uD130\uCE58\uD558\uC5EC \uC2DC\uC791!"
-  ENG: Touch to play!
-  DE: Touch Bitte!
-  JP: Touch kudasai!
-  CH: Touch to china
-  SP: Touch to sp
+  KOR: "\uB2E4\uC2DC\uB294 \uAC19\uC740 \uC12C\uC73C\uB85C \uB3CC\uC544\uC62C \uC218
+    \uC5C6\uC2B5\uB2C8\uB2E4"
+  ENG: You can not come back this Island
+  DE: You can not come back this Island
+  JP: You can not come back this Island
+  CH: You can not come back this Island
+  SP: You can not come back this Island

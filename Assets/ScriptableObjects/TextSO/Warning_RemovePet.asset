@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
-  m_Name: TouchToPlay
+  m_Name: Warning_RemovePet
   m_EditorClassIdentifier: 
-  KOR: "\uD130\uCE58\uD558\uC5EC \uC2DC\uC791!"
-  ENG: Touch to play!
-  DE: Touch Bitte!
-  JP: Touch kudasai!
-  CH: Touch to china
-  SP: Touch to sp
+  KOR: "\uB2E4\uC2DC\uB294 \uC774 \uD3AB\uC744 \uB9CC\uB0A0 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4"
+  ENG: You can never meet this anymore
+  DE: You can never meet this anymore
+  JP: You can never meet this anymore
+  CH: You can never meet this anymore
+  SP: (sp)You can never meet this anymore
