@@ -337,13 +337,14 @@ public class PetManager : MonoBehaviour
         }
 
         ZoomedUnit.ZoomThisPet(false);
-        ZoomedPet = null;
-        ZoomedUnit = null;
-
+        
         if (_uiManager != null)
         {
             _uiManager.OnZoomOutPet(); // UI 버튼 비활성화
         }
+
+        ZoomedPet = null;
+        ZoomedUnit = null;
     }
     private void ApplyOfflineTimeFromSave()
     {

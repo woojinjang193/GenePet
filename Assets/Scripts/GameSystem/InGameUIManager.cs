@@ -16,6 +16,8 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private EnergySlider _energySlider;
     [Header("리워드 UI")]
     [SerializeField] private RewardPopUp _rewardUI;
+    [Header("이름 판넬")]
+    [SerializeField] private NamePanel _namePanel;
     
 
     [Header("의존")]
@@ -81,6 +83,7 @@ public class InGameUIManager : MonoBehaviour
         _zoomOutButton.gameObject.SetActive(false);
         _mainUI.SetActive(true);
         _zoomedUI.SetActive(false);
+        _namePanel.CancelSubscribe();
     }
 
     // 줌아웃 버튼 클릭 이벤트

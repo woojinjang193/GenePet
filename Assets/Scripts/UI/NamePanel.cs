@@ -20,6 +20,10 @@ public class NamePanel : MonoBehaviour
     }
     private void OnEnable()
     {
+        if(_petManager.ZoomedUnit == null) return;
+
+        _petManager.ZoomedUnit.Status.OnGrown += OnGrown;
+     
         if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName))
         {
             if(_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg)
@@ -32,7 +36,10 @@ public class NamePanel : MonoBehaviour
             }
         }
     }
-
+    public void CancelSubscribe()
+    {
+        _petManager.ZoomedUnit.Status.OnGrown -= OnGrown;
+    }
     private void OnclickedConfirm()
     {
         //이름 예외처리 여기에 
@@ -49,6 +56,14 @@ public class NamePanel : MonoBehaviour
         foreach (GameObject go in _hiddenUIs)
         {
             go.SetActive(others);
+        }
+    }
+
+    private void OnGrown(GrowthStatus growth)
+    {
+        if (growth != GrowthStatus.Egg)
+        {
+            TurnOnUIs(true, false);
         }
     }
 }
