@@ -22,7 +22,14 @@ public class NamePanel : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName))
         {
-            TurnOnUIs(false);
+            if(_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg)
+            {
+                TurnOnUIs(false, false);
+            }
+            else
+            {
+                TurnOnUIs(true, false);
+            }
         }
     }
 
@@ -31,17 +38,17 @@ public class NamePanel : MonoBehaviour
         //이름 예외처리 여기에 
 
         _nameText.text = _petManager.ZoomedPet.DisplayName = _input.text;
-        TurnOnUIs(true);
+        TurnOnUIs(false, true);
         Debug.Log($"이름설정 : {_petManager.ZoomedPet.DisplayName} ");
     }
 
-    private void TurnOnUIs(bool on)
+    private void TurnOnUIs(bool namePanel, bool others)
     {
-        _namePanel.SetActive(!on);
+        _namePanel.SetActive(namePanel);
 
         foreach (GameObject go in _hiddenUIs)
         {
-            go.SetActive(on);
+            go.SetActive(others);
         }
     }
 }
