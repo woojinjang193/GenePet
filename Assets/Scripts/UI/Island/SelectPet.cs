@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectPet : MonoBehaviour
+public class SelectPet : MonoBehaviour, IConfirmRequester
 {
     [Header("비쥬얼 로더")]
     [SerializeField] private IslandPetVisualLoader _visualLoader;
@@ -20,7 +20,7 @@ public class SelectPet : MonoBehaviour
     [SerializeField] private IslandManager _islandManager;
 
     [Header("Confirm Popup")]
-    [SerializeField] private IslandPetChangeConfirm _popup;
+    [SerializeField] private ConfirmMessage _popup;
 
     private int _curIndex;
     private int _ogIndex;
@@ -71,7 +71,7 @@ public class SelectPet : MonoBehaviour
             return;
         }
 
-        _popup.Open(this, _curIndex, _ogIndex);
+        _popup.OpenConfirmUI("Warning_AffinityReset", this);
     }
     private void OnCancelButtonClicked()
     {
@@ -125,6 +125,16 @@ public class SelectPet : MonoBehaviour
         }
         _visualLoader.LoadIslandPet(data);
     }
+
+    public void Confirmed()
+    {
+        ApplyFinalChange(_curIndex);
+    }
+    public void Canceled()
+    {
+        Rollback(_ogIndex);
+    }
+
     public void ApplyFinalChange(int newIndex)
     {
         Manager.Save.CurrentData.UserData.Island.IslandMyPetID = _petList[newIndex].ID;

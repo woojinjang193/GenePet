@@ -1514,7 +1514,7 @@ MonoBehaviour:
   _confirmButton: {fileID: 1919725966}
   _cancelButton: {fileID: 1141496676}
   _islandManager: {fileID: 1929747564}
-  _popup: {fileID: 591753014}
+  _popup: {fileID: 406425056}
 --- !u!1 &83586564
 GameObject:
   m_ObjectHideFlags: 0
@@ -5163,8 +5163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b58664eb3bdbf49a840b21fa00f5c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _confirmButton: {fileID: 1555832671}
-  _cancelButton: {fileID: 1040670507}
 --- !u!1 &620417996
 GameObject:
   m_ObjectHideFlags: 0
