@@ -63,7 +63,10 @@ public class NamePanel : MonoBehaviour
     {
         if (growth != GrowthStatus.Egg)
         {
-            TurnOnUIs(true, false);
+            if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName) && !_namePanel.activeSelf)
+            {
+                TurnOnUIs(true, false);
+            }   
         }
     }
 }
