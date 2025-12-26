@@ -22,7 +22,7 @@ public class PetMouth : MonoBehaviour
         if (collision.CompareTag("Food"))
         {
             collision.gameObject.SetActive(false);
-            _petController.Feed();
+            _petController.FeedFood();
             //_animator.SetTrigger("Eat");
             //먹는 사운드 출력
         }
@@ -30,7 +30,7 @@ public class PetMouth : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             Manager.Item.UseItem(RewardType.Snack, 1);
-            _petController.Feed();
+            _petController.FeedSnack();
             //먹는 사운드 출력
         }
         else if(collision.CompareTag("Medicine"))

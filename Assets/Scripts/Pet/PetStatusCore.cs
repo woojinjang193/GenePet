@@ -190,6 +190,10 @@ public class PetStatusCore
         }
         Clamp();
     }
+    public void IncreaseEXP(float amount)
+    {
+        _growthExp += amount;
+    }
     public void SetFlag(PetFlag flag, bool on)
     {
         switch (flag)
