@@ -129,7 +129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _petController: {fileID: 8396101238676641885}
   _chewMouth: {fileID: 21300000, guid: 971d189e5d8148a4cb1b77d53948cfe0, type: 3}
-  _ogMouth: {fileID: 0}
 --- !u!58 &2466100094741515901
 CircleCollider2D:
   m_ObjectHideFlags: 0

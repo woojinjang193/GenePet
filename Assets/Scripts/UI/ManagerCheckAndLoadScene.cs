@@ -48,6 +48,7 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
             WaitForAudio(),
             WaitForGame(),
             WaitForItem(),
+            WaitForFire(),
         };
 
         int totalSteps = loadSteps.Count;
@@ -111,6 +112,14 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
         while (Manager.Item == null || !Manager.Item.IsReady)
         {
             _loadingText.text = "Item Manager Loading..";
+            yield return null;
+        }
+    }
+    private IEnumerator WaitForFire()
+    {
+        while (Manager.Fire == null || !Manager.Fire.IsReady)
+        {
+            _loadingText.text = "Firebase Manager Loading..";
             yield return null;
         }
     }

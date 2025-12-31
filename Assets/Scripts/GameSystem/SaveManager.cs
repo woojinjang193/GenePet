@@ -37,7 +37,7 @@ public class SaveManager : Singleton<SaveManager>
     private GameSaveSnapshot CreateNewSave()
     {
         GameSaveSnapshot snapshot = new GameSaveSnapshot();
-        snapshot.UserData.UID = Guid.NewGuid().ToString(); 
+        snapshot.UserData.LocalUID = Guid.NewGuid().ToString(); 
         snapshot.SchemaVersion = 1;
         snapshot.SnapshotVersion = 1;
         CurrentData = snapshot;
