@@ -12,7 +12,7 @@ public class AccountLinkButton : MonoBehaviour
     private Button _button;
 
     private bool _isProcessing = false;
-
+    private FirebaseAuth _auth;
     private void Awake()
     {
         _button = GetComponent<Button>();
@@ -21,6 +21,16 @@ public class AccountLinkButton : MonoBehaviour
         if(_gpgs == null)
         {
             _gpgs = FindObjectOfType<GPGSAuthManager>();
+        }
+
+        _auth = FirebaseAuth.DefaultInstance;
+    }
+    private void Start()
+    {
+        var user = _auth.CurrentUser;
+        if (user != null && !user.IsAnonymous)
+        {
+            Success();
         }
     }
     private void OnClick()
@@ -47,8 +57,7 @@ public class AccountLinkButton : MonoBehaviour
 
     private void LinkFirebase()
     {
-        FirebaseAuth auth = FirebaseAuth.DefaultInstance; // Firebase Auth
-        FirebaseUser user = auth.CurrentUser; // 현재 유저
+        var user = _auth.CurrentUser;
 
         if (user == null)
         {
@@ -76,10 +85,14 @@ public class AccountLinkButton : MonoBehaviour
 
                         // 연동 성공
                         Manager.Save.CurrentData.UserData.FirebaseUID =
-                            auth.CurrentUser.UserId; // Firebase UID 저장
+                            _auth.CurrentUser.UserId; // Firebase UID 저장
                         Manager.Save.SaveGame(); // 세이브
 
-                        Success("Linked!"); // 완료 표시
+                        var linkedUser = _auth.CurrentUser;
+                        if (linkedUser != null && !linkedUser.IsAnonymous)
+                        {
+                            Success();
+                        }
                     });
             });
     }
@@ -90,9 +103,11 @@ public class AccountLinkButton : MonoBehaviour
         _isProcessing = false; // 다시 가능
     }
 
-    private void Success(string msg) // 성공 처리
+    private void Success() // 성공 처리
     {
-        _buttonText.text = msg; // 메시지 표시
-        _isProcessing = false; // 완료
+        _buttonText.text = "Linked!";
+        _isProcessing = false;
+        _button.interactable = false;
+
     }
 }
