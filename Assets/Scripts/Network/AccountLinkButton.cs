@@ -86,7 +86,9 @@ public class AccountLinkButton : MonoBehaviour
                         // 연동 성공
                         Manager.Save.CurrentData.UserData.FirebaseUID =
                             _auth.CurrentUser.UserId; // Firebase UID 저장
+
                         Manager.Save.SaveGame(); // 세이브
+                        Manager.Server.UploadSave(); //서버에 업로드
 
                         var linkedUser = _auth.CurrentUser;
                         if (linkedUser != null && !linkedUser.IsAnonymous)

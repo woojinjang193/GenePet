@@ -149,6 +149,7 @@ public class SaveManager : Singleton<SaveManager>
         {
             Debug.Log("SaveManager Pause 시간 저장");
             SavePlayTime();
+            SaveGame();
         } 
     }
     private void OnApplicationQuit()
@@ -156,6 +157,8 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log("SaveManager Quit 시간 + 전체 저장");
         SavePlayTime();
         SaveGame();
+
+        Manager.Server.UploadSave();
     }
     public void SavePlayTime()
     {

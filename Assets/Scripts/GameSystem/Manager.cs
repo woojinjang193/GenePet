@@ -10,18 +10,20 @@ public static class Manager
     public static AudioManager Audio => AudioManager.GetInstance();
     public static ItemManager Item => ItemManager.GetInstance();
     public static FirebaseAuthManager Fire => FirebaseAuthManager.GetInstance();
+    public static ServerSaveManager Server => ServerSaveManager.GetInstance();
 
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void Init()
-    {
-        ShopManager.CreateManager();
-        GeneManager.CreateManager();
-        GameManager.CreateManager();
-        SaveManager.CreateManager();
-        LanguageManager.CreateManager();
-        //AudioManager.CreateManager();
-        ItemManager.CreateManager();
-        //FirebaseAuthManager.CreateManager();
-    }
+    //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    //private static void Init()
+    //{
+    //    ShopManager.CreateManager();
+    //    GeneManager.CreateManager();
+    //    GameManager.CreateManager();
+    //    SaveManager.CreateManager();
+    //    LanguageManager.CreateManager();
+    //    //AudioManager.CreateManager();
+    //    ItemManager.CreateManager();
+    //    ServerSaveManager.CreateManager();
+    //    //FirebaseAuthManager.CreateManager();
+    //}
 }
