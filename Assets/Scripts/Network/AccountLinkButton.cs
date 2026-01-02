@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class AccountLinkButton : MonoBehaviour
 {
     [SerializeField] private TMP_Text _buttonText;
+    [SerializeField] private GPGSAuthManager _gpgs;
     private Button _button;
 
     private bool _isProcessing = false;
@@ -16,47 +17,32 @@ public class AccountLinkButton : MonoBehaviour
     {
         _button = GetComponent<Button>();
         _button.onClick.AddListener(OnClick);
+
+        if(_gpgs == null)
+        {
+            _gpgs = FindObjectOfType<GPGSAuthManager>();
+        }
     }
-    private void OnClick() // 버튼 클릭
+    private void OnClick()
     {
-        if (_isProcessing) return; // 이미 처리 중이면 무시
+        if (_isProcessing) return;
 
         _isProcessing = true; // 처리 시작
         _buttonText.text = "Login..."; // 상태 표시
 
-        TryLoginAndLink(); // 전체 흐름 시작
+        _gpgs.Login(OnGPGSLoginResult);
     }
-    private void TryLoginAndLink()
+    private void OnGPGSLoginResult(bool success) // 로그인 결과 콜백
     {
-        // 오프라인 체크
-        if (Application.internetReachability == NetworkReachability.NotReachable)
+        if (!success)
         {
-            Fail("No Internet");
+            Fail("Login Failed");
             return;
         }
 
-        // GPGS 로그인 안 돼 있으면 로그인부터
-        if (!Social.localUser.authenticated)
-        {
-            Social.localUser.Authenticate(success =>
-            {
-                if (!success)
-                {
-                    Fail("Login Failed");
-                    return;
-                }
-
-                // 로그인 성공 → 다음 단계
-                _buttonText.text = "Link Account...";
-                LinkFirebase();
-            });
-
-            return;
-        }
-
-        // 이미 로그인 돼 있으면 바로 연동
-        _buttonText.text = "Link Account...";
-        LinkFirebase();
+        // 로그인 성공시
+        _buttonText.text = "Link Account..."; 
+        LinkFirebase(); // Firebase 연동 시작
     }
 
     private void LinkFirebase()
@@ -66,7 +52,7 @@ public class AccountLinkButton : MonoBehaviour
 
         if (user == null)
         {
-            Fail("No Firebase User");
+            Fail("No Firebase User"); // Firebase 없음
             return;
         }
 
@@ -78,36 +64,35 @@ public class AccountLinkButton : MonoBehaviour
                 Credential credential =
                     GoogleAuthProvider.GetCredential(authCode, null); // 자격증명 생성
 
-                // Firebase 계정 연결
+                // Firebase 계정 연동
                 user.LinkWithCredentialAsync(credential)
                     .ContinueWithOnMainThread(task =>
                     {
                         if (task.IsFaulted || task.IsCanceled)
                         {
-                            Fail("Link Failed");
+                            Fail("Link Failed"); // 연동 실패
                             return;
                         }
 
                         // 연동 성공
                         Manager.Save.CurrentData.UserData.FirebaseUID =
                             auth.CurrentUser.UserId; // Firebase UID 저장
-
                         Manager.Save.SaveGame(); // 세이브
 
-                        Success("Linked!");
+                        Success("Linked!"); // 완료 표시
                     });
             });
     }
 
     private void Fail(string msg) // 실패 처리
     {
-        _buttonText.text = msg; // 실패 메시지
-        _isProcessing = false; // 다시 누를 수 있게
+        _buttonText.text = msg; // 메시지 표시
+        _isProcessing = false; // 다시 가능
     }
 
     private void Success(string msg) // 성공 처리
     {
-        _buttonText.text = msg; // 성공 메시지
+        _buttonText.text = msg; // 메시지 표시
         _isProcessing = false; // 완료
     }
 }
