@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f70e7d9dcc20b44398627a66bac74ff, type: 3}
+  m_Name: Audio Data Base
+  m_EditorClassIdentifier: 
+  _audioList:
+  - key: BGM_Test
+    clip: {fileID: 8300000, guid: f646d488337c94084b47e56752970960, type: 3}
+    baseVolume: 0.5
+  - key: Button
+    clip: {fileID: 8300000, guid: 9cb19eb032d304b07acec596ae2ce4a4, type: 3}
+    baseVolume: 1
+  - key: Thunder
+    clip: {fileID: 8300000, guid: 35e4f1431945c43fc9e5bf6e158e8d1c, type: 3}
+    baseVolume: 1

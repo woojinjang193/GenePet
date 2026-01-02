@@ -8,7 +8,7 @@ public class PetMouth : MonoBehaviour
     
     [SerializeField] private Sprite _chewMouth;
     private SpriteRenderer _spriteRenderer;
-    [SerializeField] private Sprite _ogMouth;
+    private Sprite _ogMouth;
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -22,14 +22,15 @@ public class PetMouth : MonoBehaviour
         if (collision.CompareTag("Food"))
         {
             collision.gameObject.SetActive(false);
-            _petController.Feed();
+            _petController.FeedFood();
             //_animator.SetTrigger("Eat");
             //먹는 사운드 출력
         }
         else if (collision.CompareTag("Snack"))
         {
             collision.gameObject.SetActive(false);
-            _petController.Feed();
+            Manager.Item.UseItem(RewardType.Snack, 1);
+            _petController.FeedSnack();
             //먹는 사운드 출력
         }
         else if(collision.CompareTag("Medicine"))

@@ -26,6 +26,7 @@ public class PetStatusCore
     public event Action<float> OnCleanlinessChanged;
     public event Action<bool> OnSick;
     public event Action<bool> OnHealthReducing;
+    public event Action<GrowthStatus> OnGrown;
 
     private bool _wasHealthReducing = false;
 
@@ -44,6 +45,7 @@ public class PetStatusCore
                 return;
             }
             _growth = value;
+            OnGrown?.Invoke(_growth);
             Debug.Log($"ID: 성장 단계 {_growth}로 세팅");
         }
     }
@@ -74,7 +76,7 @@ public class PetStatusCore
             isReducing = true;
         }
 
-        if (_wasHealthReducing != isReducing) // 상태 변화가 일어났을 때만 이벤트 발송
+        if (_wasHealthReducing != isReducing) // 상태 변화가 일어났을 때만 이벤트 발송 (PetUnit 에서 구독)
         {
             _wasHealthReducing = isReducing;
             OnHealthReducing?.Invoke(isReducing);
@@ -83,7 +85,7 @@ public class PetStatusCore
         //청결도 조건
         if (Cleanliness < 50f)
         {
-            OnCleanlinessChanged?.Invoke(Cleanliness);
+            OnCleanlinessChanged?.Invoke(Cleanliness); //PetUnit 에서 구독
         }
 
         //아픔 조건
@@ -188,6 +190,10 @@ public class PetStatusCore
         }
         Clamp();
     }
+    public void IncreaseEXP(float amount)
+    {
+        _growthExp += amount;
+    }
     public void SetFlag(PetFlag flag, bool on)
     {
         switch (flag)
@@ -221,5 +227,10 @@ public class PetStatusCore
 
         _growthTimer -= passedTime;
         _growthExp -= reachedExp;
+    }
+
+    public void SetGrowthExp(float value)
+    {
+        _growthExp = value;
     }
 }

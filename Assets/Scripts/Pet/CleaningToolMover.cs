@@ -25,7 +25,7 @@ public class CleaningToolMover : MonoBehaviour
         _movedDist += dist; //총 이동거리 누적
         _lastPos = cur; //다음 프레임 비교를 위해 저장
 
-        bool touching = (_target != null);
+        bool touching = (_target != null && !_target.Status.IsLeft);
         bool moving = (dist > 0.02f);
 
         if (touching)  //펫과 닿아있으면

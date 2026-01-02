@@ -27,7 +27,8 @@ public class GeneInfoButton : MonoBehaviour
     private void OpenGeneInfo()
     {
         var zoomedPet = _petManager.ZoomedPet;
-        if (zoomedPet != null)
+        //펫 데이터가 있고, 떠나지않았고, 어른일 경우에만
+        if (zoomedPet != null && !_petManager.ZoomedUnit.Status.IsLeft && _petManager.ZoomedUnit.Status.Growth == GrowthStatus.Adult)
         {
             _geneInfo.gameObject.SetActive(true);
             _geneInfo.Init(zoomedPet);

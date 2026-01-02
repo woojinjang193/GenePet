@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,19 +18,12 @@ public class ConfirmMessage : MonoBehaviour
         _confirmButton.onClick.AddListener(OnClickedConfirm);
         _cancelButton.onClick.AddListener(OnClickedCancel);
     }
-    public void OpenConfirmUI(Confirm confirm, IConfirmRequester requster)
+    public void OpenConfirmUI(string textID, IConfirmRequester requster)
     {
         gameObject.SetActive(true);
         _requester = requster;
-        switch (confirm)
-        {
-            case Confirm.RemovePet: 
-                _text.text = "Remove Pet?";
-                break;
-            case Confirm.GiveUpPet:
-                _text.text = "Give up Pet?";
-                break;
-        }
+
+        _text.text = Manager.Lang.GetText(textID);
     }
     private void OnClickedConfirm()
     {

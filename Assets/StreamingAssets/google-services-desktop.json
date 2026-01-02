@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "174193121566",
+    "project_id": "genepet-ebe28",
+    "storage_bucket": "genepet-ebe28.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174193121566:android:38f035629c938bb5b8910f",
+        "android_client_info": {
+          "package_name": "com.ryanshark.genepet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCemlIl9iLpIaYX2p0tbO6guvEAhSiqJfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

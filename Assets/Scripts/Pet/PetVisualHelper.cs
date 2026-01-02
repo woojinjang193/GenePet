@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public static class PetVisualHelper
 {
@@ -88,5 +85,30 @@ public static class PetVisualHelper
         t.Pattern.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.PatternColorId).color;
         t.Wing.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.WingColorId).color;
         t.Tail.color = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, c.TailColorId).color;
+    }
+
+    //파츠 비활성화 
+
+    public static void OffAllParts(PetPartSpriteList renderers)
+    {
+        renderers.Acc.sprite = null;
+        renderers.Arm.sprite = null;
+        renderers.Blush.sprite = null;
+        renderers.Body.sprite = null;
+        renderers.Pattern.sprite = null;
+        renderers.Ear.sprite = null;
+        renderers.Eye.sprite = null;
+        renderers.Feet.sprite = null;
+        renderers.Mouth.sprite = null;
+        renderers.Wing.sprite = null;
+        renderers.Tail.sprite = null;
+        renderers.Whiskers.sprite = null;
+
+        renderers.ArmOut.sprite = null;
+        renderers.BodyOut.sprite = null;
+        renderers.EarOut.sprite = null;
+        renderers.FeetOut.sprite = null;
+        renderers.WingOut.sprite = null;
+        renderers.TailOut.sprite = null;
     }
 }

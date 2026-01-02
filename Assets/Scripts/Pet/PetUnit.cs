@@ -36,6 +36,8 @@ public class PetUnit : MonoBehaviour
         _status.SetFlag(PetFlag.IsLeft, save.IsLeft);
         _status.SetFlag(PetFlag.IsSick, save.IsSick);
 
+        _status.SetGrowthExp(save.GrowthExp);
+
         _status.Growth = save.GrowthStage;
         _visul = GetComponent<PetVisualController>();
 

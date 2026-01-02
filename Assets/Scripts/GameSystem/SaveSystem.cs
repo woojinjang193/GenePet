@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 [Serializable]
@@ -106,6 +107,7 @@ public class PetSaveData
 {
     public RarityType Rarity;
     public Sprite EggSprite;
+    public Room RoomType;
 
     public bool IsLeft;
     public bool IsSick;
@@ -125,11 +127,13 @@ public class PetSaveData
     public float Health;
 
     public float AgeSeconds;
+    public float GrowthExp;
 
     public PetSaveData()
     {
         Rarity = RarityType.Common;
         EggSprite = null;
+        RoomType = Room.Default;
 
         IsLeft = false;
         IsSick = false;
@@ -148,7 +152,8 @@ public class PetSaveData
         Cleanliness = 100f;
         Health = 100f;
 
-        AgeSeconds = 0f;
+        AgeSeconds = 0f; //필요없나?
+        GrowthExp = 0f;
     }
 }
 
@@ -163,6 +168,8 @@ public class IslandData
     public float Affinity;
     public int VisitCount;
     public long LastVisitTime;
+    public long GiftCooldownStartTime;
+    public Gift CurWish;
 
     public IslandData()
     {
@@ -171,9 +178,11 @@ public class IslandData
         IsMarried = false;
         IslandMyPetID = "";
         IslandPetSaveData = new PetSaveData();
-        Affinity = 50f;
+        Affinity = 0f;
         VisitCount = 0;
         LastVisitTime = 0;
+        GiftCooldownStartTime = 0;
+        CurWish = Gift.None;
     }
 }
 
@@ -186,21 +195,33 @@ public class UserItemData
     public int MissingPoster;
     public int GeneticScissors;
     public int geneticTester;
-    //public int RandomGene;
     public int Snack;
+    public List<Room> Rooms;
+
+    //선물
+    public int MasterGift;
+    public int Gift1;
+    public int Gift2;
+    public int Gift3;
+    public int Gift4;
 
     public UserItemData()
     {
-        Money = 5000;
+        Money = 0;
         IsAdRemoved = false;
         IslandTicket = 1;
         MissingPoster = 1;
         GeneticScissors = 1;
         geneticTester = 1;
-        //RandomGene = 1;
         Snack = 1;
-    }
+        Rooms = new List<Room>() { Room.Default, Room.Room1, Room.Room2, Room.Room3, Room.Room4, Room.Room5};
 
+        MasterGift = 5;
+        Gift1 = 1;
+        Gift2 = 1;
+        Gift3 = 1;
+        Gift4 = 1;
+    }
 }
 
 [Serializable]
@@ -208,10 +229,11 @@ public class UserData
 {
     
     public long LastPlayedUnixTime; //마지막 접속 시간
-    public string UID; // UID
+    public string LocalUID; // UID
+    public string FirebaseUID; // UID
     public Language CurLanguage; //현재 언어
     public string UserDisplayName; // 유저네임
-    public int MaxPetAmount; // 최대 보유 가능 펫 수
+    public int PetSlot; // 최대 보유 가능 펫 수
     public int Energy; //에너지
     public List<EggData> EggList; // 보유 알 리스트
     public List<PetSaveData> HavePetList; // 보유 펫 리스트
@@ -220,14 +242,16 @@ public class UserData
     public List<PetSaveData> IslandPetList; //만난 섬 펫 리스트
     public UserItemData Items; // 아이템
 
+
     public UserData()
     {
         LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        UID = "";
-        CurLanguage = Language.ENG;
+        LocalUID = "";
+        FirebaseUID = "";
+        CurLanguage = Language.EN;
         UserDisplayName = "";
-        MaxPetAmount = 5; //플레이어 맥스 펫 수
-        Energy = 10;
+        PetSlot = 1; //플레이어 맥스 펫 수
+        Energy = 50;
         EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetSaveData>();

@@ -21,8 +21,8 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     [SerializeField] private Sprite[] _noReason;
 
     [Header("버튼 & 아이템 소지 수")]
-    [SerializeField] private Button _callingButton;
-    [SerializeField] private TMP_Text _callingAmount;
+    //[SerializeField] private Button _callingButton;
+    //[SerializeField] private TMP_Text _callingAmount;
 
     [SerializeField] private Button _missingPosterButton;
     [SerializeField] private TMP_Text _missingPosterAmount;
@@ -36,7 +36,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
 
     private void Awake()
     {
-        _callingButton.onClick.AddListener(OnCallingClicked);
+        //_callingButton.onClick.AddListener(OnCallingClicked);
         _missingPosterButton.onClick.AddListener(OnMissingPosterClicked);
         _giveUpButton.onClick.AddListener(OnGiveUpClicked);
         _closeButton.onClick.AddListener(OnCloseClicked);
@@ -44,7 +44,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     }
     private void OnEnable()
     {
-        _callingAmount.text = "0";
+        //_callingAmount.text = "0";
         _missingPosterAmount.text = Manager.Save.CurrentData.UserData.Items.MissingPoster.ToString();
     }
     public void WriteLetter(LeftReason reason)
@@ -92,7 +92,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         {
             _confirmMessage = FindObjectOfType<ConfirmMessage>(true);
         }
-        _confirmMessage.OpenConfirmUI(Confirm.GiveUpPet, this);
+        _confirmMessage.OpenConfirmUI("Warning_RemovePet", this);
     }
     private void OnCloseClicked() 
     { 

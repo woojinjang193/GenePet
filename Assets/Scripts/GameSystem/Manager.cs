@@ -9,6 +9,7 @@ public static class Manager
     public static LanguageManager Lang => LanguageManager.GetInstance();
     public static AudioManager Audio => AudioManager.GetInstance();
     public static ItemManager Item => ItemManager.GetInstance();
+    public static FirebaseAuthManager Fire => FirebaseAuthManager.GetInstance();
 
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -19,7 +20,8 @@ public static class Manager
         GameManager.CreateManager();
         SaveManager.CreateManager();
         LanguageManager.CreateManager();
-        AudioManager.CreateManager();
+        //AudioManager.CreateManager();
         ItemManager.CreateManager();
+        //FirebaseAuthManager.CreateManager();
     }
 }

@@ -24,7 +24,6 @@ public class PetManager : MonoBehaviour
     private float _energyTimer; // 에너지 회복 누적시간
     private bool _isQuitting = false;
 
-
     private CameraController _camera;
     private InGameUIManager _uiManager;
     private List<PetUnit> _activePets = new List<PetUnit>();
@@ -34,6 +33,9 @@ public class PetManager : MonoBehaviour
 
     private LetterPanel _letterPanel; //이벤트 구독용
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
+
+    public Action OnPetSpawned;
+    public Action OnPetRemoved;
     private void Awake()
     {
         _accum = 0f;
@@ -127,7 +129,7 @@ public class PetManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < _Positions.Length; i++)
+        for (int i = 0; i < _Positions.Length; i++) //빈자리 확인
         {
             if(_Positions[i].childCount == 0)
             {
@@ -138,6 +140,7 @@ public class PetManager : MonoBehaviour
 
         if (index < 0 || index >= _Positions.Length)
         {
+            Debug.LogWarning("스폰 불가능. 빈자리 없음");
             Debug.LogWarning("스폰 불가능. 빈자리 없음");
             return;
         }
@@ -155,6 +158,8 @@ public class PetManager : MonoBehaviour
         if (save.IsLeft) { PetLeft(unit); } //이미 떠난펫일경우 바로 떠남 처리
 
         RegisterPet(unit);
+
+        OnPetSpawned?.Invoke();
     }
     public void RegisterPet(PetUnit unit)
     {
@@ -272,6 +277,7 @@ public class PetManager : MonoBehaviour
                     pet.IsLeft = status.IsLeft;
                     pet.IsSick = status.IsSick;
                     pet.GrowthStage = status.Growth;
+                    pet.GrowthExp = status.GrowthExp;
 
                     break;
                 }
@@ -295,6 +301,17 @@ public class PetManager : MonoBehaviour
             Debug.LogError("카메라 컨트롤러 없음");
             return;
         }
+
+        var petlist = Manager.Save.CurrentData.UserData.HavePetList;   //선택된 펫 정보 캐싱
+        for (int i = 0; i < petlist.Count; i++)
+        {
+            if (petlist[i].ID == id)
+            {
+                ZoomedPet = petlist[i];
+                break;
+            }
+        }
+
         //카메라 줌인
         for (int i = 0; i < _activePets.Count; i++)
         {
@@ -308,17 +325,8 @@ public class PetManager : MonoBehaviour
                 break;
             }
         }
-        //선택된 펫 정보 캐싱
-        var petlist = Manager.Save.CurrentData.UserData.HavePetList;
-        for (int i = 0; i < petlist.Count; i++)
-        {
-            if (petlist[i].ID == id)
-            {
-                ZoomedPet = petlist[i];
-                break;
-            }
-        }
 
+        _camera.SetBackGround(ZoomedPet.RoomType); //배경정보 넘겨줌
         _StatusUI.UpdateGauges(ZoomedUnit.Status);
     }
     public void ZoomOutPet()
@@ -329,13 +337,14 @@ public class PetManager : MonoBehaviour
         }
 
         ZoomedUnit.ZoomThisPet(false);
-        ZoomedPet = null;
-        ZoomedUnit = null;
-
+        
         if (_uiManager != null)
         {
             _uiManager.OnZoomOutPet(); // UI 버튼 비활성화
         }
+
+        ZoomedPet = null;
+        ZoomedUnit = null;
     }
     private void ApplyOfflineTimeFromSave()
     {
@@ -382,6 +391,7 @@ public class PetManager : MonoBehaviour
             _activePets.Remove(ZoomedUnit);
             Manager.Save.RemovePetData(ZoomedPet.ID);
             ZoomOutPet();
+            OnPetRemoved?.Invoke();
             return;
         }
     }
@@ -412,22 +422,22 @@ public class PetManager : MonoBehaviour
     {
         if(ZoomedUnit == null) return;
 
-        GameConfig status = Manager.Game.Config;
+        GameConfig gameConfig = Manager.Game.Config;
 
-        ZoomedUnit.Status.SetValues(PetStat.Hunger, status.ComeBackHunger);
-        ZoomedUnit.Status.SetValues(PetStat.Cleanliness, status.ComeBackCleanliness);
-        ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, status.ComeBackHappiness);
-        ZoomedUnit.Status.SetValues(PetStat.Health, status.ComeBackHealth);
-        _StatusUI.UpdateGauges(ZoomedUnit.Status);
-
-        ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
-        ZoomedUnit.LeftHandled = false;
-
-        ZoomedUnit.gameObject.TryGetComponent<PetVisualController>(out PetVisualController petvisul);
+        ZoomedUnit.gameObject.TryGetComponent<PetVisualController>(out PetVisualController petvisul); //비주얼 로더 찾기
 
         if (petvisul)
         {
             petvisul.SetSprite(ZoomedUnit.Status.Growth);
+
+            ZoomedUnit.Status.SetValues(PetStat.Hunger, gameConfig.ComeBackHunger);
+            ZoomedUnit.Status.SetValues(PetStat.Cleanliness, gameConfig.ComeBackCleanliness);
+            ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, gameConfig.ComeBackHappiness);
+            ZoomedUnit.Status.SetValues(PetStat.Health, gameConfig.ComeBackHealth);
+            _StatusUI.UpdateGauges(ZoomedUnit.Status);
+
+            ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
+            ZoomedUnit.LeftHandled = false;
         }
         else
         {

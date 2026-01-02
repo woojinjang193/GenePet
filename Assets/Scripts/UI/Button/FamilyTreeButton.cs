@@ -19,7 +19,9 @@ public class FamilyTreeButton : MonoBehaviour
     private void OnClicked()
     {
         PetSaveData pet = _petManager.ZoomedPet;
+        GrowthStatus curGrowth = _petManager.ZoomedUnit.Status.Growth;
+
         _familyTreeUI.gameObject.SetActive(true);
-        _familyTreeUI.Init(pet);
+        _familyTreeUI.Init(pet, curGrowth);
     }
 }

@@ -32,6 +32,7 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
             return;
         }
 
+        Manager.Audio.PlaySFX("Button");
         SceneManager.LoadScene("InGameScene");
     }
 
@@ -45,7 +46,9 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
             WaitForSave(),
             WaitForLang(),
             WaitForAudio(),
-            WaitForGame()
+            WaitForGame(),
+            WaitForItem(),
+            WaitForFire(),
         };
 
         int totalSteps = loadSteps.Count;
@@ -96,12 +99,27 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
             yield return null;
         }
     }
-
     private IEnumerator WaitForGame()
     {
         while (Manager.Game == null || !Manager.Game.IsReady)
         {
             _loadingText.text = "Game Manager Loading..";
+            yield return null;
+        }
+    }
+    private IEnumerator WaitForItem()
+    {
+        while (Manager.Item == null || !Manager.Item.IsReady)
+        {
+            _loadingText.text = "Item Manager Loading..";
+            yield return null;
+        }
+    }
+    private IEnumerator WaitForFire()
+    {
+        while (Manager.Fire == null || !Manager.Fire.IsReady)
+        {
+            _loadingText.text = "Firebase Manager Loading..";
             yield return null;
         }
     }
