@@ -73,4 +73,9 @@ public class CameraController : MonoBehaviour
         _roomRoot.gameObject.SetActive(false); //배경 off
         Camera.main.orthographicSize = 5f;
     }
+
+    public void CameraMoveTo(Vector3 pos)
+    {
+        Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
+    }
 }

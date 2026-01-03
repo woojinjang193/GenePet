@@ -100,7 +100,7 @@ public class EggListUI : MonoBehaviour
         if (CanSpawn())
         {
             Manager.Game.CreateRandomPet(true);
-            Manager.Item.AddOrSubtractMoney(_randomSpawnPrice);
+            Manager.Item.AddOrSubtractMoney(-_randomSpawnPrice);
             gameObject.SetActive(false);
         }
     }
