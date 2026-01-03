@@ -14,31 +14,42 @@ public class NamePanel : MonoBehaviour
     [SerializeField] private Button _confirmButton;
     [SerializeField] private TMP_Text _nameText;
 
+    private bool _isSubscribed = false;
+
     private void Awake()
     {
         _confirmButton.onClick.AddListener(OnclickedConfirm);
     }
     private void OnEnable()
     {
-        if(_petManager.ZoomedUnit == null) return;
+        if (_petManager.ZoomedUnit == null) return;
 
-        _petManager.ZoomedUnit.Status.OnGrown += OnGrown;
-     
         if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName))
         {
-            if(_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg)
+            _petManager.ZoomedUnit.Status.OnGrown += OnGrown;
+            _isSubscribed = true; //구독중 플레그 변경
+
+            if (_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg)
             {
                 TurnOnUIs(false, false);
             }
             else
             {
                 TurnOnUIs(true, false);
+                _input.text = null;
             }
+        }
+        else
+        {
+            _nameText.text = _petManager.ZoomedPet.DisplayName;
         }
     }
     public void CancelSubscribe()
     {
+        if (!_isSubscribed) return; //구독중아니면 리턴
+
         _petManager.ZoomedUnit.Status.OnGrown -= OnGrown;
+        _isSubscribed = false;
     }
     private void OnclickedConfirm()
     {
