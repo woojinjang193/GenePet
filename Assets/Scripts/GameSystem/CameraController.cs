@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour
 
         _zoomCamera.gameObject.SetActive(true); // 줌 카메라 ON
 
-        //Camera.main.orthographicSize = 2.8f;
+        Camera.main.orthographicSize = 2.8f;
         Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
         _zoomCamera.transform.position = new Vector3(pos.x, pos.y, -10f);
     }
@@ -87,7 +87,7 @@ public class CameraController : MonoBehaviour
         _zoomCamera.gameObject.SetActive(false);
 
         _roomRoot.gameObject.SetActive(false); //배경 off
-        //Camera.main.orthographicSize = 5f;
+        Camera.main.orthographicSize = 5f;
     }
     public void SetBackGround(Room room)
     {
