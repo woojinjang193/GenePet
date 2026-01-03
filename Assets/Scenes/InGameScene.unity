@@ -16968,10 +16968,10 @@ MonoBehaviour:
   _defaultPetLayer: 3
   _roomRoot: {fileID: 704891686}
   _dragSpeed: 0.01
-  _minX: -4
-  _maxX: 4
-  _minY: -4
-  _maxY: 4
+  _minX: -6
+  _maxX: 6
+  _minY: -1.5
+  _maxY: 1.5
   _dragThreshold: 10
 --- !u!1 &520901635
 GameObject:
