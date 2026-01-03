@@ -325,7 +325,7 @@ public class PetManager : MonoBehaviour
             if (pet.PetId == id)
             {
                 Vector3 pos = pet.gameObject.transform.position;
-                _camera.CameraZoomIn(pos);
+                _camera.CameraZoomIn(pos, pet.gameObject);
                 if (_uiManager != null) _uiManager.OnZoomInPet();
                 break;
             }
