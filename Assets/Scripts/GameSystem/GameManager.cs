@@ -12,7 +12,8 @@ public class GameManager : Singleton<GameManager>
     public bool IsReady { get { return _isManagerReady; } }
     private int _loadingDataAmount = 2;
     private int _loadingCount = 0;
-    private PopupMessage _popupInstance;
+    private PopupMessage _popupText;
+    private ConfirmMessage _confirmMessage;
 
     private bool _isOnline = true;
     public bool IsOnline { get { return _isOnline; } }
@@ -46,16 +47,17 @@ public class GameManager : Singleton<GameManager>
             GameObject prefab = handle.Result;
             GameObject instance = Instantiate(prefab, transform);
 
-            _popupInstance = instance.GetComponent<PopupMessage>();
+            _popupText = instance.GetComponent<PopupMessage>();
+            _confirmMessage = instance.GetComponent<ConfirmMessage>();
 
             _loadingCount++;
             ManagerReadyCheck();
 
-            Debug.Log("popupMessage 로드 완료");
+            Debug.Log("popupMessages 로드 완료");
         }
         else
         {
-            Debug.LogError("popupMessage 로드 실패");
+            Debug.LogError("popupMessages 로드 실패");
         }
     }
     public void CreateRandomPet(bool isMine)
@@ -183,9 +185,13 @@ public class GameManager : Singleton<GameManager>
             _isManagerReady = true;
         }
     }
-    public void ShowPopup(string msg)
+    public void ShowPopup(string msg) //팝업 텍스트 출력
     {
-        _popupInstance.ShowMessage(msg);
+        _popupText.ShowMessage(msg);
+    }
+    public void ShowWarning(string textID, IConfirmRequester requster) //경고메세지 출력
+    {
+        _confirmMessage.OpenConfirmUI(textID, requster);
     }
 
     //public void SetOnlineFlag(bool flag)

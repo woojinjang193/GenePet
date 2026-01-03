@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class ConfirmMessage : MonoBehaviour
 {
+    [Header("판넬")]
+    [SerializeField] private GameObject _panel;
+
     [Header("확인/취소 버튼")]
     [SerializeField] private Button _confirmButton;
     [SerializeField] private Button _cancelButton;
@@ -20,7 +23,7 @@ public class ConfirmMessage : MonoBehaviour
     }
     public void OpenConfirmUI(string textID, IConfirmRequester requster)
     {
-        gameObject.SetActive(true);
+        _panel.SetActive(true);
         _requester = requster;
 
         _text.text = Manager.Lang.GetText(textID);
@@ -28,12 +31,13 @@ public class ConfirmMessage : MonoBehaviour
     private void OnClickedConfirm()
     {
         _requester.Confirmed();
-        gameObject.SetActive(false);
+        _panel.SetActive(false);
     }
     private void OnClickedCancel()
     {
         _requester.Canceled();
-        gameObject.SetActive(false);
+        _requester = null;
+        _panel.SetActive(false);
     }
     
 }

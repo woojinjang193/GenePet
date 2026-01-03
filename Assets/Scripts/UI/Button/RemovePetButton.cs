@@ -7,7 +7,6 @@ public class RemovePetButton : MonoBehaviour, IConfirmRequester
 {
     [SerializeField] private Button _removeButton;
     [SerializeField] private PetManager _petManager;
-    [SerializeField] private ConfirmMessage _confirmMessage;
 
     private void Awake()
     {
@@ -20,13 +19,16 @@ public class RemovePetButton : MonoBehaviour, IConfirmRequester
         if (_petManager.ZoomedPet == null) { Debug.LogWarning("선택된 펫 없음."); return; }
 
         //어른검사
-        if (_petManager.ZoomedUnit.Status.Growth != GrowthStatus.Adult) return; 
-
-        if(_confirmMessage == null)
+        if (_petManager.ZoomedUnit.Status.Growth != GrowthStatus.Adult)
         {
-            _confirmMessage = FindObjectOfType<ConfirmMessage>(true);
+            //Manager.Game.ShowPopup("PopText_NotAdult"); //스프레드 시트에 추가
+            return;
         }
-        _confirmMessage.OpenConfirmUI("Warning_RemovePet", this);
+
+        if(Manager.Game != null)
+        {
+            Manager.Game.ShowWarning("Warning_RemovePet", this);
+        }
     }
 
     public void Confirmed()

@@ -19,9 +19,6 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
     [Header("IslandManager")]
     [SerializeField] private IslandManager _islandManager;
 
-    [Header("Confirm Popup")]
-    [SerializeField] private ConfirmMessage _popup;
-
     private int _curIndex;
     private int _ogIndex;
 
@@ -71,7 +68,7 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        _popup.OpenConfirmUI("Warning_AffinityReset", this);
+        Manager.Game.ShowWarning("Warning_AffinityReset", this);
     }
     private void OnCancelButtonClicked()
     {
