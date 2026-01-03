@@ -42,6 +42,8 @@ public class EggListUI : MonoBehaviour
     }
     public void Open()
     {
+        if (_petManager.ZoomedUnit) return; //줌인중이면 UI 안열어줌
+
         gameObject.SetActive(true);
         Init();
     }
