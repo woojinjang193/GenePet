@@ -56,4 +56,6 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
             IsReady = true;
         });
     }
+
+    
 }

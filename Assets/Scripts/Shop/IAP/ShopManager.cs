@@ -180,6 +180,9 @@ public class ShopManager : Singleton<ShopManager>
             }
 
             _lastTriedProductId = null;
+
+            Manager.Save.SaveGame();
+            Manager.Server.UploadSave(); //서버에 저장
         }
     }
     private void OnPurchaseFailed(FailedOrder order)
@@ -303,7 +306,4 @@ public class ShopManager : Singleton<ShopManager>
             product.metadata.isoCurrencyCode
         );
     }
-
-
-
 }

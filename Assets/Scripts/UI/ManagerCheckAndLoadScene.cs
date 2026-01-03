@@ -17,6 +17,16 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
     private void Awake()
     {
         _button.onClick.AddListener(OnClicked);
+
+        ShopManager.CreateManager();
+        GeneManager.CreateManager();
+        GameManager.CreateManager();
+        SaveManager.CreateManager();
+        LanguageManager.CreateManager();
+        //AudioManager.CreateManager();
+        ItemManager.CreateManager();
+        ServerSaveManager.CreateManager();
+        //FirebaseAuthManager.CreateManager();
     }
 
     private void Start()
@@ -49,6 +59,7 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
             WaitForGame(),
             WaitForItem(),
             WaitForFire(),
+            WaitForServerSave(),
         };
 
         int totalSteps = loadSteps.Count;
@@ -69,57 +80,75 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
 
     private IEnumerator WaitForGene()
     {
+        _loadingText.text = "Gene data Loading..";
+
         while (Manager.Gene == null || !Manager.Gene.IsReady)
         {
-            _loadingText.text = "Gene data Loading..";
             yield return null;
         }
     }
     private IEnumerator WaitForSave()
     {
+        _loadingText.text = "Save data Loading..";
+
         while (Manager.Save == null || !Manager.Save.IsReady)
         {
-            _loadingText.text = "Save data Loading..";
             yield return null;
         }
     }
     private IEnumerator WaitForLang()
     {
+        _loadingText.text = "Language data Loading..";
+
         while (Manager.Lang == null || !Manager.Lang.IsReady)
         {
-            _loadingText.text = "Language data Loading..";
             yield return null;
         }
     }
     private IEnumerator WaitForAudio()
     {
+        _loadingText.text = "Audio data Loading..";
+
         while (Manager.Audio == null || !Manager.Audio.IsReady)
         {
-            _loadingText.text = "Audio data Loading..";
             yield return null;
         }
     }
     private IEnumerator WaitForGame()
     {
+        _loadingText.text = "Game Manager Loading..";
+
         while (Manager.Game == null || !Manager.Game.IsReady)
         {
-            _loadingText.text = "Game Manager Loading..";
             yield return null;
         }
     }
     private IEnumerator WaitForItem()
     {
+        _loadingText.text = "Item Manager Loading..";
+
         while (Manager.Item == null || !Manager.Item.IsReady)
         {
-            _loadingText.text = "Item Manager Loading..";
             yield return null;
         }
     }
     private IEnumerator WaitForFire()
     {
+        _loadingText.text = "Firebase Manager Loading..";
+
         while (Manager.Fire == null || !Manager.Fire.IsReady)
         {
-            _loadingText.text = "Firebase Manager Loading..";
+            yield return null;
+        }
+    }
+    private IEnumerator WaitForServerSave()
+    {
+        _loadingText.text = "Syncing Save Data..";
+
+        Manager.Server.DownloadIfNewer();
+
+        while (!Manager.Server.IsReady)
+        {
             yield return null;
         }
     }
