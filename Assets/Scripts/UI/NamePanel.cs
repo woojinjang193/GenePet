@@ -26,6 +26,7 @@ public class NamePanel : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName))
         {
+            _nameText.text = null;
             _petManager.ZoomedUnit.Status.OnGrown += OnGrown;
             _isSubscribed = true; //구독중 플레그 변경
 
@@ -42,6 +43,7 @@ public class NamePanel : MonoBehaviour
         else
         {
             _nameText.text = _petManager.ZoomedPet.DisplayName;
+            TurnOnUIs(false, true);
         }
     }
     public void CancelSubscribe()
