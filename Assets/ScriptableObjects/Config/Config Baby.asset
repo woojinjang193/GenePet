@@ -20,3 +20,7 @@ MonoBehaviour:
   CleanlinessDecreasePerSec: 0
   PlayHappinessGain: 0
   HealthDecreasePerSec: 0
+  HealthIncreasePerSec: 0
+  HungerAmountHealthIncrease: 0
+  CleanlinessAmountGetSick: 0
+  TimeToGetSick: 0

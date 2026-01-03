@@ -14,6 +14,9 @@ public class GameManager : Singleton<GameManager>
     private int _loadingCount = 0;
     private PopupMessage _popupInstance;
 
+    private bool _isOnline = true;
+    public bool IsOnline { get { return _isOnline; } }
+
     protected override void Awake()
     {
         base.Awake();
@@ -59,7 +62,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (isMine)
         {
-            int userMaxAmount = Manager.Save.CurrentData.UserData.MaxPetAmount;
+            int userMaxAmount = Manager.Save.CurrentData.UserData.PetSlot;
             int curAmount = Manager.Save.CurrentData.UserData.HavePetList.Count;
             int gameMaxAmount = Manager.Game.Config.MaxPetAmount;
 
@@ -184,4 +187,12 @@ public class GameManager : Singleton<GameManager>
     {
         _popupInstance.ShowMessage(msg);
     }
+
+    //public void SetOnlineFlag(bool flag)
+    //{
+    //    if(flag != _isOnline)
+    //    {
+    //        _isOnline = flag;
+    //    }
+    //}
 }

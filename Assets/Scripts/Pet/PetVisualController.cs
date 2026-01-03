@@ -24,6 +24,8 @@ public class PetVisualController : MonoBehaviour
     [SerializeField] private GameObject _sickImage;
     [SerializeField] private GameObject _healthReducingParticle;
 
+    private bool _isZoomed;
+
     public void Init(PetSaveData save, PetUnit unit)
     {
         if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
@@ -152,12 +154,21 @@ public class PetVisualController : MonoBehaviour
     public void LetterOn(LeftReason reason)
     {
         HideAllParts();
+
+        _sickImage.SetActive(false);
+        _healthReducingParticle.SetActive(false);
+
         _letter.gameObject.SetActive(true);
         _letter.Init(_pet, reason);
+
+        _letter.SetClickable(_isZoomed); //현재 줌 상태 기준으로 클릭 허용
     }
+
     public void AllowToClickLetter(bool on)
     {
-        if(_letter.gameObject.activeSelf)
+        _isZoomed = on; //줌인/줌아웃 상태 기억
+
+        if (_letter.gameObject.activeSelf)
         {
             //Debug.Log($"편지한테 알려줌 {on}");
             _letter.SetClickable(on);

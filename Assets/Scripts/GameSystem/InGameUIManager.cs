@@ -16,6 +16,8 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private EnergySlider _energySlider;
     [Header("리워드 UI")]
     [SerializeField] private RewardPopUp _rewardUI;
+    [Header("이름 판넬")]
+    [SerializeField] private NamePanel _namePanel;
     
 
     [Header("의존")]
@@ -47,12 +49,17 @@ public class InGameUIManager : MonoBehaviour
         }
 
         //메인씬 돌아왔을때 보상 있으면 실행
-        if (Manager.Item.RewardQueue.Count > 0)
+        if (Manager.Item.HasReward())
         {
             ShowReward();
         }
 
         Manager.Item.OnRewardsGiven += ShowReward;
+    }
+
+    private void Start()
+    {
+        Manager.Audio.PlayBGM("BGM_Test"); //비지엠 재생
     }
     private void OnDestroy()
     {
@@ -76,6 +83,7 @@ public class InGameUIManager : MonoBehaviour
         _zoomOutButton.gameObject.SetActive(false);
         _mainUI.SetActive(true);
         _zoomedUI.SetActive(false);
+        _namePanel.CancelSubscribe();
     }
 
     // 줌아웃 버튼 클릭 이벤트

@@ -1,16 +1,61 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 public class ItemManager : Singleton<ItemManager>
 {
-    // 보상 지급 완료 이벤트
-    public event Action OnRewardsGiven;
+    private ItemsSO _ItemsSO;
+    public ItemsSO ItemImages => _ItemsSO;
+    
+    public event Action OnRewardsGiven; // 한 묶음 보상 지급 완료 알림, 보상 팝업 열기용
+    public event Action<int> OnMoneyChanged; //현재 소지 골드 변경 알림
+    public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림
 
-    public event Action<int> OnMoneyChanged;
-    public event Action<RewardType, int> OnRewardGranted;
+    public event Action OnGiftAmountChanged; //선물 수량 감소 알림
+    public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림
 
-    private Queue<object> _rewardQueue = new Queue<object>();
-    public Queue<object> RewardQueue => _rewardQueue;
+
+    private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
+
+    public bool IsReady {  get; private set; }
+
+    protected override void Awake()
+    {
+        var handle = Addressables.LoadAssetAsync<ItemsSO>("ItemSO");
+        handle.Completed += OnItemSOLoaded;
+    }
+    private void OnItemSOLoaded(AsyncOperationHandle<ItemsSO> handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _ItemsSO = handle.Result;
+            Debug.Log("ItemSO 로드 완료");
+            IsReady = true;
+        }
+        else
+        {
+            Debug.LogError("GameConfig 로드 실패");
+        }
+    }
+    public bool HasReward()
+    {
+        return _rewardQueue.Count > 0;
+    }
+
+    public bool TryDequeueReward(out RewardData reward)
+    {
+        if (_rewardQueue.Count == 0)
+        {
+            reward = null;
+            return false;
+        }
+
+        reward = _rewardQueue.Dequeue();
+        return true;
+    }
+
     public void GiveReward(ProductCatalogSO.Entry entry)
     {
         if (entry == null) return;
@@ -81,9 +126,39 @@ public class ItemManager : Singleton<ItemManager>
                 newValue = user.Items.geneticTester += amount;
                 Debug.Log($"유전자 테스터 +{amount}");
                 break;
+
+            case RewardType.MasterGift:
+                newValue = user.Items.MasterGift += amount;
+                Debug.Log($"만능 선물 +{amount}");
+                break;
+
+            case RewardType.Gift1:
+                newValue = user.Items.Gift1 += amount;
+                Debug.Log($"선물1 +{amount}");
+                break;
+
+            case RewardType.Gift2:
+                newValue = user.Items.Gift2 += amount;
+                Debug.Log($"선물2 +{amount}");
+                break;
+
+            case RewardType.Gift3:
+                newValue = user.Items.Gift3 += amount;
+                Debug.Log($"선물3 +{amount}");
+                break;
+
+            case RewardType.Gift4:
+                newValue = user.Items.Gift4 += amount;
+                Debug.Log($"선물4 +{amount}");
+                break;
+
+            case RewardType.PetSlot:
+                newValue = Mathf.Clamp(user.PetSlot += amount, 0, Manager.Game.Config.MaxPetAmount); //초과 방어
+                Debug.Log($"펫 슬롯 +{amount}");
+                break;
         }
         //큐에 추가 
-        _rewardQueue.Enqueue((type, amount));
+        _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
 
         //유아이 업데이트용
         OnRewardGranted?.Invoke(type, newValue); // 바로 업데이트 해야하는 유아이 있으면 구독하면 됨
@@ -91,10 +166,67 @@ public class ItemManager : Singleton<ItemManager>
     public void EnqueueEgg(EggData egg) //알 보상 큐 적재 전용
     {
         Debug.Log($"알 큐에 들어옴 {egg}");
-        _rewardQueue.Enqueue(egg);
+        _rewardQueue.Enqueue(RewardData.CreateEgg(egg));
     }
-    public void ClearRewardQueue() //보상 다 보여준 뒤 정리
+    public void ClearRewardQueue() //보상 다 보여준 뒤 정리 (필요없으면 삭제)
     {
         _rewardQueue.Clear();
+    }
+
+    public void UseGift(Gift gift)
+    {
+        var item = Manager.Save.CurrentData.UserData.Items;
+
+        switch (gift)
+        {
+            case Gift.Gift1: if (item.Gift1 <= 0) { return; }; item.Gift1--; break;
+            case Gift.Gift2: if (item.Gift2 <= 0) { return; }; item.Gift2--; break;
+            case Gift.Gift3: if (item.Gift3 <= 0) { return; }; item.Gift3--; break;
+            case Gift.Gift4: if (item.Gift4 <= 0) { return; }; item.Gift4--; break;
+            case Gift.MasterGift: if (item.MasterGift <= 0) { return; }; item.MasterGift--; break;
+        }
+        OnGiftAmountChanged?.Invoke();
+    }
+
+    public void AddOrSubtractMoney(int amount) //돈 액수만 빠르게 변화시킬때
+    {
+        var user = Manager.Save.CurrentData.UserData;
+
+        user.Items.Money += amount;
+
+        OnMoneyChanged?.Invoke(user.Items.Money); // UI 알림
+    }
+
+    public void UseItem(RewardType type, int amount)
+    {
+        var items = Manager.Save.CurrentData.UserData.Items;
+        int newValue;
+
+        switch (type)
+        {
+            case RewardType.Snack: 
+                if (amount <= 0) 
+                {
+                    break; 
+                }
+                else
+                {
+                    newValue = items.Snack -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+
+            case RewardType.GeneticScissors:
+                if (amount <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    newValue = items.GeneticScissors -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+        }
     }
 }

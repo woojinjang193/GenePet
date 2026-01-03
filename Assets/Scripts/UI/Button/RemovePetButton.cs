@@ -26,7 +26,7 @@ public class RemovePetButton : MonoBehaviour, IConfirmRequester
         {
             _confirmMessage = FindObjectOfType<ConfirmMessage>(true);
         }
-        _confirmMessage.OpenConfirmUI(Confirm.RemovePet, this);
+        _confirmMessage.OpenConfirmUI("Warning_RemovePet", this);
     }
 
     public void Confirmed()

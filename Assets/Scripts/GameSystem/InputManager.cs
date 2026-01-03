@@ -100,7 +100,17 @@ public class InputManager : MonoBehaviour
 
     private bool IsPointerOverUI()
     {
+    #if UNITY_EDITOR || UNITY_STANDALONE
         return EventSystem.current != null &&
                EventSystem.current.IsPointerOverGameObject();
+    #else
+    if (Input.touchCount > 0)
+    {
+        return EventSystem.current != null &&
+               EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
     }
+    return false;
+    #endif
+    }
+
 }

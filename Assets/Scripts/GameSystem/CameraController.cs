@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private BackgroundRoomController _roomRoot;
     [SerializeField] private float _dragSpeed = 0.01f;
     [SerializeField] private float _minX = -4f;
     [SerializeField] private float _maxX = 4f;
@@ -60,9 +61,16 @@ public class CameraController : MonoBehaviour
         Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
     }
 
+    public void SetBackGround(Room room)
+    {
+        _roomRoot.SetRoom(room);
+        _roomRoot.gameObject.SetActive(true); //배경 on
+    }
+
     public void CameraZoomOut()
     {
         _isZoom = false;
+        _roomRoot.gameObject.SetActive(false); //배경 off
         Camera.main.orthographicSize = 5f;
     }
 }

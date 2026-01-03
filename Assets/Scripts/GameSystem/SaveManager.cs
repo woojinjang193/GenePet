@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +36,7 @@ public class SaveManager : Singleton<SaveManager>
     private GameSaveSnapshot CreateNewSave()
     {
         GameSaveSnapshot snapshot = new GameSaveSnapshot();
-        snapshot.UserData.UID = Guid.NewGuid().ToString(); 
+        snapshot.UserData.LocalUID = Guid.NewGuid().ToString(); 
         snapshot.SchemaVersion = 1;
         snapshot.SnapshotVersion = 1;
         CurrentData = snapshot;
@@ -107,6 +106,12 @@ public class SaveManager : Singleton<SaveManager>
             {
                 CurrentData.UserData.HavePetList.RemoveAt(i);
                 Debug.Log($"펫 {id} 삭제");
+
+                if(id == CurrentData.UserData.Island.IslandMyPetID) //삭제한 펫이 섬에 등록된 펫이라면 등록된 펫아이디 지움
+                {
+                    CurrentData.UserData.Island.IslandMyPetID = "";
+                    Debug.Log($"섬에 등록된 펫이라서 섬에서 삭제함");
+                }
                 break;
             }
         }
@@ -143,6 +148,7 @@ public class SaveManager : Singleton<SaveManager>
         {
             Debug.Log("SaveManager Pause 시간 저장");
             SavePlayTime();
+            SaveGame();
         } 
     }
     private void OnApplicationQuit()
@@ -150,6 +156,8 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log("SaveManager Quit 시간 + 전체 저장");
         SavePlayTime();
         SaveGame();
+
+        Manager.Server.UploadSave();
     }
     public void SavePlayTime()
     {

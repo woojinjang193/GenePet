@@ -35,7 +35,7 @@ public sealed class PetController : MonoBehaviour
         get { return _pet != null ? _pet.Status : null; }
     }
 
-    public void Feed()
+    public void FeedFood()
     {
         if (_pet == null || Status == null ) return;
 
@@ -45,12 +45,33 @@ public sealed class PetController : MonoBehaviour
             _mouthAnim.SetTrigger("Full");
             return;
         }
-        
-        Status.IncreaseStat(PetStat.Hunger, 10f); //식사 포만도 오르는 수치
-        Status.DecreaseStat(PetStat.Cleanliness, 5f); //식사시 감소하는 청결도 수치
+
+        Eat(10, 5);
+        Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
+    }
+
+    public void FeedSnack() //스낵 먹었을떄
+    {
+        if (_pet == null || Status == null) return;
+
+        if (Status.Hunger > 99f)
+        {
+            Debug.Log("이미 배부름");
+            _mouthAnim.SetTrigger("Full");
+            return;
+        }
+
+        Eat(50, 10);
+        _pet.Status.IncreaseEXP(10f);
+        Debug.Log($"스낵먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
+    }
+
+    private void Eat(float Increasehunger, float decreaseCleanliness) /// 오르는 포만도 수치, 감소하는 청결도 수치
+    {
+        Status.IncreaseStat(PetStat.Hunger, Increasehunger); //스낵 포만도 오르는 수치
+        Status.DecreaseStat(PetStat.Cleanliness, decreaseCleanliness); //식사시 감소하는 청결도 수치
         _mouthAnim.SetTrigger("Eat");
         _pet.Petmanager.UpdateStatus();
-        Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 
     public void Play()

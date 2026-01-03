@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectPet : MonoBehaviour
+public class SelectPet : MonoBehaviour, IConfirmRequester
 {
-    [Header("파츠 리스트")]
-    [SerializeField] private PetPartSpriteList _renderers;
+    [Header("비쥬얼 로더")]
+    [SerializeField] private IslandPetVisualLoader _visualLoader;
 
     [Header("좌우 버튼")]
     [SerializeField] private Button _leftButton;
@@ -20,7 +20,7 @@ public class SelectPet : MonoBehaviour
     [SerializeField] private IslandManager _islandManager;
 
     [Header("Confirm Popup")]
-    [SerializeField] private IslandPetChangeConfirm _popup;
+    [SerializeField] private ConfirmMessage _popup;
 
     private int _curIndex;
     private int _ogIndex;
@@ -71,7 +71,7 @@ public class SelectPet : MonoBehaviour
             return;
         }
 
-        _popup.Open(this, _curIndex, _ogIndex);
+        _popup.OpenConfirmUI("Warning_AffinityReset", this);
     }
     private void OnCancelButtonClicked()
     {
@@ -118,16 +118,27 @@ public class SelectPet : MonoBehaviour
 
         var data = _petList[index];
 
-        PetVisualHelper.ApplyVisual(data.Genes, _renderers);
+        if (data.IsLeft)
+        {
+            _visualLoader.LoadIslandPet(null);
+            return;
+        }
+        _visualLoader.LoadIslandPet(data);
     }
+
+    public void Confirmed()
+    {
+        ApplyFinalChange(_curIndex);
+    }
+    public void Canceled()
+    {
+        Rollback(_ogIndex);
+    }
+
     public void ApplyFinalChange(int newIndex)
     {
         Manager.Save.CurrentData.UserData.Island.IslandMyPetID = _petList[newIndex].ID;
         _islandManager.UpdateIslandMyPetID(_petList[newIndex]);
-
-        Manager.Save.CurrentData.UserData.Island.Affinity = 0; //호감도 초기화
-        Manager.Save.CurrentData.UserData.Island.LastVisitTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //방문시간 초기화
-        Debug.Log("호감도, 방문시간 초기화");
 
         gameObject.SetActive(false);
     }
@@ -147,12 +158,19 @@ public class SelectPet : MonoBehaviour
         return 0;
     }
 
-    private void GetPetList() //어른 개체만 담음
+    private void GetPetList() //떠나지않은 어른 개체만 담음
     {
         var petListFromSave = Manager.Save.CurrentData.UserData.HavePetList;
+        PetSaveData curPet = _islandManager.IslandMypetData;
+
+        if (curPet != null)
+        {
+            if (curPet.IsLeft) _petList.Add(curPet);
+        }
+        
         for (int i = 0; i < petListFromSave.Count;i++)
         {
-            if (petListFromSave[i].GrowthStage == GrowthStatus.Adult)
+            if (petListFromSave[i].GrowthStage == GrowthStatus.Adult && !petListFromSave[i].IsLeft)
             {
                 _petList.Add(petListFromSave[i]);
             }

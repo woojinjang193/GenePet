@@ -14,18 +14,21 @@ public class TicketAmount : MonoBehaviour
     }
     private void OnDestroy()
     {
-        Manager.Item.OnRewardGranted -= OnRewardGranted;
+        if(Manager.Item != null)
+        {
+            Manager.Item.OnRewardGranted -= OnRewardGranted;
+        }
     }
     private void OnEnable()
     {
-        _text.text = Manager.Save.CurrentData.UserData.Items.IslandTicket.ToString();
+        _text.text = $"x {Manager.Save.CurrentData.UserData.Items.IslandTicket.ToString()}";
     }
 
     private void OnRewardGranted(RewardType type, int newValue)
     {
         if(type == RewardType.IslandTicket)
         {
-            _text.text = newValue.ToString();
+            _text.text = $"x {newValue.ToString()}";
         }
     }
 }
