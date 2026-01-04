@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab444e4173b3fc94196cae85f4c5484f, type: 3}
   m_Name: GameConfigSO
   m_EditorClassIdentifier: 
-  MaxPetAmount: 6
+  MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 50
   EnergyRecoveringTime: 120

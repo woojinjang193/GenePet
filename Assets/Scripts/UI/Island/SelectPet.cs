@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class SelectPet : MonoBehaviour, IConfirmRequester
 {
+    //[Header("플러스 아이콘")]
+    //[SerializeField] private GameObject _plusIcon;  //굳이 안넣어도 될거같음
+
     [Header("비쥬얼 로더")]
     [SerializeField] private IslandPetVisualLoader _visualLoader;
 
