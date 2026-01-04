@@ -78,3 +78,8 @@ public enum Language
     CH = 4,
     SP = 5,
 }
+public enum MiniGame
+{
+    Jump,
+    Rythm,
+}

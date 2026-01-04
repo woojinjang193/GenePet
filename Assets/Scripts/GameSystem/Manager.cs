@@ -11,6 +11,7 @@ public static class Manager
     public static ItemManager Item => ItemManager.GetInstance();
     public static FirebaseAuthManager Fire => FirebaseAuthManager.GetInstance();
     public static ServerSaveManager Server => ServerSaveManager.GetInstance();
+    public static MiniGameManager Mini => MiniGameManager.GetInstance();
 
 
     //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
