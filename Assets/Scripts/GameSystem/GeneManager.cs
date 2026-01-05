@@ -24,6 +24,8 @@ public class GeneManager : Singleton<GeneManager>
         CreateBuckets();
         LoadAllGenes();
     }
+
+    //PartType별 SO 리스트를 딕셔너리에 미리 생성
     private void CreateBuckets()
     {
         if (_parts.ContainsKey(PartType.Acc) == false) _parts[PartType.Acc] = new List<PartBaseSO>();
@@ -41,7 +43,7 @@ public class GeneManager : Singleton<GeneManager>
         if (_parts.ContainsKey(PartType.Tail) == false) _parts[PartType.Tail] = new List<PartBaseSO>();
         if (_parts.ContainsKey(PartType.Whiskers) == false) _parts[PartType.Whiskers] = new List<PartBaseSO>();
     }
-
+    // 모든 파츠 타입의 SO를 Addressables 비동기로 로드 요청
     private void LoadAllGenes()
     {
         AsyncOperationHandle<IList<AccSO>> handle_Acc = Addressables.LoadAssetsAsync<AccSO>("AccSO", null);
@@ -87,6 +89,7 @@ public class GeneManager : Singleton<GeneManager>
         handle_Whiskers.Completed += OnWhiskersLoaded;
 
     }
+    //================ Addressables 로드 콜백====================
     private void OnAccsLoaded(AsyncOperationHandle<IList<AccSO>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -325,7 +328,6 @@ public class GeneManager : Singleton<GeneManager>
         }
 
     }
-
     private void OnWingsLoaded(AsyncOperationHandle<IList<WingSO>> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -345,7 +347,7 @@ public class GeneManager : Singleton<GeneManager>
         }
 
     }
-
+    // ===================== 설정 확률 기반으로 레어도 뽑기 ====================
     private RarityType RollRarity()
     {
         float randV = UnityEngine.Random.value;
@@ -378,7 +380,7 @@ public class GeneManager : Singleton<GeneManager>
             return RarityType.Common;
         }
     }
-
+    // =======특정 레어도의 파츠중 랜덤 1개 선택 (PickOneByRarity 보조)======
     private PartBaseSO TryPickByRarity(List<PartBaseSO> source, RarityType want, PartType partType) //레어도로 파츠 뽑기
     {
         _options.Clear();
@@ -406,8 +408,8 @@ public class GeneManager : Singleton<GeneManager>
 
         int rand = UnityEngine.Random.Range(0, _options.Count);
         return _options[rand];
-    }                  
-
+    }
+    // ===========레어도 파츠 1개 선택===============
     private PartBaseSO PickOneByRarity(List<PartBaseSO> source, PartType partType)
     {
         if (source == null || source.Count == 0)
@@ -423,7 +425,7 @@ public class GeneManager : Singleton<GeneManager>
         }
         return pick;
     }
-
+    // ===================랜덤 파츠 SO 반환===================
     public T GetRandomPart<T>(PartType type) where T : PartBaseSO
     {
         List<PartBaseSO> list;
@@ -456,6 +458,7 @@ public class GeneManager : Singleton<GeneManager>
     public TailSO GetRandomTailSO() { return GetRandomPart<TailSO>(PartType.Tail); }
     public WhiskersSO GetRandomWhiskersSO() { return GetRandomPart<WhiskersSO>(PartType.Whiskers); }
 
+    // =======ID로 정확한 파츠 SO 검색=======
     public T GetPartSOByID<T>(PartType part, string id) where T : PartBaseSO
     {
         List<PartBaseSO> list;
@@ -495,6 +498,7 @@ public class GeneManager : Singleton<GeneManager>
         Debug.LogWarning($"GetPartSOByID: {part} 에서 id '{id}' 찾지 못함");
         return null;
     }
+    // =====부모 파츠의 레어도를 비교해 자식 레어도 판정=====
     public RarityType CheckRarity(PartType part, string father, string mother)
     {
         var fatherSO = Manager.Gene.GetPartSOByID<PartBaseSO>(part, father);
@@ -519,6 +523,7 @@ public class GeneManager : Singleton<GeneManager>
         }
         return RarityType.Common;
     }
+    // =============모든 파츠 타입 로드 완료 체크===========
     private void CheckIsReady()
     {
         _loadedTypeCount++;

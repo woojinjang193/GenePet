@@ -1,22 +1,21 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 public class ItemManager : Singleton<ItemManager>
 {
-    private ItemsSO _ItemsSO;
+    private ItemsSO _ItemsSO;  // 아이템 이미지/데이터 SO
     public ItemsSO ItemImages => _ItemsSO;
-    
+
+    // ================= 이벤트 =================
     public event Action OnRewardsGiven; // 한 묶음 보상 지급 완료 알림, 보상 팝업 열기용
     public event Action<int> OnMoneyChanged; //현재 소지 골드 변경 알림
     public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림
-
     public event Action OnGiftAmountChanged; //선물 수량 감소 알림
     public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림
 
-
+    // ================= 연출용 큐 =================
     private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
 
     public bool IsReady {  get; private set; }
@@ -44,6 +43,8 @@ public class ItemManager : Singleton<ItemManager>
     // ===========================골드로 아이템 구매 =========================
     public void PurchaseWithGold(ProductCatalogSO.Entry entry, int price)
     {
+        if (entry == null) return;
+
         var user = Manager.Save.CurrentData.UserData;
 
         user.Items.Money -= price;                 // 골드 차감
@@ -66,10 +67,9 @@ public class ItemManager : Singleton<ItemManager>
         // 외부(UI, 저장 등)에 알림 (메인씬에서만 보여줌)
         OnRewardsGiven?.Invoke();
     }
-    public void GiveRewards(List<RewardData> rewards) //미니게임 리워드 지급
+    public void GiveMiniGameRewards(List<RewardData> rewards) //미니게임 리워드 지급
     {
-        if (rewards == null) return;
-        if (rewards.Count == 0) return;
+        if (rewards == null || rewards.Count == 0) return;
 
         for (int i = 0; i < rewards.Count; i++)
         {
@@ -89,12 +89,12 @@ public class ItemManager : Singleton<ItemManager>
         OnRewardsGiven?.Invoke();
     }
 
-
-    // 실제 보상 적용 함수
+    // ==================실제 보상 적용 함수==========================
     private void ApplyReward(RewardType type, int amount)
     {
         var user = Manager.Save.CurrentData.UserData;
         int newValue = 0;
+
         switch (type)
         {
             case RewardType.RemovedAD:
@@ -180,11 +180,6 @@ public class ItemManager : Singleton<ItemManager>
     public bool HasReward()
     {
         return _rewardQueue.Count > 0;
-    }
-    public void EnqueueReward(RewardData reward) //외부에서 보상큐에 추가
-    {
-        if (reward == null) return;          // 널 방어
-        _rewardQueue.Enqueue(reward);        // 큐에 적재
     }
     public bool TryDequeueReward(out RewardData reward)
     {

@@ -29,8 +29,9 @@ public class MiniGameManager : Singleton<MiniGameManager>
     }
     public void EndMiniGame(List<RewardData> rewards, int score)
     {
-        Manager.Item.GiveRewards(rewards); //실제 지급 요청
 
+        Manager.Item.GiveMiniGameRewards(rewards); //실제 지급 요청
+        //스코어 처리 여기에서
         CurPet = null;
         SceneManager.LoadScene("InGameScene"); 
     }
