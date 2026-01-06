@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,8 @@ public class JumpPlayerController : MonoBehaviour
 
     private Vector3 _originScale;  // 원래 스케일
     private bool _isSquashed;
+
+    public Action<float> OnPlayerGrounded;
 
     private void Awake()
     {
@@ -57,6 +60,7 @@ public class JumpPlayerController : MonoBehaviour
             if (_groundConfirmTimer >= _groundConfirmTime) //타이머 시간 후에 바닥 확정
             {
                 IsGrounded = true;
+                OnPlayerGrounded?.Invoke(transform.position.y);
                 Debug.Log($"바닥: {IsGrounded}");
             }
         }

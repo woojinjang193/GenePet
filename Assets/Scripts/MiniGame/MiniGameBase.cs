@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,14 @@ public class MiniGameBase : MonoBehaviour
 {
     protected PetSaveData _pet; // 플레이 중인 펫 데이터
     protected int _score;  // 점수
+    public int Score => _score;
+
     protected float _playSecond;
 
     protected Dictionary<RewardType, int> _gainedItems = new(); // 획득 아이템 누적
     protected bool _isPlaying;
+
+    public event Action OnGameOver;
 
     protected virtual void Start()
     {
@@ -53,6 +58,7 @@ public class MiniGameBase : MonoBehaviour
     protected void FinishGame()
     {
         _isPlaying = false;
+        OnGameOver?.Invoke();
 
         List<RewardData> rewards = new();
         Debug.Log($"보상 목록:");

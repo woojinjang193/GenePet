@@ -7,6 +7,8 @@ public class JumpMiniGame : MiniGameBase
 {
     [Header("플레이어")]
     [SerializeField] private JumpPlayerController _player;
+    [Header("카메라")]
+    [SerializeField] private JumpGameCamera _camera;
 
     [Header("차지")]
     [SerializeField] private float _maxChargeTime = 2f;
@@ -22,33 +24,52 @@ public class JumpMiniGame : MiniGameBase
     [SerializeField] private TMP_Text _curScoreText;
 
     // ===== 내부 상태 =====
+    private bool isGameOver;
     private bool _isHolding; // 버튼 누르고 있는지
+    private bool _isCameraMoving; // 카메라 이동중인지
     private int _direction;  // -1 왼쪽 / 1 오른쪽
     private float _chargeTime; // 누적 차지 시간
-    private float _maxReachedHeight;  // 최고 도달 높이
+    private float _maxReachHeight; // 최고 도달 높이
 
     // ===== 미니게임별 능력 계수 =====
     private float _jumpPowerMul = 1f; // 점프 파워 배율
     private float _scoreMul = 1f;     // 점수 배율
 
+    public void ResetGame()
+    {
+        isGameOver = false;
+    }
     protected override void Start()
     {
         base.Start();
+        _isCameraMoving = false;
+        _maxReachHeight = _player.transform.position.y;
 
-        _maxReachedHeight = _player.transform.position.y;
+        _player.OnPlayerGrounded += UpdateHeightScore;
+        _camera.OnCameraMoving += OnCameraMoving;
 
+        isGameOver = false; //TODO:테스트 끝나면 삭제해야함
         //ApplyPetAbility(); // 성격/행복도 적용 //TODO:테스트 끝나면 활성화 해야함
     }
-
+    private void OnDestroy()
+    {
+        _player.OnPlayerGrounded -= UpdateHeightScore;
+        _camera.OnCameraMoving -= OnCameraMoving;
+    }
     private void Update()
     {
         UpdateCharge();        // 차지 누적
-        UpdateHeightScore();   // 높이 점수
     }
 
     // ================= 입력 =================
+    private void OnCameraMoving(bool isMoving)
+    {
+        _isCameraMoving = isMoving;
+    }
     public void OnPressButton(int dir)    // 버튼 누름 (JumpButton에서 호출)
     {
+        if (isGameOver) return;
+        if (_isCameraMoving) return;
         if (_isHolding) return;
         if (!_player.IsGrounded) return;
         
@@ -99,21 +120,18 @@ public class JumpMiniGame : MiniGameBase
         _player.Jump(power, jumpDir);                           // 플레이어에게 점프 요청
     }
 
-    // ================= 점수 =================
-    private void UpdateHeightScore()
+    // ================= 점수(플레이어한테 이벤트 호출받음) =================
+    private void UpdateHeightScore(float curY)
     {
-        if (!_player.IsGrounded) return; //바닥일때만 점수 계산
+        if (curY <= _maxReachHeight) return; //기록 갱신 안되면 리턴
 
-        float curY = _player.transform.position.y;
-        if (curY <= _maxReachedHeight) return; //내려가는 경우에는 기록안함
-
-        float diff = curY - _maxReachedHeight;
+        float diff = curY - _maxReachHeight;
         int gained = Mathf.FloorToInt(diff * _scorePerHeight * _scoreMul);
 
         if (gained > 0)
         {
             AddScore(gained); // Base의 점수 누적
-            _maxReachedHeight = curY;
+            _maxReachHeight = curY;
             _curScoreText.text = $"Score: {_score}";
         }
     }
@@ -126,9 +144,12 @@ public class JumpMiniGame : MiniGameBase
 
     public void OnPlayerDead()
     {
+        _isHolding = false;
+        _isCameraMoving = false;
+        isGameOver = true;
+
         FinishGame();  // 미니게임 종료
     }
-
     // ================= 능력 적용 =================
     private void ApplyPetAbility()
     {

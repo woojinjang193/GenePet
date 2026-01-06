@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/IslandScene.unity
     guid: 911c11917f192e6418ee2c881a0cc1a7
+  - enabled: 1
+    path: Assets/Scenes/JumpGameScene.unity
+    guid: 9a8b6125f845ac747a356b4ab8b4052b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 9c7711238cabdd54e8cc60702eb726ac, type: 2}
