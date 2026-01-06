@@ -49,8 +49,9 @@ public class JumpMiniGame : MiniGameBase
     // ================= 입력 =================
     public void OnPressButton(int dir)    // 버튼 누름 (JumpButton에서 호출)
     {
+        if (_isHolding) return;
         if (!_player.IsGrounded) return;
-
+        
         _direction = dir;
         _isHolding = true;
     }
