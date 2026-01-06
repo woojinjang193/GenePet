@@ -14,6 +14,8 @@ TagManager:
   - Item3
   - Item4
   - MasterGift
+  - DeadZone
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -25,10 +27,10 @@ TagManager:
   - Food
   - Snack
   - Medicine
-  - 
-  - 
-  - 
-  - 
+  - ZoomPet
+  - ZoomBackground
+  - ZoomObj
+  - Ground
   - 
   - 
   - 

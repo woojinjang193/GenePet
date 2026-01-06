@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class SelectPet : MonoBehaviour, IConfirmRequester
 {
+    //[Header("플러스 아이콘")]
+    //[SerializeField] private GameObject _plusIcon;  //굳이 안넣어도 될거같음
+
     [Header("비쥬얼 로더")]
     [SerializeField] private IslandPetVisualLoader _visualLoader;
 
@@ -18,9 +21,6 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
 
     [Header("IslandManager")]
     [SerializeField] private IslandManager _islandManager;
-
-    [Header("Confirm Popup")]
-    [SerializeField] private ConfirmMessage _popup;
 
     private int _curIndex;
     private int _ogIndex;
@@ -71,7 +71,7 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        _popup.OpenConfirmUI("Warning_AffinityReset", this);
+        Manager.Game.ShowWarning("Warning_AffinityReset", this);
     }
     private void OnCancelButtonClicked()
     {

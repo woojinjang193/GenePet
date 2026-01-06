@@ -7,9 +7,6 @@ using UnityEngine.UI;
 
 public class LetterPanel : MonoBehaviour, IConfirmRequester
 {
-    [Header("컨펌 메세지")]
-    [SerializeField] private ConfirmMessage _confirmMessage;
-
     [Header("유저가 보게될 그림")]
     [SerializeField] private Image _reasonSprite;
 
@@ -88,11 +85,10 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     }
     private void OnGiveUpClicked() 
     {
-        if (_confirmMessage == null)
+        if (Manager.Game != null)
         {
-            _confirmMessage = FindObjectOfType<ConfirmMessage>(true);
+            Manager.Game.ShowWarning("Warning_RemovePet", this);
         }
-        _confirmMessage.OpenConfirmUI("Warning_RemovePet", this);
     }
     private void OnCloseClicked() 
     { 

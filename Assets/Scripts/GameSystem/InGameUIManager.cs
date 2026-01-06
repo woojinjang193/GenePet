@@ -18,7 +18,9 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private RewardPopUp _rewardUI;
     [Header("이름 판넬")]
     [SerializeField] private NamePanel _namePanel;
-    
+    [Header("펫소환 버튼")]
+    [SerializeField] private Button _spawnPetButton;
+
 
     [Header("의존")]
     [SerializeField] private CameraController _camera;
@@ -75,6 +77,7 @@ public class InGameUIManager : MonoBehaviour
         _zoomOutButton.gameObject.SetActive(true);
         _mainUI.SetActive(false);
         _zoomedUI.SetActive(true);
+        _spawnPetButton.interactable = false;
     }
 
     // 펫 줌아웃 시
@@ -84,6 +87,7 @@ public class InGameUIManager : MonoBehaviour
         _mainUI.SetActive(true);
         _zoomedUI.SetActive(false);
         _namePanel.CancelSubscribe();
+        _spawnPetButton.interactable = true;
     }
 
     // 줌아웃 버튼 클릭 이벤트

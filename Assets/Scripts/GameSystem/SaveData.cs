@@ -3,6 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
+public class UserData
+{
+
+    public long LastPlayedUnixTime; //마지막 접속 시간
+    public string LocalUID; // UID
+    public string FirebaseUID; // UID
+    public Language CurLanguage; //현재 언어
+    public string UserDisplayName; // 유저네임
+    public int PetSlot; // 최대 보유 가능 펫 수
+    public int Energy; //에너지
+    public List<EggData> EggList; // 보유 알 리스트
+    public List<PetSaveData> HavePetList; // 보유 펫 리스트
+    public List<PetSaveData> HadPetList; // 보유했던 펫 리스트
+    public IslandData Island; // 섬 정보
+    public List<PetSaveData> IslandPetList; //만난 섬 펫 리스트
+    public UserItemData Items; // 아이템
+    public UserData()
+    {
+        LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        LocalUID = "";
+        FirebaseUID = "";
+        CurLanguage = Language.EN;
+        UserDisplayName = "";
+        PetSlot = 1; //플레이어 맥스 펫 수
+        Energy = 50;
+        EggList = new List<EggData>();
+        HavePetList = new List<PetSaveData>();
+        HadPetList = new List<PetSaveData>();
+        Island = new IslandData();
+        IslandPetList = new List<PetSaveData>();
+        Items = new UserItemData();
+    }
+}
+
+[Serializable]
 public class GenePair
 {
     public string DominantId;
@@ -219,41 +254,18 @@ public class UserItemData
         Gift3 = 1;
         Gift4 = 1;
     }
-}
 
-[Serializable]
-public class UserData
-{
-
-    public long LastPlayedUnixTime; //마지막 접속 시간
-    public string LocalUID; // UID
-    public string FirebaseUID; // UID
-    public Language CurLanguage; //현재 언어
-    public string UserDisplayName; // 유저네임
-    public int PetSlot; // 최대 보유 가능 펫 수
-    public int Energy; //에너지
-    public List<EggData> EggList; // 보유 알 리스트
-    public List<PetSaveData> HavePetList; // 보유 펫 리스트
-    public List<PetSaveData> HadPetList; // 보유했던 펫 리스트
-    public IslandData Island; // 섬 정보
-    public List<PetSaveData> IslandPetList; //만난 섬 펫 리스트
-    public UserItemData Items; // 아이템
-
-
-    public UserData()
+    [Serializable]
+    public class MiniGameData
     {
-        LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        LocalUID = "";
-        FirebaseUID = "";
-        CurLanguage = Language.EN;
-        UserDisplayName = "";
-        PetSlot = 1; //플레이어 맥스 펫 수
-        Energy = 50;
-        EggList = new List<EggData>();
-        HavePetList = new List<PetSaveData>();
-        HadPetList = new List<PetSaveData>();
-        Island = new IslandData();
-        IslandPetList = new List<PetSaveData>();
-        Items = new UserItemData();
+        public int PlayCount;
+        public int BestScore;
+        public MiniGameData() 
+        {
+            PlayCount = 0;
+            BestScore = 0;
+        }
     }
 }
+
+

@@ -1,26 +1,26 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 public class ItemManager : Singleton<ItemManager>
 {
-    private ItemsSO _ItemsSO;
+    private ItemsSO _ItemsSO;  // 아이템 이미지/데이터 SO
     public ItemsSO ItemImages => _ItemsSO;
-    
+
+    // ================= 이벤트 =================
     public event Action OnRewardsGiven; // 한 묶음 보상 지급 완료 알림, 보상 팝업 열기용
     public event Action<int> OnMoneyChanged; //현재 소지 골드 변경 알림
     public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림
-
     public event Action OnGiftAmountChanged; //선물 수량 감소 알림
     public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림
 
-
+    // ================= 연출용 큐 =================
     private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
 
     public bool IsReady {  get; private set; }
 
+    // =========================초기화=====================================
     protected override void Awake()
     {
         var handle = Addressables.LoadAssetAsync<ItemsSO>("ItemSO");
@@ -39,23 +39,21 @@ public class ItemManager : Singleton<ItemManager>
             Debug.LogError("GameConfig 로드 실패");
         }
     }
-    public bool HasReward()
+
+    // ===========================골드로 아이템 구매 =========================
+    public void PurchaseWithGold(ProductCatalogSO.Entry entry, int price)
     {
-        return _rewardQueue.Count > 0;
+        if (entry == null) return;
+
+        var user = Manager.Save.CurrentData.UserData;
+
+        user.Items.Money -= price;                 // 골드 차감
+        OnMoneyChanged?.Invoke(user.Items.Money); // UI 알림
+
+        GiveReward(entry); // 보상 지급
     }
 
-    public bool TryDequeueReward(out RewardData reward)
-    {
-        if (_rewardQueue.Count == 0)
-        {
-            reward = null;
-            return false;
-        }
-
-        reward = _rewardQueue.Dequeue();
-        return true;
-    }
-
+    // ======================보상지급================================================
     public void GiveReward(ProductCatalogSO.Entry entry)
     {
         if (entry == null) return;
@@ -69,20 +67,34 @@ public class ItemManager : Singleton<ItemManager>
         // 외부(UI, 저장 등)에 알림 (메인씬에서만 보여줌)
         OnRewardsGiven?.Invoke();
     }
-    public void PurchaseWithGold(ProductCatalogSO.Entry entry, int price)
+    public void GiveMiniGameRewards(List<RewardData> rewards) //미니게임 리워드 지급
     {
-        var user = Manager.Save.CurrentData.UserData;
+        if (rewards == null || rewards.Count == 0) return;
 
-        user.Items.Money -= price;                 // 골드 차감
-        OnMoneyChanged?.Invoke(user.Items.Money); // UI 알림
+        for (int i = 0; i < rewards.Count; i++)
+        {
+            RewardData reward = rewards[i]; 
+            if (reward == null) continue;
 
-        GiveReward(entry); // 보상 지급
+            if (reward.Category == RewardCategory.Egg)
+            {
+                EnqueueEgg(reward.Egg);
+                continue;
+            }
+
+            // 실제 지급(세이브 값 변경 + 큐 적재 + 이벤트 발사)
+            ApplyReward(reward.RewardType, reward.Amount);
+        }
+
+        OnRewardsGiven?.Invoke();
     }
-    // 실제 보상 적용 함수
+
+    // ==================실제 보상 적용 함수==========================
     private void ApplyReward(RewardType type, int amount)
     {
         var user = Manager.Save.CurrentData.UserData;
         int newValue = 0;
+
         switch (type)
         {
             case RewardType.RemovedAD:
@@ -163,6 +175,23 @@ public class ItemManager : Singleton<ItemManager>
         //유아이 업데이트용
         OnRewardGranted?.Invoke(type, newValue); // 바로 업데이트 해야하는 유아이 있으면 구독하면 됨
     }
+
+    // ========================보상 큐==============================
+    public bool HasReward()
+    {
+        return _rewardQueue.Count > 0;
+    }
+    public bool TryDequeueReward(out RewardData reward)
+    {
+        if (_rewardQueue.Count == 0)
+        {
+            reward = null;
+            return false;
+        }
+
+        reward = _rewardQueue.Dequeue();
+        return true;
+    }
     public void EnqueueEgg(EggData egg) //알 보상 큐 적재 전용
     {
         Debug.Log($"알 큐에 들어옴 {egg}");
@@ -173,6 +202,7 @@ public class ItemManager : Singleton<ItemManager>
         _rewardQueue.Clear();
     }
 
+    // ========================아이템 사용==============================
     public void UseGift(Gift gift)
     {
         var item = Manager.Save.CurrentData.UserData.Items;

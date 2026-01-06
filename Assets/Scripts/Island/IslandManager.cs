@@ -19,6 +19,9 @@ public class IslandManager : MonoBehaviour
     [SerializeField] private GeneInfomationUI _GeneInfoUI;
     [SerializeField] private GameObject _geneInfoButton;
 
+    [Header("플러스 아이콘")]
+    [SerializeField] private GameObject _plusIcon;
+
     public Action OnIslandMyPetChange;
 
     public string IslandMyPetID { get; private set; }
@@ -44,7 +47,7 @@ public class IslandManager : MonoBehaviour
 
         if (_isLeft)
         {
-            LeaveIslandPet();
+            LeaveIslandPet(); // 없앨지 고민중
             return;
         }
         else if (_isMarried)
@@ -150,8 +153,10 @@ public class IslandManager : MonoBehaviour
         }
         else
         {
-            _myPetVisualLoader.LoadIslandPet(null);
+            _myPetVisualLoader.LoadIslandPet(null); // 떠난 상태라면
         }
+
+        _plusIcon.SetActive(false); //플러스 아이콘 꺼줌
     }
 
     public void ChangeAffinity(float amount)

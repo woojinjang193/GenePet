@@ -6,6 +6,8 @@ using UnityEngine;
 public class PetBreed : MonoBehaviour
 {
     private RarityType _finalRarity = RarityType.Common;
+
+    //============교배된 알 만들기============
     public EggData BreedPet(PetSaveData myPet, PetSaveData islandPet)
     {
         _finalRarity = RarityType.Common;
@@ -58,7 +60,7 @@ public class PetBreed : MonoBehaviour
         }
         return egg;
     }
-
+    // ======== 유전자 합치기======
     private void CombinePart(PartType type, GenePair myPet, GenePair islandPet, GenePair baby)
     {
         string fatherGene;
