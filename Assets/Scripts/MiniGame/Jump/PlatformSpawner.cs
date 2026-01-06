@@ -62,8 +62,10 @@ public class PlatformSpawner : MonoBehaviour
 
         for (int i = 0; i < _lanesX.Length; i++)
         {
-            if (Mathf.Abs(i - prev) <= 1) // 인접 레인만 허용
+            if (i != prev && Mathf.Abs(i - prev) <= 2)
+            {
                 candidates.Add(i);
+            } 
         }
 
         return candidates[Random.Range(0, candidates.Count)];

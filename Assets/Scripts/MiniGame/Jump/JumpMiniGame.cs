@@ -35,7 +35,7 @@ public class JumpMiniGame : MiniGameBase
     {
         base.Start();
 
-        _maxReachedHeight = transform.position.y;
+        _maxReachedHeight = _player.transform.position.y;
 
         //ApplyPetAbility(); // 성격/행복도 적용 //TODO:테스트 끝나면 활성화 해야함
     }
@@ -102,7 +102,9 @@ public class JumpMiniGame : MiniGameBase
     // ================= 점수 =================
     private void UpdateHeightScore()
     {
-        float curY = transform.position.y;
+        if (!_player.IsGrounded) return; //바닥일때만 점수 계산
+
+        float curY = _player.transform.position.y;
         if (curY <= _maxReachedHeight) return; //내려가는 경우에는 기록안함
 
         float diff = curY - _maxReachedHeight;
@@ -112,6 +114,7 @@ public class JumpMiniGame : MiniGameBase
         {
             AddScore(gained); // Base의 점수 누적
             _maxReachedHeight = curY;
+            _curScoreText.text = $"Score: {_score}";
         }
     }
 

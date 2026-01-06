@@ -24,7 +24,7 @@ public class ChunkManager : MonoBehaviour
     {
         // 초기 청크 2개 생성
         CreateNextChunk();
-        CreateNextChunk();
+        //CreateNextChunk();
     }
 
     private void Update()
