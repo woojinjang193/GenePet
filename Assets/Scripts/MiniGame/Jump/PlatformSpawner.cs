@@ -62,7 +62,7 @@ public class PlatformSpawner : MonoBehaviour
 
         for (int i = 0; i < _lanesX.Length; i++)
         {
-            if (i != prev && Mathf.Abs(i - prev) <= 2)
+            if (i != prev && Mathf.Abs(i - prev) <= 1)
             {
                 candidates.Add(i);
             } 

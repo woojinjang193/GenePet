@@ -833,7 +833,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8192
-  _groundConfirmTime: 0.5
+  _groundConfirmTime: 0.1
 --- !u!58 &636375860
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -938,7 +938,7 @@ MonoBehaviour:
   _platformSpawner: {fileID: 1588032612}
   _player: {fileID: 636375859}
   _chunkRoot: {fileID: 615590746}
-  _chunkHeight: 7
+  _chunkHeight: 20
   _keepChunkCount: 4
   _spawnChunkAt: 0.5
   _chunkPrefab: {fileID: 2633144691857072857, guid: 4596c718f59e9c547ab04af6658b905b, type: 3}
@@ -1134,7 +1134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 636375859}
   _camera: {fileID: 1284495211}
-  _maxChargeTime: 2
+  _maxChargeTime: 1
   _chargeCurve:
     serializedVersion: 2
     m_Curve:
@@ -2123,8 +2123,8 @@ MonoBehaviour:
   _minGapY: 1.7
   _maxGapY: 2
   _startSpawnY: 0
-  _minCount: 5
-  _maxCount: 7
+  _minCount: 15
+  _maxCount: 20
 --- !u!1 &1618738924
 GameObject:
   m_ObjectHideFlags: 0
