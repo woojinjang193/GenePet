@@ -916,6 +916,7 @@ GameObject:
   m_Component:
   - component: {fileID: 696136294}
   - component: {fileID: 696136293}
+  - component: {fileID: 696136295}
   m_Layer: 0
   m_Name: ChunkManager
   m_TagString: Untagged
@@ -936,9 +937,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _platformSpawner: {fileID: 1588032612}
+  _difficulty: {fileID: 696136295}
   _player: {fileID: 636375859}
   _chunkRoot: {fileID: 615590746}
-  _chunkHeight: 20
+  _chunkHeight: 10
   _keepChunkCount: 4
   _spawnChunkAt: 0.5
   _chunkPrefab: {fileID: 2633144691857072857, guid: 4596c718f59e9c547ab04af6658b905b, type: 3}
@@ -958,6 +960,20 @@ Transform:
   - {fileID: 1588032611}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &696136295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696136292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 387b80577e75c28418cda405c10599cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _difficultyStep: 1
+  _maxLevel: 3
 --- !u!1 &792202551
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,15 +2132,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _platformPrefab: {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
+  _presets:
+  - {fileID: 11400000, guid: 3c0204930bf210b4bb72f129a6fecec7, type: 2}
+  - {fileID: 11400000, guid: 0ed40c1d1ff06a74bad716ba197daae3, type: 2}
+  - {fileID: 11400000, guid: 9a4e57cd9307d554189c1913630b9764, type: 2}
+  - {fileID: 11400000, guid: 5308daf190d3f164cbb987b85b731679, type: 2}
   _lanesX:
   - -2.5
   - 0
   - 2.5
-  _minGapY: 1.7
-  _maxGapY: 2
+  _maxGapY: 1.8
   _startSpawnY: 0
-  _minCount: 15
-  _maxCount: 20
+  _lastPlatformColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1618738924
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,8 @@ using UnityEngine;
 public class ChunkManager : MonoBehaviour
 {
     [Header("참조")]
-    [SerializeField] private PlatformSpawner _platformSpawner;
+    [SerializeField] private JumpGamePlatformSpawner _platformSpawner;
+    [SerializeField] private JumpGameDifficultyController _difficulty;
     [SerializeField] private JumpPlayerController _player;
     [SerializeField] private Transform _chunkRoot;
 
@@ -26,7 +27,6 @@ public class ChunkManager : MonoBehaviour
         CreateNextChunk();
         //CreateNextChunk();
     }
-
     private void Update()
     {
         float playerY = _player.GetHeight();
@@ -39,7 +39,6 @@ public class ChunkManager : MonoBehaviour
             RemoveOldChunks();
         }
     }
-
     private void CreateNextChunk()
     {
         _currentTopChunkIndex++;
@@ -50,11 +49,11 @@ public class ChunkManager : MonoBehaviour
         Chunk chunk = Instantiate(_chunkPrefab, _chunkRoot);
         chunk.Init(startY, endY);
 
-        _platformSpawner.Spawn(chunk);
+        int level = _difficulty.GetLevel(_currentTopChunkIndex); //레벨 받아오기
+        _platformSpawner.Spawn(chunk, level);
 
         _activeChunks.Add(chunk);
     }
-
     private void RemoveOldChunks()
     {
         while (_activeChunks.Count > _keepChunkCount)
