@@ -940,9 +940,9 @@ MonoBehaviour:
   _difficulty: {fileID: 696136295}
   _player: {fileID: 636375859}
   _chunkRoot: {fileID: 615590746}
-  _chunkHeight: 10
+  _chunkHeight: 15
   _keepChunkCount: 4
-  _spawnChunkAt: 0.5
+  _spawnChunkAt: 0.4
   _chunkPrefab: {fileID: 2633144691857072857, guid: 4596c718f59e9c547ab04af6658b905b, type: 3}
 --- !u!4 &696136294
 Transform:
