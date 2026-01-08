@@ -1628,7 +1628,7 @@ MonoBehaviour:
   _jumpRecoverSpeed: 12
   _jumpStretchX: 1.2
   _landSquashY: 0.7
-  _landRecoverSpeed: 6
+  _landRecoverSpeed: 7
   _landStretchX: 1.2
   _minLandSpeed: 2
   _maxLandSpeed: 9
@@ -1636,7 +1636,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   _groundCheckRadius: 0.2
-  _groundCheckDistance: 0.28
+  _groundCheckDistance: 0.22
   _groundNormalMinY: 0.6
 --- !u!58 &636375860
 CircleCollider2D:

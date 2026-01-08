@@ -18,7 +18,7 @@ public class JumpPlayerController : MonoBehaviour
 
     [Header("착지 연출")]
     [SerializeField] private float _landSquashY = 0.7f;
-    [SerializeField] private float _landRecoverSpeed = 6f;
+    [SerializeField] private float _landRecoverSpeed = 7f;
     [SerializeField] private float _landStretchX = 1.2f;
 
     [Header("착지 낙하속도 기준")]
@@ -28,8 +28,8 @@ public class JumpPlayerController : MonoBehaviour
     [Header("착지 판정 (CircleCast)")]
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _groundCheckRadius = 0.2f; // 원 반지름
-    [SerializeField] private float _groundCheckDistance = 0.28f; // 아래 검사 거리
-    [SerializeField] private float _groundNormalMinY = 0.6f; // 아래쪽 노멀 기준
+    [SerializeField] private float _groundCheckDistance = 0.22f; // 아래 검사 거리
+    [SerializeField] private float _groundNormalMinY = 0.6f; // 아래쪽 노멀 기준  0 = 벽, 1 = 평지, 0.5 = 60%
     public bool IsGrounded { get; private set; }
 
     private Vector3 _originScale;  // 원래 스케일
@@ -98,11 +98,11 @@ public class JumpPlayerController : MonoBehaviour
             _groundLayer //레이어 마스크 
         );
 
-        if (!hit)     // 바닥 안 닿았으면
-        {
-            IsGrounded = false;   // 공중 상태
-            return;
-        }
+        //if (!hit)     // 바닥 안 닿았으면
+        //{
+        //    IsGrounded = false;   // 공중 상태
+        //    return;
+        //}
 
         if (hit.normal.y < _groundNormalMinY) return;  // 옆면 / 경사 심하면 무시
 
@@ -142,7 +142,7 @@ public class JumpPlayerController : MonoBehaviour
 
 
 
-        _currentRecoverSpeed = Mathf.Lerp(_landRecoverSpeed, _landRecoverSpeed * 1.5f, t); // 빠르게 떨어질수록 복원도 빠름
+        _currentRecoverSpeed = Mathf.Lerp(_landRecoverSpeed, _landRecoverSpeed * 1.3f, t); // 빠르게 떨어질수록 복원도 빠름
 
         _isSquashed = true;  // 복원 시작
     }
