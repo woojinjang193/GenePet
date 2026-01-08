@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +5,8 @@ using UnityEngine.UI;
 
 public class JumpGameOverPanel : MonoBehaviour
 {
+    [SerializeField] private JumpGameUIManager _uiManager;
+
     [SerializeField] private TMP_Text _curScore;
     [SerializeField] private TMP_Text _bestScore;
 
@@ -22,17 +22,18 @@ public class JumpGameOverPanel : MonoBehaviour
     {
         _curScore.text = curScore.ToString();
         _bestScore.text = bestScore.ToString();
-
         gameObject.SetActive(true);
     }
-
-    public void OnRestartClicked()
+    public void Close()
     {
-        Debug.Log("다시하기 클릭");
-        SceneManager.LoadScene("JumpGameScene");
+        gameObject.SetActive(false);
     }
-    public void OnExitClicked()
+    private void OnRestartClicked()
     {
-        Debug.Log("나가기 클릭");
+        _uiManager.RestartGame();
+    }
+    private void OnExitClicked()
+    {
+        _uiManager.GoHome();
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,21 +12,26 @@ public class MiniGameBase : MonoBehaviour
 
     protected Dictionary<RewardType, int> _gainedItems = new(); // 획득 아이템 누적
     protected bool _isPlaying;
+    protected bool _isGameOver;
 
     public event Action OnGameOver;
+    public event Action OnGameStart;
 
     protected virtual void Start()
     {
-        //_pet = Manager.Mini.CurPet;  //TODO:테스트 끝나면 활성화 해야함
-        _isPlaying = true; //TODO: 테스트용 나중에 지워야함
-
-        _score = 0;              // 점수 초기화
-        _playSecond = 0;
+        _pet = Manager.Mini.CurPet;
         _gainedItems.Clear();    // 보상 기록 초기화
     }
-    protected void GameStart()
+    protected virtual void GameStart()
     {
+        OnGameStart?.Invoke();
         _isPlaying = true;
+    }
+    protected virtual void GameReset()
+    {
+        _isPlaying = false;
+        _score = 0;  // 점수 초기화
+        _playSecond = 0; //플레이 시간 초기화
     }
     private void Update()
     {

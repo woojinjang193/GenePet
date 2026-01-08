@@ -9,6 +9,7 @@ public class ChunkManager : MonoBehaviour
     [SerializeField] private JumpGameDifficultyController _difficulty;
     [SerializeField] private JumpPlayerController _player;
     [SerializeField] private Transform _chunkRoot;
+    [SerializeField] private JumpMiniGame _jumpManager;
 
     [Header("청크 설정")]
     [SerializeField] private float _chunkHeight = 15f; //청크 높이
@@ -23,9 +24,16 @@ public class ChunkManager : MonoBehaviour
 
     private void Start()
     {
-        // 초기 청크 2개 생성
+        _jumpManager.OnGameStart += OnGameStart;
+    }
+    private void OnDestroy()
+    {
+        _jumpManager.OnGameStart -= OnGameStart;
+    }
+    public void OnGameStart()
+    {
+        // 활성화 된 청크 모두 비활성화로직 여기에
         CreateNextChunk();
-        //CreateNextChunk();
     }
     private void Update()
     {

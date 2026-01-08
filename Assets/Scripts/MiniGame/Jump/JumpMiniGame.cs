@@ -7,6 +7,8 @@ public class JumpMiniGame : MiniGameBase
 {
     [Header("플레이어")]
     [SerializeField] private JumpPlayerController _player;
+    [SerializeField] private MiniGamePetVisualLoader _playerVisual;
+
     [Header("카메라")]
     [SerializeField] private JumpGameCamera _camera;
 
@@ -24,31 +26,30 @@ public class JumpMiniGame : MiniGameBase
     [SerializeField] private TMP_Text _curScoreText;
 
     // ===== 내부 상태 =====
-    private bool isGameOver;
+    
     private bool _isHolding; // 버튼 누르고 있는지
     private bool _isCameraMoving; // 카메라 이동중인지
     private int _direction;  // -1 왼쪽 / 1 오른쪽
     private float _chargeTime; // 누적 차지 시간
     private float _maxReachHeight; // 최고 도달 높이
+    private Vector3 _cameraStartPos;
 
     // ===== 미니게임별 능력 계수 =====
     private float _jumpPowerMul = 1f; // 점프 파워 배율
     private float _scoreMul = 1f;     // 점수 배율
 
-    public void ResetGame()
-    {
-        isGameOver = false;
-    }
     protected override void Start()
     {
         base.Start();
+
+        _cameraStartPos = Camera.main.transform.position; //카메라 시작점 저장
+        _playerVisual.LoadPetVisual(_pet); //펫 비주얼 로드
+
         _isCameraMoving = false;
         _maxReachHeight = _player.transform.position.y;
 
         _player.OnPlayerGrounded += UpdateHeightScore;
         _camera.OnCameraMoving += OnCameraMoving;
-
-        isGameOver = false; //TODO:테스트 끝나면 삭제해야함
         //ApplyPetAbility(); // 성격/행복도 적용 //TODO:테스트 끝나면 활성화 해야함
     }
     private void OnDestroy()
@@ -56,9 +57,24 @@ public class JumpMiniGame : MiniGameBase
         _player.OnPlayerGrounded -= UpdateHeightScore;
         _camera.OnCameraMoving -= OnCameraMoving;
     }
+    public void OnGameStartClicked() //게임 시작 버튼 눌림
+    {
+        GameReset();
+        GameStart();
+        _isGameOver = false;
+    }
+    protected override void GameReset()
+    {
+        Camera.main.transform.position = _cameraStartPos; //카메라 포지션 리셋
+        _player.gameObject.SetActive(true);
+        _player.gameObject.transform.position = Vector3.zero; //플레이어 포지션 리셋
+        _maxReachHeight = _player.transform.position.y;
+        //TODO: 배경 리셋 여기에 추가
+        base.GameReset();
+    }
     private void Update()
     {
-        UpdateCharge();        // 차지 누적
+        UpdateCharge();  // 차지 누적
     }
 
     // ================= 입력 =================
@@ -68,7 +84,7 @@ public class JumpMiniGame : MiniGameBase
     }
     public void OnPressButton(int dir)    // 버튼 누름 (JumpButton에서 호출)
     {
-        if (isGameOver) return;
+        if (_isGameOver) return;
         if (_isCameraMoving) return;
         if (_isHolding) return;
         if (!_player.IsGrounded) return;
@@ -146,7 +162,7 @@ public class JumpMiniGame : MiniGameBase
     {
         _isHolding = false;
         _isCameraMoving = false;
-        isGameOver = true;
+        _isGameOver = true;
 
         FinishGame();  // 미니게임 종료
     }

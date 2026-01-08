@@ -190,6 +190,7 @@ public class JumpPlayerController : MonoBehaviour
         else if (col.CompareTag("DeadZone"))
         {
             _jumpGame.OnPlayerDead();                 // 게임 종료 전달
+            gameObject.SetActive(false); // 플레이어 끄기
         }
     }
     // 현재 높이 제공
