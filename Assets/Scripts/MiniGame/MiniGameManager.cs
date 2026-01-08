@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +13,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
     {
         base.Awake();
     }
-    public void StartMiniGame(PetSaveData pet, MiniGame miniGame) //플레이어 데이터 세팅, 씬 이동
+    public void StartMiniGame(PetSaveData pet, int index) //플레이어 데이터 세팅, 씬 이동
     {
         if (pet == null)
         {
@@ -21,9 +23,19 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         CurPet = pet; //펫정보 저장
 
+        int enumCount = Enum.GetValues(typeof(MiniGame)).Length;
+
+        if (index < 0 || index >= enumCount)
+        {
+            Debug.LogError("잘못된 미니게임 인덱스");
+            return;
+        }
+
+        MiniGame miniGame = (MiniGame)index; 
+
         switch (miniGame) //씬 이동
         {
-            case MiniGame.Jump: SceneManager.LoadScene("JumpScene"); break;
+            case MiniGame.Jump: SceneManager.LoadScene("JumpGameScene"); break;
             case MiniGame.Rythm: SceneManager.LoadScene("RythmScene"); break;
         }
     }

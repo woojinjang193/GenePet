@@ -125,7 +125,7 @@ public class JumpPlayerController : MonoBehaviour
     {
         if (IsGround(collision.gameObject.layer)) //레이어 검사
         {
-            Debug.Log("바닥 터치");
+            //Debug.Log("바닥 터치");
             _groundContactCount++;
             _groundConfirmTimer = 0f; // 접촉 갱신
         }

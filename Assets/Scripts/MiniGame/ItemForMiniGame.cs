@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ItemForMiniGame : MonoBehaviour
 {
-    [Header("아이템 타입")]
+    [Header("아이템 아이콘")]
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     [Header("아이템 타입")]

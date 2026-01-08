@@ -973,7 +973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _difficultyStep: 1
-  _maxLevel: 3
+  _maxLevel: 4
 --- !u!1 &792202551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,6 +1759,50 @@ Transform:
   - {fileID: 1452561116}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1419626685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1419626687}
+  - component: {fileID: 1419626686}
+  m_Layer: 0
+  m_Name: Test item Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1419626686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419626685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bbf27481a171074aa295d970f0f1982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1419626687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419626685}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1452561114
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,9 +2178,9 @@ MonoBehaviour:
   _platformPrefab: {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
   _presets:
   - {fileID: 11400000, guid: 3c0204930bf210b4bb72f129a6fecec7, type: 2}
-  - {fileID: 11400000, guid: 0ed40c1d1ff06a74bad716ba197daae3, type: 2}
-  - {fileID: 11400000, guid: 9a4e57cd9307d554189c1913630b9764, type: 2}
-  - {fileID: 11400000, guid: 5308daf190d3f164cbb987b85b731679, type: 2}
+  - {fileID: 11400000, guid: 510ed5b0c4822df4297f3833fe392add, type: 2}
+  - {fileID: 11400000, guid: e7f750d15e6cfab43a63b2b65e734ea6, type: 2}
+  - {fileID: 11400000, guid: e12049bd26f8e6941b0673ae66df7a33, type: 2}
   _lanesX:
   - -2.5
   - 0
@@ -2296,6 +2340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a42d742b0f9f734fba1f46d021d59e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
   _reward: 1
   _amount: 100
 --- !u!212 &1635637861
@@ -2873,6 +2918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a42d742b0f9f734fba1f46d021d59e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
   _reward: 8
   _amount: 1
 --- !u!212 &2124305272
@@ -2956,3 +3002,4 @@ SceneRoots:
   - {fileID: 615590746}
   - {fileID: 1400954723}
   - {fileID: 1148902027}
+  - {fileID: 1419626687}

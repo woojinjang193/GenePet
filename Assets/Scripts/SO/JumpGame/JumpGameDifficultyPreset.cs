@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "JumpGameDifficultyPreset", menuName = "SO/JumpGame")]
@@ -11,4 +10,22 @@ public class JumpGameDifficultyPreset : ScriptableObject
     public float MinGapY;
     [Header("X 간격")]
     public int DistanceBetweenPlatform = 1;
+
+    [Header("청크당 최소 아이템 개수")]
+    public int MinItemCount = 1;
+    [Header("청크당 최대 아이템 개수")]
+    public int MaxItemCount = 1;
+
+    [Header("레벨 아이템 보상 옵션")]
+    public LevelReward[] LevelRewards;
+    [Header("레벨 클리어 보상 옵션")]
+    public LevelReward[] LevelClearRewards;
+
+    [Serializable]
+    public struct LevelReward
+    {
+        public RewardType RewardType;
+        public int Amount;
+    }
+
 }

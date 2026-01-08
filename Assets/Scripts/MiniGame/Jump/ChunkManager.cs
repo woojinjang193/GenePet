@@ -46,11 +46,16 @@ public class ChunkManager : MonoBehaviour
         float startY = _currentTopChunkIndex * _chunkHeight; //청크 시작점
         float endY = startY + _chunkHeight; //청크 끝지점
 
+        DifficultyResult difficulty = _difficulty.GetLevel(_currentTopChunkIndex);
+
+        int level = difficulty.Level;
+        bool isLastChunk = difficulty.IsLastChunkOfLevel;
+
         Chunk chunk = Instantiate(_chunkPrefab, _chunkRoot);
         chunk.Init(startY, endY);
 
-        int level = _difficulty.GetLevel(_currentTopChunkIndex); //레벨 받아오기
-        _platformSpawner.Spawn(chunk, level);
+        
+        _platformSpawner.Spawn(chunk, level, isLastChunk);
 
         _activeChunks.Add(chunk);
     }

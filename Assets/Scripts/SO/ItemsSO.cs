@@ -60,4 +60,26 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
         }
     }
 
+    public Sprite GetItemSprite(RewardType type)
+    {
+        switch (type)
+        {
+            case RewardType.Energy: return Energy;
+            case RewardType.Coin: return CoinSprite;
+            case RewardType.RemovedAD: return RemoveAdSprite;
+            case RewardType.IslandTicket: return IslandTicketSprite;
+            case RewardType.GeneticScissors: return GeneticScissorsSprite;
+            case RewardType.GeneticTester: return geneticTesterSprite;
+            case RewardType.MissingPoster: return MissingPosterSprite;
+            case RewardType.Snack: return SnackSprite;
+            case RewardType.MasterGift: return MasterGiftSprite;
+            case RewardType.PetSlot: return PetSlot;
+            case RewardType.Gift1: return Gift1;
+            case RewardType.Gift2: return Gift2;
+            case RewardType.Gift3: return Gift3;
+            case RewardType.Gift4: return Gift4;
+        }
+        Debug.LogError("스프라이트 반환 안됨");
+        return null;
+    }
 }
