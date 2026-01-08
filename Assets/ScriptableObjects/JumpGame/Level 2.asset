@@ -21,14 +21,17 @@ MonoBehaviour:
   LevelRewards:
   - RewardType: 1
     Amount: 10
-  - RewardType: 1
-    Amount: 15
+    Weight: 1
   - RewardType: 8
     Amount: 1
+    Weight: 1
   LevelClearRewards:
   - RewardType: 1
     Amount: 1000
+    Weight: 1
   - RewardType: 3
     Amount: 5
+    Weight: 1
   - RewardType: 12
     Amount: 1
+    Weight: 1
