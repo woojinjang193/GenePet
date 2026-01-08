@@ -827,13 +827,20 @@ MonoBehaviour:
   _jumpGame: {fileID: 850357990}
   _rigid: {fileID: 636375857}
   _visual: {fileID: 577623966}
-  _squashY: 0.7
-  _stretchX: 1.2
-  _recoverSpeed: 12
+  _jumpSquashY: 0.7
+  _jumpRecoverSpeed: 12
+  _jumpStretchX: 1.2
+  _landSquashY: 0.7
+  _landRecoverSpeed: 6
+  _landStretchX: 1.2
+  _minLandSpeed: 2
+  _maxLandSpeed: 9
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8192
-  _groundConfirmTime: 0.1
+  _groundCheckRadius: 0.2
+  _groundCheckDistance: 0.28
+  _groundNormalMinY: 0.6
 --- !u!58 &636375860
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1757,50 +1764,6 @@ Transform:
   - {fileID: 1635637862}
   - {fileID: 2124305273}
   - {fileID: 1452561116}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1419626685
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1419626687}
-  - component: {fileID: 1419626686}
-  m_Layer: 0
-  m_Name: Test item Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1419626686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419626685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bbf27481a171074aa295d970f0f1982, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1419626687
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419626685}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1452561114
@@ -3002,4 +2965,3 @@ SceneRoots:
   - {fileID: 615590746}
   - {fileID: 1400954723}
   - {fileID: 1148902027}
-  - {fileID: 1419626687}
