@@ -7,7 +7,9 @@ public class JumpPlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigid;
 
     [Header("비주얼 트랜스 폼")]
-    [SerializeField] private Transform _visual;
+    [SerializeField] private Transform _visualRoot; //위치보정용
+    [SerializeField] private Transform _body; // 스케일 조절용
+
 
     [Header("점프 차지 연출")]
     [SerializeField] private float _jumpSquashY = 0.7f;
@@ -31,6 +33,7 @@ public class JumpPlayerController : MonoBehaviour
     public bool IsGrounded { get; private set; }
 
     private Vector3 _originScale;  // 원래 스케일
+    private bool _isCharging; // 차지 중인지
     private bool _isSquashed; // 납작 상태 여부
     private float _currentRecoverSpeed; //현재 복원 스피드
     private bool _pendingGrounded; // 착지 대기 플래그
@@ -39,33 +42,32 @@ public class JumpPlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _originScale = _visual.localScale;  // 원본 저장
+        _originScale = _body.localScale;  // 원본 저장
     }
 
     private void Update()
     {
-        if (_isSquashed)
+        if (_isSquashed && !_isCharging)
         {
             // 현재 스케일을 원본으로 보간
             Vector3 newScale = Vector3.Lerp(
-                _visual.localScale,
+                _body.localScale,
                 _originScale,
                 Time.deltaTime * _currentRecoverSpeed
             );
 
-            _visual.localScale = newScale;
+            _body.localScale = newScale;
 
             // 스케일에 맞춰 항상 바닥 기준 위치 보정
-            float yRatio = newScale.y / _originScale.y;
-            float offsetY = (_originScale.y - _originScale.y * yRatio);
+            float deltaY = _originScale.y - newScale.y;
+            _visualRoot.localPosition = new Vector3(0f, -deltaY * 0.5f, 0f);
 
-            _visual.localPosition = new Vector3(0f, -offsetY,0f);
 
             // 복원 완료 판정
             if (Mathf.Abs(newScale.y - _originScale.y) < 0.01f)
             {
-                _visual.localScale = _originScale;
-                _visual.localPosition = Vector3.zero;
+                _body.localScale = _originScale;
+                _visualRoot.localPosition = Vector3.zero;
                 _isSquashed = false;
 
                 if (_pendingGrounded)  //복원 완료 후 바닥 판정 true
@@ -129,14 +131,16 @@ public class JumpPlayerController : MonoBehaviour
         float y = Mathf.Lerp(1f, _landSquashY, t); //최대값 기준 세로 납작
         float x = Mathf.Lerp(1f, _landStretchX, t); //최대값 기준 가로 늘림
 
-        _visual.localScale = new Vector3(
+        _body.localScale = new Vector3(
             _originScale.x * x,
             _originScale.y * y,
             _originScale.z
         );
 
-        float offsetY = (_originScale.y - _originScale.y * y); // 바닥 기준 보정
-        _visual.localPosition = new Vector3(0f, -offsetY, 0f); // 위치 보정
+        float deltaY = _originScale.y - (_originScale.y * y);
+        _visualRoot.localPosition = new Vector3(0f, -deltaY * 0.5f, 0f);
+
+
 
         _currentRecoverSpeed = Mathf.Lerp(_landRecoverSpeed, _landRecoverSpeed * 1.5f, t); // 빠르게 떨어질수록 복원도 빠름
 
@@ -145,21 +149,22 @@ public class JumpPlayerController : MonoBehaviour
     // =================점프 차지 연출=======================
     public void SetChargeVisual(float chargeRate)
     {
+        _isCharging = true;
+
         // chargeRate: 0~1
         float y = Mathf.Lerp(1f, _jumpSquashY, chargeRate); // 점점 납작
         float x = Mathf.Lerp(1f, _jumpStretchX, chargeRate);// 가로 늘어남
 
-        _visual.localScale = new Vector3(
+        _body.localScale = new Vector3(
             _originScale.x * x,
             _originScale.y * y,
             _originScale.z
         );
 
         // ===== 바닥 기준 보정 =====
-        float offsetY = (_originScale.y - _originScale.y * y);
-        _visual.localPosition = new Vector3(0f, -offsetY, 0f); //아래로 내림
+        float deltaY = _originScale.y - (_originScale.y * y);
+        _visualRoot.localPosition = new Vector3(0f, -deltaY * 0.5f, 0f);
 
-        _isSquashed = true;
     }
     // ==================점프================
     public void Jump(float power, Vector2 dir)
@@ -167,8 +172,12 @@ public class JumpPlayerController : MonoBehaviour
         if (!IsGrounded) return;//공중 점프 방지
         if (dir == Vector2.zero) return;            // 방향 없으면 실행 안함
 
-        IsGrounded = false;
+        _currentRecoverSpeed = _jumpRecoverSpeed;
 
+        _isCharging = false;
+        _isSquashed = true;
+        IsGrounded = false;
+        
         _rigid.velocity = Vector2.zero;  // 기존 속도 제거
         _rigid.AddForce(    // 힘 적용
             dir.normalized * power,  // 방향 정규화 후 파워 곱함
