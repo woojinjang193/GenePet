@@ -118,7 +118,7 @@ public class JumpGamePlatformSpawner : MonoBehaviour
 
         if (isLastChunk && preset.LevelClearRewards.Length > 0) //마지막 청크 & 리워드가 0이상일때
         {
-            PlaceItemOnPlatform(_platforms[^1], GetRandomReward(preset.LevelClearRewards)); //아이템 배치
+            PlaceItemOnPlatform(_platforms[^1], GetWeightedRandomReward(preset.LevelClearRewards)); //아이템 배치
             _platforms.RemoveAt(_platforms.Count - 1); //리스트에서 삭제
         }
 
@@ -132,7 +132,7 @@ public class JumpGamePlatformSpawner : MonoBehaviour
             if (_platforms.Count == 0) break;
 
             int idx = Random.Range(0, _platforms.Count); //랜덤 플렛폼 선택
-            PlaceItemOnPlatform(_platforms[idx], GetRandomReward(preset.LevelRewards)); //아이템 배치
+            PlaceItemOnPlatform(_platforms[idx], GetWeightedRandomReward(preset.LevelRewards)); //아이템 배치
             _platforms.RemoveAt(idx); // 플렛폼 리스트에서 삭제
         }
     }
@@ -155,8 +155,27 @@ public class JumpGamePlatformSpawner : MonoBehaviour
         return _platformPrefab;
     }
 
-    private JumpGameDifficultyPreset.LevelReward GetRandomReward(JumpGameDifficultyPreset.LevelReward[] rewards)
+    private JumpGameDifficultyPreset.LevelReward GetWeightedRandomReward(JumpGameDifficultyPreset.LevelReward[] rewards)
     {
-        return rewards[Random.Range(0, rewards.Length)];
+        float totalWeight = 0f;
+
+        for (int i = 0; i < rewards.Length; i++)
+        {
+            totalWeight += rewards[i].Weight; // 각 보상의 Weight를 전부 더함
+        }
+
+        float rand = Random.Range(0f, totalWeight); //랜덤 숫자 뽑음
+        float acc = 0f;
+
+        for (int i = 0; i < rewards.Length; i++) //리워드 배열 체크
+        {
+            acc += rewards[i].Weight; // 각 보상의 Weight를 누적
+            if (rand <= acc) //범위안에 들어오면
+            {
+                return rewards[i]; //보상 뽑음
+            }  
+        }
+
+        return rewards[rewards.Length - 1]; // 안전장치
     }
 }

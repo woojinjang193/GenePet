@@ -26,6 +26,6 @@ public class JumpGameDifficultyPreset : ScriptableObject
     {
         public RewardType RewardType;
         public int Amount;
+        public float Weight;
     }
-
 }
