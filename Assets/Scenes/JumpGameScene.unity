@@ -3024,6 +3024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 636375859}
+  _jumpManager: {fileID: 850357990}
   _gap: 1.5
   _distanceFromPlayer: 3
   _cameraMoveSpeed: 6

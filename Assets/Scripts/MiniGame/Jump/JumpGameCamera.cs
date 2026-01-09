@@ -7,6 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class JumpGameCamera : MonoBehaviour
 {
     [SerializeField] private JumpPlayerController _player;
+    [SerializeField] private JumpMiniGame _jumpManager;
 
     [Header("전에 움직였던 y보다 _gap 보다 높을떄 이동")]
     [SerializeField] private float _gap;
@@ -24,6 +25,7 @@ public class JumpGameCamera : MonoBehaviour
     private void Awake()
     {
         _player.OnPlayerGrounded += OnPlayerGrounded;
+        _jumpManager.OnGameStart += OnGameStart;
         _lastMovedY = _player.transform.position.y;
     }
     private void OnDestroy()
@@ -32,6 +34,12 @@ public class JumpGameCamera : MonoBehaviour
 
         if (_player != null)
             _player.OnPlayerGrounded -= OnPlayerGrounded;
+        if (_jumpManager != null)
+            _jumpManager.OnGameStart -= OnGameStart;
+    }
+    private void OnGameStart()
+    {
+        _lastMovedY = _player.transform.position.y; //게임시작시 높이 초기화
     }
     private void OnPlayerGrounded(float curY)
     {
