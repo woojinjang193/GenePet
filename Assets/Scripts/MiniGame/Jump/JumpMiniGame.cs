@@ -18,7 +18,7 @@ public class JumpMiniGame : MiniGameBase
 
     [Header("점프")]
     [SerializeField] private float _basePower = 15f;
-    [SerializeField] private float _jumpAngle = 60f;
+    [SerializeField] private float _jumpAngle = 65f;
 
     [Header("점수")]
     [SerializeField] private float _scorePerHeight = 1f; // 높이 1당 점수
@@ -71,6 +71,10 @@ public class JumpMiniGame : MiniGameBase
         _maxReachHeight = _player.transform.position.y;
         //TODO: 배경 리셋 여기에 추가
         base.GameReset();
+    }
+    public void GoBackHome()
+    {
+        FinishGame();
     }
     private void Update()
     {
@@ -155,6 +159,7 @@ public class JumpMiniGame : MiniGameBase
     // ================= 외부 이벤트 =================
     public void OnItemCollected(RewardType type, int amount)
     {
+        if(!_isPlaying) return;
         GainItem(type, amount); // 아이템 누적
     }
 
@@ -163,8 +168,7 @@ public class JumpMiniGame : MiniGameBase
         _isHolding = false;
         _isCameraMoving = false;
         _isGameOver = true;
-
-        FinishGame();  // 미니게임 종료
+        GameOver();
     }
     // ================= 능력 적용 =================
     private void ApplyPetAbility()

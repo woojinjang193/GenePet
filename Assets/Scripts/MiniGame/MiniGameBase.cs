@@ -29,9 +29,13 @@ public class MiniGameBase : MonoBehaviour
     }
     protected virtual void GameReset()
     {
-        _isPlaying = false;
         _score = 0;  // 점수 초기화
         _playSecond = 0; //플레이 시간 초기화
+    }
+    protected virtual void GameOver()
+    {
+        _isPlaying = false;
+        OnGameOver?.Invoke();
     }
     private void Update()
     {
@@ -48,31 +52,38 @@ public class MiniGameBase : MonoBehaviour
     }
 
     // ===== 아이템 =====
+    protected void GainMoneyByScore(int amount)
+    { 
+        GainItem(RewardType.Coin, amount);
+    }
     protected void GainItem(RewardType type, int amount)
     {
-        if (!_isPlaying) return;
-
         if (_gainedItems.ContainsKey(type))
             _gainedItems[type] += amount;
         else
             _gainedItems[type] = amount;
+
+        Debug.Log($"[획득] {type.ToString()} + {amount}");
     }
 
     // ===== 종료 =====
     protected void FinishGame()
     {
-        _isPlaying = false;
-        OnGameOver?.Invoke();
-
-        List<RewardData> rewards = new();
-        Debug.Log($"보상 목록:");
-        foreach (var pair in _gainedItems)
+        if(_gainedItems.Count > 0 ) //보상 있을때 
         {
-            rewards.Add(RewardData.CreateItem(pair.Key, pair.Value));
-            Debug.Log($"아이템: {pair.Key}, 개수: {pair.Value}");
-        }
+            List<RewardData> rewards = new();
+            Debug.Log($"보상 목록:");
+            foreach (var pair in _gainedItems)
+            {
+                rewards.Add(RewardData.CreateItem(pair.Key, pair.Value));
+                Debug.Log($"아이템: {pair.Key}, 개수: {pair.Value}");
+            }
 
-        //TODO:테스트 끝나면 활성화 해야함
-        //Manager.Mini.EndMiniGame(rewards, _score);
+            Manager.Mini.EndMiniGame(rewards, _score);
+        }
+        else //보상 없을때
+        {
+            Manager.Mini.EndMiniGame(null, _score);
+        }
     }
 }

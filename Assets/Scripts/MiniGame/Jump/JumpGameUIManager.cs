@@ -32,6 +32,7 @@ public class JumpGameUIManager : MonoBehaviour
         int curScore = _jumpGame.Score;
         int bestScore = curScore; // TODO: 실제 최고점수 연결
 
+
         _gameOverPanel.Open(curScore, bestScore);
     }
     // ===== 패널에서 호출 =====
@@ -45,6 +46,6 @@ public class JumpGameUIManager : MonoBehaviour
     }
     public void GoHome()
     {
-        SceneManager.LoadScene("InGameScene");
+        _jumpGame.GoBackHome();
     }
 }

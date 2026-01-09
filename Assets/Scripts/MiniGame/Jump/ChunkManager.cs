@@ -13,7 +13,7 @@ public class ChunkManager : MonoBehaviour
 
     [Header("청크 설정")]
     [SerializeField] private float _chunkHeight = 15f; //청크 높이
-    [SerializeField] private int _keepChunkCount = 4; //유지하는 청크 개수
+    [SerializeField] private int _keepChunkCount = 2; //유지하는 청크 개수
     [SerializeField] private float _spawnChunkAt = 0.7f; //청크 일정높이 도달시 청크 생성
 
     [Header("프리팹")]
@@ -41,8 +41,9 @@ public class ChunkManager : MonoBehaviour
     }
     public void OnGameOver()
     {
+        ResetChunks();
+        _platformSpawner.ResetPrevChunkData();
         _isPlaying = false;
-        // TODO: 청크 초기화 로직 여기에 추가
     }
 
     private void Update()
@@ -68,13 +69,14 @@ public class ChunkManager : MonoBehaviour
 
         DifficultyResult difficulty = _difficulty.GetLevel(_currentTopChunkIndex);
 
+        GameObject chunkObj = Manager.Pool.Get(_chunkPrefab.gameObject,Vector3.zero,_chunkRoot); //풀링
+
+        Chunk chunk = chunkObj.GetComponent<Chunk>();
+        chunk.Init(startY, endY);
+
         int level = difficulty.Level;
         bool isLastChunk = difficulty.IsLastChunkOfLevel;
 
-        Chunk chunk = Instantiate(_chunkPrefab, _chunkRoot);
-        chunk.Init(startY, endY);
-
-        
         _platformSpawner.Spawn(chunk, level, isLastChunk);
 
         _activeChunks.Add(chunk);
@@ -85,7 +87,20 @@ public class ChunkManager : MonoBehaviour
         {
             Chunk old = _activeChunks[0];
             _activeChunks.RemoveAt(0);
-            Destroy(old.gameObject); // 나중에 풀링으로 교체
+
+            _platformSpawner.ReleasePlatforms(old);
+            Manager.Pool.Release(old.gameObject); //릴리즈
         }
+    }
+    private void ResetChunks()
+    {
+        for (int i = 0; i < _activeChunks.Count; i++) // 활성 청크 전부 순회
+        {
+            _platformSpawner.ReleasePlatforms(_activeChunks[i]); // 청크의 발판 전부 반환
+            Manager.Pool.Release(_activeChunks[i].gameObject); // 청크 반환
+        }
+
+        _activeChunks.Clear();
+        _currentTopChunkIndex = -1;
     }
 }

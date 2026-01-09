@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static JumpGameDifficultyPreset;
 
 public class JumpGamePlatformSpawner : MonoBehaviour
 {
@@ -62,7 +59,7 @@ public class JumpGamePlatformSpawner : MonoBehaviour
             int lane = GetNextLane(prevLane, preset.DistanceBetweenPlatform); // 다음 x 포지션 
 
             Vector3 pos = new(_lanesX[lane], curY, 0f);
-            GameObject platform = Instantiate(prefab, pos, Quaternion.identity, chunk.transform);
+            GameObject platform = Manager.Pool.Get(prefab, pos, chunk.transform);
 
             _platforms.Add(platform); //리스트에 추가
             lastPlatform = platform;
@@ -76,6 +73,28 @@ public class JumpGamePlatformSpawner : MonoBehaviour
 
         PlaceItems(preset, isLastChunk);
     }
+
+    // ===== 청크 비활성화 시 플랫폼 반환 =====
+    public void ReleasePlatforms(Chunk chunk)
+    {
+        if (chunk == null) return;
+
+        int count = chunk.transform.childCount; // 자식 개수를 미리 가져옴 (순회 중 변해도 안전)
+
+        for (int i = count - 1; i >= 2; i--) //뒤에서 부터 순회 (벽 2개 제외)
+        {
+            Transform platformTr = chunk.transform.GetChild(i);
+            GameObject platform = platformTr.gameObject;
+
+            for (int j = 0; j < platformTr.childCount; j++) //플렛폼 모든 자식 끔
+            {
+                platformTr.GetChild(j).gameObject.SetActive(false);
+            }
+            // 플랫폼만 풀로 반환
+            Manager.Pool.Release(platform);
+        }
+    }
+
 
     //==============다음 발판위치 정하는 함수======================
     private int GetNextLane(int prev, int distance) 
@@ -178,4 +197,10 @@ public class JumpGamePlatformSpawner : MonoBehaviour
 
         return rewards[rewards.Length - 1]; // 안전장치
     }
+    public void ResetPrevChunkData()
+    {
+        _prevChunkLastPlatformY = 0f;   //이전 게임 높이 초기화
+        _prevChunkLastPlatformLane = 0; //이전 게임 레인 초기화
+    }
+
 }
