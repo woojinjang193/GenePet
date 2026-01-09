@@ -21,22 +21,34 @@ public class ChunkManager : MonoBehaviour
 
     private List<Chunk> _activeChunks = new();
     private int _currentTopChunkIndex = -1;
+    private bool _isPlaying = false;
 
     private void Start()
     {
         _jumpManager.OnGameStart += OnGameStart;
+        _jumpManager.OnGameOver += OnGameOver;
     }
     private void OnDestroy()
     {
+        if(!_jumpManager) return;
         _jumpManager.OnGameStart -= OnGameStart;
+        _jumpManager.OnGameOver -= OnGameOver;
     }
     public void OnGameStart()
     {
-        // 활성화 된 청크 모두 비활성화로직 여기에
         CreateNextChunk();
+        _isPlaying = true;
     }
+    public void OnGameOver()
+    {
+        _isPlaying = false;
+        // TODO: 청크 초기화 로직 여기에 추가
+    }
+
     private void Update()
     {
+        if(!_isPlaying) return;
+
         float playerY = _player.GetHeight();
 
         // 다음 청크 생성 조건
