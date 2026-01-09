@@ -11,8 +11,11 @@ public class MiniGameBase : MonoBehaviour
     protected float _playSecond;
 
     protected Dictionary<RewardType, int> _gainedItems = new(); // 획득 아이템 누적
+    protected bool _canHaveEgg;
     protected bool _isPlaying;
     protected bool _isGameOver;
+
+    protected MiniGameContext _effectContext; // 미니게임 효과 컨텍스트
 
     public event Action OnGameOver;
     public event Action OnGameStart;
@@ -21,6 +24,18 @@ public class MiniGameBase : MonoBehaviour
     {
         _pet = Manager.Mini.CurPet;
         _gainedItems.Clear();    // 보상 기록 초기화
+
+        _canHaveEgg = Manager.Save.CurrentData.UserData.EggList.Count < Manager.Game.Config.MaxEggAmount; //추가 알 획득 가능한 상태인지
+
+        MiniGamePersonalityEffectSO table = Manager.Mini.GetEffectTable(); // 미니게임별 테이블
+
+        //성격 가져오기
+        string personalityID = _pet.Genes.Personality.DominantId;
+        PersonalitySO personalitySO = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, personalityID);
+        PersonalityType petsonality = personalitySO.Personality;
+
+        float happiness01 = _pet.Happiness / 100;
+        _effectContext = MiniGameEffectApplier.Apply(table, petsonality, happiness01); //성격 적용
     }
     protected virtual void GameStart()
     {
@@ -35,6 +50,7 @@ public class MiniGameBase : MonoBehaviour
     protected virtual void GameOver()
     {
         _isPlaying = false;
+        GainMoneyByScore();
         OnGameOver?.Invoke();
     }
     private void Update()
@@ -52,16 +68,20 @@ public class MiniGameBase : MonoBehaviour
     }
 
     // ===== 아이템 =====
-    protected void GainMoneyByScore(int amount)
+    protected void GainMoneyByScore()
     { 
-        GainItem(RewardType.Coin, amount);
+        GainItem(RewardType.Coin, _score);
     }
     protected void GainItem(RewardType type, int amount)
     {
         if (_gainedItems.ContainsKey(type))
+        {
             _gainedItems[type] += amount;
+        }
         else
+        {
             _gainedItems[type] = amount;
+        }
 
         Debug.Log($"[획득] {type.ToString()} + {amount}");
     }

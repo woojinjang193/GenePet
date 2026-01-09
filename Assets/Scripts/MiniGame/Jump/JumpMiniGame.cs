@@ -35,8 +35,11 @@ public class JumpMiniGame : MiniGameBase
     private Vector3 _cameraStartPos;
 
     // ===== 미니게임별 능력 계수 =====
-    private float _jumpPowerMul = 1f; // 점프 파워 배율
-    private float _scoreMul = 1f;     // 점수 배율
+    private float _jumpPowerMul = 1f; // 점프 파워 배율 (현재 안씀)
+    private float _scoreMul = 1f;     // 점수 배율 (현재 안씀)
+    private float _coinMul = 1f;  //코인 아이템 획득 배율
+    private float _finalJumpPower = 0f; //마지막 점프 파워
+
 
     protected override void Start()
     {
@@ -50,7 +53,6 @@ public class JumpMiniGame : MiniGameBase
 
         _player.OnPlayerGrounded += UpdateHeightScore;
         _camera.OnCameraMoving += OnCameraMoving;
-        //ApplyPetAbility(); // 성격/행복도 적용 //TODO:테스트 끝나면 활성화 해야함
     }
     private void OnDestroy()
     {
@@ -68,8 +70,11 @@ public class JumpMiniGame : MiniGameBase
         Camera.main.transform.position = _cameraStartPos; //카메라 포지션 리셋
         _player.gameObject.SetActive(true);
         _player.gameObject.transform.position = Vector3.zero; //플레이어 포지션 리셋
+        _player.SetFinalJumpLayer(false); //플레이어 Ground 충돌 되도록 설정
         _maxReachHeight = _player.transform.position.y;
+        ApplyAbilities();
         //TODO: 배경 리셋 여기에 추가
+
         base.GameReset();
     }
     public void GoBackHome()
@@ -159,7 +164,13 @@ public class JumpMiniGame : MiniGameBase
     // ================= 외부 이벤트 =================
     public void OnItemCollected(RewardType type, int amount)
     {
-        if(!_isPlaying) return;
+        //if(!_isPlaying) return;
+
+        if (type == RewardType.Coin)
+        {
+            amount = Mathf.FloorToInt(amount * _coinMul); //골드 배율만큼 더 획득
+        }
+
         GainItem(type, amount); // 아이템 누적
     }
 
@@ -168,26 +179,41 @@ public class JumpMiniGame : MiniGameBase
         _isHolding = false;
         _isCameraMoving = false;
         _isGameOver = true;
-        GameOver();
-    }
-    // ================= 능력 적용 =================
-    private void ApplyPetAbility()
-    {
-        // 기본값
-        _jumpPowerMul = 1f;
-        _scoreMul = 1f;
 
-        // 성격 보정 (예시)
-        switch (int.Parse(_pet.Genes.Personality.DominantId))
+        if(_finalJumpPower > 0)
         {
-            case (int)PersonalityType.Brave:
-                //능력
-                break;
+            FinalJump();
         }
+        else
+        {
+            GameOver(); //바로 게임 오버
+        }
+    }
 
-        // 행복도 보정 (0~100 가정)
-        float happyRate = Mathf.Clamp01(_pet.Happiness / 100f);
-        _jumpPowerMul += happyRate * 0.4f; // 최대 +40%
-        _scoreMul += happyRate * 0.3f;     // 최대 +30%
+    public void ApplyAbilities()
+    {
+        if (_effectContext == null) { Debug.LogWarning("_effectContext 없음"); return;}
+        
+        _coinMul = _effectContext.GoldMultiplier; //코인 배율
+        _finalJumpPower = _effectContext.Jump_FinalJumpPower; //마지막 점프 파워
+    }
+    
+    private void FinalJump()
+    {
+        float rad = _jumpAngle * Mathf.Deg2Rad;                // 각도 → 라디안 변환
+        Vector2 jumpDir = Vector2.zero;
+
+        if (_player.transform.position.x <= 0) //플레이어 위치가 왼쪽일때
+        {
+            jumpDir = new Vector2(Mathf.Cos(rad) * 1, Mathf.Sin(rad));
+        }
+        else //오른쪽일때
+        {
+            jumpDir = new Vector2(Mathf.Cos(rad) * -1, Mathf.Sin(rad));
+        }
+        _player.SetFinalJumpLayer(true); //파이널 점프시 바닥에 충돌 안되도록 설정
+        _player.gameObject.SetActive(true);
+        _player.Jump(_finalJumpPower, jumpDir);
+        _finalJumpPower = 0f;
     }
 }

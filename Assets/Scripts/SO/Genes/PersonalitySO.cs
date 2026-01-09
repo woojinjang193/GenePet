@@ -6,4 +6,5 @@ using UnityEngine;
 public class PersonalitySO : PartBaseSO
 {
     public PersonalityType Personality;
+    public Sprite Sprite;
 }

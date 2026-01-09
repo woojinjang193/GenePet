@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a148ef2975e8c3e46a0977ce417730c0, type: 3}
-  m_Name: New PersonalitySO 3
+  m_Script: {fileID: 11500000, guid: 73c96c55fc63ec944983ae6f294325f4, type: 3}
+  m_Name: RythmGame Personality Effect SO
   m_EditorClassIdentifier: 
-  ID: 03
-  DisplayName: 01
-  Rarity: 3
-  Personality: 1
-  Sprite: {fileID: 0}
+  miniGame: 1
+  effects:
+  - personality: 2
+    effect: {fileID: 11400000, guid: 56d923d782b9e6244adf8fcb68eb6360, type: 2}

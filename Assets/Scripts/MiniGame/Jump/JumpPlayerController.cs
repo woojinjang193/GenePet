@@ -30,6 +30,8 @@ public class JumpPlayerController : MonoBehaviour
     [SerializeField] private float _groundCheckRadius = 0.2f; // 원 반지름
     [SerializeField] private float _groundCheckDistance = 0.22f; // 아래 검사 거리
     [SerializeField] private float _groundNormalMinY = 0.6f; // 아래쪽 노멀 기준  0 = 벽, 1 = 평지, 0.5 = 60%
+
+    private int _defaultLayer; //플레이어 레이어
     public bool IsGrounded { get; private set; }
 
     private Vector3 _originScale;  // 원래 스케일
@@ -43,6 +45,7 @@ public class JumpPlayerController : MonoBehaviour
     private void Awake()
     {
         _originScale = _body.localScale;  // 원본 저장
+        _defaultLayer = gameObject.layer;
     }
 
     private void Update()
@@ -202,6 +205,21 @@ public class JumpPlayerController : MonoBehaviour
             gameObject.SetActive(false); // 플레이어 끄기
         }
     }
+    public void SetFinalJumpLayer(bool isFinalJump) //플레이어 레이어 변경 함수
+    {
+        if (isFinalJump)
+        {
+            gameObject.layer = LayerMask.NameToLayer("FinalJump");
+            Debug.Log("레이어 설정");
+        }
+        else
+        {
+            gameObject.layer = _defaultLayer;
+            Debug.Log("디폴트 레이어 ");
+        }
+    }
+
+
     // 현재 높이 제공
     public float GetHeight()
     {
