@@ -40,6 +40,9 @@ public class JumpPlayerController : MonoBehaviour
     private float _currentRecoverSpeed; //현재 복원 스피드
     private bool _pendingGrounded; // 착지 대기 플래그
 
+    private bool _ignoreDeadZone;
+    private bool _ignorePlatforms;
+
     public Action<float> OnPlayerGrounded; // 착지 이벤트
 
     private void Awake()
@@ -92,6 +95,7 @@ public class JumpPlayerController : MonoBehaviour
     private void CheckGroundByCircleCast()
     {
         if (_rigid.velocity.y > 0f) return; // 상승 중이면 착지 판정 안 함
+        if(_ignorePlatforms) return; //바닥 무시중이면 착지판정 안함
 
         RaycastHit2D hit = Physics2D.CircleCast(          // 원형 레이캐스트
             transform.position,  //시작위치
@@ -172,7 +176,7 @@ public class JumpPlayerController : MonoBehaviour
     // ==================점프================
     public void Jump(float power, Vector2 dir)
     {
-        if (!IsGrounded) return;//공중 점프 방지
+        if (!IsGrounded && !_ignoreDeadZone) return;//그라운드 아니고 데드존 무시중 아니면 리턴 
         if (dir == Vector2.zero) return;            // 방향 없으면 실행 안함
 
         _currentRecoverSpeed = _jumpRecoverSpeed;
@@ -186,6 +190,7 @@ public class JumpPlayerController : MonoBehaviour
             dir.normalized * power,  // 방향 정규화 후 파워 곱함
             ForceMode2D.Impulse   // 즉시 힘 적용
         );
+        Debug.Log($"{power}의 파워로 점프함");
     }
     // ================= 충돌 처리 =================
     private void OnTriggerEnter2D(Collider2D col) //트리거 
@@ -201,11 +206,27 @@ public class JumpPlayerController : MonoBehaviour
         }
         else if (col.CompareTag("DeadZone"))
         {
+            if (_ignoreDeadZone && _ignorePlatforms) return;
+
             _jumpGame.OnPlayerDead();                 // 게임 종료 전달
             gameObject.SetActive(false); // 플레이어 끄기
         }
     }
-    public void SetFinalJumpLayer(bool isFinalJump) //플레이어 레이어 변경 함수
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (_ignoreDeadZone)
+        {
+            _ignoreDeadZone = false; //충돌 다시 허용
+        }
+    }
+    public void SetFinalJumpState(bool isFinalJump)
+    {
+        _ignoreDeadZone = isFinalJump;
+        _ignorePlatforms = isFinalJump;
+        SetFinalJumpLayer(isFinalJump);
+    }
+
+    private void SetFinalJumpLayer(bool isFinalJump) //플레이어 레이어 변경 함수
     {
         if (isFinalJump)
         {

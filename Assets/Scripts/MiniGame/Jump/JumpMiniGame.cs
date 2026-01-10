@@ -70,7 +70,7 @@ public class JumpMiniGame : MiniGameBase
         Camera.main.transform.position = _cameraStartPos; //카메라 포지션 리셋
         _player.gameObject.SetActive(true);
         _player.gameObject.transform.position = Vector3.zero; //플레이어 포지션 리셋
-        _player.SetFinalJumpLayer(false); //플레이어 Ground 충돌 되도록 설정
+        _player.SetFinalJumpState(false); //플레이어 Ground 충돌 되도록 설정
         _maxReachHeight = _player.transform.position.y;
         ApplyAbilities();
         //TODO: 배경 리셋 여기에 추가
@@ -84,6 +84,7 @@ public class JumpMiniGame : MiniGameBase
     private void Update()
     {
         UpdateCharge();  // 차지 누적
+
     }
 
     // ================= 입력 =================
@@ -180,27 +181,36 @@ public class JumpMiniGame : MiniGameBase
         _isCameraMoving = false;
         _isGameOver = true;
 
+        Debug.Log("게임오버");
         if(_finalJumpPower > 0)
         {
-            FinalJump();
+            Debug.Log("코루틴 시작");
+            StartCoroutine(FinalJumpRoutine());
         }
         else
         {
             GameOver(); //바로 게임 오버
         }
     }
-
+    //===========특수능력 ====================
     public void ApplyAbilities()
     {
         if (_effectContext == null) { Debug.LogWarning("_effectContext 없음"); return;}
         
         _coinMul = _effectContext.GoldMultiplier; //코인 배율
         _finalJumpPower = _effectContext.Jump_FinalJumpPower; //마지막 점프 파워
+        Debug.Log($"파이널 점프파워 {_finalJumpPower}");
     }
-    
+    private IEnumerator FinalJumpRoutine()
+    {
+        Debug.Log("파이널점프 코루틴 시작");
+        //_isPlaying = true; //TODO: 파이널 점프동안 점수 올리기 할거면 활성화 해야함
+        yield return new WaitForSeconds(2); //2초 대기, 효과음 같은거 여기에 넣기
+        FinalJump();
+    }
     private void FinalJump()
     {
-        float rad = _jumpAngle * Mathf.Deg2Rad;                // 각도 → 라디안 변환
+        float rad = _jumpAngle * Mathf.Deg2Rad;  // 각도 → 라디안 변환
         Vector2 jumpDir = Vector2.zero;
 
         if (_player.transform.position.x <= 0) //플레이어 위치가 왼쪽일때
@@ -211,7 +221,8 @@ public class JumpMiniGame : MiniGameBase
         {
             jumpDir = new Vector2(Mathf.Cos(rad) * -1, Mathf.Sin(rad));
         }
-        _player.SetFinalJumpLayer(true); //파이널 점프시 바닥에 충돌 안되도록 설정
+
+        _player.SetFinalJumpState(true); //파이널 점프시 바닥에 충돌 안되도록 설정
         _player.gameObject.SetActive(true);
         _player.Jump(_finalJumpPower, jumpDir);
         _finalJumpPower = 0f;
