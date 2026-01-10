@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlatformPrefabs:
   - {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
+  - {fileID: 1659212146967151355, guid: f0bfb00f7d6e99948aa735edc2cf2373, type: 3}
   MinGapY: 1.3
   DistanceBetweenPlatform: 1
   MinItemCount: 2
