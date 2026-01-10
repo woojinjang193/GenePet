@@ -33,6 +33,7 @@ public class JumpMiniGame : MiniGameBase
     private float _chargeTime; // 누적 차지 시간
     private float _maxReachHeight; // 최고 도달 높이
     private Vector3 _cameraStartPos;
+    private bool _isFinalJumping;
 
     // ===== 미니게임별 능력 계수 =====
     private float _jumpPowerMul = 1f; // 점프 파워 배율 (현재 안씀)
@@ -70,12 +71,18 @@ public class JumpMiniGame : MiniGameBase
         Camera.main.transform.position = _cameraStartPos; //카메라 포지션 리셋
         _player.gameObject.SetActive(true);
         _player.gameObject.transform.position = Vector3.zero; //플레이어 포지션 리셋
+
         _player.SetFinalJumpState(false); //플레이어 Ground 충돌 되도록 설정
+        _camera.SetFinalJumpState(false);
+
         _maxReachHeight = _player.transform.position.y;
+        
         ApplyAbilities();
         //TODO: 배경 리셋 여기에 추가
 
         base.GameReset();
+
+        _curScoreText.text = $"Score: {_score}";
     }
     public void GoBackHome()
     {
@@ -85,6 +92,10 @@ public class JumpMiniGame : MiniGameBase
     {
         UpdateCharge();  // 차지 누적
 
+        if (_isFinalJumping)
+        {
+            FinalJumpScoreUpdate();
+        }
     }
 
     // ================= 입력 =================
@@ -199,17 +210,21 @@ public class JumpMiniGame : MiniGameBase
         
         _coinMul = _effectContext.GoldMultiplier; //코인 배율
         _finalJumpPower = _effectContext.Jump_FinalJumpPower; //마지막 점프 파워
+
+        _isFinalJumping = false;
         Debug.Log($"파이널 점프파워 {_finalJumpPower}");
     }
     private IEnumerator FinalJumpRoutine()
     {
         Debug.Log("파이널점프 코루틴 시작");
-        //_isPlaying = true; //TODO: 파이널 점프동안 점수 올리기 할거면 활성화 해야함
+        _isPlaying = true;
         yield return new WaitForSeconds(2); //2초 대기, 효과음 같은거 여기에 넣기
         FinalJump();
     }
     private void FinalJump()
     {
+        _isFinalJumping = true;
+
         float rad = _jumpAngle * Mathf.Deg2Rad;  // 각도 → 라디안 변환
         Vector2 jumpDir = Vector2.zero;
 
@@ -222,9 +237,27 @@ public class JumpMiniGame : MiniGameBase
             jumpDir = new Vector2(Mathf.Cos(rad) * -1, Mathf.Sin(rad));
         }
 
+        _camera.SetFinalJumpState(true);
         _player.SetFinalJumpState(true); //파이널 점프시 바닥에 충돌 안되도록 설정
         _player.gameObject.SetActive(true);
         _player.Jump(_finalJumpPower, jumpDir);
         _finalJumpPower = 0f;
+    }
+    private void FinalJumpScoreUpdate()
+    {
+        float curY = _player.transform.position.y;
+
+        if (curY > _maxReachHeight)
+        {
+            float diff = curY - _maxReachHeight;
+            int gained = Mathf.FloorToInt(diff * _scorePerHeight * _scoreMul);
+
+            if (gained > 0)
+            {
+                AddScore(gained);
+                _maxReachHeight = curY;
+                _curScoreText.text = $"Score: {_score}";
+            }
+        }
     }
 }

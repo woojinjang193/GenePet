@@ -6,6 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class JumpGameCamera : MonoBehaviour
 {
+    [Header("참조")]
     [SerializeField] private JumpPlayerController _player;
     [SerializeField] private JumpMiniGame _jumpManager;
 
@@ -15,6 +16,13 @@ public class JumpGameCamera : MonoBehaviour
     [SerializeField] private float _distanceFromPlayer;
     [Header("카메라 이동 스피드 ")]
     [SerializeField] private float _cameraMoveSpeed;
+
+    [Header("파이널 점프 카메라 추적")]
+    [SerializeField] private float _finalJumpYOffset = 1f;
+    [SerializeField] private float _finalJumpFollowSpeed = 50f;
+
+    private bool _isFinalJumping;
+    private float _highestFollowY;
 
     private float _lastMovedY;
 
@@ -26,6 +34,7 @@ public class JumpGameCamera : MonoBehaviour
     {
         _player.OnPlayerGrounded += OnPlayerGrounded;
         _jumpManager.OnGameStart += OnGameStart;
+        _jumpManager.OnGameOver += OnGameOver;
         _lastMovedY = _player.transform.position.y;
     }
     private void OnDestroy()
@@ -35,11 +44,18 @@ public class JumpGameCamera : MonoBehaviour
         if (_player != null)
             _player.OnPlayerGrounded -= OnPlayerGrounded;
         if (_jumpManager != null)
+        {
             _jumpManager.OnGameStart -= OnGameStart;
+            _jumpManager.OnGameOver -= OnGameOver;
+        }
     }
     private void OnGameStart()
     {
         _lastMovedY = _player.transform.position.y; //게임시작시 높이 초기화
+    }
+    private void OnGameOver()
+    {
+        StopAllCoroutines();
     }
     private void OnPlayerGrounded(float curY)
     {
@@ -56,7 +72,7 @@ public class JumpGameCamera : MonoBehaviour
         _lastMovedY = curY;
     }
 
-    private IEnumerator MoveTo(float targetY) //게임 종료시 코루틴 스탑 시켜야함
+    private IEnumerator MoveTo(float targetY)
     {
         OnCameraMoving?.Invoke(true); //카메라 이동시작 (입력 제한)
 
@@ -71,5 +87,33 @@ public class JumpGameCamera : MonoBehaviour
 
         OnCameraMoving?.Invoke(false);
         _moveRoutine = null;
+    }
+
+    //===================파이널 점프 ==================
+    public void SetFinalJumpState(bool isFinalJump)
+    {
+        _isFinalJumping = isFinalJump;
+        if (isFinalJump)
+        {
+            _highestFollowY = transform.position.y;
+        } 
+    }
+    private void LateUpdate()
+    {
+        if (!_isFinalJumping) return;
+
+        float targetY = _player.transform.position.y + _finalJumpYOffset;
+
+        if (targetY <= _highestFollowY) return;
+
+        _highestFollowY = targetY;
+
+        float newY = Mathf.MoveTowards(
+            transform.position.y,
+            targetY,
+            _finalJumpFollowSpeed * Time.deltaTime
+        );
+
+        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 }

@@ -1638,9 +1638,6 @@ MonoBehaviour:
   _groundCheckRadius: 0.2
   _groundCheckDistance: 0.22
   _groundNormalMinY: 0.6
-  _finalJumpLayer:
-    serializedVersion: 2
-    m_Bits: 16384
 --- !u!58 &636375860
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2170,7 +2167,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _basePower: 12
-  _jumpAngle: 60
+  _jumpAngle: 65
   _scorePerHeight: 10
   _bestScoreText: {fileID: 0}
   _curScoreText: {fileID: 60745221}
@@ -3031,6 +3028,8 @@ MonoBehaviour:
   _gap: 1.5
   _distanceFromPlayer: 3
   _cameraMoveSpeed: 6
+  _finalJumpYOffset: 1
+  _finalJumpFollowSpeed: 50
 --- !u!1 &1334697041
 GameObject:
   m_ObjectHideFlags: 0
