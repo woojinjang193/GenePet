@@ -1962,8 +1962,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 387b80577e75c28418cda405c10599cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _difficultyStep: 1
+  _difficultyStep: 3
   _maxLevel: 4
+  _presets:
+  - {fileID: 11400000, guid: 3c0204930bf210b4bb72f129a6fecec7, type: 2}
+  - {fileID: 11400000, guid: 510ed5b0c4822df4297f3833fe392add, type: 2}
+  - {fileID: 11400000, guid: e7f750d15e6cfab43a63b2b65e734ea6, type: 2}
+  - {fileID: 11400000, guid: e12049bd26f8e6941b0673ae66df7a33, type: 2}
 --- !u!1 &792202551
 GameObject:
   m_ObjectHideFlags: 0
@@ -4207,11 +4212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _platformPrefab: {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
-  _presets:
-  - {fileID: 11400000, guid: 3c0204930bf210b4bb72f129a6fecec7, type: 2}
-  - {fileID: 11400000, guid: 510ed5b0c4822df4297f3833fe392add, type: 2}
-  - {fileID: 11400000, guid: e7f750d15e6cfab43a63b2b65e734ea6, type: 2}
-  - {fileID: 11400000, guid: e12049bd26f8e6941b0673ae66df7a33, type: 2}
   _lanesX:
   - -2.5
   - 0

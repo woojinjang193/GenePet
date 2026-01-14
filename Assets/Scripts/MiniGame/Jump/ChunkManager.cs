@@ -72,14 +72,14 @@ public class ChunkManager : MonoBehaviour
         GameObject chunkObj = Manager.Pool.Get(_chunkPrefab.gameObject,Vector3.zero,_chunkRoot); //풀링
 
         Chunk chunk = chunkObj.GetComponent<Chunk>();
-        chunk.Init(startY, endY);
 
-        int level = difficulty.Level;
         bool isLastChunk = difficulty.IsLastChunkOfLevel;
+        bool isFirstChunk = difficulty.IsFirstChunkOfLevel;
+        JumpGameDifficultyPreset preset = difficulty.Preset;
 
-        _platformSpawner.Spawn(chunk, level, isLastChunk);
-
-        _activeChunks.Add(chunk);
+        chunk.Init(startY, endY, preset, isFirstChunk, isLastChunk); //청크 초기화
+        _platformSpawner.Spawn(chunk, preset, isLastChunk); //플렛폼 소환
+        _activeChunks.Add(chunk); // 리스트에 청크 추가
     }
     private void RemoveOldChunks()
     {

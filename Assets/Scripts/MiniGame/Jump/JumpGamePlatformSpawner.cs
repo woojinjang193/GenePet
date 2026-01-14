@@ -5,8 +5,6 @@ public class JumpGamePlatformSpawner : MonoBehaviour
 {
     [Header("프리팹")]
     [SerializeField] private GameObject _platformPrefab;
-    [Header("난이도 프리셋")]
-    [SerializeField] private JumpGameDifficultyPreset[] _presets;
 
     [Header("레인 X 위치")]
     [SerializeField] private float[] _lanesX = { -2.5f, 0f, 2.5f };
@@ -26,18 +24,18 @@ public class JumpGamePlatformSpawner : MonoBehaviour
     private List<GameObject> _platforms = new List<GameObject>(); //소환한 발판 넣을 리스트
 
     //=======================청크에 발판 소환========================
-    public void Spawn(Chunk chunk, int difficultyLevel, bool isLastChunk)
+    public void Spawn(Chunk chunk, JumpGameDifficultyPreset preset, bool isLastChunk)
     {
-        if (_presets == null || _presets.Length == 0)
-        {
-            Debug.LogError("Difficulty presets가 비어있음");
-            return;
-        }
+        //if (_presets == null || _presets.Length == 0)
+        //{
+        //    Debug.LogError("Difficulty presets가 비어있음");
+        //    return;
+        //}
 
         _platforms.Clear(); //리스트 클리어
 
-        int level = Mathf.Min(difficultyLevel, _presets.Length - 1); //레벨 인덱스 
-        JumpGameDifficultyPreset preset = _presets[level];
+        //int level = Mathf.Min(difficultyLevel, _presets.Length - 1); //레벨 인덱스 
+        //JumpGameDifficultyPreset preset = _presets[level];
 
         bool hasPrev = _prevChunkLastPlatformY > 0f; // 이전 청크가 있는지 확인
 
