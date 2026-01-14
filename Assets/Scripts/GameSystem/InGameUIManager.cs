@@ -21,7 +21,6 @@ public class InGameUIManager : MonoBehaviour
     [Header("펫소환 버튼")]
     [SerializeField] private Button _spawnPetButton;
 
-
     [Header("의존")]
     [SerializeField] private CameraController _camera;
     [SerializeField] private PetManager _petManager;
@@ -123,5 +122,18 @@ public class InGameUIManager : MonoBehaviour
         _rewardUI.gameObject.SetActive(true);
         _rewardUI.ShowNext();
     }
- 
+
+    public void MiniGameStartButtonClicked(int index) //미니게임 시작버튼 클릭
+    {
+        if (_petManager.ZoomedPet == null)
+        {
+            Debug.LogError("펫 정보 없음");
+            return;
+        }
+        var pet = _petManager.ZoomedPet;
+
+        Manager.Mini.StartMiniGame(pet, index);
+    }
+
+
 }
