@@ -87,3 +87,9 @@ public enum MiniGame
     Rythm,
     Null,
 }
+public enum RythmType
+{
+    Quarter,
+    Eighth,
+    Triplet,
+}
