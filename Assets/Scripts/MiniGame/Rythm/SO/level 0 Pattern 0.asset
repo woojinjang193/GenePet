@@ -10,20 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d8c0be0c6480ca4b97eab46e17cd41a, type: 3}
-  m_Name: New RythmPatternSO
+  m_Name: level 0 Pattern 0
   m_EditorClassIdentifier: 
   _rythmList:
   - Type: 0
     isRest: 0
   - Type: 0
     isRest: 0
-  - Type: 1
+  - Type: 0
     isRest: 0
-  - Type: 1
-    isRest: 0
-  - Type: 2
-    isRest: 0
-  - Type: 2
-    isRest: 0
-  - Type: 2
+  - Type: 0
     isRest: 0

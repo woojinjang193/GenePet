@@ -7,7 +7,7 @@ public enum JudgeResult
     Miss
 }
 
-public class RhythmJudge : MonoBehaviour
+public class RythmJudge : MonoBehaviour
 {
     [Header("판정 기준 (박 비율)")]
     public float perfectBeatWindow = 0.1f; // +-0.1박
