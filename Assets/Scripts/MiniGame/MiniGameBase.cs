@@ -51,7 +51,7 @@ public class MiniGameBase : MonoBehaviour
     {
         _isPlaying = false;
         GainMoneyByScore();
-        OnGameOver?.Invoke();
+        OnGameOver?.Invoke(); 
     }
     private void Update()
     {

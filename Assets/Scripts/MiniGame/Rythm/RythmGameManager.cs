@@ -68,19 +68,28 @@ public class RythmGameManager : MiniGameBase
     // 나가기 버튼
     public void GoBackHome()
     {
-        EndAndCloseGame();
+        FinishGame();
     }
 
     // 플레이어 사망
-    public void OnPlayerDead()
+    protected override void GameOver()
     {
-        EndAndCloseGame();
+        if (_isGameOver) return;   // 중복 종료 방지
+
+        _isGameOver = true;  // 입력 차단
+        _isPlaying = false;  // AddScore 차단
+
+        if (_flow != null)
+            _flow.StopGame(); // 마디 틱/오디오 정지
+
+        _uiManager.GameOverPanelOn();
+        base.GameOver();  // 점수 기반 코인 보상 누적(GainMoneyByScore)
     }
 
     // 플로우(레벨 전체)가 끝났을 때
     private void HandleGameFinished()
     {
-        EndAndCloseGame();
+        GameOver();
     }
     private void AddScoreDelta(int delta)
     {
@@ -117,7 +126,7 @@ public class RythmGameManager : MiniGameBase
 
             if (_playerHeart <= 0)
             {
-                EndAndCloseGame();
+                GameOver();
             }
         }
     }
@@ -129,18 +138,5 @@ public class RythmGameManager : MiniGameBase
         GainItem(type, amount); // MiniGameBase의 보상 누적
         Debug.Log($"{type}x{amount} 지급");
         
-    }
-    private void EndAndCloseGame()
-    {
-        if (_isGameOver) return;   // 중복 종료 방지
-
-        _isGameOver = true;  // 입력 차단
-        _isPlaying = false;  // AddScore 차단
-
-        if (_flow != null)
-            _flow.StopGame(); // 마디 틱/오디오 정지
-
-        GameOver();  // 점수 기반 코인 보상 누적(GainMoneyByScore)
-        FinishGame();  // 누적 보상 전달
     }
 }

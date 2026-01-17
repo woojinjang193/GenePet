@@ -25,6 +25,9 @@ public class RythmUiManager : MonoBehaviour
     [SerializeField] private Sprite _goodSprite;
     [SerializeField] private Sprite _missSprite;
 
+    [Header("게임오버 판넬")]
+    [SerializeField] private GameObject _gameOverPanel;
+
     private void Awake()
     {
         _scoring.OnJudged += HandleJudgeResult;
@@ -94,5 +97,9 @@ public class RythmUiManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_particleLifeTime);
         particle.SetActive(false);
+    }
+    public void GameOverPanelOn()
+    {
+        _gameOverPanel.SetActive(true);
     }
 }
