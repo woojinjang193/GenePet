@@ -1,11 +1,8 @@
 using System;
 using UnityEngine;
 
-public class RythmConductor : MonoBehaviour
+public class RythmConductor : MonoBehaviour // 마디가 바뀌는 순간을 알려준다
 {
-    // 마디가 바뀌는 순간을 알려준다.
-    // measureIndex: 0,1,2...
-    // measureStartDsp: 해당 마디의 시작 DSP 시간(정확한 기준)
     public event Action<int, double> OnMeasureTick;
 
     [Header("BGM")]
@@ -14,7 +11,7 @@ public class RythmConductor : MonoBehaviour
     private bool _running;
     private double _levelStartDspTime;   // 레벨 기준 0점(=BGM 시작 기준)
     private double _measureDuration;     // 1마디 길이(초)
-    private int _lastProcessedMeasure = -1;
+    private int _lastProcessedMeasure = -1; //같은 마디에서 이벤트 여러 번 쏘는 걸 막는 값
 
     public double LevelStartDspTime => _levelStartDspTime;
     public double MeasureDuration => _measureDuration;

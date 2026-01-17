@@ -159,8 +159,7 @@ public class JumpGamePlatformSpawner : MonoBehaviour
         ItemForMiniGame item = platform.GetComponentInChildren<ItemForMiniGame>(true); //컴포넌트 찾기
         if (item == null) { Debug.Log($"{platform.name} 플렛폼에 아이템 없음"); return; }
         
-        Sprite icon = Manager.Item.ItemImages.GetItemSprite(reward.RewardType); //아이콘 받아오기
-        item.Init(icon, reward.RewardType, reward.Amount); //아이템 초기화
+        item.Init(reward.RewardType, reward.Amount); //아이템 초기화
     }
 
     // ======================= 유틸 ======================
