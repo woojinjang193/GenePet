@@ -19,11 +19,17 @@ public class RythmJudge : MonoBehaviour
         float diffBeat = diffTime / beatDuration; // 박 단위 오차로 변환
 
         if (diffBeat <= perfectBeatWindow) // 퍼펙트 판정
+        {
+            Debug.Log("Perfect!");
             return JudgeResult.Perfect;
+        }
 
         if (diffBeat <= goodBeatWindow) // 굿 판정
+        {
+            Debug.Log("Good!");
             return JudgeResult.Good;
-
+        }
+        Debug.Log("Miss!");
         return JudgeResult.Miss; // 미스
     }
 }
