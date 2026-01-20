@@ -40,7 +40,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
         switch (CurMiniGame) //씬 이동
         {
             case MiniGame.Jump: SceneManager.LoadScene("JumpGameScene"); break;
-            case MiniGame.Rythm: SceneManager.LoadScene("RythmScene"); break;
+            case MiniGame.Rythm: SceneManager.LoadScene("RythmGameScene"); break;
         }
     }
     public void EndMiniGame(List<RewardData> rewards, int score)
