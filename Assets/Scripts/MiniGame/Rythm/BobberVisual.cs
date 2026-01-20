@@ -16,6 +16,10 @@ public class BobberVisual : MonoBehaviour
     [SerializeField] private float _minDownTime = 0.02f; // BPM이 너무 빠를 때 downTime이 0에 가까워지는 걸 방지(최소 내려가는 시간)
     [SerializeField] private float _minUpTime = 0.02f;     // BPM이 너무 빠를 때 upTime이 0에 가까워지는 걸 방지(최소 올라오는 시간)
 
+    [Header("찌 올리는 높이, 스피드")]
+    [SerializeField] private float _upDistance = 3f;
+    [SerializeField] private float _moveSpeed = 3f;
+
     private Vector3 _baseLocalPos;   // 찌의 "원래 위치"
 
     private bool _isPlaying;  // 현재 펄스(내려갔다 올라오는 연출)가 진행 중인지
@@ -40,6 +44,24 @@ public class BobberVisual : MonoBehaviour
         // 새 펄스 시작: 시간 초기화
         _t = 0f;
         _isPlaying = true;
+    }
+    public void BobberUp()
+    {
+        StartCoroutine(BobberUpRoutine());
+    }
+    private IEnumerator BobberUpRoutine()
+    {
+        float startY = transform.position.y;
+        float targetY = transform.position.y + _upDistance;
+
+        while (transform.position.y < targetY)
+        {
+            Vector3 pos = transform.position;
+            pos.y = Mathf.MoveTowards(pos.y, targetY, _moveSpeed * Time.deltaTime);
+            transform.position = pos;
+
+            yield return null;
+        }
     }
 
     private void Update()

@@ -17,6 +17,11 @@ public class RythmScoring : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float _maxMissRatioToSucceed = 0.5f; // 예: 0.5면 "미스가 절반 이하"면 성공
 
+    [Header("마디 시작 직전 입력 허용 구간")]
+    [SerializeField] private float _earlyInputBufferSec = 0.10f;
+    private double _bufferedInputDsp = -1; //(샘플턴에 눌린 입력 시간 저장)
+
+
     [Header("UI")]
     [SerializeField] private TMP_Text _scoreText;        // 점수 UI
 
@@ -60,12 +65,17 @@ public class RythmScoring : MonoBehaviour
     public void HandlePlayerInput()  // 입력 처리(판정 + 점수 + 사운드)
     {
         if (_flow == null) return;   // 플로우 없으면 종료
-        if (_flow.IsSampleTurn) return;  // 샘플 턴이면 입력 무시
+
+        double now = AudioSettings.dspTime;  // 현재 입력 시점 DSP
+
+        if (_flow.IsSampleTurn)
+        {
+            _bufferedInputDsp = now;
+            return;
+        }
 
         var preset = _flow.CurrentPreset; // 현재 레벨 프리셋
         if (preset == null) return;    // 없으면 종료
-
-        double now = AudioSettings.dspTime;  // 현재 입력 시점 DSP
 
         // 1) 마지막 박이면 무조건 last clip이 나와야 함(시간기준 판별)
         bool isLastMeasureLastBeat = IsLastMeasureLastBeat(now, preset);
@@ -131,7 +141,48 @@ public class RythmScoring : MonoBehaviour
     {
         // 입력 턴 시작 시점에 패턴 통계 초기화
         _patternMissCount = 0;
+
+        if (_bufferedInputDsp > 0)
+        {
+            // 버퍼 입력이 "입력턴 시작 전"에 눌린 것만 허용
+            double diff = _flow.TurnStartDspTime - _bufferedInputDsp;
+
+            if (diff >= 0 && diff <= _earlyInputBufferSec)
+            {
+                HandleBufferedInput(_bufferedInputDsp);
+            }
+
+            _bufferedInputDsp = -1;
+        }
     }
+    private void HandleBufferedInput(double bufferedNow) //버퍼 입력 1회 판정 함수
+    {
+        var preset = _flow.CurrentPreset;
+        if (preset == null) return;
+
+        //버퍼 입력도 입력 사운드 재생
+        bool isLastMeasureLastBeat = IsLastMeasureLastBeat(bufferedNow, preset);
+        if (_input != null) _input.PlayInputSound(isLastMeasureLastBeat);
+
+        JudgeResult result = JudgeResult.Miss;
+
+        if (_judge != null && _flow.TryGetNextBeat(out var beat))
+        {
+            double beatDuration = 60.0 / preset.BPM;
+
+            float inputDsp = (float)bufferedNow;
+            float targetDsp = (float)(_flow.TurnStartDspTime + beat.Time);
+            float beatDurF = (float)beatDuration;
+
+            result = _judge.Judge(inputDsp, targetDsp, beatDurF);
+
+            _flow.ConsumeNextBeat();
+        }
+
+        ApplyJudgeResult(result);
+        RefreshScoreUI();
+    }
+
 
     private void HandlePatternFinished(int patternIndex, bool isLastPattern, int totalBeats)
     {

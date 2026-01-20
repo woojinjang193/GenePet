@@ -134,7 +134,14 @@ public class RythmVisualController : MonoBehaviour
         StartCoroutine(ParticleOffDelay(particle));
 
         //----성공/실패 연출-----
+        if(success)
+        {
+            _bobber.BobberUp();
+        }
+        else
+        {
 
+        }
 
     }
     IEnumerator ParticleOffDelay(GameObject particle) //파티클 자동끄기 코루틴
