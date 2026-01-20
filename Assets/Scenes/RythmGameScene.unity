@@ -5077,7 +5077,7 @@ MonoBehaviour:
   _flow: {fileID: 672109120}
   _scoring: {fileID: 85771736}
   _rewardPlanner: {fileID: 662280429}
-  _uiManager: {fileID: 0}
+  _uiManager: {fileID: 5094462}
 --- !u!4 &2024544137
 Transform:
   m_ObjectHideFlags: 0

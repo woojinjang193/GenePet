@@ -37,12 +37,12 @@ public class RythmUiManager : MonoBehaviour
         if (amount <= 0) return;
         if (_playerHearts.Length < amount) return;
 
-        for (int i = 0; i < _playerHearts.Length; i++)
+        for (int i = 0; i < _playerHearts.Length; i++) //다 끔
         {
             _playerHearts[i].gameObject.SetActive(false);
         }
 
-        for (int i = 0;  i < amount; i++)
+        for (int i = 0;  i < amount; i++) //원하는 개수만큼 킴
         {
             _playerHearts[i].gameObject.SetActive(true);
         }

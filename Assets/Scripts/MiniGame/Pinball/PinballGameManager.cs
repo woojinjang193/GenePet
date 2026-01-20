@@ -4,9 +4,6 @@ using UnityEngine;
 public class PinballGameManager : MiniGameBase
 {
     [Header("점수")]
-    [SerializeField] private float _scorePerfect = 1f;
-    [SerializeField] private float _scoreGood = 1f;
-    [SerializeField] private float _scoreMiss = -1f;
     [SerializeField] private TMP_Text _curScoreText;
 
     // ===== 내부 상태 =====
@@ -22,7 +19,7 @@ public class PinballGameManager : MiniGameBase
     public void OnGameStartClicked() //게임 시작 버튼 눌림
     {
         GameReset();
-        GameStart();
+        base.GameStart();
         _isGameOver = false;
     }
     protected override void GameReset()

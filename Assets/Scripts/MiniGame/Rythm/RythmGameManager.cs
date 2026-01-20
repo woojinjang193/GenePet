@@ -3,7 +3,7 @@ using UnityEngine;
 public class RythmGameManager : MiniGameBase
 {
     [Header("플레이어 목숨")]
-    [SerializeField] private int _playerHeart = 3; //플레이어 목숨
+    [SerializeField] private int _playerMaxHeart = 3; //플레이어 목숨
 
     [Header("모듈")]
     [SerializeField] private RythmFlowController _flow; // 리듬 진행 담당
@@ -11,9 +11,13 @@ public class RythmGameManager : MiniGameBase
     [SerializeField] private RythmRewardPlanner _rewardPlanner;
     [SerializeField] private RythmUiManager _uiManager;
 
+    private int _playerCurHeart;
+
     protected override void Start()
     {
         base.Start();
+        //여기에 성격 능력 넣기
+        _playerCurHeart = _playerMaxHeart;
 
         if (_flow != null)
             _flow.OnGameFinished += HandleGameFinished; // 레벨 끝나면 종료
@@ -42,7 +46,7 @@ public class RythmGameManager : MiniGameBase
     protected override void GameReset()
     {
         base.GameReset();
-        _uiManager.SetHeart(_playerHeart);
+        _uiManager.SetHeart(_playerMaxHeart); //체력 켜주기
     }
 
     // 매 프레임: 오토미스는 매 프레임 처리해야 함
@@ -120,11 +124,11 @@ public class RythmGameManager : MiniGameBase
         else
         {
             // 패턴 실패해도 즉시 게임오버는 안 함. 대신 목숨 깎기.
-            _playerHeart--;
+            _playerCurHeart--;
             _uiManager.PatternSuccess(false);
             _uiManager.RemoveHeart();
 
-            if (_playerHeart <= 0)
+            if (_playerCurHeart <= 0)
             {
                 GameOver();
             }

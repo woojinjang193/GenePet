@@ -46,6 +46,7 @@ public class MiniGameBase : MonoBehaviour
     {
         _score = 0;  // 점수 초기화
         _playSecond = 0; //플레이 시간 초기화
+        _isGameOver = false;
     }
     protected virtual void GameOver()
     {
