@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,9 +17,11 @@ public class RythmFlowController : MonoBehaviour //마디가 바뀔 때마다 �
 
     [Header("시작 대기 마디 수")]
     [SerializeField] private int _startWaitMeasure = 2;
+    [Header("게임클리어후 종료 대기시간")]
+    [SerializeField] private float _gameClearRoutineTime = 2f;
 
     // --- 레벨/게임 종료 ---
-    public event Action OnGameFinished;
+    public event Action OnGameFinished; //bool로 클리어 or 게임오버 판정
     public event Action<RythmLevelPresetSO> OnLevelStarted; // 레벨 시작(보상 플래닝 등)
     public event Action<int, bool, int> OnInputTurnStarted; // (patternIndex, isLastPattern, totalBeats)
     public event Action<int, bool, int> OnPatternFinished;  // (patternIndex, isLastPattern, totalBeats)
@@ -103,7 +106,7 @@ public class RythmFlowController : MonoBehaviour //마디가 바뀔 때마다 �
         var preset = CurrentPreset;
         if (preset == null)
         {
-            OnGameFinished?.Invoke();
+            OnGameFinished?.Invoke(); // 프리셋 없으면 게임오버 처리
             return;
         }
 
@@ -142,14 +145,14 @@ public class RythmFlowController : MonoBehaviour //마디가 바뀔 때마다 �
 
         if (_levelPresets == null || _levelIndex >= _levelPresets.Length) //다음 레벨이 없으면
         {
-            OnGameFinished?.Invoke(); //게임종료 이벤트 발생
+            StartCoroutine(GameClearRoutine()); //게임 클리어 코루틴
             return;
         }
 
         var nextPreset = CurrentPreset;
         if (nextPreset == null) //다음 레벨 프리셋 없으면
         {
-            OnGameFinished?.Invoke(); //게임종료 이벤트 발생
+            StartCoroutine(GameClearRoutine()); //게임 클리어 코루틴
             return;
         }
 
@@ -257,5 +260,14 @@ public class RythmFlowController : MonoBehaviour //마디가 바뀔 때마다 �
         // 4) 현재 마디 소비
         _turnRemainMeasures--;
         if (_turnRemainMeasures < 0) _turnRemainMeasures = 0;
+    }
+
+    private IEnumerator GameClearRoutine()
+    {
+        _conductor.StopLevel(); //BGM 정지
+        //연출 여기에
+        Debug.Log($"게임 클리어{_gameClearRoutineTime}초 뒤 게임 종료");
+        yield return new WaitForSeconds(_gameClearRoutineTime);
+        OnGameFinished?.Invoke(); 
     }
 }

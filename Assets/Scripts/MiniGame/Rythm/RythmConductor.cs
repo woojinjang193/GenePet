@@ -48,7 +48,6 @@ public class RythmConductor : MonoBehaviour // 마디가 바뀌는 순간을 알
     {
         _running = false;
 
-        // BGM도 멈추고 싶으면 여기서 정지
         if (_bgmA != null) _bgmA.Stop();
         if (_bgmB != null) _bgmB.Stop();
     }

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class RythmGameManager : MiniGameBase
 {
+    [Header("플레이어")]
+    [SerializeField] private MiniGamePetVisualLoader _playerVisual;
+
     [Header("플레이어 목숨")]
     [SerializeField] private int _playerMaxHeart = 3; //플레이어 목숨
 
@@ -10,6 +13,7 @@ public class RythmGameManager : MiniGameBase
     [SerializeField] private RythmScoring _scoring;  // 판정/점수/UI 담당
     [SerializeField] private RythmRewardPlanner _rewardPlanner;
     [SerializeField] private RythmUiManager _uiManager;
+    [SerializeField] private RythmVisualController _rythmVisual;
 
     private int _playerCurHeart;
 
@@ -18,6 +22,7 @@ public class RythmGameManager : MiniGameBase
         base.Start();
         //여기에 성격 능력 넣기
         _playerCurHeart = _playerMaxHeart;
+        //_playerVisual.LoadPetVisual(_pet); //펫 비주얼 로드
 
         if (_flow != null)
             _flow.OnGameFinished += HandleGameFinished; // 레벨 끝나면 종료
@@ -119,13 +124,13 @@ public class RythmGameManager : MiniGameBase
                 _rewardPlanner.GiveClearReward(preset);
             }
 
-            _uiManager.PatternSuccess(true);
+            _rythmVisual.PatternSuccess(true);
         }
         else
         {
             // 패턴 실패해도 즉시 게임오버는 안 함. 대신 목숨 깎기.
             _playerCurHeart--;
-            _uiManager.PatternSuccess(false);
+            _rythmVisual.PatternSuccess(false);
             _uiManager.RemoveHeart();
 
             if (_playerCurHeart <= 0)
@@ -138,7 +143,7 @@ public class RythmGameManager : MiniGameBase
     // RewardPlanner가 “이 보상 지급해”라고 하면 여기서 누적
     private void HandleGiveReward(RewardType type, int amount)
     {
-        _uiManager.ShowItem(type, amount); //아이콘 보여줌
+        _rythmVisual.ShowItem(type, amount); //아이콘 보여줌
         GainItem(type, amount); // MiniGameBase의 보상 누적
         Debug.Log($"{type}x{amount} 지급");
         
