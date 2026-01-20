@@ -12,11 +12,23 @@ public class ItemForMiniGame : MonoBehaviour
     public RewardType Reward => _reward;
     public int Amount => _amount;
     
-    public void Init(Sprite icon, RewardType reward, int amount)
+    public void Init(RewardType reward, int amount)
     {
-        _spriteRenderer.sprite = icon;
+        _spriteRenderer.sprite = GetIcon(reward);
         _reward = reward;
         _amount = amount;
         gameObject.SetActive(true);
+    }
+
+    private Sprite GetIcon(RewardType reward)
+    {
+        if(Manager.Item != null)
+        {
+            return Manager.Item.ItemImages.GetItemSprite(reward);
+        }
+        else
+        {
+            return null;
+        }
     }
 }

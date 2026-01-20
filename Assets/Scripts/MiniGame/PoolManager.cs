@@ -14,7 +14,7 @@ public class PoolManager : Singleton<PoolManager>
         base.Awake();
     }
     // ===================== 가져오기 =====================
-    public GameObject Get(GameObject prefab, Vector3 position, Transform parent = null)
+    public GameObject Get(GameObject prefab, Vector3 position, Transform parent = null) 
     {
         if (!_pool.ContainsKey(prefab)) // 해당 프리팹 풀 없으면
         {

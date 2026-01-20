@@ -22,20 +22,20 @@ public class MiniGameBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        _pet = Manager.Mini.CurPet;
+        
         _gainedItems.Clear();    // 보상 기록 초기화
+        //_pet = Manager.Mini.CurPet;
+        //_canHaveEgg = Manager.Save.CurrentData.UserData.EggList.Count < Manager.Game.Config.MaxEggAmount; //추가 알 획득 가능한 상태인지
 
-        _canHaveEgg = Manager.Save.CurrentData.UserData.EggList.Count < Manager.Game.Config.MaxEggAmount; //추가 알 획득 가능한 상태인지
-
-        MiniGamePersonalityEffectSO table = Manager.Mini.GetEffectTable(); // 미니게임별 테이블
+        //MiniGamePersonalityEffectSO table = Manager.Mini.GetEffectTable(); // 미니게임별 테이블
 
         //성격 가져오기
-        string personalityID = _pet.Genes.Personality.DominantId;
-        PersonalitySO personalitySO = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, personalityID);
-        PersonalityType petsonality = personalitySO.Personality;
+        //string personalityID = _pet.Genes.Personality.DominantId;
+        //PersonalitySO personalitySO = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, personalityID);
+        //PersonalityType petsonality = personalitySO.Personality;
 
-        float happiness01 = _pet.Happiness / 100;
-        _effectContext = MiniGameEffectApplier.Apply(table, petsonality, happiness01); //성격 적용
+        //float happiness01 = _pet.Happiness / 100;
+        //_effectContext = MiniGameEffectApplier.Apply(table, petsonality, happiness01); //성격 적용
     }
     protected virtual void GameStart()
     {
@@ -46,12 +46,13 @@ public class MiniGameBase : MonoBehaviour
     {
         _score = 0;  // 점수 초기화
         _playSecond = 0; //플레이 시간 초기화
+        _isGameOver = false;
     }
     protected virtual void GameOver()
     {
         _isPlaying = false;
         GainMoneyByScore();
-        OnGameOver?.Invoke();
+        OnGameOver?.Invoke(); 
     }
     private void Update()
     {
