@@ -393,6 +393,7 @@ MonoBehaviour:
   _scoreGood: 1
   _scoreMiss: -1
   _maxMissRatioToSucceed: 0.5
+  _earlyInputBufferSec: 0.1
   _scoreText: {fileID: 1302801848}
 --- !u!4 &85771737
 Transform:
@@ -2420,7 +2421,7 @@ MonoBehaviour:
   _renderer: {fileID: 608467196}
   _perfectSprite: {fileID: 21300000, guid: 8ba5e131c05a021438cbfde5fbb4010a, type: 3}
   _goodSprite: {fileID: 21300000, guid: 8ba5e131c05a021438cbfde5fbb4010a, type: 3}
-  _missSprite: {fileID: 21300000, guid: 8ba5e131c05a021438cbfde5fbb4010a, type: 3}
+  _missSprite: {fileID: 21300000, guid: 59a86392583310f44a11cc412cf47b48, type: 3}
 --- !u!1 &662280427
 GameObject:
   m_ObjectHideFlags: 0
@@ -5312,6 +5313,8 @@ MonoBehaviour:
   _downRatio: 0.25
   _minDownTime: 0.02
   _minUpTime: 0.02
+  _upDistance: 3
+  _moveSpeed: 3
 --- !u!1 &1302801846
 GameObject:
   m_ObjectHideFlags: 0

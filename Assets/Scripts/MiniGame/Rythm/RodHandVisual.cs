@@ -16,7 +16,13 @@ public class RodHandVisual : MonoBehaviour
     }
     public void PullUp(JudgeResult result)
     {
-        _renderer.sprite = _perfectSprite;
+        switch(result)
+        {
+            case JudgeResult.Perfect: _renderer.sprite = _perfectSprite; break;
+            case JudgeResult.Good: _renderer.sprite = _goodSprite; break;
+            case JudgeResult.Miss: _renderer.sprite = _missSprite; break;
+        }
+        
         StartCoroutine(RodSpriteRoutine());
     }
     private IEnumerator RodSpriteRoutine()
