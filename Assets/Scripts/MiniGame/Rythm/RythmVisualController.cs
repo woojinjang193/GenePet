@@ -8,10 +8,13 @@ public class RythmVisualController : MonoBehaviour
     [Header("참조")]
     [SerializeField] private RythmPresenter _presenter;
     [SerializeField] private RythmScoring _scoring;
+    [SerializeField] private RythmRewardPlanner _rewardPlanner;
 
     [Header("연출 대상")]
     [SerializeField] private BobberVisual _bobber; // 찌
     [SerializeField] private RodHandVisual _rodHand; // 낚싯대+손
+    [Header("프리롤(조금 미리 시작하고 싶으면)")]
+    [SerializeField] private double _visualLeadTime = 0.00; // 0이면 정확히 그 타이밍
 
     [Header("리워드 아이콘")]
     [SerializeField] private SpriteRenderer _rewardIcon;
@@ -22,19 +25,16 @@ public class RythmVisualController : MonoBehaviour
     [SerializeField] private GameObject _failParticle;
     [SerializeField] private float _particleLifeTime;
 
-    [Header("판정 연출")]
-    [SerializeField] private SpriteRenderer _judgeSpriterenderer;
-    [SerializeField] private Sprite _perfectSprite;
-    [SerializeField] private Sprite _goodSprite;
-    [SerializeField] private Sprite _missSprite;
+    [Header("판정 글자 연출")]
+    [SerializeField] private GameObject _judgeLetterPrefab;
+    [SerializeField] private Transform _judgeLetterTransform;
 
     // 샘플 비트 실행 예약(절대시간 DSP)
     private readonly Queue<double> _sampleBeatQueue = new();
     private readonly Queue<float> _sampleBeatDurationQueue = new(); //beatDuration 같이 저장해야 BPM에 맞춰 속도 조절 가능
 
+    private Vector3 _judgeLetterVector;
 
-    [Header("프리롤(조금 미리 시작하고 싶으면)")]
-    [SerializeField] private double _visualLeadTime = 0.00; // 0이면 정확히 그 타이밍
 
     //================초기화=================
     private void Awake()
@@ -45,7 +45,12 @@ public class RythmVisualController : MonoBehaviour
         if (_scoring != null)
             _scoring.OnJudged += HandleJudgeResult; // 입력 시점 연출(즉시)
 
+        if (_rewardPlanner != null)
+            _rewardPlanner.OnGiveReward += HandleGiveReward;
+
         _rewardIcon.gameObject.SetActive(false); //리워드 오브젝트 비활성화
+
+        _judgeLetterVector = _judgeLetterTransform.position;
     }
 
     private void OnDestroy()
@@ -55,6 +60,9 @@ public class RythmVisualController : MonoBehaviour
 
         if (_scoring != null)
             _scoring.OnJudged -= HandleJudgeResult;
+
+        if (_rewardPlanner != null)
+            _rewardPlanner.OnGiveReward -= HandleGiveReward;
     }
 
     private void EnqueueSampleBeat(double beatDsp, float beatDuration)
@@ -83,6 +91,11 @@ public class RythmVisualController : MonoBehaviour
         }
     }
     //================획득 아이템 보여줌=================
+    private void HandleGiveReward(RewardType reward, int amount, bool isLast)
+    {
+        ShowItem(reward, amount);
+
+    }
     public void ShowItem(RewardType reward, int amount)
     {
         if (Manager.Item != null)
@@ -93,24 +106,21 @@ public class RythmVisualController : MonoBehaviour
         {
             _rewardIcon.sprite = null;
         }
-
+    
         _rewardAmount.text = $"x{amount.ToString()}";
-
+    
         _rewardIcon.gameObject.SetActive(true);
     }
     //================판정에 따른 연출=================
     public void HandleJudgeResult(JudgeResult result)
     {
-        _judgeSpriterenderer.gameObject.SetActive(false);
-
-        switch (result)
+        GameObject letterOBJ = Manager.Pool.Get(_judgeLetterPrefab, _judgeLetterVector, _judgeLetterTransform);
+        var go = letterOBJ.GetComponent<RythmJudgeLetter>();
+        if(go != null)
         {
-            case JudgeResult.Perfect: _judgeSpriterenderer.sprite = _perfectSprite; break;
-            case JudgeResult.Good: _judgeSpriterenderer.sprite = _goodSprite; break;
-            case JudgeResult.Miss: _judgeSpriterenderer.sprite = _missSprite; break;
+            go.OnFinishedMoving += ReturnLetter;
+            go.Init(result);
         }
-
-        _judgeSpriterenderer.gameObject.SetActive(true);
 
         // 입력 순간(HandlePlayerInput에서 판정 난 시점) : 손/낚싯대 위로
         if (_rodHand != null) _rodHand.PullUp(result);
@@ -131,5 +141,10 @@ public class RythmVisualController : MonoBehaviour
     {
         yield return new WaitForSeconds(_particleLifeTime);
         particle.SetActive(false);
+    }
+    private void ReturnLetter(RythmJudgeLetter letter)
+    {
+        letter.OnFinishedMoving -= ReturnLetter;
+        Manager.Pool.Release(letter.gameObject);
     }
 }

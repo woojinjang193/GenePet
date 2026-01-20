@@ -26,6 +26,7 @@ public enum RewardType
     Gift1, Gift2, Gift3, Gift4,
     MasterGift,
     PetSlot,
+    None,
 }
 public enum PersonalityType 
 {

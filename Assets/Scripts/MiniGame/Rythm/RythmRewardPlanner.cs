@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Sprites;
 using UnityEngine;
 
 public class RythmRewardPlanner : MonoBehaviour
@@ -10,7 +11,7 @@ public class RythmRewardPlanner : MonoBehaviour
     // patternIndex -> 확정 보상
     private Dictionary<int, LevelReward> _fixedPatternRewards = new();
 
-    public event Action<RewardType, int> OnGiveReward; // (type, amount)
+    public event Action<RewardType, int, bool> OnGiveReward; // (type, amount, isLast)
 
     private void Awake()
     {
@@ -52,8 +53,12 @@ public class RythmRewardPlanner : MonoBehaviour
     {
         if (_fixedPatternRewards.TryGetValue(patternIndex, out var reward))
         {
-            OnGiveReward?.Invoke(reward.RewardType, reward.Amount);
+            OnGiveReward?.Invoke(reward.RewardType, reward.Amount, false);
             _fixedPatternRewards.Remove(patternIndex); // 같은 패턴에서 중복 지급 방지
+        }
+        else
+        {
+            OnGiveReward?.Invoke(RewardType.None, 0, false); //일반고기 잡기위한 이벤트
         }
     }
 
@@ -64,7 +69,7 @@ public class RythmRewardPlanner : MonoBehaviour
         if (preset.LevelClearRewards == null || preset.LevelClearRewards.Length == 0) return;
 
         LevelReward picked = PickWeighted(preset.LevelClearRewards);
-        OnGiveReward?.Invoke(picked.RewardType, picked.Amount);
+        OnGiveReward?.Invoke(picked.RewardType, picked.Amount, true);
     }
 
     // ===== 유틸 =====

@@ -141,11 +141,13 @@ public class RythmGameManager : MiniGameBase
     }
 
     // RewardPlanner가 “이 보상 지급해”라고 하면 여기서 누적
-    private void HandleGiveReward(RewardType type, int amount)
+    private void HandleGiveReward(RewardType type, int amount, bool isLast)
     {
-        _rythmVisual.ShowItem(type, amount); //아이콘 보여줌
-        GainItem(type, amount); // MiniGameBase의 보상 누적
-        Debug.Log($"{type}x{amount} 지급");
-        
+        //_rythmVisual.ShowItem(type, amount); //아이콘 보여줌
+        if(type != RewardType.None)
+        {
+            GainItem(type, amount); // MiniGameBase의 보상 누적
+            Debug.Log($"{type}x{amount} 지급");
+        }
     }
 }
