@@ -124,6 +124,7 @@ public class RythmVisualController : MonoBehaviour
 
         // 입력 순간(HandlePlayerInput에서 판정 난 시점) : 손/낚싯대 위로
         if (_rodHand != null) _rodHand.PullUp(result);
+
     }
     //======패턴 성공/실패여부에 따른 연출=============
     public void PatternSuccess(bool success)
@@ -136,7 +137,7 @@ public class RythmVisualController : MonoBehaviour
         //----성공/실패 연출-----
         if(success)
         {
-            //_bobber.BobberUp();
+            _bobber.BobberUp();
         }
         else
         {

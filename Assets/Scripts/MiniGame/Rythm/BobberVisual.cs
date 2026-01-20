@@ -5,7 +5,7 @@ using UnityEngine;
 public class BobberVisual : MonoBehaviour
 {
     [Header("이동 거리")]
-    [SerializeField] private float _downDistance = 0.12f; // 찌가 아래로 내려가는 최대 거리
+    [SerializeField] private float _downDistance = 0.2f; // 찌가 아래로 내려가는 최대 거리
 
     [Header("비트 대비 시간 비율")]
     [SerializeField, Range(0.05f, 0.9f)] private float _downRatio = 0.25f;
@@ -17,8 +17,8 @@ public class BobberVisual : MonoBehaviour
     [SerializeField] private float _minUpTime = 0.02f;     // BPM이 너무 빠를 때 upTime이 0에 가까워지는 걸 방지(최소 올라오는 시간)
 
     [Header("찌 올리는 높이, 스피드")]
-    [SerializeField] private float _upDistance = 3f;
-    [SerializeField] private float _moveSpeed = 3f;
+    [SerializeField] private float _upDistance = 1f;
+    [SerializeField] private float _moveSpeed = 10f;
 
     private Vector3 _baseLocalPos;   // 찌의 "원래 위치"
 
@@ -45,24 +45,24 @@ public class BobberVisual : MonoBehaviour
         _t = 0f;
         _isPlaying = true;
     }
-    //public void BobberUp()
-    //{
-    //    StartCoroutine(BobberUpRoutine());
-    //}
-    //private IEnumerator BobberUpRoutine()
-    //{
-    //    float startY = transform.position.y;
-    //    float targetY = transform.position.y + _upDistance;
-    //
-    //    while (transform.position.y < targetY)
-    //    {
-    //        Vector3 pos = transform.position;
-    //        pos.y = Mathf.MoveTowards(pos.y, targetY, _moveSpeed * Time.deltaTime);
-    //        transform.position = pos;
-    //
-    //        yield return null;
-    //    }
-    //}
+    public void BobberUp()
+    {
+        StartCoroutine(BobberUpRoutine());
+    }
+    private IEnumerator BobberUpRoutine()
+    {
+        float startY = transform.position.y;
+        float targetY = transform.position.y + _upDistance;
+    
+        while (transform.position.y < targetY)
+        {
+            Vector3 pos = transform.position;
+            pos.y = Mathf.MoveTowards(pos.y, targetY, _moveSpeed * Time.deltaTime);
+            transform.position = pos;
+    
+            yield return null;
+        }
+    }
 
     private void Update()
     {
