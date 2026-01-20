@@ -21,7 +21,6 @@ public class RythmScoring : MonoBehaviour
     [SerializeField] private float _earlyInputBufferSec = 0.10f;
     private double _bufferedInputDsp = -1; //(샘플턴에 눌린 입력 시간 저장)
 
-
     [Header("UI")]
     [SerializeField] private TMP_Text _scoreText;        // 점수 UI
 
@@ -37,6 +36,9 @@ public class RythmScoring : MonoBehaviour
     public event Action<int, bool, bool> OnPatternResult;
     // (patternIndex, success, isLastPattern)
     public event Action<JudgeResult> OnJudged; //판정 결과
+
+    private bool _patternResultSent; //한 패턴당 결과 1회만
+    private int _currentTotalBeats;  //이번 패턴의 총 비트 수 저장
 
     // 초기화: GameManager가 한 번만 호출
     public void Init(RythmFlowController flow, Func<int> getScore, Action<int> addScoreDelta)
@@ -84,8 +86,16 @@ public class RythmScoring : MonoBehaviour
         // 2) 판정(항상)
         JudgeResult result = JudgeResult.Miss;
 
+        //남은 비트가 없으면 "즉시 패턴 결과"만 쏘고 끝
+        if (!_flow.TryGetNextBeat(out var beat))
+        {
+            TrySendEarlyPatternResult();
+            RefreshScoreUI();
+            return;
+        }
+
         // 다음 목표 비트가 있다면 그 비트로 판정
-        if (_judge != null && _flow.TryGetNextBeat(out var beat))
+        if (_judge != null)
         {
             double beatDuration = 60.0 / preset.BPM;
 
@@ -101,6 +111,8 @@ public class RythmScoring : MonoBehaviour
 
         // 판정 결과를 점수 delta로 변환해서 외부에 반영 요청
         ApplyJudgeResult(result);
+
+        TrySendEarlyPatternResult(); //마지막 비트를 소비해서 "남은 비트 0"이면 즉시 패턴 결과 전송
 
         // UI 갱신
         RefreshScoreUI();
@@ -133,7 +145,7 @@ public class RythmScoring : MonoBehaviour
             ApplyJudgeResult(JudgeResult.Miss);
             _flow.ConsumeNextBeat();
         }
-
+        TrySendEarlyPatternResult();
         RefreshScoreUI();
     }
     // =========================Flow 이벤트 핸들러=========================
@@ -141,6 +153,8 @@ public class RythmScoring : MonoBehaviour
     {
         // 입력 턴 시작 시점에 패턴 통계 초기화
         _patternMissCount = 0;
+        _patternResultSent = false;
+        _currentTotalBeats = totalBeats;
 
         if (_bufferedInputDsp > 0)
         {
@@ -166,7 +180,15 @@ public class RythmScoring : MonoBehaviour
 
         JudgeResult result = JudgeResult.Miss;
 
-        if (_judge != null && _flow.TryGetNextBeat(out var beat))
+        //버퍼 입력도 남은 비트 없으면 즉시 정산만
+        if (!_flow.TryGetNextBeat(out var beat))
+        {
+            TrySendEarlyPatternResult();
+            RefreshScoreUI();
+            return;
+        }
+
+        if (_judge != null)
         {
             double beatDuration = 60.0 / preset.BPM;
 
@@ -180,16 +202,38 @@ public class RythmScoring : MonoBehaviour
         }
 
         ApplyJudgeResult(result);
+        //버퍼 입력이 마지막 비트였으면 즉시 정산
+        TrySendEarlyPatternResult();
         RefreshScoreUI();
     }
 
-
     private void HandlePatternFinished(int patternIndex, bool isLastPattern, int totalBeats)
     {
-        // 입력 턴이 끝났을 때 "패턴 성공/실패" 정산
+        if (_patternResultSent) return; //조기 정산했으면 중복 방지
+        SendPatternResult(patternIndex, isLastPattern, totalBeats);
+    }
+    // =========================조기 정산 로직=========================
+    private void TrySendEarlyPatternResult()
+    {
+        if (_patternResultSent) return;
+        if (_flow == null) return;
+        if (_flow.IsSampleTurn) return;
+
+        // 다음 비트가 있으면 아직 정산하면 안됨
+        if (_flow.TryGetNextBeat(out _)) return;
+
+        int patternIndex = _flow.PlayedRythmCount;
+        bool isLastPattern = (patternIndex == _flow.TotalRythmCount - 1);
+
+        SendPatternResult(patternIndex, isLastPattern, _currentTotalBeats);
+    }
+
+    private void SendPatternResult(int patternIndex, bool isLastPattern, int totalBeats)
+    {
+        _patternResultSent = true;
+
         int beats = Mathf.Max(0, totalBeats);
 
-        // beats가 0이면 성공/실패 기준이 애매하니 안전하게 성공 처리(원하면 여기서 false로 바꿔도 됨)
         bool success;
         if (beats <= 0)
         {
@@ -197,7 +241,6 @@ public class RythmScoring : MonoBehaviour
         }
         else
         {
-            // 예: beats=10, ratio=0.5 => maxMiss=5 (미스 5 이하 성공)
             int maxMissAllowed = Mathf.FloorToInt(beats * _maxMissRatioToSucceed);
             success = (_patternMissCount <= maxMissAllowed);
         }

@@ -136,7 +136,7 @@ public class RythmVisualController : MonoBehaviour
         //----성공/실패 연출-----
         if(success)
         {
-            _bobber.BobberUp();
+            //_bobber.BobberUp();
         }
         else
         {

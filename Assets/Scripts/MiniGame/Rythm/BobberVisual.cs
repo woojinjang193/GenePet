@@ -45,24 +45,24 @@ public class BobberVisual : MonoBehaviour
         _t = 0f;
         _isPlaying = true;
     }
-    public void BobberUp()
-    {
-        StartCoroutine(BobberUpRoutine());
-    }
-    private IEnumerator BobberUpRoutine()
-    {
-        float startY = transform.position.y;
-        float targetY = transform.position.y + _upDistance;
-
-        while (transform.position.y < targetY)
-        {
-            Vector3 pos = transform.position;
-            pos.y = Mathf.MoveTowards(pos.y, targetY, _moveSpeed * Time.deltaTime);
-            transform.position = pos;
-
-            yield return null;
-        }
-    }
+    //public void BobberUp()
+    //{
+    //    StartCoroutine(BobberUpRoutine());
+    //}
+    //private IEnumerator BobberUpRoutine()
+    //{
+    //    float startY = transform.position.y;
+    //    float targetY = transform.position.y + _upDistance;
+    //
+    //    while (transform.position.y < targetY)
+    //    {
+    //        Vector3 pos = transform.position;
+    //        pos.y = Mathf.MoveTowards(pos.y, targetY, _moveSpeed * Time.deltaTime);
+    //        transform.position = pos;
+    //
+    //        yield return null;
+    //    }
+    //}
 
     private void Update()
     {
