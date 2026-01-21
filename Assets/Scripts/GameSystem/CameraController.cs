@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private Camera _zoomCamera; //줌 전용 카메라
+    [SerializeField] private int _zoomPetLayer;        //줌인 펫 레이어
+    [SerializeField] private int _defaultPetLayer;     //원래 펫 레이어
+    private GameObject _currentZoomPet;                //현재 줌인된 펫
+
     [SerializeField] private BackgroundRoomController _roomRoot;
     [SerializeField] private float _dragSpeed = 0.01f;
     [SerializeField] private float _minX = -4f;
@@ -54,23 +59,52 @@ public class CameraController : MonoBehaviour
         _isDragging = false;
     }
 
-    public void CameraZoomIn(Vector3 pos)
+    public void CameraZoomIn(Vector3 pos, GameObject petRoot)
     {
         _isZoom = true;
+
+        _currentZoomPet = petRoot; //줌인된 펫 저장
+
+        _defaultPetLayer = petRoot.layer; //기존 레이어 저장
+        SetLayerRecursively(petRoot, _zoomPetLayer);
+
+        _zoomCamera.gameObject.SetActive(true); // 줌 카메라 ON
+
         Camera.main.orthographicSize = 2.8f;
         Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
+        _zoomCamera.transform.position = new Vector3(pos.x, pos.y, -10f);
     }
+    public void CameraZoomOut()
+    {
+        _isZoom = false;
 
+        if (_currentZoomPet != null) //줌인된 펫이 있으면
+        {
+            SetLayerRecursively(_currentZoomPet, _defaultPetLayer); //레이어 원복
+            _currentZoomPet = null;
+        }
+
+        _zoomCamera.gameObject.SetActive(false);
+
+        _roomRoot.gameObject.SetActive(false); //배경 off
+        Camera.main.orthographicSize = 5f;
+    }
     public void SetBackGround(Room room)
     {
         _roomRoot.SetRoom(room);
         _roomRoot.gameObject.SetActive(true); //배경 on
     }
-
-    public void CameraZoomOut()
+    public void CameraMoveTo(Vector3 pos)
     {
-        _isZoom = false;
-        _roomRoot.gameObject.SetActive(false); //배경 off
-        Camera.main.orthographicSize = 5f;
+        Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
+    }
+    private void SetLayerRecursively(GameObject obj, int layer)
+    {
+        obj.layer = layer; //현재 오브젝트 레이어 변경
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, layer);
+        }
     }
 }

@@ -7,7 +7,7 @@ public class PetSpawnButton : MonoBehaviour
 {
     private Button _button;
     [SerializeField] private EggListUI _eggList;
-    [SerializeField] private GameObject _popUp;
+    //[SerializeField] private GameObject _popUp;
 
     private void Awake()
     {

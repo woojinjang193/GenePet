@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65bc4465ac3ea774da9e19c60efda45d, type: 3}
+  m_Name: RythmLevel 0
+  m_EditorClassIdentifier: 
+  _bpm: 105
+  _bgmClip: {fileID: 8300000, guid: a60e5a436adcc5844a657c1680c8466b, type: 3}
+  _rythmPatternList:
+  - {fileID: 11400000, guid: 12197987e734b4843950cc87effd405c, type: 2}
+  - {fileID: 11400000, guid: bed43fda16208e6418f05c7124cdfbbb, type: 2}
+  - {fileID: 11400000, guid: fb8f106522f979c48b1e945050e5b1c7, type: 2}
+  - {fileID: 11400000, guid: 771f20570bc38aa4a8d27e09e3e5d914, type: 2}
+  - {fileID: 11400000, guid: 4c13cfaac4b54004ebb6403ef685145e, type: 2}
+  - {fileID: 11400000, guid: feef06013c96cb741acf485b90c6e2d2, type: 2}
+  _measureCount: 1
+  _normalBeatClip: {fileID: 8300000, guid: f1cf014bc91088e4ea9e903feec5acc6, type: 3}
+  _inputLastBeatClip: {fileID: 8300000, guid: 00f6cd500f5a2d34196d868d2fcaafc6, type: 3}
+  MinItemCount: 1
+  MaxItemCount: 3
+  LevelRewards:
+  - RewardType: 1
+    Amount: 10
+    Weight: 1
+  - RewardType: 9
+    Amount: 0
+    Weight: 0.2
+  LevelClearRewards:
+  - RewardType: 9
+    Amount: 1
+    Weight: 0.3
+  - RewardType: 3
+    Amount: 1
+    Weight: 0.3
+  - RewardType: 1
+    Amount: 20
+    Weight: 1

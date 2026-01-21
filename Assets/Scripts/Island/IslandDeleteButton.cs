@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class IslandDeleteButton : MonoBehaviour, IConfirmRequester
 {
     [SerializeField] private Button _button;
-    [SerializeField] private ConfirmMessage _confirmMessage;
 
     private void Awake()
     {
@@ -16,11 +15,10 @@ public class IslandDeleteButton : MonoBehaviour, IConfirmRequester
 
     private void OnDeleteIslandClick()
     {
-        if (_confirmMessage == null)
+        if (Manager.Game != null)
         {
-            _confirmMessage = FindObjectOfType<ConfirmMessage>(true);
+            Manager.Game.ShowWarning("Warning_DeleteIsland", this);
         }
-        _confirmMessage.OpenConfirmUI("Warning_DeleteIsland", this);
     }
 
     public void Confirmed()

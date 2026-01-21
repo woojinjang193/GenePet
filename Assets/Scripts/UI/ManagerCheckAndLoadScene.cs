@@ -27,6 +27,8 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
         ItemManager.CreateManager();
         ServerSaveManager.CreateManager();
         //FirebaseAuthManager.CreateManager();
+        //MiniGameManager.CreateManager();
+        PoolManager.CreateManager();
     }
 
     private void Start()

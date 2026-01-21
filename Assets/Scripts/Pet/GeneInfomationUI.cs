@@ -152,6 +152,10 @@ public class GeneInfomationUI : MonoBehaviour
         {
             ShowColor(_curPair);
         }
+        else if (partType == PartType.Personality)
+        {
+            ShowPersonality(_curPair);
+        }
         else
         {
             ShowPicture(partType, _curPair);
@@ -198,6 +202,18 @@ public class GeneInfomationUI : MonoBehaviour
         _dominantGeneOutline.sprite = null;
         _recessiveGeneOutline.sprite = null;
     }
+    private void ShowPersonality(GenePair pair)
+    {
+        var dom = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, pair.DominantId);
+        var rec = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, pair.RecessiveId);
+
+        _dominantGene.sprite = null;
+        _recessiveGene.sprite = null;
+
+        _dominantGeneOutline.sprite = dom.Sprite;
+        _recessiveGeneOutline.sprite = rec.Sprite;
+    }
+
     private void ShowPicture(PartType partType, GenePair pair)
     {
         bool isDomNone = pair.DominantId == "00";
@@ -327,6 +343,7 @@ public class GeneInfomationUI : MonoBehaviour
             case PartType.Color: return g.Color;
             case PartType.Tail: return g.Tail;
             case PartType.Whiskers: return g.Whiskers;
+            case PartType.Personality: return g.Personality;
             default: return g.Body;
         }
     }

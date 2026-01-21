@@ -160,6 +160,11 @@ public class PetManager : MonoBehaviour
         RegisterPet(unit);
 
         OnPetSpawned?.Invoke();
+
+        if (save.GrowthStage == GrowthStatus.Egg) //새로 스폰된 펫일 경우
+        {
+            _camera.CameraMoveTo(_Positions[index].position); //카메라 이동
+        }
     }
     public void RegisterPet(PetUnit unit)
     {
@@ -320,7 +325,7 @@ public class PetManager : MonoBehaviour
             if (pet.PetId == id)
             {
                 Vector3 pos = pet.gameObject.transform.position;
-                _camera.CameraZoomIn(pos);
+                _camera.CameraZoomIn(pos, pet.gameObject);
                 if (_uiManager != null) _uiManager.OnZoomInPet();
                 break;
             }
