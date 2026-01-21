@@ -3,8 +3,14 @@ using UnityEngine;
 
 public class PinballGameManager : MiniGameBase
 {
+    [Header("참조")]
+    [SerializeField] private PinballBrickSpanwer _spawner;
+
     [Header("점수")]
     [SerializeField] private TMP_Text _curScoreText;
+
+    [Header("레벨 프리셋")]
+    [SerializeField] private PinballGameLevelPresetSO[] _presets;
 
     // ===== 내부 상태 =====
 
@@ -26,6 +32,9 @@ public class PinballGameManager : MiniGameBase
     {
         ApplyAbilities();
         base.GameReset();
+
+        _spawner.StartSettingBricks(_presets[0]); //0 레벨 세팅
+
         _curScoreText.text = $"Score: {_score}";
     }
     public void GoBackHome()
