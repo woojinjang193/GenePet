@@ -17,12 +17,16 @@ public class RythmGameManager : MiniGameBase
 
     private int _playerCurHeart;
 
+    //===성격 능력=====
+    private float _coinMul = 1f;  //코인 아이템 획득 배율
+    private int _heartExtra = 0;  //목숨 추가 수
+
     protected override void Start()
     {
         base.Start();
         //여기에 성격 능력 넣기
         _playerCurHeart = _playerMaxHeart;
-        //_playerVisual.LoadPetVisual(_pet); //펫 비주얼 로드
+        _playerVisual.LoadPetVisual(_pet, MiniGame.Rythm); //펫 비주얼 로드
 
         if (_flow != null)
             _flow.OnGameFinished += HandleGameFinished; // 레벨 끝나면 종료
@@ -51,7 +55,8 @@ public class RythmGameManager : MiniGameBase
     protected override void GameReset()
     {
         base.GameReset();
-        _uiManager.SetHeart(_playerMaxHeart); //체력 켜주기
+        ApplyAbilities(); //특수능력 초기화
+        _uiManager.SetHeart(_playerMaxHeart + _heartExtra); //체력 켜주기
     }
 
     // 매 프레임: 오토미스는 매 프레임 처리해야 함
@@ -143,11 +148,23 @@ public class RythmGameManager : MiniGameBase
     // RewardPlanner가 “이 보상 지급해”라고 하면 여기서 누적
     private void HandleGiveReward(RewardType type, int amount, bool isLast)
     {
-        //_rythmVisual.ShowItem(type, amount); //아이콘 보여줌
-        if(type != RewardType.None)
+        if (type == RewardType.None) return; //물고기 표시용, 여기선 무시해도 됨
+
+        if (type == RewardType.Coin)
         {
-            GainItem(type, amount); // MiniGameBase의 보상 누적
-            Debug.Log($"{type}x{amount} 지급");
+            amount = Mathf.FloorToInt(amount * _coinMul); //골드 배율만큼 더 획득
         }
+
+        GainItem(type, amount); // MiniGameBase의 보상 누적
+        Debug.Log($"{type}x{amount} 지급");
+    }
+
+    //특수 능력
+    public void ApplyAbilities()
+    {
+        if (_effectContext == null) { Debug.LogWarning("_effectContext 없음"); return; }
+
+        _coinMul = _effectContext.GoldMultiplier; //코인 배율
+        _heartExtra = _effectContext.ExtraHeart; //추가하트
     }
 }

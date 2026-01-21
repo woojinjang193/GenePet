@@ -9,11 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a148ef2975e8c3e46a0977ce417730c0, type: 3}
-  m_Name: Personality Persistent
+  m_Script: {fileID: 11500000, guid: 2d8c0be0c6480ca4b97eab46e17cd41a, type: 3}
+  m_Name: level 0 Pattern 3
   m_EditorClassIdentifier: 
-  ID: 01
-  DisplayName: 01
-  Rarity: 0
-  Personality: 3
-  Sprite: {fileID: 21300000, guid: d873d7d409de44bb4acd6c1c9bb95e6f, type: 3}
+  _rythmList:
+  - Type: 1
+    isRest: 0
+  - Type: 1
+    isRest: 0
+  - Type: 0
+    isRest: 0
+  - Type: 0
+    isRest: 0
+  - Type: 0
+    isRest: 0
