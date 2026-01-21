@@ -16,3 +16,5 @@ MonoBehaviour:
   effects:
   - personality: 2
     effect: {fileID: 11400000, guid: 56d923d782b9e6244adf8fcb68eb6360, type: 2}
+  - personality: 6
+    effect: {fileID: 11400000, guid: b4630cbb192dfe64584db3d20f1d33e4, type: 2}

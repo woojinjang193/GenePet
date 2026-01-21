@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniGameEffect/Jump/Persistent/FinalJump")]
-public class Effect_Jump_Persistent_FinalJump : MiniGameEffectSO
+[CreateAssetMenu(menuName = "MiniGameEffect/Jump/Fortitude/FinalJump")]
+public class Effect_Jump_FinalJump : MiniGameEffectSO
 {
     [Header("마지막 점프 최소/최대 파워")]
     [SerializeField] private float _minPower = 10f; // 최소 파워

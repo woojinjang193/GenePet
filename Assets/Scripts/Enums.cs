@@ -33,8 +33,10 @@ public enum PersonalityType
     Brave, // 용감한
     Shy,  // 소심한
     Greedy, // 욕심 많음
+    Fortitude, //불굴의 용기
     Persistent, //끈기있는
     Aggressive, // 공격적
+    Calm, // 차분한
 
 
     //Friendly,       // 친화적인 - 행복도 회복 빠름
@@ -86,6 +88,7 @@ public enum MiniGame
 {
     Jump,
     Rythm,
+    Pinball,
     Null,
 }
 public enum RythmType

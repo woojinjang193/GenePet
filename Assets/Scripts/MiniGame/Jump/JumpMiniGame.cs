@@ -47,7 +47,7 @@ public class JumpMiniGame : MiniGameBase
         base.Start();
 
         _cameraStartPos = Camera.main.transform.position; //카메라 시작점 저장
-        _playerVisual.LoadPetVisual(_pet); //펫 비주얼 로드
+        _playerVisual.LoadPetVisual(_pet, MiniGame.Jump); //펫 비주얼 로드
 
         _isCameraMoving = false;
         _maxReachHeight = _player.transform.position.y;

@@ -13,6 +13,7 @@ public class RythmVisualController : MonoBehaviour
     [Header("연출 대상")]
     [SerializeField] private BobberVisual _bobber; // 찌
     [SerializeField] private RodHandVisual _rodHand; // 낚싯대+손
+
     [Header("프리롤(조금 미리 시작하고 싶으면)")]
     [SerializeField] private double _visualLeadTime = 0.00; // 0이면 정확히 그 타이밍
 
