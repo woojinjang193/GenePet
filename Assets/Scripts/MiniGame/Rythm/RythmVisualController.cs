@@ -29,6 +29,9 @@ public class RythmVisualController : MonoBehaviour
     [SerializeField] private GameObject _judgeLetterPrefab;
     [SerializeField] private Transform _judgeLetterTransform;
 
+    [Header("물고기 스프라이트")]
+    [SerializeField] private Sprite _fishSprite;
+
     // 샘플 비트 실행 예약(절대시간 DSP)
     private readonly Queue<double> _sampleBeatQueue = new();
     private readonly Queue<float> _sampleBeatDurationQueue = new(); //beatDuration 같이 저장해야 BPM에 맞춰 속도 조절 가능
@@ -94,13 +97,19 @@ public class RythmVisualController : MonoBehaviour
     private void HandleGiveReward(RewardType reward, int amount, bool isLast)
     {
         ShowItem(reward, amount);
-
     }
     public void ShowItem(RewardType reward, int amount)
     {
         if (Manager.Item != null)
         {
-            _rewardIcon.sprite = Manager.Item.ItemImages.GetItemSprite(reward);
+            if(reward != RewardType.None)
+            {
+                _rewardIcon.sprite = Manager.Item.ItemImages.GetItemSprite(reward);
+            }
+            else
+            {
+                _rewardIcon.sprite = _fishSprite;
+            }
         }
         else
         {
@@ -124,6 +133,7 @@ public class RythmVisualController : MonoBehaviour
 
         // 입력 순간(HandlePlayerInput에서 판정 난 시점) : 손/낚싯대 위로
         if (_rodHand != null) _rodHand.PullUp(result);
+
     }
     //======패턴 성공/실패여부에 따른 연출=============
     public void PatternSuccess(bool success)
