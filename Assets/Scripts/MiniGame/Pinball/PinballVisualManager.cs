@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PinballVisualManager : MonoBehaviour
 {
+    [Header("참조")]
+    [SerializeField] private Camera _worldCamera; // 메인 카메라
+
     [Header("파괴 파티클")]
     [SerializeField] private GameObject _color0DestroyParticle;
     [SerializeField] private GameObject _color1DestroyParticle;
@@ -73,11 +76,13 @@ public class PinballVisualManager : MonoBehaviour
     private void OnGivenItem(BrickColor color, LevelReward reward, Vector3 worldPos)
     {
         if (_uiCanvas == null) return;
+        if(color == BrickColor.None && reward.RewardType == RewardType.None) return;
 
         // UI 아이콘 생성(캔버스 아래)
         RectTransform canvasRect = _uiCanvas.transform as RectTransform;
         GameObject go = Instantiate(_itemIcon, _uiCanvas.transform);  //TODO: 풀로 교체
         RectTransform iconRect = go.GetComponent<RectTransform>();
+
         Image iconImg = go.GetComponent<Image>();
 
         // TODO: 여기서 reward에 맞는 스프라이트로 iconImg.sprite 세팅
@@ -109,7 +114,8 @@ public class PinballVisualManager : MonoBehaviour
             return;
         }
 
-        Vector2 targetLocal = WorldToCanvasLocal(canvasRect, target.position);
+        Vector2 targetLocal = (Vector2)canvasRect.InverseTransformPoint(target.position);
+
         StartCoroutine(ItemFlyRoutine(go, iconRect, targetLocal, color, reward));
     }
 
@@ -161,17 +167,18 @@ public class PinballVisualManager : MonoBehaviour
     // 월드 포지션(또는 UI 월드 포지션)을 캔버스 로컬(anchoredPosition)로 변환
     private Vector2 WorldToCanvasLocal(RectTransform canvasRect, Vector3 worldPos)
     {
-        Camera cam = _uiCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : _uiCanvas.worldCamera;
+        // 1) 월드 -> 스크린(월드 카메라로)
+        Camera wc = _worldCamera != null ? _worldCamera : Camera.main;
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(wc, worldPos);
 
-        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(cam, worldPos);
+        // 2) 스크린 -> 캔버스 로컬(UI 카메라/Overlay 설정에 맞게)
+        Camera uiCam = _uiCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : _uiCanvas.worldCamera;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvasRect,
-            screenPos,
-            cam,
-            out Vector2 localPos
+            canvasRect, screenPos, uiCam, out Vector2 localPos
         );
 
         return localPos;
     }
+
 }
