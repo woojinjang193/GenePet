@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d8318656fd04d46b7fb7674ff1bc8c, type: 3}
   m_Name: New PinballLevelPresetSO
   m_EditorClassIdentifier: 
-  _brickMap: {fileID: 3078005126651753967, guid: 2d7d4e9f597464f438ef5a7ff4cea133, type: 3}
+  _brickMaps:
+  - {fileID: 3078005126651753967, guid: 2d7d4e9f597464f438ef5a7ff4cea133, type: 3}
   _minNormalItemBrickAmount: 3
   _maxNormalItemBrickAmount: 5
+  _minColorBrickAmount: 9
+  _maxColorBrickAmount: 12
+  _normalHP: 1
+  _normalItemHP: 2
+  _colorHP: 3
   _normalBrickItems:
   - RewardType: 1
     Amount: 10
@@ -22,8 +28,6 @@ MonoBehaviour:
   - RewardType: 10
     Amount: 1
     Weight: 0.5
-  _minColorBrickAmount: 9
-  _maxColorBrickAmount: 12
   _colorBrickItems:
   - RewardType: 1
     Amount: 100

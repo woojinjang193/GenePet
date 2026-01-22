@@ -35,13 +35,24 @@ public class PinballBrickSpanwer : MonoBehaviour
 
     //==내부 변수==
     private int[] _colorBrickCount = { 0, 0, 0 };
-    public void StartSettingBricks(PinballGameLevelPresetSO preset)
+    private int _normalHP = 1;
+    private int _normalItemHP = 1;
+    private int _colorHP = 1;
+
+    public void StartSettingBricks(PinballGamePresetSO preset)
     {
+        if (preset == null) return;
+        if(preset.BrickMaps.Length  == 0) return;
+
+        for (int i = 0; i < _colorBrickCount.Length; i++) _colorBrickCount[i] = 0; //_colorBrickCount 배열 초기화
+
         UnregisterAll(); // 이전 레벨 정리
 
-        if (preset == null) return;
+        SetHP(preset); //HP 세팅 
 
-        _spawnedMap = Instantiate(preset.BrickMap, _brickParents); //프리팹 소환
+        int rand = Random.Range(0, preset.BrickMaps.Length); // 랜덤으로 맵 뽑음
+
+        _spawnedMap = Instantiate(preset.BrickMaps[rand], _brickParents); //프리팹 소환
 
         PinballBrick[] bricks = _spawnedMap.GetComponentsInChildren<PinballBrick>(true);
         _spawnedBricks.AddRange(bricks); //브릭 리스트 넣어줌
@@ -79,7 +90,7 @@ public class PinballBrickSpanwer : MonoBehaviour
     }
 
     // =================블록 세팅 ========================
-    private void SetItemBricks(PinballGameLevelPresetSO preset)  //컬러블록 처리
+    private void SetItemBricks(PinballGamePresetSO preset)  //컬러블록 처리
     {
         int colorBrickNum = Random.Range(preset.MinColorBrickAmount, preset.MaXColorBrickAmount + 1); //컬러브릭 개수 뽑음
         ColorCountSet(colorBrickNum); //각 색 블록 개수 정함
@@ -98,7 +109,7 @@ public class PinballBrickSpanwer : MonoBehaviour
         }
 
     }
-    private void SetNormalItemBricks(PinballGameLevelPresetSO preset)  //일반 아이템 블록 처리
+    private void SetNormalItemBricks(PinballGamePresetSO preset)  //일반 아이템 블록 처리
     {
         int normalItemBrickNum = Random.Range(preset.MinNormalItemBrickAmount, preset.MaXNormalItemBrickAmount + 1); //노멀 아이템 브릭 개수 뽑음
 
@@ -150,10 +161,20 @@ public class PinballBrickSpanwer : MonoBehaviour
         if (colorType != BrickColor.None)
         {
             data.Score = _colorBrickScore;
+            data.HP = _colorHP; //색 벽돌 HP 추가
         }
         else
         {
             data.Score = _normalItemBrickScore;
+
+            if(item.RewardType != RewardType.None)
+            {
+                data.HP = _normalItemHP; // 노멀 아이템블록 HP 추가
+            }
+            else
+            {
+                data.HP = _normalHP; // 노멀 블록 HP 추가
+            }
         }
 
         return data;
@@ -181,5 +202,11 @@ public class PinballBrickSpanwer : MonoBehaviour
         if (_colorBrickCount[2] > 0) { _colorBrickCount[2]--; return BrickColor.three; }
 
         return BrickColor.one; // 남은 게 없을 때 안전장치
+    }
+    private void SetHP(PinballGamePresetSO preset)
+    {
+        _normalHP = preset.NormalHP;
+        _normalItemHP = preset.NormalItemHP;
+        _colorHP = preset.ColorHP;
     }
 }

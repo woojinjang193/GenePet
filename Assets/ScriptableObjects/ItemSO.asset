@@ -28,7 +28,7 @@ MonoBehaviour:
   geneticTesterSprite: {fileID: 21300000, guid: 00eddc939769743f583671854c5f7593, type: 3}
   Default: {fileID: 21300000, guid: 866f7aa4ad57345fc80e27cdd788f832, type: 3}
   Room1: {fileID: 21300000, guid: f90a7c1c8f84b984fbe4d169ae5840d5, type: 3}
-  Room2: {fileID: 21300000, guid: f9547745481b24515beb10c9abd31ba6, type: 3}
+  Room2: {fileID: 21300000, guid: 84520e58ceaf16c48964db7c7a5e354b, type: 3}
   Room3: {fileID: 21300000, guid: 0b547dcab0dfd4765ab375a9fd704451, type: 3}
   Room4: {fileID: 21300000, guid: 4e1f8f293b03e4f9197b6219fe2ede5e, type: 3}
   Room5: {fileID: 21300000, guid: e57d758667ec647ba9a894dcad8b24ef, type: 3}

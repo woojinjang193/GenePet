@@ -240,7 +240,6 @@ public class JumpPlayerController : MonoBehaviour
         }
     }
 
-
     // 현재 높이 제공
     public float GetHeight()
     {
