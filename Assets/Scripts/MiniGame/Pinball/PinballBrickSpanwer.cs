@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class PinballBrickSpanwer : MonoBehaviour
 {
+    [Header("참조")]
+    [SerializeField] private PinballGameManager _pinballManager;
+    [SerializeField] private PinballVisualManager _pinballVisual;
+
     [Header("컬러0")]
     [SerializeField] private Color _color0;
     [Header("컬러1")]
@@ -24,28 +28,54 @@ public class PinballBrickSpanwer : MonoBehaviour
     [Header("컬러 블록 점수")]
     [SerializeField] private int _colorBrickScore = 5;
 
-    private List<PinballBrick> _allBricks = new List<PinballBrick>(); //전체 브릭
+    private List<PinballBrick> _allBricks = new List<PinballBrick>(); //전체 브릭 (세팅용)
+    private List<PinballBrick> _spawnedBricks = new(); //이벤트 해제용
+
+    private GameObject _spawnedMap;
 
     //==내부 변수==
     private int[] _colorBrickCount = { 0, 0, 0 };
     public void StartSettingBricks(PinballGameLevelPresetSO preset)
     {
+        UnregisterAll(); // 이전 레벨 정리
+
         if (preset == null) return;
 
-        _allBricks.Clear(); //리스트 클리어
+        _spawnedMap = Instantiate(preset.BrickMap, _brickParents); //프리팹 소환
 
-        GameObject brickMap = Instantiate(preset.BrickMap, _brickParents); //프리팹 소환
+        PinballBrick[] bricks = _spawnedMap.GetComponentsInChildren<PinballBrick>(true);
+        _spawnedBricks.AddRange(bricks); //브릭 리스트 넣어줌
 
-        PinballBrick[] bricks = brickMap.GetComponentsInChildren<PinballBrick>(true);
-
-        foreach(PinballBrick brick in bricks) //브릭을 리스트에 넣어줌
+        foreach (PinballBrick brick in bricks) //브릭을 리스트에 넣어줌
         {
             _allBricks.Add(brick);
+            _pinballManager.RegisterBrick(brick); //매니저에게 브릭 등록시킴
+            _pinballVisual.RegisterBrick(brick); // 연출매니저한테 등록
         }
 
         SetItemBricks(preset);
         SetNormalItemBricks(preset);
         SetNormalBricks();
+    }
+    public void UnregisterAll()
+    {
+        for (int i = 0; i < _spawnedBricks.Count; i++)
+        {
+            var brick = _spawnedBricks[i];
+            if (brick == null) continue;
+
+            _pinballManager.UnregisterBrick(brick);
+            _pinballVisual.UnregisterBrick(brick);
+        }
+
+        _spawnedBricks.Clear();
+        _allBricks.Clear();
+
+        if (_spawnedMap != null)
+        {
+            Destroy(_spawnedMap);
+            _spawnedMap = null;
+        }
     }
 
     // =================블록 세팅 ========================
@@ -56,7 +86,7 @@ public class PinballBrickSpanwer : MonoBehaviour
 
         for (int i = 0; i < colorBrickNum; i++)
         {
-            if (_allBricks.Count <= 0) return; //남은 블록 없으면 종료
+            if (_allBricks.Count <= 0) break; //남은 블록 없으면 종료
 
             int rand = Random.Range(0, _allBricks.Count); //전체 리스트에서 랜덤 인덱스 뽑음
 
@@ -74,7 +104,7 @@ public class PinballBrickSpanwer : MonoBehaviour
 
         for (int i = 0; i < normalItemBrickNum; i++)
         {
-            if (_allBricks.Count <= 0) return; //남은 블록 없으면 종료
+            if (_allBricks.Count <= 0) break; //남은 블록 없으면 종료
 
             int rand = Random.Range(0, _allBricks.Count);
             LevelReward item = MiniGameRewardPicker.GetRewardByWeight(preset.NormalBrickItems);
@@ -141,7 +171,7 @@ public class PinballBrickSpanwer : MonoBehaviour
         for (int i = 0; i < remainder; i++) //나머지 색은 랜덤으로 할당
         {
             int rand = Random.Range(0, _colorBrickCount.Length);
-            _colorBrickCount[i]++;
+            _colorBrickCount[rand]++;
         }
     }
     private BrickColor GetColor()
