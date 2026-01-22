@@ -968,6 +968,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa174488d96bf0b47a55f67026af7548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pinballManager: {fileID: 1896284873}
+  _pinballVisual: {fileID: 1097049319}
   _color0: {r: 1, g: 1, b: 1, a: 1}
   _color1: {r: 1, g: 0.759434, b: 0.759434, a: 1}
   _color2: {r: 0.5896226, g: 1, b: 0.65719575, a: 1}
@@ -1407,6 +1409,7 @@ Transform:
   m_Children:
   - {fileID: 1896284874}
   - {fileID: 578103788}
+  - {fileID: 1097049318}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &710186017
@@ -2925,6 +2928,62 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1097049317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1097049318}
+  - component: {fileID: 1097049319}
+  m_Layer: 0
+  m_Name: Visual Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1097049318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097049317}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 650416765}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1097049319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097049317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a16e879b8866744b8f42e71cba0d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color0DestroyParticle: {fileID: 6566877163825553431, guid: 84c38f7e85d265c449a260a9befba093, type: 3}
+  _color1DestroyParticle: {fileID: 6566877163825553431, guid: 84c38f7e85d265c449a260a9befba093, type: 3}
+  _color2DestroyParticle: {fileID: 6566877163825553431, guid: 84c38f7e85d265c449a260a9befba093, type: 3}
+  _color3DestroyParticle: {fileID: 6566877163825553431, guid: 84c38f7e85d265c449a260a9befba093, type: 3}
+  _itemIcon: {fileID: 3059430548701838610, guid: 2f2cf9669afe15f4d8c8468864587666, type: 3}
+  _uiCanvas: {fileID: 1623884234}
+  _slot1Transform: {fileID: 744263478}
+  _slot2Transform: {fileID: 152041412}
+  _slot3Transform: {fileID: 1892141249}
+  _particleDuration: 2
+  _itemFlySpeed: 3
+  _popupDuration: 0.4
 --- !u!1 &1170019613
 GameObject:
   m_ObjectHideFlags: 0
@@ -4201,6 +4260,7 @@ GameObject:
   - component: {fileID: 1623884234}
   - component: {fileID: 1623884233}
   - component: {fileID: 1623884232}
+  - component: {fileID: 1623884236}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -4294,6 +4354,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1623884236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623884231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fcc6b0c51a29e946b1875120b48a6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1638738531
 GameObject:
   m_ObjectHideFlags: 0
@@ -4940,7 +5012,7 @@ GameObject:
   - component: {fileID: 1735253383}
   m_Layer: 3
   m_Name: Player Root
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

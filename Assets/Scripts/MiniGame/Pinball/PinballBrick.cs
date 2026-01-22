@@ -56,7 +56,7 @@ public class PinballBrick : MonoBehaviour
 
         OnAddScore?.Invoke(_data.Score); // 점수 이벤트 발생
         OnGiveItem?.Invoke(_data.ColorName, _data.Reward, worldPos); //아이템 이벤트 발생
-        OnBroken?.Invoke(this); //파괴시 연출 이벤트 발생
+        OnBroken?.Invoke(_data.ColorName, worldPos); //파괴시 연출 이벤트 발생
 
         gameObject.SetActive(false); // 비활성화
     }

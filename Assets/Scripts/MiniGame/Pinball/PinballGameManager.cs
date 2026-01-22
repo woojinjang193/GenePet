@@ -5,8 +5,6 @@ public class PinballGameManager : MiniGameBase
 {
     [Header("참조")]
     [SerializeField] private PinballBrickSpanwer _spawner;
-    [SerializeField] private PinballVisualManager _visualManager;
-    [SerializeField] private PinballUiManager _uiManager;
 
     [Header("점수")]
     [SerializeField] private TMP_Text _curScoreText;
