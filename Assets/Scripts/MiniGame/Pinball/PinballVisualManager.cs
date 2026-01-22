@@ -34,7 +34,7 @@ public class PinballVisualManager : MonoBehaviour
     [Header("일반 아이템 팝업 시간")]
     [SerializeField] private float _popupDuration = 0.4f;
 
-    public event Action<BrickColor, LevelReward> OnItemFlown;
+    public event Action<BrickColor, Sprite, int> OnItemFlown;
     // ================= 이벤트 등록/해제======================
     public void RegisterBrick(PinballBrick brick)
     {
@@ -85,7 +85,11 @@ public class PinballVisualManager : MonoBehaviour
 
         Image iconImg = go.GetComponent<Image>();
 
-        // TODO: 여기서 reward에 맞는 스프라이트로 iconImg.sprite 세팅
+        //  reward에 맞는 스프라이트로 세팅
+        if(Manager.Item != null)
+        {
+            iconImg.sprite = Manager.Item.ItemImages.GetItemSprite(reward.RewardType);
+        }
 
         // 시작점: 월드 > 캔버스 로컬
         iconRect.anchoredPosition = WorldToCanvasLocal(canvasRect, worldPos);
@@ -116,7 +120,8 @@ public class PinballVisualManager : MonoBehaviour
 
         Vector2 targetLocal = (Vector2)canvasRect.InverseTransformPoint(target.position);
 
-        StartCoroutine(ItemFlyRoutine(go, iconRect, targetLocal, color, reward));
+        int rewardAmount = reward.Amount;
+        StartCoroutine(ItemFlyRoutine(go, iconRect, targetLocal, color, iconImg.sprite, rewardAmount));
     }
 
     private IEnumerator PopupFadeRoutine(GameObject go, Image img)
@@ -141,7 +146,7 @@ public class PinballVisualManager : MonoBehaviour
 
         Destroy(go); //TODO: 풀로 교체
     }
-    private IEnumerator ItemFlyRoutine(GameObject go, RectTransform iconRect, Vector2 targetLocal, BrickColor color, LevelReward reward)
+    private IEnumerator ItemFlyRoutine(GameObject go, RectTransform iconRect, Vector2 targetLocal, BrickColor color, Sprite icon, int rewardAmount)
     {
         const float arriveDist = 10f; // 픽셀
 
@@ -162,7 +167,7 @@ public class PinballVisualManager : MonoBehaviour
         }
 
         // 도착 후 UI 갱신 트리거
-        OnItemFlown?.Invoke(color, reward);
+        OnItemFlown?.Invoke(color, icon, rewardAmount);
     }
     // 월드 포지션(또는 UI 월드 포지션)을 캔버스 로컬(anchoredPosition)로 변환
     private Vector2 WorldToCanvasLocal(RectTransform canvasRect, Vector3 worldPos)
