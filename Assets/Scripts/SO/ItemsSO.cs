@@ -25,6 +25,9 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     [SerializeField] public Sprite GeneticScissorsSprite;
     [SerializeField] public Sprite geneticTesterSprite;
 
+    [Header("레전드 알")]
+    [SerializeField] public Sprite LegendaryEgg;
+
     [Header("방 배경")]
     public Sprite Default;
     public Sprite Room_Jump;
@@ -77,6 +80,15 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
             case RewardType.Gift1: return Gift1;
             case RewardType.Gift2: return Gift2;
             case RewardType.Gift3: return Gift3;
+
+            case RewardType.Room_Jump: return Room_Jump;
+            case RewardType.Room_Rythm: return Room_Rythm;
+            case RewardType.Room_Pinball: return Room_Pinball;
+            case RewardType.Room_Cozy: return Room_Cozy;
+            case RewardType.Room_Poor: return Room_Poor;
+            case RewardType.Room_Something: return Room_Something; 
+
+            case RewardType.Egg: return LegendaryEgg;
         }
         Debug.LogError("스프라이트 반환 안됨");
         return null;

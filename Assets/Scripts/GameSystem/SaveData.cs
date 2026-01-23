@@ -269,7 +269,7 @@ public class UserItemData
         geneticTester = 1;
         Snack = 1;
         Rooms = new List<Room>()  //유저가 가진 방 목록
-        { Room.Default, Room.Room_Cozy, Room.Room_Poor, Room.Room_Jump, Room.Room_Rythm, Room.Room_Pinball, Room.Room_Something };
+        { Room.Default};
 
         MasterGift = 5;
         Gift1 = 1;

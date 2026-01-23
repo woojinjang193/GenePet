@@ -42,6 +42,9 @@ MonoBehaviour:
   - RewardType: 4
     Amount: 2
     Weight: 1
+  - RewardType: 14
+    Amount: 1
+    Weight: 10
   _levelClearRewards:
   - RewardType: 1
     Amount: 150

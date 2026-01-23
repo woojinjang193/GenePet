@@ -11,6 +11,9 @@ public class MiniGameManager : Singleton<MiniGameManager>
     public MiniGame CurMiniGame { get; private set; }
     public PetSaveData CurPet { get; private set; }
 
+    private readonly Dictionary<RewardType, int> _sessionItemSums = new(); //연속 플레이 보상 합산(아이템)
+    private readonly List<EggData> _sessionEggs = new(); //연속 플레이 보상 리스트(알은 개별 표시)
+
     protected override void Awake()
     {
         base.Awake();
@@ -22,6 +25,9 @@ public class MiniGameManager : Singleton<MiniGameManager>
             Debug.LogError("펫정보 없음");
             return;
         }
+
+        _sessionItemSums.Clear(); //새 미니게임 시작 시 누적 보상 초기화
+        _sessionEggs.Clear(); //새 미니게임 시작 시 누적 보상 초기화
 
         CurPet = pet; //펫정보 저장
 
@@ -42,20 +48,62 @@ public class MiniGameManager : Singleton<MiniGameManager>
             case MiniGame.Pinball: SceneManager.LoadScene("PinballGameScene"); break;
         }
     }
-    public void EndMiniGame(List<RewardData> rewards, int score)
+    //============ 메인씬으로 돌아감 ==================
+    public void EndMiniGame()
     {
-        if (rewards != null && rewards.Count > 0)
-        {
-            Manager.Item.GiveMiniGameRewards(rewards); //실제 지급 요청
-        }
-
-        Manager.Save.SaveGame(); //저장
+        FlushRewardsToPopup(); //메인씬으로 넘어갈 때만 팝업 표시큐에 적재
 
         CurPet = null;
         CurMiniGame = MiniGame.Null;
 
-        SceneManager.LoadScene("InGameScene"); 
+        SceneManager.LoadScene("InGameScene");
     }
+    public void AccumulateRewards(List<RewardData> rewards) //한 판 끝날 때 보상표시큐 누적만
+    {
+        if (rewards == null || rewards.Count == 0) return;
+
+        for (int i = 0; i < rewards.Count; i++)
+        {
+            RewardData reward = rewards[i];
+            if (reward == null) continue;
+
+            if (reward.Category == RewardCategory.Egg)
+            {
+                if (reward.Egg != null) _sessionEggs.Add(reward.Egg);
+                continue;
+            }
+
+            if (reward.RewardType == RewardType.None) continue;
+
+            if (_sessionItemSums.ContainsKey(reward.RewardType)) //같은 아이템이 이미 있으면 
+            {
+                _sessionItemSums[reward.RewardType] += reward.Amount; //숫자만 더해줌 
+            } 
+            else _sessionItemSums[reward.RewardType] = reward.Amount; //처음 얻는거면 추가
+        }
+    }
+    private void FlushRewardsToPopup() //누적된 보상을 "큐에만" 넣고 팝업 트리거
+    {
+        if (_sessionItemSums.Count == 0 && _sessionEggs.Count == 0) return;
+
+        List<RewardData> list = new();
+
+        foreach (var pair in _sessionItemSums)
+        {
+            list.Add(RewardData.CreateItem(pair.Key, pair.Value)); //아이템은 합산 1개로
+        }
+
+        for (int i = 0; i < _sessionEggs.Count; i++)
+        {
+            list.Add(RewardData.CreateEgg(_sessionEggs[i])); //알은 개별로
+        }
+
+        if (Manager.Item != null) Manager.Item.EnqueuePopupOnly(list); //표시 큐 적재 + 팝업 오픈
+
+        _sessionItemSums.Clear();
+        _sessionEggs.Clear();
+    }
+
     public void UpdateMiniGameResult(int score) // 결과 저장 유틸
     {
         if (CurMiniGame == MiniGame.Null) return; // Null이면 저장 안 함
@@ -87,8 +135,6 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         user.MiniGameResults[idx].PlayCount += 1; // 플레이 횟수 증가
         user.MiniGameResults[idx].BestScore = Mathf.Max(user.MiniGameResults[idx].BestScore, score); // 최고점 갱신
-
-        Manager.Save.SaveGame(); //저장
     }
     public MiniGamePersonalityEffectSO GetEffectTable()
     {
@@ -116,12 +162,14 @@ public class MiniGameManager : Singleton<MiniGameManager>
     }
     public int GetBestScore(MiniGame game) //미니게임 최고점수를 반환
     {
-        if (game != MiniGame.Null) return 0;
-        if (Manager.Save.CurrentData.UserData.MiniGameResults == null) return 0;
-        int bestScore = 0;
-        int minigameIndex = (int)game;
+        if (game == MiniGame.Null) return 0;
+        var user = Manager.Save.CurrentData.UserData;
+        if (user == null || user.MiniGameResults == null) return 0;
 
-        bestScore = Manager.Save.CurrentData.UserData.MiniGameResults[(int)CurMiniGame].BestScore;
-        return bestScore;
+        int idx = (int)game;
+        if (idx < 0 || idx >= user.MiniGameResults.Length) return 0;
+        if (user.MiniGameResults[idx] == null) return 0;
+
+        return user.MiniGameResults[idx].BestScore;
     }
 }

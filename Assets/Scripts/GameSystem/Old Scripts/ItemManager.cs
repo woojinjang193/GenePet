@@ -61,45 +61,47 @@ public class ItemManager : Singleton<ItemManager>
         for (int i = 0; i < entry.Rewards.Count; i++) // 보상 개수만큼 반복
         {
             var reward = entry.Rewards[i]; // 현재 보상
-            ApplyReward(reward.RewardType, reward.RewardAmount);    // 실제 지급
+            ApplyReward(reward.RewardType, reward.RewardAmount, true);    // 실제 지급
         }
 
         // 외부(UI, 저장 등)에 알림 (메인씬에서만 보여줌)
         OnRewardsGiven?.Invoke();
     }
-    public void GiveMiniGameRewards(List<RewardData> rewards) //미니게임 리워드 지급
+
+    public void GiveMiniGameRewards(List<RewardData> rewards) //미니게임 보상: "지급만"(큐/팝업/이벤트 없음)
     {
         if (rewards == null || rewards.Count == 0) return;
 
+        var user = Manager.Save.CurrentData.UserData; //알 지급에 필요
+
         for (int i = 0; i < rewards.Count; i++)
         {
-            RewardData reward = rewards[i]; 
+            RewardData reward = rewards[i];
             if (reward == null) continue;
 
-            if (reward.Category == RewardCategory.Egg)
+            if (reward.Category == RewardCategory.Egg) //알은 여기서 직접 지급(큐에는 안 넣음)
             {
-                EnqueueEgg(reward.Egg);
+                if (user.EggList == null) user.EggList = new List<EggData>(); //null 방어
+                if (reward.Egg != null) user.EggList.Add(reward.Egg); //알 지급(세이브 반영)
                 continue;
             }
 
-            // 실제 지급(세이브 값 변경 + 큐 적재 + 이벤트 발사)
-            ApplyReward(reward.RewardType, reward.Amount);
+            ApplyReward(reward.RewardType, reward.Amount, false); //아이템 지급만(큐 적재 X)
         }
 
-        OnRewardsGiven?.Invoke();
+        Manager.Save.SaveGame(); //매판 즉시 저장(꺼도 보상 유지)
     }
 
+
     // ==================실제 보상 적용 함수==========================
-    private void ApplyReward(RewardType type, int amount)
+    private void ApplyReward(RewardType type, int amount, bool enqueuePopup) //enqueuePopup = 팝업 큐 적재 여부 옵션
     {
         var user = Manager.Save.CurrentData.UserData;
         int newValue = 0;
-        bool granted = true; //실제 지급 여부
 
         switch (type)
         {
             case RewardType.RemovedAD:
-                // 광고 제거 영구 플래그 저장
                 user.Items.IsAdRemoved = true;
                 Debug.Log("광고 제거 적용");
                 break;
@@ -111,7 +113,7 @@ public class ItemManager : Singleton<ItemManager>
 
             case RewardType.Coin:
                 newValue = user.Items.Money += amount;
-                OnMoneyChanged?.Invoke(user.Items.Money); //소지금 변경 이벤트
+                OnMoneyChanged?.Invoke(user.Items.Money);
                 Debug.Log($"코인 +{amount}");
                 break;
 
@@ -161,11 +163,10 @@ public class ItemManager : Singleton<ItemManager>
                 break;
 
             case RewardType.PetSlot:
-                newValue = Mathf.Clamp(user.PetSlot += amount, 0, Manager.Game.Config.MaxPetAmount); //초과 방어
+                newValue = Mathf.Clamp(user.PetSlot += amount, 0, Manager.Game.Config.MaxPetAmount);
                 Debug.Log($"펫 슬롯 +{amount}");
                 break;
 
-            // ===== Room 보상 처리 =====
             case RewardType.Room_Jump:
             case RewardType.Room_Rythm:
             case RewardType.Room_Pinball:
@@ -173,25 +174,45 @@ public class ItemManager : Singleton<ItemManager>
             case RewardType.Room_Cozy:
             case RewardType.Room_Something:
                 {
-                    if (user.Items.Rooms == null) user.Items.Rooms = new List<Room>(); // null 방어
+                    if (user.Items.Rooms == null) user.Items.Rooms = new List<Room>();
                     if (!MiniGameRewardPicker.TryGetRoomFromRewardType(type, out var room)) break; //매핑 실패 방어
-                    if (user.Items.Rooms.Contains(room)) { granted = false; break; } //중복이면 지급 안함
 
-                    user.Items.Rooms.Add(room); // 방 소유 추가
-                    newValue = user.Items.Rooms.Count; // UI 갱신용
+                    if (user.Items.Rooms.Contains(room)) return; //중복이면 지급/큐/이벤트 스킵(기존 의도 유지)
+                    user.Items.Rooms.Add(room);
+                    newValue = user.Items.Rooms.Count;
                     Debug.Log($"방 획득: {room}");
                     break;
                 }
         }
-        if (!granted) return; // 지급 안됐으면 큐/이벤트도 스킵
 
-        //큐에 추가 
+        if (!enqueuePopup) return; //지급만 모드면 큐/이벤트 스킵
+
         _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
-
-        //유아이 업데이트용
-        OnRewardGranted?.Invoke(type, newValue); // 바로 업데이트 해야하는 유아이 있으면 구독하면 됨
+        OnRewardGranted?.Invoke(type, newValue);
     }
 
+    public void EnqueuePopupOnly(List<RewardData> rewards) //이미 지급된 보상을 큐에만 넣고 표시
+    {
+        if (rewards == null || rewards.Count == 0) return;
+
+        for (int i = 0; i < rewards.Count; i++)
+        {
+            RewardData r = rewards[i];
+            if (r == null) continue;
+
+            if (r.Category == RewardCategory.Egg)
+            {
+                EnqueueEgg(r.Egg);
+                continue;
+            }
+
+            _rewardQueue.Enqueue(RewardData.CreateItem(r.RewardType, r.Amount));
+        }
+
+        OnRewardsGiven?.Invoke();
+    }
+
+ 
     // ========================보상 큐==============================
     public bool HasReward()
     {
