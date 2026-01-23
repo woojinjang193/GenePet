@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiniGameBase : MonoBehaviour
+public class MiniGameBase : MonoBehaviour 
 {
     protected PetSaveData _pet; // 플레이 중인 펫 데이터
     protected int _score;  // 점수
@@ -26,19 +26,19 @@ public class MiniGameBase : MonoBehaviour
         {
             Manager.Audio.StopBGM();
         }
-        _gainedItems.Clear();    // 보상 기록 초기화
-        _pet = Manager.Mini.CurPet;
-        _canHaveEgg = Manager.Save.CurrentData.UserData.EggList.Count < Manager.Game.Config.MaxEggAmount; //추가 알 획득 가능한 상태인지
-
-        MiniGamePersonalityEffectSO table = Manager.Mini.GetEffectTable(); // 미니게임별 테이블
-
-        //성격 가져오기
-        string personalityID = _pet.Genes.Personality.DominantId;
-        PersonalitySO personalitySO = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, personalityID);
-        PersonalityType petsonality = personalitySO.Personality;
-
-        float happiness01 = _pet.Happiness / 100;
-        _effectContext = MiniGameEffectApplier.Apply(table, petsonality, happiness01); //성격 적용
+        //_gainedItems.Clear();    // 보상 기록 초기화
+        //_pet = Manager.Mini.CurPet;
+        //_canHaveEgg = Manager.Save.CurrentData.UserData.EggList.Count < Manager.Game.Config.MaxEggAmount; //추가 알 획득 가능한 상태인지
+        //
+        //MiniGamePersonalityEffectSO table = Manager.Mini.GetEffectTable(); // 미니게임별 테이블
+        //
+        ////성격 가져오기
+        //string personalityID = _pet.Genes.Personality.DominantId;
+        //PersonalitySO personalitySO = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, personalityID);
+        //PersonalityType petsonality = personalitySO.Personality;
+        //
+        //float happiness01 = _pet.Happiness / 100;
+        //_effectContext = MiniGameEffectApplier.Apply(table, petsonality, happiness01); //성격 적용
     }
     protected virtual void GameStart()
     {
