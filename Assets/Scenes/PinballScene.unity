@@ -6220,8 +6220,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _downAngle: -45
   _upAngle: 45
-  _upSpeed: 600
-  _downSpeed: 900
+  _upSpeed: 500
+  _downSpeed: 700
 --- !u!50 &1665429090
 Rigidbody2D:
   serializedVersion: 4
@@ -7260,8 +7260,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _downAngle: 45
   _upAngle: -45
-  _upSpeed: 600
-  _downSpeed: 900
+  _upSpeed: 500
+  _downSpeed: 700
 --- !u!50 &1853250350
 Rigidbody2D:
   serializedVersion: 4

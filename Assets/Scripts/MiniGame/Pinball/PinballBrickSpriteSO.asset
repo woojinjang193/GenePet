@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cab578d5af37234883db972b2dd1230, type: 3}
+  m_Name: PinballBrickSpriteSO
+  m_EditorClassIdentifier: 
+  Rectangle:
+  - {fileID: -1856479832, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  - {fileID: 404248217, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  Square:
+  - {fileID: -2126697246, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  - {fileID: -557761462, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  Star:
+  - {fileID: 1920122915, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  - {fileID: 1405724028, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  Heart:
+  - {fileID: 918231339, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  - {fileID: -579920577, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  Diamond:
+  - {fileID: 2032384078, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  - {fileID: 59998107, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  Wave:
+  - {fileID: 1691938535, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}
+  - {fileID: -241611133, guid: eaefef39725e1a44fb3fdbcf5e20a415, type: 3}

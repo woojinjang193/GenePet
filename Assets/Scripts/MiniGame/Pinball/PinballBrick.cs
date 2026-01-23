@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 
 public enum BrickColor { None, one, two, three }
+public enum BrickType { Rectangle, Square, Star, Diamond, Heart, Wave }
 
 [Serializable]
 public struct BrickData
@@ -16,10 +17,16 @@ public struct BrickData
 
 public class PinballBrick : MonoBehaviour
 {
-    [Header("비주얼")]
+    [Header("연결")]
     [SerializeField] private SpriteRenderer _brickRenderer;
     [SerializeField] private SpriteRenderer _iconRenderer;
     [SerializeField] private TMP_Text _amountText;
+
+    [Header("스프라이트 SO")]
+    [SerializeField] private PinballBrickSpriteSO _spriteSO;
+
+    [Header("모양")]
+    [SerializeField] private BrickType _type;
 
     private BrickData _data;
     private int _hp;
@@ -43,6 +50,7 @@ public class PinballBrick : MonoBehaviour
         if (_curHp > 0)
         {
             // TODO: 히트 연출(깜빡/사운드)
+            _brickRenderer.sprite = _spriteSO.GetSprite(_type ,_curHp);
             return;
         }
 
