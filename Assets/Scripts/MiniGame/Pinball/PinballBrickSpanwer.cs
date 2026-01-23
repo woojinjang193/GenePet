@@ -95,6 +95,8 @@ public class PinballBrickSpanwer : MonoBehaviour
         int colorBrickNum = Random.Range(preset.MinColorBrickAmount, preset.MaXColorBrickAmount + 1); //컬러브릭 개수 뽑음
         ColorCountSet(colorBrickNum); //각 색 블록 개수 정함
 
+        var pool = Manager.Mini.GetAvailableRewardPool(preset.ColorBrickItems); //필터된 보상 풀
+
         for (int i = 0; i < colorBrickNum; i++)
         {
             if (_allBricks.Count <= 0) break; //남은 블록 없으면 종료
@@ -102,7 +104,13 @@ public class PinballBrickSpanwer : MonoBehaviour
             int rand = Random.Range(0, _allBricks.Count); //전체 리스트에서 랜덤 인덱스 뽑음
 
             BrickColor color = GetColor();
-            LevelReward item = MiniGameRewardPicker.GetRewardByWeight(preset.ColorBrickItems);
+
+            //아이템 뽑기
+            LevelReward item = new LevelReward { RewardType = RewardType.None, Amount = 0, Weight = 0f }; //풀 비었을 때 안전 기본값
+            if (pool.Count > 0)
+            {
+                item = MiniGameRewardPicker.GetRewardByWeight(pool); //풀에 후보가 있을 때만 가중치 뽑기(빈 풀 방어)
+            }
 
             _allBricks[rand].Init(GetBrickData(color, item));
             _allBricks.RemoveAt(rand);// 중복방지로 리스트에서 지움
@@ -112,13 +120,20 @@ public class PinballBrickSpanwer : MonoBehaviour
     private void SetNormalItemBricks(PinballGamePresetSO preset)  //일반 아이템 블록 처리
     {
         int normalItemBrickNum = Random.Range(preset.MinNormalItemBrickAmount, preset.MaXNormalItemBrickAmount + 1); //노멀 아이템 브릭 개수 뽑음
+        var pool = Manager.Mini.GetAvailableRewardPool(preset.NormalBrickItems);
 
         for (int i = 0; i < normalItemBrickNum; i++)
         {
             if (_allBricks.Count <= 0) break; //남은 블록 없으면 종료
 
             int rand = Random.Range(0, _allBricks.Count);
-            LevelReward item = MiniGameRewardPicker.GetRewardByWeight(preset.NormalBrickItems);
+
+            //아이템 뽑기
+            LevelReward item = new LevelReward { RewardType = RewardType.None, Amount = 0, Weight = 0f }; //풀 비었을 때 안전 기본값
+            if (pool.Count > 0)
+            {
+                item = MiniGameRewardPicker.GetRewardByWeight(pool); //풀에 후보가 있을 때만 가중치 뽑기(빈 풀 방어)
+            }
 
             _allBricks[rand].Init(GetBrickData(BrickColor.None, item)); //노멀 블록은 색없음
             _allBricks.RemoveAt(rand);

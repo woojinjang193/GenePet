@@ -14,7 +14,7 @@ public enum RewardCategory
 }
 public enum RewardType
 {
-    //Egg,
+    
     Energy,
     Coin,
     RemovedAD,
@@ -32,7 +32,9 @@ public enum RewardType
     Room_Poor,
     Room_Cozy,
     Room_Something,
+    Egg,
     None,
+    
 }
 public enum PersonalityType 
 {

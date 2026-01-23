@@ -94,6 +94,7 @@ public class ItemManager : Singleton<ItemManager>
     {
         var user = Manager.Save.CurrentData.UserData;
         int newValue = 0;
+        bool granted = true; //실제 지급 여부
 
         switch (type)
         {
@@ -173,9 +174,8 @@ public class ItemManager : Singleton<ItemManager>
             case RewardType.Room_Something:
                 {
                     if (user.Items.Rooms == null) user.Items.Rooms = new List<Room>(); // null 방어
-                    if (!TryGetRoomFromReward(type, out var room)) break; //매핑 실패 방어
-
-                    if (user.Items.Rooms.Contains(room)) return; // 중복이면 스킵
+                    if (!MiniGameRewardPicker.TryGetRoomFromRewardType(type, out var room)) break; //매핑 실패 방어
+                    if (user.Items.Rooms.Contains(room)) { granted = false; break; } //중복이면 지급 안함
 
                     user.Items.Rooms.Add(room); // 방 소유 추가
                     newValue = user.Items.Rooms.Count; // UI 갱신용
@@ -183,6 +183,8 @@ public class ItemManager : Singleton<ItemManager>
                     break;
                 }
         }
+        if (!granted) return; // 지급 안됐으면 큐/이벤트도 스킵
+
         //큐에 추가 
         _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
 
@@ -272,22 +274,4 @@ public class ItemManager : Singleton<ItemManager>
                 break;
         }
     }
-
-    // RewardType > Room 변환 함수
-    private static bool TryGetRoomFromReward(RewardType type, out Room room)
-    {
-        room = type switch
-        {
-            RewardType.Room_Jump => Room.Room_Jump,
-            RewardType.Room_Rythm => Room.Room_Rythm,
-            RewardType.Room_Pinball => Room.Room_Pinball,
-            RewardType.Room_Poor => Room.Room_Poor,
-            RewardType.Room_Cozy => Room.Room_Cozy,
-            RewardType.Room_Something => Room.Room_Something,
-            _ => Room.Default
-        };
-
-        return room != Room.Default;
-    }
-
 }

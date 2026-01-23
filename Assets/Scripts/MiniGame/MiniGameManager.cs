@@ -105,7 +105,15 @@ public class MiniGameManager : Singleton<MiniGameManager>
         }
         return null; // 효과 없는 미니게임
     }
+    public List<LevelReward> GetAvailableRewardPool(LevelReward[] rewards)
+    {
+        if (rewards == null || rewards.Length == 0) return new List<LevelReward>(); //null/빈 배열 방어
 
+        var user = Manager.Save.CurrentData.UserData;
+        int maxEgg = Manager.Game.Config.MaxEggAmount;
+        var pool = MiniGameRewardPicker.BuildAvailableRewards(rewards, user, maxEgg);
+        return pool;
+    }
     public int GetBestScore(MiniGame game) //미니게임 최고점수를 반환
     {
         if (game != MiniGame.Null) return 0;

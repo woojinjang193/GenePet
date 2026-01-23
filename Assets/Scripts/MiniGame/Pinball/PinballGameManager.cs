@@ -153,8 +153,10 @@ public class PinballGameManager : MiniGameBase
         _slot3Reward.ResetItem();
 
         //4번 슬롯 세팅
-        LevelReward reward = MiniGameRewardPicker.GetRewardByWeight(_preset.LevelClearRewards);
+        var pool = Manager.Mini.GetAvailableRewardPool(_preset.LevelClearRewards);//조건 필터링 리스트
+        LevelReward reward = MiniGameRewardPicker.GetRewardByWeight(pool); //필터된 풀에서 뽑기
         _slot4Reward.Init(reward.RewardType, reward.Amount);
+
     }
     //===========특수능력 ====================
     public void ApplyAbilities()
