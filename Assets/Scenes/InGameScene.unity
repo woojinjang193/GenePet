@@ -60680,6 +60680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a09a8139b30325d488493f23f7c250ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 496185841}
   _foodListPanel: {fileID: 1520044782}
   _cleanListPanel: {fileID: 1854427984}
   _foodButton: {fileID: 1432505557}
