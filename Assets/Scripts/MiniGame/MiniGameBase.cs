@@ -55,6 +55,7 @@ public class MiniGameBase : MonoBehaviour
     {
         _isPlaying = false;
         GainMoneyByScore();
+        Manager.Mini.UpdateMiniGameResult(Score); //미니게임 결과 저장
         OnGameOver?.Invoke(); 
     }
     private void Update()

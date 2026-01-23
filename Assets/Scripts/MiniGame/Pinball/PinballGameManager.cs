@@ -1,5 +1,3 @@
-
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -117,6 +115,7 @@ public class PinballGameManager : MiniGameBase
 
         GainItem(type, amount); // 아이템 누적
 
+        base.GameOver();// 게임결과 저장
         _uiManager.GameEndUiOpen();
     }
     //============== 브릭 등록/해제 ==================

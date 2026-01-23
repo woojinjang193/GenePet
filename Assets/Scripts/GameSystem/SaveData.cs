@@ -2,6 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ===================== 미니게임 결과 저장용 데이터 =====================
+[Serializable]
+public class MiniGameData
+{
+    public int PlayCount; // 플레이 횟수
+    public int BestScore; // 최고 점수
+
+    public MiniGameData()
+    {
+        PlayCount = 0;
+        BestScore = 0;
+    }
+}
+
 [Serializable]
 public class UserData
 {
@@ -19,6 +33,9 @@ public class UserData
     public IslandData Island; // 섬 정보
     public List<PetSaveData> IslandPetList; //만난 섬 펫 리스트
     public UserItemData Items; // 아이템
+
+    public MiniGameData[] MiniGameResults; // 미니게임 결과(플레이횟수/최고점수)
+
     public UserData()
     {
         LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -34,6 +51,12 @@ public class UserData
         Island = new IslandData();
         IslandPetList = new List<PetSaveData>();
         Items = new UserItemData();
+
+        MiniGameResults = new MiniGameData[(int)MiniGame.Null]; // Null 제외(0~2) 3칸 생성
+        for (int i = 0; i < MiniGameResults.Length; i++) // 각 칸 초기화
+        {
+            MiniGameResults[i] = new MiniGameData(); // 기본값 세팅
+        }
     }
 }
 
@@ -238,7 +261,7 @@ public class UserItemData
 
     public UserItemData()
     {
-        Money = 0;
+        Money = 2000;
         IsAdRemoved = false;
         IslandTicket = 1;
         MissingPoster = 1;
@@ -252,18 +275,6 @@ public class UserItemData
         Gift1 = 1;
         Gift2 = 1;
         Gift3 = 1;
-    }
-
-    [Serializable]
-    public class MiniGameData
-    {
-        public int PlayCount;
-        public int BestScore;
-        public MiniGameData() 
-        {
-            PlayCount = 0;
-            BestScore = 0;
-        }
     }
 }
 
