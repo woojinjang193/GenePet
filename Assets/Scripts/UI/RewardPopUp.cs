@@ -67,7 +67,6 @@ public class RewardPopUp : MonoBehaviour
             case RewardType.Gift1: return _ItemsSO.Gift1;
             case RewardType.Gift2: return _ItemsSO.Gift2;
             case RewardType.Gift3: return _ItemsSO.Gift3;
-            case RewardType.Gift4: return _ItemsSO.Gift4;
 
             case RewardType.PetSlot: return _ItemsSO.PetSlot;
         }

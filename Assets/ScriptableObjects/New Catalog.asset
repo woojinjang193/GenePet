@@ -51,7 +51,7 @@ MonoBehaviour:
   - ProductId: petslot
     ProductType: 0
     Rewards:
-    - RewardType: 13
+    - RewardType: 12
       RewardAmount: 1
   - ProductId: package
     ProductType: 0
@@ -63,6 +63,4 @@ MonoBehaviour:
     - RewardType: 10
       RewardAmount: 1
     - RewardType: 11
-      RewardAmount: 1
-    - RewardType: 12
       RewardAmount: 1

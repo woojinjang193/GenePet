@@ -42,12 +42,6 @@ public class IslandPetMouthController : MonoBehaviour
             OnGiveTaken?.Invoke(Gift.Gift3);
             //먹는 사운드 출력
         }
-        else if (collision.CompareTag("Item4"))
-        {
-            collision.gameObject.SetActive(false);
-            OnGiveTaken?.Invoke(Gift.Gift4);
-            //먹는 사운드 출력
-        }
         else if (collision.CompareTag("MasterGift"))
         {
             collision.gameObject.SetActive(false);

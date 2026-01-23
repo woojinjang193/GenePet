@@ -235,7 +235,6 @@ public class UserItemData
     public int Gift1;
     public int Gift2;
     public int Gift3;
-    public int Gift4;
 
     public UserItemData()
     {
@@ -246,13 +245,13 @@ public class UserItemData
         GeneticScissors = 1;
         geneticTester = 1;
         Snack = 1;
-        Rooms = new List<Room>() { Room.Default, Room.Room1, Room.Room2, Room.Room3, Room.Room4, Room.Room5 };
+        Rooms = new List<Room>()  //유저가 가진 방 목록
+        { Room.Default, Room.Room_Cozy, Room.Room_Poor, Room.Room_Jump, Room.Room_Rythm, Room.Room_Pinball, Room.Room_Something };
 
         MasterGift = 5;
         Gift1 = 1;
         Gift2 = 1;
         Gift3 = 1;
-        Gift4 = 1;
     }
 
     [Serializable]

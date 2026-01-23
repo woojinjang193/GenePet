@@ -14,21 +14,18 @@ public class IslandGiftSelector : MonoBehaviour, IPointerDownHandler
     [SerializeField] private Image _gift1Button;
     [SerializeField] private Image _gift2Button;
     [SerializeField] private Image _gift3Button;
-    [SerializeField] private Image _gift4Button;
     [SerializeField] private Image _masterGiftButton;
 
     [Header("선물 소지 개수 텍스트")]
     [SerializeField] private TMP_Text _gift1Amount;
     [SerializeField] private TMP_Text _gift2Amount;
     [SerializeField] private TMP_Text _gift3Amount;
-    [SerializeField] private TMP_Text _gift4Amount;
     [SerializeField] private TMP_Text _masterGiftAmount;
 
     [Header("소환될 선물 오브젝트")]
     [SerializeField] private GameObject _gift1;
     [SerializeField] private GameObject _gift2;
     [SerializeField] private GameObject _gift3;
-    [SerializeField] private GameObject _gift4;
     [SerializeField] private GameObject _masterGift;
 
     [Header("옵션 오픈 버튼")]
@@ -97,11 +94,6 @@ public class IslandGiftSelector : MonoBehaviour, IPointerDownHandler
             if (item.Gift3 <= 0) return;
             Spawn(_gift3);
         }
-        else if (target == _gift4Button.gameObject)
-        {
-            if (item.Gift4 <= 0) return;
-            Spawn(_gift4);
-        }
         else if (target == _masterGiftButton.gameObject)
         {
             if (item.MasterGift <= 0) return;
@@ -139,7 +131,6 @@ public class IslandGiftSelector : MonoBehaviour, IPointerDownHandler
         _gift1Amount.text = $"X {item.Gift1.ToString()}";
         _gift2Amount.text = $"X {item.Gift2.ToString()}";
         _gift3Amount.text = $"X {item.Gift3.ToString()}";
-        _gift4Amount.text = $"X {item.Gift4.ToString()}";
         _masterGiftAmount.text = $"X {item.MasterGift.ToString()}";
     }
 
@@ -152,7 +143,6 @@ public class IslandGiftSelector : MonoBehaviour, IPointerDownHandler
         _gift1Button.sprite = icon.Gift1;
         _gift2Button.sprite = icon.Gift2;
         _gift3Button.sprite = icon.Gift3;
-        _gift4Button.sprite = icon.Gift4;
         _masterGiftButton.sprite = icon.MasterGiftSprite;
     }
 }

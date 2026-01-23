@@ -27,22 +27,23 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
 
     [Header("방 배경")]
     public Sprite Default;
-    public Sprite Room1;
-    public Sprite Room2;
-    public Sprite Room3;
-    public Sprite Room4;
-    public Sprite Room5;
-    public Sprite Room6;
+    public Sprite Room_Jump;
+    public Sprite Room_Rythm;
+    public Sprite Room_Pinball;
+    public Sprite Room_Cozy;
+    public Sprite Room_Poor;
+    public Sprite Room_Something;
 
     public Sprite GetRoomSprite(Room room)
     {
         switch (room)
         {
-            case Room.Room1: return Room1;
-            case Room.Room2: return Room2;
-            case Room.Room3: return Room3;
-            case Room.Room4: return Room4;
-            case Room.Room5: return Room5;
+            case Room.Room_Jump: return Room_Jump;
+            case Room.Room_Rythm: return Room_Rythm;
+            case Room.Room_Pinball: return Room_Pinball;
+            case Room.Room_Cozy: return Room_Cozy;
+            case Room.Room_Poor: return Room_Poor;
+            case Room.Room_Something: return Room_Something;
                 //case Room.Room6: return Room1;
         }
         return Default;
@@ -55,7 +56,6 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
             case Gift.Gift1: return Gift1;
             case Gift.Gift2: return Gift2;
             case Gift.Gift3: return Gift3;
-            case Gift.Gift4: return Gift4;
             default: return null;
         }
     }
@@ -77,7 +77,6 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
             case RewardType.Gift1: return Gift1;
             case RewardType.Gift2: return Gift2;
             case RewardType.Gift3: return Gift3;
-            case RewardType.Gift4: return Gift4;
         }
         Debug.LogError("스프라이트 반환 안됨");
         return null;

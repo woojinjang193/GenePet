@@ -9,10 +9,10 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private BackgroundRoomController _roomRoot;
     [SerializeField] private float _dragSpeed = 0.01f;
-    [SerializeField] private float _minX = -4f;
-    [SerializeField] private float _maxX = 4f;
-    [SerializeField] private float _minY = -4f;
-    [SerializeField] private float _maxY = 4f;
+    [SerializeField] private float _minX = -7f;
+    [SerializeField] private float _maxX = 7f;
+    [SerializeField] private float _minY = -1.6f;
+    [SerializeField] private float _maxY = 1.6f;
     [SerializeField] private float _dragThreshold = 10f;
 
     private bool _isZoom = false;
@@ -70,8 +70,8 @@ public class CameraController : MonoBehaviour
 
         _zoomCamera.gameObject.SetActive(true); // 줌 카메라 ON
 
-        Camera.main.orthographicSize = 2.8f;
-        Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
+        //Camera.main.orthographicSize = 2.8f;
+        //Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
         _zoomCamera.transform.position = new Vector3(pos.x, pos.y, -10f);
     }
     public void CameraZoomOut()
@@ -87,7 +87,7 @@ public class CameraController : MonoBehaviour
         _zoomCamera.gameObject.SetActive(false);
 
         _roomRoot.gameObject.SetActive(false); //배경 off
-        Camera.main.orthographicSize = 5f;
+        //Camera.main.orthographicSize = 5f;
     }
     public void SetBackGround(Room room)
     {
