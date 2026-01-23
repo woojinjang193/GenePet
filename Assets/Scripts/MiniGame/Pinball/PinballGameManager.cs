@@ -10,6 +10,7 @@ public class PinballGameManager : MiniGameBase
     [SerializeField] private PinballPlayer _player;
     [SerializeField] private MiniGamePetVisualLoader _petLoader;
     [SerializeField] private PlayerSpawner _playerSpawner;
+    [SerializeField] private PinballUiManager _uiManager;
 
     [Header("점수 텍스트")]
     [SerializeField] private TMP_Text _curScoreText;
@@ -25,7 +26,8 @@ public class PinballGameManager : MiniGameBase
 
     // ===== 미니게임별 능력 계수 =====
     private float _coinMul = 1f;  //코인 아이템 획득 배율
-    
+
+    private GameObject _rouletteMap;
     // ============== 초기화 ===============
     protected override void Start()
     {
@@ -49,11 +51,15 @@ public class PinballGameManager : MiniGameBase
         _isGameOver = false;
 
         _playerSpawner.OpenDoor(); //플레이어 소환
+       
     }
     protected override void GameReset()
     {
         ApplyAbilities();
         base.GameReset();
+
+        RouletteMapReset();
+        RewardSlotReset();
 
         _playerSpawner.CloseDoor();
         _spawner.StartSettingBricks(_preset); //0 레벨 세팅
@@ -64,12 +70,7 @@ public class PinballGameManager : MiniGameBase
     {
         FinishGame();
     }
-    public void OnGameEnd()
-    {
-        _isGameOver = true;
 
-        Debug.Log("게임오버");
-    }
     //=================== 외부 호출 ======================
     private void OnBrickBroken(BrickColor color, Vector3 worldPos) //블록 파괴시
     {
@@ -104,7 +105,7 @@ public class PinballGameManager : MiniGameBase
             _slot3Reward.Init(rewardInfo.RewardType, rewardInfo.Amount);
         }
     }
-    private void OnItemCollected(RewardType type, int amount)
+    private void OnItemCollected(RewardType type, int amount) //플레이어가 룰렛 아이템 획득시 호출
     {
         //if(!_isPlaying) return;
 
@@ -114,6 +115,8 @@ public class PinballGameManager : MiniGameBase
         }
 
         GainItem(type, amount); // 아이템 누적
+
+        _uiManager.GameEndUiOpen();
     }
     //============== 브릭 등록/해제 ==================
     public void RegisterBrick(PinballBrick brick)
@@ -128,7 +131,31 @@ public class PinballGameManager : MiniGameBase
         brick.OnAddScore -= OnAddScore;
         brick.OnGiveItem -= OnGivenItem;
     }
+    // ================리셋 ===============
+    private void RouletteMapReset()
+    {
+        if (_preset.RouletteMaps.Length == 0 || _preset.RouletteMaps == null) return; //룰렛맵 없으면 리턴
 
+        if (_rouletteMap != null) //전에 맵 남아있으면 삭제
+        {
+            Destroy(_rouletteMap);
+            _rouletteMap = null;
+        }
+
+        int rand = Random.Range(0, _preset.RouletteMaps.Length);
+
+        _rouletteMap = Instantiate(_preset.RouletteMaps[rand], transform); // 룰렛맵 소환
+    }
+    private void RewardSlotReset()
+    {
+        _slot1Reward.ResetItem();
+        _slot2Reward.ResetItem();
+        _slot3Reward.ResetItem();
+
+        //4번 슬롯 세팅
+        LevelReward reward = MiniGameRewardPicker.GetRewardByWeight(_preset.LevelClearRewards);
+        _slot4Reward.Init(reward.RewardType, reward.Amount);
+    }
     //===========특수능력 ====================
     public void ApplyAbilities()
     {

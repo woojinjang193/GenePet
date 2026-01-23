@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _brickMaps:
   - {fileID: 3078005126651753967, guid: 2d7d4e9f597464f438ef5a7ff4cea133, type: 3}
+  _rouletteMaps:
+  - {fileID: 5128794969366140824, guid: f56fe26e59de43b48b0a4763a7b1005a, type: 3}
+  - {fileID: 2766868691478453805, guid: 3eeaddabc3dba6345a9610970afc1b5f, type: 3}
+  - {fileID: 62250196963653206, guid: 771c2f508984c564ea445c74931253ce, type: 3}
   _minNormalItemBrickAmount: 3
   _maxNormalItemBrickAmount: 5
   _minColorBrickAmount: 9
@@ -38,4 +42,10 @@ MonoBehaviour:
   - RewardType: 4
     Amount: 2
     Weight: 1
-  _levelClearRewards: []
+  _levelClearRewards:
+  - RewardType: 1
+    Amount: 150
+    Weight: 1
+  - RewardType: 12
+    Amount: 1
+    Weight: 0.2

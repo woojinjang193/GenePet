@@ -6,6 +6,8 @@ public class PinballGamePresetSO : ScriptableObject
 {
     [Header("벽돌 배치 프리팹")]
     [SerializeField] private GameObject[] _brickMaps;
+    [Header("지하 배치 프리팹")]
+    [SerializeField] private GameObject[] _rouletteMaps;
 
     [Header("노멀 아이템 벽돌 개수")]
     [SerializeField] private int _minNormalItemBrickAmount;
@@ -32,6 +34,8 @@ public class PinballGamePresetSO : ScriptableObject
     [SerializeField] private LevelReward[] _levelClearRewards;
 
     public GameObject[] BrickMaps => _brickMaps;
+    public GameObject[] RouletteMaps => _rouletteMaps;
+
     public int MinColorBrickAmount => _minColorBrickAmount;
     public int MaXColorBrickAmount => _maxColorBrickAmount;
     public int MinNormalItemBrickAmount => _minNormalItemBrickAmount;

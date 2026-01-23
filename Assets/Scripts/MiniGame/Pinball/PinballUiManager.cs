@@ -8,8 +8,15 @@ public class PinballUiManager : MonoBehaviour
 {
     [Header("참조")]
     [SerializeField] private PinballVisualManager _visual;
+    [SerializeField] private PinballRouletteZone _rouletteZone;
+    [SerializeField] private PinballGameManager _pinballManager;
+
+    [Header("게임끝 판넬")]
+    [SerializeField] private GameObject _gameEndUi;
+    [SerializeField] private float _EndPanelOpenDelay = 2;
 
     [Header("슬롯")]
+    [SerializeField] private GameObject _slotPanel;
     [SerializeField] private Image _slot1Image;
     [SerializeField] private Image _slot2Image;
     [SerializeField] private Image _slot3Image;
@@ -22,6 +29,14 @@ public class PinballUiManager : MonoBehaviour
     private void Awake()
     {
         _visual.OnItemFlown += SlotUpdate;
+        _rouletteZone.OnRouletteStart += CloseSlots;
+        _pinballManager.OnGameStart += ResetUis;
+    }
+    private void OnDestroy()
+    {
+        _visual.OnItemFlown -= SlotUpdate;
+        _rouletteZone.OnRouletteStart -= CloseSlots;
+        _pinballManager.OnGameStart -= ResetUis;
     }
     private void SlotUpdate(BrickColor color, Sprite icon, int amount)
     {
@@ -45,5 +60,26 @@ public class PinballUiManager : MonoBehaviour
         {
             text.gameObject.SetActive(false);
         }
+    }
+    public void GameEndUiOpen()
+    {
+        StartCoroutine(OpenEndPanel());
+    }
+    private IEnumerator OpenEndPanel()
+    {
+        yield return new WaitForSeconds(_EndPanelOpenDelay);
+        _gameEndUi.SetActive(true);
+    }
+    private void CloseSlots() //플레이어가 룰렛존 진입시 호출
+    {
+        _slotPanel.SetActive(false);
+    }
+    private void ResetUis() //게임 시작시 호출
+    {
+        _slot1Image.sprite = null;
+        _slot2Image.sprite = null;
+        _slot3Image.sprite = null;
+
+        _slotPanel.SetActive(true);
     }
 }
