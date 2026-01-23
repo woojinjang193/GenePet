@@ -163,6 +163,25 @@ public class ItemManager : Singleton<ItemManager>
                 newValue = Mathf.Clamp(user.PetSlot += amount, 0, Manager.Game.Config.MaxPetAmount); //초과 방어
                 Debug.Log($"펫 슬롯 +{amount}");
                 break;
+
+            // ===== Room 보상 처리 =====
+            case RewardType.Room_Jump:
+            case RewardType.Room_Rythm:
+            case RewardType.Room_Pinball:
+            case RewardType.Room_Poor:
+            case RewardType.Room_Cozy:
+            case RewardType.Room_Something:
+                {
+                    if (user.Items.Rooms == null) user.Items.Rooms = new List<Room>(); // null 방어
+                    if (!TryGetRoomFromReward(type, out var room)) break; //매핑 실패 방어
+
+                    if (user.Items.Rooms.Contains(room)) return; // 중복이면 스킵
+
+                    user.Items.Rooms.Add(room); // 방 소유 추가
+                    newValue = user.Items.Rooms.Count; // UI 갱신용
+                    Debug.Log($"방 획득: {room}");
+                    break;
+                }
         }
         //큐에 추가 
         _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
@@ -253,4 +272,22 @@ public class ItemManager : Singleton<ItemManager>
                 break;
         }
     }
+
+    // RewardType > Room 변환 함수
+    private static bool TryGetRoomFromReward(RewardType type, out Room room)
+    {
+        room = type switch
+        {
+            RewardType.Room_Jump => Room.Room_Jump,
+            RewardType.Room_Rythm => Room.Room_Rythm,
+            RewardType.Room_Pinball => Room.Room_Pinball,
+            RewardType.Room_Poor => Room.Room_Poor,
+            RewardType.Room_Cozy => Room.Room_Cozy,
+            RewardType.Room_Something => Room.Room_Something,
+            _ => Room.Default
+        };
+
+        return room != Room.Default;
+    }
+
 }
