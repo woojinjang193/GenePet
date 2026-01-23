@@ -45550,7 +45550,8 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 321882190}
   _sprites:
   - {fileID: 21300000, guid: eb0f14ba6b7a442478f3c867055d112b, type: 3}
-  - {fileID: 21300000, guid: bfaa6a06070d3461a8c6b100e9fd503c, type: 3}
+  - {fileID: 21300000, guid: a795d8a23d01d4e8eaff3f8ff628219d, type: 3}
+  - {fileID: 21300000, guid: ccfc3e0f50152d749bb982a8465bce38, type: 3}
   _text: {fileID: 1425908079}
 --- !u!1 &1372572296
 GameObject:
@@ -65582,7 +65583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
+  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

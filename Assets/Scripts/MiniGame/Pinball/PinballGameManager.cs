@@ -61,6 +61,7 @@ public class PinballGameManager : MiniGameBase
         RouletteMapReset();
         RewardSlotReset();
 
+        _player.FlagReset();
         _playerSpawner.CloseDoor();
         _spawner.StartSettingBricks(_preset); //0 레벨 세팅
         _curScoreText.text = $"Score: {_score}";

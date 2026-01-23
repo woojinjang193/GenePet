@@ -41,6 +41,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
         {
             case MiniGame.Jump: SceneManager.LoadScene("JumpGameScene"); break;
             case MiniGame.Rythm: SceneManager.LoadScene("RythmGameScene"); break;
+            case MiniGame.Pinball: SceneManager.LoadScene("PinballGameScene"); break;
         }
     }
     public void EndMiniGame(List<RewardData> rewards, int score)
@@ -49,7 +50,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
         {
             Manager.Item.GiveMiniGameRewards(rewards); //실제 지급 요청
         }
-        //스코어 처리 여기에서
+
         CurPet = null;
         CurMiniGame = MiniGame.Null;
 
