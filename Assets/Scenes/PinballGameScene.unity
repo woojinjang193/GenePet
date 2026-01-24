@@ -8252,6 +8252,9 @@ MonoBehaviour:
   _slot2Reward: {fileID: 4829148}
   _slot3Reward: {fileID: 129202907}
   _slot4Reward: {fileID: 1195132252}
+  _rewardEggPresets:
+  - {fileID: 11400000, guid: cf777aefa921a1e4a8d5010a936d4778, type: 2}
+  - {fileID: 11400000, guid: 27fa32604193a004e97dfb8e245d9e88, type: 2}
 --- !u!4 &1896284874
 Transform:
   m_ObjectHideFlags: 0

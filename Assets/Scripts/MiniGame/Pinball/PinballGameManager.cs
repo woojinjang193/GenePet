@@ -113,8 +113,17 @@ public class PinballGameManager : MiniGameBase
             amount = Mathf.FloorToInt(amount * _coinMul); //골드 배율만큼 더 획득
         }
 
-        GainItem(type, amount); // 아이템 누적
-
+        if(type == RewardType.Egg)
+        {
+            int rand = Random.Range(0, _preset.RewardEggs.Length);
+            EggData egg = EggDataGenerator.GenerateRewardEgg(_preset.RewardEggs[rand]);
+            base.GainEgg(egg);
+        }
+        else
+        {
+            GainItem(type, amount); // 아이템 누적
+        }
+  
         base.GameOver();// 게임결과 저장
         _uiManager.GameEndUiOpen();
     }

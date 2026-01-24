@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -533,6 +534,32 @@ public class GeneManager : Singleton<GeneManager>
         {
             _ready = true;
         }
+    }
+    // ======================= 특정 레어도에서 1개 랜덤 (외부 호출용)================
+    public PartBaseSO GetRandomPartByRarity(PartType type, RarityType rarity) 
+    {
+        if (_parts.TryGetValue(type, out var list) == false || list == null || list.Count == 0) //리스트 방어
+            return null;
+
+        _options.Clear(); // 재사용 리스트
+
+        for (int i = 0; i < list.Count; i++) //파츠 목록 순회
+        {
+            var part = list[i];
+            if (part != null && part.Rarity == rarity) //파츠가 있고 지정 레어리티면
+            {
+                _options.Add(part); //리스트에 넣기
+            }
+        }
+
+        if (_options.Count > 0) // 후보 있으면 하나 랜덤 반환
+        {
+            int rand = Random.Range(0, _options.Count);
+            return _options[rand];
+        }
+
+        Debug.LogWarning($"{type} 파츠에 {rarity} 레어리티 없음");
+        return null; // 해당 레어도에 파츠 없으면 실패
     }
 }
 

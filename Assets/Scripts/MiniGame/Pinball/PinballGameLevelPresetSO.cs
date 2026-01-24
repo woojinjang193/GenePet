@@ -33,6 +33,9 @@ public class PinballGamePresetSO : ScriptableObject
     [Header("레벨 랜덤 보상")]
     [SerializeField] private LevelReward[] _levelClearRewards;
 
+    [Header("랜덤 알 보상")]
+    [SerializeField] private RewardEggPresetSO[] _rewardEggs;
+
     public GameObject[] BrickMaps => _brickMaps;
     public GameObject[] RouletteMaps => _rouletteMaps;
 
@@ -48,6 +51,7 @@ public class PinballGamePresetSO : ScriptableObject
     public LevelReward[] NormalBrickItems => _normalBrickItems;
     public LevelReward[] ColorBrickItems => _colorBrickItems;
     public LevelReward[] LevelClearRewards => _levelClearRewards;
+    public RewardEggPresetSO[] RewardEggs => _rewardEggs;
 
     
 }
