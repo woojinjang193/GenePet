@@ -98,6 +98,7 @@ public class ItemManager : Singleton<ItemManager>
     {
         var user = Manager.Save.CurrentData.UserData;
         int newValue = 0;
+        bool granted = true; // 실제로 지급됐는지 여부(지급 안되면 큐/이벤트 막기)
 
         switch (type)
         {
@@ -175,15 +176,25 @@ public class ItemManager : Singleton<ItemManager>
             case RewardType.Room_Something:
                 {
                     if (user.Items.Rooms == null) user.Items.Rooms = new List<Room>();
-                    if (!MiniGameRewardPicker.TryGetRoomFromRewardType(type, out var room)) break; //매핑 실패 방어
 
-                    if (user.Items.Rooms.Contains(room)) return; //중복이면 지급/큐/이벤트 스킵(기존 의도 유지)
+                    // 매핑 실패면 지급 실패 처리
+                    if (!MiniGameRewardPicker.TryGetRoomFromRewardType(type, out var room)) { granted = false; break; }
+
+                    if (room == Room.Default) { granted = false; break; } // 실수로 Default 룸 설정했을경우 방어
+
+                    if (user.Items.Rooms.Contains(room)) { granted = false; break; } //중복이면 지급 실패 처리
+
                     user.Items.Rooms.Add(room);
                     newValue = user.Items.Rooms.Count;
                     Debug.Log($"방 획득: {room}");
                     break;
                 }
+            default:
+                granted = false; // 처리 안 된 RewardType은 지급 실패로 간주
+                Debug.LogWarning($"처리되지 않은 보상 타입: {type}");
+                break;
         }
+        if (!granted) return; //지급 실패면 큐/이벤트/팝업 모두 스킵
 
         if (!enqueuePopup) return; //지급만 모드면 큐/이벤트 스킵
 
