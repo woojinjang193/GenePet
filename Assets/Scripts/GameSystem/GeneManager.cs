@@ -506,21 +506,23 @@ public class GeneManager : Singleton<GeneManager>
 
         if (fatherSO == null || motherSO == null)
         {
-            Debug.Log($"{part.ToString()} 유전자 정보 부족함. 마이펫: {false}, 섬펫: {mother}");
+            Debug.Log($"{part.ToString()} 유전자 정보 부족함. 마이펫: {father}, 섬펫: {mother}");
             return RarityType.Common;
         }
-        if (fatherSO.Rarity == RarityType.Rare || motherSO.Rarity == RarityType.Rare)
+
+        if (fatherSO.Rarity == RarityType.Legendary || motherSO.Rarity == RarityType.Legendary)
         {
-            return RarityType.Rare;
+            return RarityType.Legendary;
         }
         if (fatherSO.Rarity == RarityType.Epic || motherSO.Rarity == RarityType.Epic)
         {
             return RarityType.Epic;
         }
-        if (fatherSO.Rarity == RarityType.Legendary || motherSO.Rarity == RarityType.Legendary)
+        if(fatherSO.Rarity == RarityType.Rare || motherSO.Rarity == RarityType.Rare)
         {
-            return RarityType.Legendary;
+            return RarityType.Rare;
         }
+
         return RarityType.Common;
     }
     // =============모든 파츠 타입 로드 완료 체크===========
