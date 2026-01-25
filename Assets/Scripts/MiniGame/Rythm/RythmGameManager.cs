@@ -62,7 +62,8 @@ public class RythmGameManager : MiniGameBase
     {
         base.GameReset();
         ApplyAbilities(); //특수능력 초기화
-        _uiManager.SetHeart(_playerMaxHeart + _heartExtra); //체력 켜주기
+        _playerCurHeart = _playerMaxHeart + _heartExtra;
+        _uiManager.SetHeart(_playerCurHeart); //체력 켜주기
     }
 
     // 매 프레임: 오토미스는 매 프레임 처리해야 함
