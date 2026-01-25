@@ -7916,6 +7916,9 @@ MonoBehaviour:
   _rewardPlanner: {fileID: 662280429}
   _uiManager: {fileID: 5094462}
   _rythmVisual: {fileID: 578015134}
+  _rewardEggs:
+  - {fileID: 11400000, guid: cf777aefa921a1e4a8d5010a936d4778, type: 2}
+  - {fileID: 11400000, guid: 27fa32604193a004e97dfb8e245d9e88, type: 2}
 --- !u!4 &2024544137
 Transform:
   m_ObjectHideFlags: 0

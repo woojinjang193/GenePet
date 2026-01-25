@@ -15,6 +15,9 @@ public class RythmGameManager : MiniGameBase
     [SerializeField] private RythmUiManager _uiManager;
     [SerializeField] private RythmVisualController _rythmVisual;
 
+    [Header("랜덤 알 보상")]
+    [SerializeField] private RewardEggPresetSO[] _rewardEggs;
+
     private int _playerCurHeart;
 
     //===성격 능력=====
@@ -155,7 +158,17 @@ public class RythmGameManager : MiniGameBase
             amount = Mathf.FloorToInt(amount * _coinMul); //골드 배율만큼 더 획득
         }
 
-        GainItem(type, amount); // MiniGameBase의 보상 누적
+        if (type == RewardType.Egg)
+        {
+            int rand = Random.Range(0, _rewardEggs.Length);
+            EggData egg = EggDataGenerator.GenerateRewardEgg(_rewardEggs[rand]);
+            base.GainEgg(egg);
+        }
+        else
+        {
+            GainItem(type, amount); // 아이템 누적
+        }
+
         Debug.Log($"{type}x{amount} 지급");
     }
 

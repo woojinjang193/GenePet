@@ -2178,6 +2178,9 @@ MonoBehaviour:
   _scorePerHeight: 10
   _bestScoreText: {fileID: 0}
   _curScoreText: {fileID: 60745221}
+  _rewardEggs:
+  - {fileID: 11400000, guid: cf777aefa921a1e4a8d5010a936d4778, type: 2}
+  - {fileID: 11400000, guid: 27fa32604193a004e97dfb8e245d9e88, type: 2}
 --- !u!1 &971048436
 GameObject:
   m_ObjectHideFlags: 0
