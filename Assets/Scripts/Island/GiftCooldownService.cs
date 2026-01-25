@@ -20,4 +20,10 @@ public class GiftCooldownService
     {
         return DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //현재 시간 저장용 반환
     }
+    public float GetRemainingSeconds(long giftCooldownStartTime) // 쿨타임 남은 시간 계산
+    {
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); // 현재 UTC 시간
+        float elapsed = (float)(now - giftCooldownStartTime); // 경과 시간
+        return Math.Max(0f, _cooldown - elapsed);             // 남은 시간
+    }
 }

@@ -14,6 +14,17 @@ public class IslandManager : MonoBehaviour
     [SerializeField] private GameObject _letter;
     [SerializeField] private EggObj _egg;
 
+    [Header("알 낳는 호감도")]
+    [SerializeField] private int _LayEggAt = 100;
+    [Header("떠나는 호감도")]
+    [SerializeField] private int _leaveAt = -50;
+    [Header("방문 보상 받는 청결도 기준")]
+    [SerializeField] private int _getPointCleanlinessAbove = 50;
+
+    [Header("펫 떠남/알남 파티클")] //TODO: 안쓰면 지우기
+    [SerializeField] private GameObject _particleLeave;
+    [SerializeField] private GameObject _particleLayEgg;
+
     [Header("UI")]
     [SerializeField] private Button _goBackHomeButton;
     [SerializeField] private GeneInfomationUI _GeneInfoUI;
@@ -34,6 +45,9 @@ public class IslandManager : MonoBehaviour
     private float _visitingPoint;
     private bool _isMarried;
     private bool _isLeft;
+
+    public bool IsMarried => _isMarried;
+    public bool IsLeft => _isLeft;
 
     private void Awake()
     {
@@ -62,7 +76,7 @@ public class IslandManager : MonoBehaviour
     {
         SceneManager.LoadScene("InGameScene");
     }
-    public void LeaveIslandPet()
+    public void LeaveIslandPet() //섬펫 떠남처리
     {
         _islandPet.SetActive(false);
         _letter.SetActive(true);
@@ -96,7 +110,7 @@ public class IslandManager : MonoBehaviour
 
         if (!_isLeft && !_isMarried)
         {
-            if (Manager.Save.CurrentData.UserData.Island.Affinity >= 100)
+            if (Manager.Save.CurrentData.UserData.Island.Affinity >= _LayEggAt)
             {
                 LayEggAndLeave();
                 _isMarried = true;
@@ -107,7 +121,7 @@ public class IslandManager : MonoBehaviour
         if (!CanGetReward()) { return; } //쿨타임 돌았는지 확인
 
         //방문시 호감도 증가
-        if (IslandMypetData.Cleanliness > 50f) //방문시 청결도가 50 위일 경우 방문점수 받음
+        if (IslandMypetData.Cleanliness > _getPointCleanlinessAbove) //방문시 청결도가 _getPointAbove 위일 경우 방문점수 받음
         {
             ChangeAffinity(_visitingPoint);
             Debug.Log($"청결도:{IslandMypetData.Cleanliness}. 호감도 {_visitingPoint}증가");
@@ -158,13 +172,14 @@ public class IslandManager : MonoBehaviour
 
         _plusIcon.SetActive(false); //플러스 아이콘 꺼줌
     }
-
+    // ================== 호감도 변경 ========================
     public void ChangeAffinity(float amount)
     {
-        Manager.Save.CurrentData.UserData.Island.Affinity += amount;
+        float newValue = Manager.Save.CurrentData.UserData.Island.Affinity += amount;
+        CheckMarryOrLeave(newValue);
         Debug.Log($"호감도 변동:{amount}. 현재 호감도 {Manager.Save.CurrentData.UserData.Island.Affinity}");
     }
-
+    // ================ 외부 호출 ==================
     public void UpdateIslandMyPetID(PetSaveData data)
     {
         Manager.Save.CurrentData.UserData.Island.Affinity = 0; //호감도 초기화
@@ -176,23 +191,22 @@ public class IslandManager : MonoBehaviour
 
         OnIslandMyPetChange?.Invoke();
     }
-
-    public void OpenGeneInfo() //유전자 정보 UI
+    // ====================버튼으로 호출 =========================
+    public void OpenGeneInfo() //유전자 정보 UI (섬펫용)
     {
-        if(IslandPetData == null) { return; }
+        if (IslandPetData == null) { return; }
 
-        //TODO: 조건분기 넣어야함
         _GeneInfoUI.gameObject.SetActive(true);
         _GeneInfoUI.Init(IslandPetData);
     }
-    public void OpenGeneInfoForMyPet() //테스트용. OpenGeneInfo()랑 로직 합쳐야함
+    public void OpenGeneInfoForMyPet()  //유전자 정보 UI (마이펫용)
     {
         if (IslandMypetData == null || IslandMypetData.IsLeft) { return; }
 
         _GeneInfoUI.gameObject.SetActive(true);
         _GeneInfoUI.Init(IslandMypetData);
     }
-
+    //======== 교배시도=============
     public EggData TryToBreed()
     {
         if (IslandPetData == null || IslandMypetData == null)
@@ -209,12 +223,12 @@ public class IslandManager : MonoBehaviour
         }
         return egg;
     }
-
+    // ============= 보상 쿨타임 경과 체크 =================
     private bool CanGetReward()
     {
         var coolTime = Manager.Game.Config.VisitingAffinityCooldown;
         var last = Manager.Save.CurrentData.UserData.Island.LastVisitTime;
-        var now  = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         int offlineSec = (int)(now - last);
 
@@ -226,5 +240,20 @@ public class IslandManager : MonoBehaviour
 
         return false;
     }
+    // ==============호감도 갱신후 섬펫 상태 체크=============
+    private void CheckMarryOrLeave(float newValue)
+    {
+        if (newValue >= _LayEggAt) //알 낳기 충분한 호감도면
+        {
+            //TODO: 파티클같은 연출 추가할거면 여기에
+            LayEggAndLeave();
+        }
 
+        if (newValue <= _leaveAt) //떠날 호감도면
+        {
+            _isLeft = true;
+            //TODO: 파티클같은 연출 추가할거면 여기에
+            LeaveIslandPet();
+        }
+    }
 }
