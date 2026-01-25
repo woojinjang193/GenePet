@@ -448,6 +448,7 @@ GameObject:
   - component: {fileID: 366473130998582163}
   - component: {fileID: 2563479144003919698}
   - component: {fileID: 1256898088155930669}
+  - component: {fileID: 928714755365897753}
   m_Layer: 5
   m_Name: Letter Canvas
   m_TagString: Untagged
@@ -551,6 +552,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 7568431754186785914}
+--- !u!114 &928714755365897753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973681503540726546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06d925cbd4e7d614cacdde749a5899cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 8094498000728267592}
+  _raycaster: {fileID: 2563479144003919698}
 --- !u!1 &1134499075278140754
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +979,7 @@ SpriteRenderer:
   m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3415913704640463030
