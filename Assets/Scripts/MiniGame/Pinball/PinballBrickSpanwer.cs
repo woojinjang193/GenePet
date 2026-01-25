@@ -95,7 +95,9 @@ public class PinballBrickSpanwer : MonoBehaviour
         int colorBrickNum = Random.Range(preset.MinColorBrickAmount, preset.MaXColorBrickAmount + 1); //컬러브릭 개수 뽑음
         ColorCountSet(colorBrickNum); //각 색 블록 개수 정함
 
-        var pool = Manager.Mini.GetAvailableRewardPool(preset.ColorBrickItems); //필터된 보상 풀
+        var pool = Manager.Mini.GetAvailableRewardPool(preset.ColorBrickItems, _pinballManager.RewardReservation); //필터된 보상 풀
+
+        if (pool.Count == 0 || pool == null) { Debug.LogError("풀 비었음"); return; }
 
         for (int i = 0; i < colorBrickNum; i++)
         {
@@ -106,11 +108,9 @@ public class PinballBrickSpanwer : MonoBehaviour
             BrickColor color = GetColor();
 
             //아이템 뽑기
-            LevelReward item = new LevelReward { RewardType = RewardType.None, Amount = 0, Weight = 0f }; //풀 비었을 때 안전 기본값
-            if (pool.Count > 0)
-            {
-                item = MiniGameRewardPicker.GetRewardByWeight(pool); //풀에 후보가 있을 때만 가중치 뽑기(빈 풀 방어)
-            }
+            LevelReward item = MiniGameRewardPicker.GetRandomReward(pool, _pinballManager.RewardReservation);
+
+            if (item.RewardType == RewardType.None) { Debug.LogError("풀 확인해야함"); return; }
 
             _allBricks[rand].Init(GetBrickData(color, item));
             _allBricks.RemoveAt(rand);// 중복방지로 리스트에서 지움
@@ -120,7 +120,9 @@ public class PinballBrickSpanwer : MonoBehaviour
     private void SetNormalItemBricks(PinballGamePresetSO preset)  //일반 아이템 블록 처리
     {
         int normalItemBrickNum = Random.Range(preset.MinNormalItemBrickAmount, preset.MaXNormalItemBrickAmount + 1); //노멀 아이템 브릭 개수 뽑음
-        var pool = Manager.Mini.GetAvailableRewardPool(preset.NormalBrickItems);
+        var pool = Manager.Mini.GetAvailableRewardPool(preset.NormalBrickItems, _pinballManager.RewardReservation);
+
+        if (pool.Count == 0 || pool == null) { Debug.LogError("풀 비었음"); return; }
 
         for (int i = 0; i < normalItemBrickNum; i++)
         {
@@ -128,12 +130,9 @@ public class PinballBrickSpanwer : MonoBehaviour
 
             int rand = Random.Range(0, _allBricks.Count);
 
-            //아이템 뽑기
-            LevelReward item = new LevelReward { RewardType = RewardType.None, Amount = 0, Weight = 0f }; //풀 비었을 때 안전 기본값
-            if (pool.Count > 0)
-            {
-                item = MiniGameRewardPicker.GetRewardByWeight(pool); //풀에 후보가 있을 때만 가중치 뽑기(빈 풀 방어)
-            }
+            LevelReward item = MiniGameRewardPicker.GetRandomReward(pool, _pinballManager.RewardReservation);
+
+            if (item.RewardType == RewardType.None) { Debug.LogError("풀 확인해야함"); return; }
 
             _allBricks[rand].Init(GetBrickData(BrickColor.None, item)); //노멀 블록은 색없음
             _allBricks.RemoveAt(rand);

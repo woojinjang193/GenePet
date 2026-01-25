@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MiniGameBase : MonoBehaviour 
 {
+    protected RewardReservation _rewardReservation = new(); // 라운드/스폰 제한용 예약 상태
+    public RewardReservation RewardReservation => _rewardReservation; // 보상 스포너에서 접근용
+
     protected PetSaveData _pet; // 플레이 중인 펫 데이터
     protected int _score;  // 점수
     public int Score => _score;
@@ -44,6 +47,10 @@ public class MiniGameBase : MonoBehaviour
         
         float happiness01 = _pet.Happiness / 100;
         _effectContext = MiniGameEffectApplier.Apply(table, petsonality, happiness01); //성격 적용
+
+        var user = Manager.Save.CurrentData.UserData; // 예약 초기화에 유저 필요
+        int maxEgg = Manager.Game.Config.MaxEggAmount; // 최대 알 수 필요
+        _rewardReservation.ResetFromUser(user, maxEgg); // 라운드 시작 예약 상태 초기화
     }
     protected virtual void GameStart()
     {
@@ -59,6 +66,10 @@ public class MiniGameBase : MonoBehaviour
         _gainedItems.Clear(); //라운드 시작 시 보상 초기화
         _gainedEggs.Clear();  //라운드 시작 시 알 초기화
         _isRewardsFinalized = false; //라운드 시작 시 지급 가드 초기화
+
+        var user = Manager.Save.CurrentData.UserData; // 예약 초기화에 유저 필요
+        int maxEgg = Manager.Game.Config.MaxEggAmount; // 최대 알 수 필요
+        _rewardReservation.ResetFromUser(user, maxEgg); // 라운드 리셋 시 예약 상태 초기화
     }
     protected virtual void GameOver()
     {

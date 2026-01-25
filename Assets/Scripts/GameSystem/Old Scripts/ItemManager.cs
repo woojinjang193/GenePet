@@ -97,6 +97,7 @@ public class ItemManager : Singleton<ItemManager>
     private void ApplyReward(RewardType type, int amount, bool enqueuePopup) //enqueuePopup = 팝업 큐 적재 여부 옵션
     {
         var user = Manager.Save.CurrentData.UserData;
+        if (user.Items == null) user.Items = new UserItemData(); // Items null 방어
         int newValue = 0;
         bool granted = true; // 실제로 지급됐는지 여부(지급 안되면 큐/이벤트 막기)
 

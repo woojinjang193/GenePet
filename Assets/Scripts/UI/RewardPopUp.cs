@@ -46,30 +46,8 @@ public class RewardPopUp : MonoBehaviour
         }
         else if (reward.Category == RewardCategory.Item) //일반 아이템 보상처리
         {
-            _icon.sprite = GetSprite(reward.RewardType); //아이템 스프라이트
+            _icon.sprite = _ItemsSO.GetItemSprite(reward.RewardType); //아이템 스프라이트
             _amount.text = $"X {reward.Amount}";
         }
-    }
-    public Sprite GetSprite(RewardType type)
-    {
-        switch (type)
-        {
-            case RewardType.Coin: return _ItemsSO.CoinSprite;
-            case RewardType.Energy: return _ItemsSO.Energy;
-            case RewardType.RemovedAD: return _ItemsSO.RemoveAdSprite;
-            case RewardType.IslandTicket: return _ItemsSO.IslandTicketSprite;
-            case RewardType.MissingPoster: return _ItemsSO.MissingPosterSprite;
-            case RewardType.GeneticScissors: return _ItemsSO.GeneticScissorsSprite;
-            case RewardType.GeneticTester: return _ItemsSO.geneticTesterSprite;
-            case RewardType.Snack: return _ItemsSO.SnackSprite;
-
-            case RewardType.MasterGift: return _ItemsSO.MasterGiftSprite;
-            case RewardType.Gift1: return _ItemsSO.Gift1;
-            case RewardType.Gift2: return _ItemsSO.Gift2;
-            case RewardType.Gift3: return _ItemsSO.Gift3;
-
-            case RewardType.PetSlot: return _ItemsSO.PetSlot;
-        }
-        return null;
     }
 }

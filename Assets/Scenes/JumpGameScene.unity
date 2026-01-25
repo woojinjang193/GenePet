@@ -1705,6 +1705,8 @@ MonoBehaviour:
     WingOut: {fileID: 1075064913}
     TailOut: {fileID: 1362237412}
     PatternMask: {fileID: 523795250}
+  _ArmForRythm: {fileID: 0}
+  _ArmOutlineForRythm: {fileID: 0}
 --- !u!1 &636839822
 GameObject:
   m_ObjectHideFlags: 0
@@ -4211,6 +4213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df3567ebbea7b449bfa671db418056d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _game: {fileID: 0}
   _platformPrefab: {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
   _lanesX:
   - -2.5

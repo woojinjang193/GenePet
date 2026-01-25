@@ -37,7 +37,10 @@ public class RythmGameManager : MiniGameBase
             _scoring.OnPatternResult += HandlePatternResult;
         }
         if (_rewardPlanner != null)
+        {
             _rewardPlanner.OnGiveReward += HandleGiveReward;
+            _rewardPlanner.InjectManager(this);
+        }
     }
 
     // 게임 시작 버튼 눌림
@@ -117,16 +120,13 @@ public class RythmGameManager : MiniGameBase
 
         if (success)
         {
-            // 1) 패턴 성공 보상: "고정 계획"에 있으면 지급
-            if (_rewardPlanner != null)
+            if (isLastPattern)
             {
-                _rewardPlanner.TryGivePatternReward(patternIndex);
+                _rewardPlanner?.GiveClearReward(preset); //마지막은 클리어만
             }
-
-            // 2) 레벨 마지막 패턴 성공 시: 클리어 보상 1개 지급
-            if (isLastPattern && _rewardPlanner != null)
+            else
             {
-                _rewardPlanner.GiveClearReward(preset);
+                _rewardPlanner?.TryGivePatternReward(patternIndex); //일반은 마지막 제외
             }
 
             _rythmVisual.PatternSuccess(true);

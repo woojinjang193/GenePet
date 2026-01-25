@@ -151,13 +151,14 @@ public class MiniGameManager : Singleton<MiniGameManager>
         }
         return null; // 효과 없는 미니게임
     }
-    public List<LevelReward> GetAvailableRewardPool(LevelReward[] rewards)
+    // ====== 현재 유저가 받을 수 있는 보상풀 계산해서 반환================
+    public List<LevelReward> GetAvailableRewardPool(LevelReward[] rewards, RewardReservation reservation)
     {
         if (rewards == null || rewards.Length == 0) return new List<LevelReward>(); //null/빈 배열 방어
 
         var user = Manager.Save.CurrentData.UserData;
         int maxEgg = Manager.Game.Config.MaxEggAmount;
-        var pool = MiniGameRewardPicker.BuildAvailableRewards(rewards, user, maxEgg);
+        var pool = MiniGameRewardPicker.BuildAvailableRewards(rewards, user, maxEgg, reservation);
         return pool;
     }
     public int GetBestScore(MiniGame game) //미니게임 최고점수를 반환

@@ -29,11 +29,5 @@ public class JumpGameDifficultyPreset : ScriptableObject
     [Header("끝")]
     public Sprite BackgroundEnd;
 
-    [Serializable]
-    public struct LevelReward
-    {
-        public RewardType RewardType;
-        public int Amount;
-        public float Weight;
-    }
 }
+

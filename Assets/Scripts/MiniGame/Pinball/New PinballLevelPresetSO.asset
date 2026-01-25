@@ -55,6 +55,12 @@ MonoBehaviour:
   - RewardType: 12
     Amount: 1
     Weight: 0.2
+  - RewardType: 19
+    Amount: 1
+    Weight: 10
+  - RewardType: 14
+    Amount: 1
+    Weight: 10
   _rewardEggs:
   - {fileID: 11400000, guid: cf777aefa921a1e4a8d5010a936d4778, type: 2}
   - {fileID: 11400000, guid: 27fa32604193a004e97dfb8e245d9e88, type: 2}
