@@ -4216,7 +4216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df3567ebbea7b449bfa671db418056d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _game: {fileID: 0}
+  _game: {fileID: 850357990}
   _platformPrefab: {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
   _lanesX:
   - -2.5

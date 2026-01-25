@@ -9,11 +9,14 @@ public sealed class RewardReservation
     private readonly HashSet<Room> _ownedRooms = new(); // 유저가 이미 가진 방 캐시
     private readonly HashSet<Room> _reservedRooms = new(); // 이번 라운드/스폰에서 예약된 방
 
+    private bool _HasEggPickedThisGame = false;
+
     public void ResetFromUser(UserData user, int maxEggAmount) // 라운드 시작 시 유저 상태로 초기화
     {
         _ownedRooms.Clear(); // 캐시 초기화
         _reservedRooms.Clear(); // 예약 초기화
         AnyRoomReserved = false; // 방 예약 가드 초기화
+        _HasEggPickedThisGame = false;
 
         int curEgg = user.EggList.Count;
         RemainingEggSlots = Mathf.Max(0, maxEggAmount - curEgg); // 남은 슬롯 계산
@@ -26,7 +29,9 @@ public sealed class RewardReservation
 
     public bool CanPick(RewardType type) // 이 보상이 지금 등장 가능한지
     {
-        if (type == RewardType.Egg) return RemainingEggSlots > 0; // 알 슬롯 있으면 가능
+        // 알은 이번 게임에서 아직 안 뽑았고 슬롯 남아있을 때만 가능
+        if (type == RewardType.Egg)
+            return !_HasEggPickedThisGame && RemainingEggSlots > 0;
 
         if (MiniGameRewardPicker.TryGetRoomFromRewardType(type, out var room)) // 방 타입이면
         {
@@ -45,6 +50,7 @@ public sealed class RewardReservation
         if (type == RewardType.Egg)
         {
             RemainingEggSlots = Mathf.Max(0, RemainingEggSlots - 1); // 슬롯 1개 예약
+            _HasEggPickedThisGame = true;
             return;
         }
 

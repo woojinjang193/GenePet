@@ -45,6 +45,8 @@ public static class EggDataGenerator
 
         pet.Rarity = GetEggRarity(pet.Genes); // 레어리티 추가
 
+        pet.EggSprite = Manager.Game.Config.EggRaritySO.GetEggSprite(pet.Rarity);
+
         return egg;
     }
 

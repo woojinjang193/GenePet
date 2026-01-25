@@ -179,25 +179,20 @@ public class JumpMiniGame : MiniGameBase
     // ================= 외부 이벤트 =================
     public void OnItemCollected(RewardType type, int amount)
     {
-        //if(!_isPlaying) return;
-
-        if (type == RewardType.Coin)
-        {
-            amount = Mathf.FloorToInt(amount * _coinMul); //골드 배율만큼 더 획득
-        }
-
-        GainItem(type, amount); // 아이템 누적
-
         if (type == RewardType.Egg)
         {
             int rand = Random.Range(0, _rewardEggs.Length);
             EggData egg = EggDataGenerator.GenerateRewardEgg(_rewardEggs[rand]);
             base.GainEgg(egg);
+            return;
         }
-        else
+
+        if (type == RewardType.Coin)
         {
-            GainItem(type, amount); // 아이템 누적
+            amount = Mathf.FloorToInt(amount * _coinMul);
         }
+        
+        GainItem(type, amount);
     }
 
     public void OnPlayerDead()

@@ -135,7 +135,7 @@ public class JumpGamePlatformSpawner : MonoBehaviour
     private void PlaceItems(JumpGameDifficultyPreset preset, bool isLastChunk)
     {
         if (_platforms.Count == 0) return; //플렛폼 없으면 리턴 
-        var reservation = (_game != null) ? _game.RewardReservation : null; //예약 상태 가져오기
+        var reservation = _game.RewardReservation;
 
         // 마지막 청크면 마지막 플랫폼에만 클리어 보상 1개 먼저 배치하고, 그 플랫폼은 일반 보상 대상에서 제외
         if (isLastChunk && _platforms.Count > 0) // 마지막 청크 처리
@@ -152,7 +152,7 @@ public class JumpGamePlatformSpawner : MonoBehaviour
 
         if (_platforms.Count == 0) return;
 
-        var levelRewardsPool = Manager.Mini.GetAvailableRewardPool(preset.LevelRewards, reservation); //예약 반영 풀 1번 생성
+        var levelRewardsPool = Manager.Mini.GetAvailableRewardPool(preset.LevelRewards, reservation); //예약 반영 풀 생성
         if (_platforms.Count == 0 || levelRewardsPool.Count == 0) return; //레벨 리워드 0이면 리턴
 
         int maxItemCount = Mathf.Min(preset.MaxItemCount, _platforms.Count); //최대 아이템 개수 (발판수보다 아이템수가 많으면 발판수로 설정)

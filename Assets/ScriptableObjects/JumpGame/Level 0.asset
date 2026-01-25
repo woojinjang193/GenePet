@@ -16,8 +16,8 @@ MonoBehaviour:
   - {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
   MinGapY: 1.3
   DistanceBetweenPlatform: 1
-  MinItemCount: 2
-  MaxItemCount: 3
+  MinItemCount: 4
+  MaxItemCount: 5
   LevelRewards:
   - RewardType: 1
     Amount: 10
@@ -26,10 +26,10 @@ MonoBehaviour:
     Amount: 1
     Weight: 1
   - RewardType: 19
-    Amount: 1
+    Amount: 0
     Weight: 10
   - RewardType: 14
-    Amount: 1
+    Amount: 0
     Weight: 10
   LevelClearRewards:
   - RewardType: 1

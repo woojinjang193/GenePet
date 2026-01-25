@@ -44,10 +44,15 @@ public class RewardPopUp : MonoBehaviour
             _icon.sprite = reward.Egg.PetSaveData.EggSprite; //알 스프라이트
             _amount.text = "";
         }
+        if (MiniGameRewardPicker.TryGetRoomFromRewardType(reward.RewardType, out var room)) // 방 타입이면
+        {
+            _icon.sprite = _ItemsSO.GetItemSprite(reward.RewardType); //아이템 스프라이트
+            _amount.text = $"Roooooom";
+        }
         else if (reward.Category == RewardCategory.Item) //일반 아이템 보상처리
         {
             _icon.sprite = _ItemsSO.GetItemSprite(reward.RewardType); //아이템 스프라이트
-            _amount.text = $"X {reward.Amount}";
+            _amount.text = $"x {reward.Amount}";
         }
     }
 }

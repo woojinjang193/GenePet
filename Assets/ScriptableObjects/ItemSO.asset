@@ -26,7 +26,7 @@ MonoBehaviour:
   MissingPosterSprite: {fileID: 21300000, guid: bfaa6a06070d3461a8c6b100e9fd503c, type: 3}
   GeneticScissorsSprite: {fileID: 21300000, guid: 29e5d67fce7594545ba233e35a6cd6b5, type: 3}
   geneticTesterSprite: {fileID: 21300000, guid: 00eddc939769743f583671854c5f7593, type: 3}
-  LegendaryEgg: {fileID: 21300000, guid: 11c4c521ca88e7649b7b0fedc065d52d, type: 3}
+  RewardEgg: {fileID: 21300000, guid: 5e1d5275db6616444bf77c3f7e3ea2d3, type: 3}
   Default: {fileID: 21300000, guid: 866f7aa4ad57345fc80e27cdd788f832, type: 3}
   Room_Jump: {fileID: 21300000, guid: f90a7c1c8f84b984fbe4d169ae5840d5, type: 3}
   Room_Rythm: {fileID: 21300000, guid: 84520e58ceaf16c48964db7c7a5e354b, type: 3}
