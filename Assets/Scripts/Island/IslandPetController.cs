@@ -29,8 +29,13 @@ public class IslandPetController : MonoBehaviour
 
         TryShowWish();
 
-        RestartCooldownSchedule(); // 남은시간만큼 기다렸다가 자동 갱신
+        RestartCooldownSchedule();     // 초기화 끝난 뒤 스케줄 시작 보장
     }
+    private void OnDisable()
+    {
+        StopCooldownSchedule(); //꺼질 때 코루틴 정지
+    }
+
     private void OnDestroy()
     {
         _visual.Mouth.OnGiveTaken -= OnGiveTaken; //이벤트 해제
@@ -50,8 +55,10 @@ public class IslandPetController : MonoBehaviour
     // ================== 쿨타임 스케줄 (단발 대기) ==================
     private void RestartCooldownSchedule()
     {
+        if (!isActiveAndEnabled) return; //비활성/비활성 스크립트면 코루틴 시작 금지
+
         StopCooldownSchedule();  // 기존 스케줄 중지
-        if(!_islandManager.IsLeft || !_islandManager.IsMarried)
+        if(!_islandManager.IsLeft && !_islandManager.IsMarried)
         {
             _cooldownRoutine = StartCoroutine(CooldownScheduleRoutine()); // 새 스케줄 시작
         }
