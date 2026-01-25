@@ -5163,7 +5163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50e435fef6f2b24aa0f1a4029435b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chewMouth: {fileID: 0}
+  _chewMouth: {fileID: 21300000, guid: 971d189e5d8148a4cb1b77d53948cfe0, type: 3}
+  _happyEyes: {fileID: 21300000, guid: 71685818cee235c4eb45e3a19a840646, type: 3}
+  _mouthRenderer: {fileID: 620417998}
+  _eyeRenderer: {fileID: 322577671}
 --- !u!95 &620418003
 Animator:
   serializedVersion: 5
@@ -5591,7 +5594,6 @@ GameObject:
   - component: {fileID: 772058422}
   - component: {fileID: 772058423}
   - component: {fileID: 772058424}
-  - component: {fileID: 772058425}
   m_Layer: 0
   m_Name: Island Pet
   m_TagString: Untagged
@@ -5661,21 +5663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75367452d76baba419236965cfc94b09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visual: {fileID: 772058425}
---- !u!114 &772058425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 772058421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82db71760300264dac20ba5fde972b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _wishBubble: {fileID: 310442517}
-  _mouth: {fileID: 620418002}
+  _visual: {fileID: 0}
 --- !u!1 &777693868
 GameObject:
   m_ObjectHideFlags: 0
@@ -7489,6 +7477,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132169682}
   m_CullTransparentMesh: 1
+--- !u!1 &1132574449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1132574450}
+  m_Layer: 0
+  m_Name: Lay Egg Particle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1132574450
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132574449}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1900350980}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1141496674
 GameObject:
   m_ObjectHideFlags: 0
@@ -8979,6 +8998,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1289775978}
   m_CullTransparentMesh: 1
+--- !u!1 &1348623960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1348623961}
+  m_Layer: 0
+  m_Name: Leave Particle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1348623961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348623960}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1900350980}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1358852070
 GameObject:
   m_ObjectHideFlags: 0
@@ -9548,6 +9598,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494429200}
   m_CullTransparentMesh: 0
+--- !u!1 &1504129578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1504129579}
+  m_Layer: 0
+  m_Name: Affinity Down Particle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1504129579
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504129578}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1900350980}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1525852792
 GameObject:
   m_ObjectHideFlags: 0
@@ -11707,6 +11788,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1818650939}
   m_CullTransparentMesh: 1
+--- !u!1 &1821444374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1821444375}
+  m_Layer: 0
+  m_Name: Affinity Up Particle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1821444375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821444374}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1900350980}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1823597301
 GameObject:
   m_ObjectHideFlags: 0
@@ -12562,6 +12674,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882229554}
   m_CullTransparentMesh: 1
+--- !u!1 &1900350978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1900350980}
+  - component: {fileID: 1900350979}
+  m_Layer: 0
+  m_Name: Game Visuale Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1900350979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900350978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82db71760300264dac20ba5fde972b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particleAffinityUp: {fileID: 0}
+  _particleAffinityDown: {fileID: 0}
+  _particleLeave: {fileID: 0}
+  _particleLayEgg: {fileID: 0}
+  _wishBubble: {fileID: 310442517}
+  _mouth: {fileID: 620418002}
+--- !u!4 &1900350980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900350978}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1348623961}
+  - {fileID: 1132574450}
+  - {fileID: 1821444375}
+  - {fileID: 1504129579}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1902468517
 GameObject:
   m_ObjectHideFlags: 0
@@ -12873,6 +13039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d7b84af218dd04c88a4c9f002bc8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _visualController: {fileID: 0}
   _visualLoader: {fileID: 772058423}
   _myPetVisualLoader: {fileID: 9169061508645110287}
   _islandPet: {fileID: 772058421}
@@ -15450,3 +15617,4 @@ SceneRoots:
   - {fileID: 706030346217424510}
   - {fileID: 917168525}
   - {fileID: 1800943842}
+  - {fileID: 1900350980}

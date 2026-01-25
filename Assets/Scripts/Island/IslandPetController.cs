@@ -154,7 +154,7 @@ public class IslandPetController : MonoBehaviour
     {
         if (gift == Gift.MasterGift) //마스터 선물일때
         {
-            _visual.PlaySuccess(); //성공 연출
+            _visual.GiftSuccess(); //성공 연출
             Debug.Log("마스터 선물 성공");
             Manager.Item.UseGift(gift); //선물 개수 감소
             _islandManager.ChangeAffinity(Manager.Game.Config.GiftingPoint); //호감도 적용
@@ -166,18 +166,18 @@ public class IslandPetController : MonoBehaviour
 
         if (_islandData.CurWish != gift) //선물 불일치
         {
-            _visual.PlayFail(); //실패 연출
+            _visual.GiftFail(); //실패 연출
             Debug.Log("선물 실패");
             return;
         }
 
-        _visual.PlaySuccess(); //성공 연출
+        _visual.GiftSuccess(); //성공 연출
         Debug.Log("선물 성공");
         Manager.Item.UseGift(gift); //선물 개수 감소
         _islandManager.ChangeAffinity(Manager.Game.Config.GiftingPoint); //호감도 적용
 
         ResetGiftState();
-        RestartCooldownSchedule(); // [추가] 시작시간 바뀌었으니 스케줄 재계산
+        RestartCooldownSchedule(); // 시작시간 바뀌었으니 스케줄 재계산
     }
     private void OnIslandMyPetChange() //펫 변경 이벤트
     {

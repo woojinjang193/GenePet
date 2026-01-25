@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class IslandManager : MonoBehaviour
 {
+    [Header("참조")]
+    [SerializeField] private IslandPetVisualController _visualController;
+
     [Header("비주얼로더")]
     [SerializeField] private IslandPetVisualLoader _visualLoader;
     [SerializeField] private IslandPetVisualLoader _myPetVisualLoader;
@@ -20,10 +23,6 @@ public class IslandManager : MonoBehaviour
     [SerializeField] private int _leaveAt = -50;
     [Header("방문 보상 받는 청결도 기준")]
     [SerializeField] private int _getPointCleanlinessAbove = 50;
-
-    [Header("펫 떠남/알남 파티클")] //TODO: 안쓰면 지우기
-    [SerializeField] private GameObject _particleLeave;
-    [SerializeField] private GameObject _particleLayEgg;
 
     [Header("UI")]
     [SerializeField] private Button _goBackHomeButton;
@@ -175,8 +174,16 @@ public class IslandManager : MonoBehaviour
     // ================== 호감도 변경 ========================
     public void ChangeAffinity(float amount)
     {
-        float newValue = Manager.Save.CurrentData.UserData.Island.Affinity += amount;
-        CheckMarryOrLeave(newValue);
+        float beforeAffinity = Manager.Save.CurrentData.UserData.Island.Affinity; //전 호감도
+        float newValue = Manager.Save.CurrentData.UserData.Island.Affinity += amount; //변화한 호감도
+
+        // 호감도 변화 연출함수 호출
+        bool isUp = false;
+        if (beforeAffinity < newValue) isUp = true;
+
+        _visualController.ShowAffinityChangeEffect(isUp);
+
+        CheckMarryOrLeave(newValue); // 떠남/알남 체크
         Debug.Log($"호감도 변동:{amount}. 현재 호감도 {Manager.Save.CurrentData.UserData.Island.Affinity}");
     }
     // ================ 외부 호출 ==================
@@ -245,14 +252,15 @@ public class IslandManager : MonoBehaviour
     {
         if (newValue >= _LayEggAt) //알 낳기 충분한 호감도면
         {
-            //TODO: 파티클같은 연출 추가할거면 여기에
+            _isMarried = true;
+            _visualController.ShowLayOrLeaveEffect(true);
             LayEggAndLeave();
         }
 
         if (newValue <= _leaveAt) //떠날 호감도면
         {
             _isLeft = true;
-            //TODO: 파티클같은 연출 추가할거면 여기에
+            _visualController.ShowLayOrLeaveEffect(false);
             LeaveIslandPet();
         }
     }

@@ -74,6 +74,7 @@ public class IslandGiftSelector : MonoBehaviour, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (string.IsNullOrWhiteSpace(_islandManager.IslandMyPetID)) return;
         if (_islandManager.IslandMypetData.IsLeft) return;
 
         var target = eventData.pointerCurrentRaycast.gameObject;
