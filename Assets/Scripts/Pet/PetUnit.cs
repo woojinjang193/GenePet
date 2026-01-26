@@ -17,6 +17,8 @@ public class PetUnit : MonoBehaviour
     private PetVisualController _visul;
     public bool LeftHandled { get; set; }
 
+    private PetSaveData _saveRef;
+
     private void OnDestroy()
     {
         _status.OnCleanlinessChanged -= _visul.OnCleanlinessChanged;
@@ -27,6 +29,7 @@ public class PetUnit : MonoBehaviour
     {
         Petmanager = petManager;
         _petId = save.ID;
+        _saveRef = save;
 
         _status.SetValues(PetStat.Hunger, save.Hunger);
         _status.SetValues(PetStat.Health, save.Health);
@@ -70,7 +73,13 @@ public class PetUnit : MonoBehaviour
 
         GrowthStatus next = GetNextGrowth(_status.Growth);
         _status.Growth = next;
-        
+
+        if (_saveRef != null) // 성장 결과를 세이브데이터에도 즉시 반영
+        {
+            _saveRef.GrowthStage = next;  //즉시 반영
+            //_saveRef.GrowthExp = _status.GrowthExp; // 남은 성장 경험치도 동기화
+        }
+
         _visul.SetSprite(_status.Growth);
         return true;
     }
