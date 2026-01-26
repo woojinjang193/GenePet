@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b006224b5550ac2458a339267a611168, type: 3}
   m_Name: ItemSO
   m_EditorClassIdentifier: 
-  CoinSprite: {fileID: 21300000, guid: 407afb697ff434432bb8ecb2742d0545, type: 3}
+  CoinSprite: {fileID: 21300000, guid: 515dc1ca6d7b7c240abfa4cbb99dcc75, type: 3}
   RemoveAdSprite: {fileID: 21300000, guid: 158835e055be84d9aafb05d24b64dee2, type: 3}
   SnackSprite: {fileID: 21300000, guid: 75b66ce37b8ec4247aa646f2104396c7, type: 3}
   Energy: {fileID: 21300000, guid: 050208ae96bddd44c8f34c147602480d, type: 3}
