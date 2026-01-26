@@ -59,6 +59,8 @@ public class MiniGameBase : MonoBehaviour
     }
     protected virtual void GameReset()
     {
+        if (!Manager.Mini.CanPlayMiniGame()) return; 
+
         _score = 0;  // 점수 초기화
         _playSecond = 0; //플레이 시간 초기화
         _isGameOver = false;

@@ -604,6 +604,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 07b430b20b7b99f48af10f494c1a1e5e, type: 2}
   - {fileID: 11400000, guid: 6b819d1c83b7d2548b39528022b10258, type: 2}
   - {fileID: 11400000, guid: 51084595636b8ca4e84efbdfa9114260, type: 2}
+  _miniGameCosts: 020000000200000002000000
 --- !u!4 &384484730
 Transform:
   m_ObjectHideFlags: 0

@@ -8,6 +8,10 @@ public class MiniGameManager : Singleton<MiniGameManager>
     [Header("미니게임 성격 효과 테이블")]
     [SerializeField] private MiniGamePersonalityEffectSO[] _effectTables;
 
+    [Header("미니게임 비용(점프, 리듬, 핀볼)")]
+    [SerializeField] private int[] _miniGameCosts;
+    public int[] MiniGameCosts => _miniGameCosts;
+
     public MiniGame CurMiniGame { get; private set; }
     public PetSaveData CurPet { get; private set; }
 
@@ -23,6 +27,11 @@ public class MiniGameManager : Singleton<MiniGameManager>
         if (pet == null)
         {
             Debug.LogError("펫정보 없음");
+            return;
+        }
+        if (pet.GrowthStage == GrowthStatus.Egg)
+        {
+            Manager.Game.ShowPopup("It's still an egg");
             return;
         }
 
@@ -172,5 +181,26 @@ public class MiniGameManager : Singleton<MiniGameManager>
         if (user.MiniGameResults[idx] == null) return 0;
 
         return user.MiniGameResults[idx].BestScore;
+    }
+    //==== 에너지 사용 가능 여부======
+    public bool CanPlayMiniGame()
+    {
+        int index = (int)CurMiniGame; //미니게임 인덱스
+        int cost = _miniGameCosts[index]; //미니게임 가격
+
+        if(Manager.Save == null)
+        {
+            Manager.Game.ShowPopup("Something Went Wrong. Try Later..");
+            return false;
+        }
+
+        if (Manager.Save.CurrentData.UserData.Energy < cost) //비용이 없으면
+        {
+            Manager.Game.ShowPopup("You Don't Have Enough Energy");
+            return false;
+        }
+
+        Manager.Save.CurrentData.UserData.Energy -= cost; //에너지 감소
+        return true;
     }
 }
