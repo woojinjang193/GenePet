@@ -44,7 +44,7 @@ public class UserData
         CurLanguage = Language.EN;
         UserDisplayName = "";
         PetSlot = 1; //플레이어 맥스 펫 수
-        Energy = 50;
+        Energy = 10;
         EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetSaveData>();
@@ -203,7 +203,7 @@ public class PetSaveData
 
         GrowthStage = GrowthStatus.Egg;
         Hunger = 100f;
-        Happiness = 100f;
+        Happiness = 0f;
         Cleanliness = 100f;
         Health = 100f;
 

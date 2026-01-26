@@ -15,5 +15,5 @@ MonoBehaviour:
   ID: 02
   DisplayName: 01
   Rarity: 2
-  Personality: 0
-  Sprite: {fileID: 21300000, guid: ccfc3e0f50152d749bb982a8465bce38, type: 3}
+  Personality: 2
+  Sprite: {fileID: 21300000, guid: 601b7bbccd489476eb669c84378c8f3e, type: 3}

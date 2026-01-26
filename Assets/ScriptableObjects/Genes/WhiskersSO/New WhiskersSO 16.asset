@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 16
   DisplayName: 
-  Rarity: 0
-  sprite: {fileID: 21300000, guid: 2343e71c0c6735a4f9d5d1ee7e80db6c, type: 3}
+  Rarity: 2
+  sprite: {fileID: 21300000, guid: 99ff936512b1bd747a417d41ca6946e5, type: 3}
   OrderInLayer: 16

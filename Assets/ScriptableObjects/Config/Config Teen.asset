@@ -13,19 +13,14 @@ MonoBehaviour:
   m_Name: Config Teen
   m_EditorClassIdentifier: 
   GrowthType: 2
-  canGrow: 1
-  TimeToGrow: 10
+  TimeToGrow: 600
   ExpToGrow: 0
-  HungerDecreasePerSec: 0
-  HappinessDecreasePerSec: 0
-  EnergyDecreasePerSec: 0
-  CleanlinessDecreasePerSec: 0
-  StressIncreasePerSec: 0
-  StressDecreasePerSec: 0
-  FeedHungerGain: 0
-  PlayHappinessGain: 0
-  CleanGain: 0
-  SleepEnergyGainPerSec: 0
-  PlayEnergyCost: 0
-  HealAmount: 0
-  HealthDecreasePerSec: 0
+  HungerDecreasePerSec: 0.003
+  HappinessDecreasePerSec: 0.0005
+  CleanlinessDecreasePerSec: 0.0015
+  PlayHappinessGain: 3
+  HealthDecreasePerSec: 0.005
+  HealthIncreasePerSec: 0.25
+  HungerAmountHealthIncrease: 80
+  CleanlinessAmountGetSick: 35
+  TimeToGetSick: 1800

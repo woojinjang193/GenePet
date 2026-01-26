@@ -13,19 +13,14 @@ MonoBehaviour:
   m_Name: Config Egg
   m_EditorClassIdentifier: 
   GrowthType: 0
-  canGrow: 1
-  TimeToGrow: 10
+  TimeToGrow: 120
   ExpToGrow: 0
   HungerDecreasePerSec: 0
   HappinessDecreasePerSec: 0
-  EnergyDecreasePerSec: 0
   CleanlinessDecreasePerSec: 0
-  StressIncreasePerSec: 0
-  StressDecreasePerSec: 0
-  FeedHungerGain: 0
   PlayHappinessGain: 0
-  CleanGain: 0
-  SleepEnergyGainPerSec: 0
-  PlayEnergyCost: 0
-  HealAmount: 0
   HealthDecreasePerSec: 0
+  HealthIncreasePerSec: 0
+  HungerAmountHealthIncrease: 0
+  CleanlinessAmountGetSick: 0
+  TimeToGetSick: 0

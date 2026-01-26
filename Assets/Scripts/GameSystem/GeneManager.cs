@@ -403,8 +403,8 @@ public class GeneManager : Singleton<GeneManager>
         //옵션이 없으면 null 리턴
         if (_options.Count == 0)
         {
-            Debug.LogError($"{want} 등급의 {partType} 파츠가 없음");
-            return null; 
+            Debug.LogWarning($"{want} 등급의 {partType} 파츠가 없음. 리스트 첫번째 옵션으로 반환 : {source[0]}");
+            return source[0]; 
         }
 
         int rand = UnityEngine.Random.Range(0, _options.Count);

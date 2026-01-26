@@ -94,8 +94,12 @@ public class CameraController : MonoBehaviour
         _roomRoot.SetRoom(room);
         _roomRoot.gameObject.SetActive(true); //배경 on
     }
-    public void CameraMoveTo(Vector3 pos)
+    public void CameraMoveTo(Vector3 pos) //새로운 알 스폰시 카메라 이동
     {
+        if(pos.y < _minY)
+        {
+            pos.y = _minY;
+        }
         Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
     }
     private void SetLayerRecursively(GameObject obj, int layer)
