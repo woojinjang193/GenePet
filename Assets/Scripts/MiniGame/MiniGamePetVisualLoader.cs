@@ -20,14 +20,23 @@ public class MiniGamePetVisualLoader : MonoBehaviour
         switch(minigame)
         {
             case MiniGame.Jump: break;
-            case MiniGame.Rythm: RythmVisualSetting(); break;
+            case MiniGame.Rythm: RythmVisualSetting(); break; //리듬게임은 손 바꿈
             case MiniGame.Pinball: break;
         }
+
+        GrowthStatus growth = data.GrowthStage;
+        SpriteOnOffByGrowth(growth);
     }
 
     private void RythmVisualSetting() //리듬게임용 손 교체
     {
         _renderers.Arm.sprite = _ArmForRythm; 
         _renderers.ArmOut.sprite = _ArmOutlineForRythm; 
+    }
+
+    private void SpriteOnOffByGrowth(GrowthStatus growth)
+    {
+        if (growth == GrowthStatus.Egg || growth == GrowthStatus.Adult) return;
+        PetVisualHelper.SetSpriteByGrowth(_renderers, growth);
     }
 }
