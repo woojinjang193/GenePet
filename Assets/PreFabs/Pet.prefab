@@ -1886,7 +1886,7 @@ MonoBehaviour:
   _eye: {fileID: 6802942868390645036}
   _openMouthSprite: {fileID: 21300000, guid: 9add2caf0c8ffd3438f388056f17d730, type: 3}
   _openMouthForSnackSprite: {fileID: 21300000, guid: b49b3c5f4dd03ad4b96a9daa2f42adb4, type: 3}
-  _openMouthForMedicine: {fileID: 21300000, guid: e9ff47e05e8b3854f8c632b503eaf378, type: 3}
+  _openMouthForMedicine: {fileID: 21300000, guid: 9add2caf0c8ffd3438f388056f17d730, type: 3}
   _closeEyesWithTear: {fileID: 21300000, guid: 0394190f7c03a0a4291a6d55bf257456, type: 3}
   _closeEyesSprite: {fileID: 21300000, guid: daadb6a7b6e516b4fae30e75bb52f7e2, type: 3}
   _mouthAnim: {fileID: 261560373855071590}

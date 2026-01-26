@@ -17611,7 +17611,7 @@ MonoBehaviour:
   _zoomPetLayer: 10
   _defaultPetLayer: 3
   _roomRoot: {fileID: 704891686}
-  _dragSpeed: 0.01
+  _dragSpeed: 0.005
   _minX: -7
   _maxX: 7
   _minY: -2
