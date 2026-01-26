@@ -194,7 +194,7 @@ public class PetManager : MonoBehaviour
             
             if (ZoomedUnit != null) // 줌된 펫 있을 때만
             {
-                _StatusUI.UpdateGauges(ZoomedUnit.Status); // UI 갱신
+                RequestGaugeUpdate(); // UI 갱신
             }
             _accum -= _tickInterval; //타이머 1초 빼기
         }     
@@ -332,7 +332,7 @@ public class PetManager : MonoBehaviour
         }
 
         _camera.SetBackGround(ZoomedPet.RoomType); //배경정보 넘겨줌
-        _StatusUI.UpdateGauges(ZoomedUnit.Status);
+        RequestGaugeUpdate();
     }
     public void ZoomOutPet()
     {
@@ -402,7 +402,7 @@ public class PetManager : MonoBehaviour
     }
     public void UpdateStatus() //스테이터스 게이지 업데이트
     {
-        _StatusUI.UpdateGauges(ZoomedUnit.Status);
+        RequestGaugeUpdate();
     }
     private void PetLeft(PetUnit pet)
     {
@@ -439,7 +439,7 @@ public class PetManager : MonoBehaviour
             ZoomedUnit.Status.SetValues(PetStat.Cleanliness, gameConfig.ComeBackCleanliness);
             ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, gameConfig.ComeBackHappiness);
             ZoomedUnit.Status.SetValues(PetStat.Health, gameConfig.ComeBackHealth);
-            _StatusUI.UpdateGauges(ZoomedUnit.Status);
+            RequestGaugeUpdate();
 
             ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
             ZoomedUnit.LeftHandled = false;
@@ -479,5 +479,13 @@ public class PetManager : MonoBehaviour
         Manager.Save.SaveGame();
 
         _isQuitting = true;
+    }
+
+    //게이지 업데이트 요청하는 유틸
+    private void RequestGaugeUpdate()
+    {
+        GrowthStatus growth = ZoomedUnit.Status.Growth;
+        float requiredEXP = _configs[(int)growth].ExpToGrow;
+        _StatusUI.UpdateGauges(ZoomedUnit.Status, requiredEXP);
     }
 }

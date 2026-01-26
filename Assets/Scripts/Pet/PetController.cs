@@ -61,12 +61,13 @@ public sealed class PetController : MonoBehaviour
             return;
         }
 
-        Eat(50, 10);
         _pet.Status.IncreaseEXP(10f);
+        Eat(50, 10);
+        Manager.Item.UseItem(RewardType.Snack, 1);
         Debug.Log($"스낵먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 
-    private void Eat(float Increasehunger, float decreaseCleanliness) /// 오르는 포만도 수치, 감소하는 청결도 수치
+    private void Eat(float Increasehunger, float decreaseCleanliness) // 오르는 포만도 수치, 감소하는 청결도 수치
     {
         Status.IncreaseStat(PetStat.Hunger, Increasehunger); //스낵 포만도 오르는 수치
         Status.DecreaseStat(PetStat.Cleanliness, decreaseCleanliness); //식사시 감소하는 청결도 수치
