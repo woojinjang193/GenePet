@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GrowthType: 1
   TimeToGrow: 600
-  ExpToGrow: 0
+  ExpToGrow: 20
   HungerDecreasePerSec: 0.004
   HappinessDecreasePerSec: 0.0005
   CleanlinessDecreasePerSec: 0.0022

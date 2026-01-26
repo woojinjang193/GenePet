@@ -112,8 +112,8 @@ public class MiniGameManager : Singleton<MiniGameManager>
         _sessionItemSums.Clear();
         _sessionEggs.Clear();
     }
-
-    public void UpdateMiniGameResult(int score) // 결과 저장 유틸
+    // =========================== 결과 저장 유틸 ============================
+    public void UpdateMiniGameResult(int score) 
     {
         if (CurMiniGame == MiniGame.Null) return; // Null이면 저장 안 함
 
@@ -144,6 +144,8 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         user.MiniGameResults[idx].PlayCount += 1; // 플레이 횟수 증가
         user.MiniGameResults[idx].BestScore = Mathf.Max(user.MiniGameResults[idx].BestScore, score); // 최고점 갱신
+
+        CurPet.GrowthExp += 10;
     }
     public MiniGamePersonalityEffectSO GetEffectTable()
     {

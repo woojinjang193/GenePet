@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class RythmGameManager : MiniGameBase
 {
-
     [Header("플레이어")]
     [SerializeField] private MiniGamePetVisualLoader _playerVisual;
 
