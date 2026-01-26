@@ -44,6 +44,8 @@ public class PinballGameManager : MiniGameBase
     // ================게임 사이클 ====================
     public void OnGameStartClicked() //게임 시작 버튼 눌림
     {
+        if (!Manager.Mini.CanPlayMiniGame()) return;
+
         GameReset();
         base.GameStart();
         _isGameOver = false;

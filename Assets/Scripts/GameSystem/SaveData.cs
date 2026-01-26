@@ -161,7 +161,7 @@ public class EggData
 public class PetSaveData
 {
     public RarityType Rarity;
-    public Sprite EggSprite;
+    //public Sprite EggSprite;
     public Room RoomType;
 
     public bool IsLeft;
@@ -187,7 +187,7 @@ public class PetSaveData
     public PetSaveData()
     {
         Rarity = RarityType.Common;
-        EggSprite = null;
+        //EggSprite = null;
         RoomType = Room.Default;
 
         IsLeft = false;

@@ -34,7 +34,7 @@ public class PetVisualLoaderForUI : MonoBehaviour
             case GrowthStatus.Egg:
                 _mypetImages.OffAll();
                 _mypetImages.Acc.gameObject.SetActive(true);
-                _mypetImages.Acc.sprite = pet.EggSprite;
+                _mypetImages.Acc.sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(pet.Rarity);
                 break;
 
             case GrowthStatus.Baby:

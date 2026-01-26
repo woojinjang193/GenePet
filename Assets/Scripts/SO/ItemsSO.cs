@@ -25,6 +25,9 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     [SerializeField] public Sprite GeneticScissorsSprite;
     [SerializeField] public Sprite geneticTesterSprite;
 
+    [Header("알SO")]
+    [SerializeField] public EggSO EggRaritySO;
+
     [Header("미니게임 보상 알")]
     [SerializeField] public Sprite RewardEgg;
 

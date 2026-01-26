@@ -12,7 +12,8 @@ public class EggObj : MonoBehaviour, IPointerDownHandler
     private EggData _data;
     public void Init(EggData egg)
     {
-        _sprite.sprite = egg.PetSaveData.EggSprite;
+        RarityType rarity = egg.PetSaveData.Rarity;
+        _sprite.sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(rarity);
         _data = egg;
     }
 

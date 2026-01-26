@@ -48,6 +48,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
             return;
         }
 
+        if (!CanPlayMiniGame()) return;
         CurMiniGame = (MiniGame)index; 
 
         switch (CurMiniGame) //씬 이동

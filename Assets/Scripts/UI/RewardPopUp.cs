@@ -41,7 +41,8 @@ public class RewardPopUp : MonoBehaviour
 
         if (reward.Category == RewardCategory.Egg) //알 보상처리
         {
-            _icon.sprite = reward.Egg.PetSaveData.EggSprite; //알 스프라이트
+            RarityType rarity = reward.Egg.PetSaveData.Rarity;
+            _icon.sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(rarity); //알 스프라이트
             _amount.text = "";
         }
         if (MiniGameRewardPicker.TryGetRoomFromRewardType(reward.RewardType, out var room)) // 방 타입이면

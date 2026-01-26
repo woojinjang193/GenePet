@@ -26,8 +26,7 @@ public class GameConfig : ScriptableObject
     public float DisappointingPoint;
 
     [Header("<color=yellow>소환 설정</color>")]
-    [Header("알SO")]
-    public EggSO EggRaritySO;
+    
     [Header("랜덤 스폰 가격")]
     public int RandomSpawnPrice;
 

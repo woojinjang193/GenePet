@@ -42,22 +42,22 @@ public class PetBreed : MonoBehaviour
         baby.Genes.PartColors.TailColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         //egg.Genes.PartColors.BlushColorId = Choose(egg.Genes.Color.DominantId, egg.Genes.Color.RecessiveId);
 
-        var eggImage = Manager.Game.Config.EggRaritySO;
-        switch (_finalRarity)
-        {
-            case RarityType.Legendary:
-                egg.PetSaveData.EggSprite = eggImage.LegendarySprite;
-                break;
-            case RarityType.Epic:
-                egg.PetSaveData.EggSprite = eggImage.EpicSprite; ;
-                break;
-            case RarityType.Rare:
-                egg.PetSaveData.EggSprite = eggImage.RareSprite;
-                break;
-            default:
-                egg.PetSaveData.EggSprite = eggImage.CommonSprite;
-                break;
-        }
+        //var eggImage = Manager.Game.Config.EggRaritySO;
+        //switch (_finalRarity)
+        //{
+        //    case RarityType.Legendary:
+        //        egg.PetSaveData.EggSprite = eggImage.LegendarySprite;
+        //        break;
+        //    case RarityType.Epic:
+        //        egg.PetSaveData.EggSprite = eggImage.EpicSprite; ;
+        //        break;
+        //    case RarityType.Rare:
+        //        egg.PetSaveData.EggSprite = eggImage.RareSprite;
+        //        break;
+        //    default:
+        //        egg.PetSaveData.EggSprite = eggImage.CommonSprite;
+        //        break;
+        //}
         return egg;
     }
     // ======== 유전자 합치기======

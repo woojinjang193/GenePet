@@ -29,7 +29,8 @@ public class PetVisualController : MonoBehaviour
     public void Init(PetSaveData save, PetUnit unit)
     {
         if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
-        _egg.sprite = save.EggSprite;
+        RarityType rarity = save.Rarity;
+        _egg.sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(rarity);
         _pet = unit;
         ApplyVisual(save.Genes); //비주얼 로더
         SetSprite(_pet.Status.Growth);
