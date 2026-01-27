@@ -19,7 +19,11 @@ public class PinballTitlePanel : MonoBehaviour
     }
     private void OnStartButtonClicked()
     {
-        if (!Manager.Mini.CanPlayMiniGame()) return;
+        if (!Manager.Mini.CanPlayMiniGame(out int cost)) return;
+
+        var user = Manager.Save.CurrentData.UserData;
+        user.Energy = Mathf.Max(0, user.Energy - cost); // 음수 방어
+
         _pinballManager.OnGameStartClicked();
         gameObject.SetActive(false);
     }

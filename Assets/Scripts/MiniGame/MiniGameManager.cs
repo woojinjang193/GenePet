@@ -48,8 +48,8 @@ public class MiniGameManager : Singleton<MiniGameManager>
         }
 
         CurMiniGame = (MiniGame)index; // 먼저 현재 미니게임 설정
-        if (!CanPlayMiniGame()) return; // 그 다음 비용 검사
 
+        if (!Manager.Mini.CanPlayMiniGame(out int cost)) return;
 
         switch (CurMiniGame) //씬 이동
         {
@@ -186,8 +186,10 @@ public class MiniGameManager : Singleton<MiniGameManager>
         return user.MiniGameResults[idx].BestScore;
     }
     //==== 에너지 사용 가능 여부======
-    public bool CanPlayMiniGame()
+    public bool CanPlayMiniGame(out int cost)
     {
+        cost = 0; // out은 모든 경로에서 할당돼야 함
+
         int index = (int)CurMiniGame; //미니게임 인덱스
 
         if (_miniGameCosts == null || index < 0 || index >= _miniGameCosts.Length) // 인덱스 방어
@@ -196,7 +198,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
             return false;
         }
 
-        int cost = _miniGameCosts[index]; //미니게임 가격
+        cost = _miniGameCosts[index]; //미니게임 가격
 
         if(Manager.Save == null)
         {
@@ -209,8 +211,6 @@ public class MiniGameManager : Singleton<MiniGameManager>
             Manager.Game.ShowPopup("You Don't Have Enough Energy"); //TODO: 로컬라이제이션
             return false;
         }
-
-        Manager.Save.CurrentData.UserData.Energy -= cost; //에너지 감소
         return true;
     }
 }

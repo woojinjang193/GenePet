@@ -49,8 +49,6 @@ public class RythmGameManager : MiniGameBase
     // 게임 시작 버튼 눌림
     public void OnGameStartClicked()
     {
-        if (!Manager.Mini.CanPlayMiniGame()) return;
-
         GameReset();
         base.GameStart();
 
