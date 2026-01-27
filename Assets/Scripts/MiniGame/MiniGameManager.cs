@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
 
 public class MiniGameManager : Singleton<MiniGameManager>
@@ -40,16 +41,15 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         CurPet = pet; //펫정보 저장
 
-        int enumCount = Enum.GetValues(typeof(MiniGame)).Length;
-
-        if (index < 0 || index >= enumCount - 1)
+        if (_miniGameCosts == null || index < 0 || index >= _miniGameCosts.Length) // 비용 배열 기준으로 검사
         {
             Debug.LogError("잘못된 미니게임 인덱스");
             return;
         }
 
-        if (!CanPlayMiniGame()) return;
-        CurMiniGame = (MiniGame)index; 
+        CurMiniGame = (MiniGame)index; // 먼저 현재 미니게임 설정
+        if (!CanPlayMiniGame()) return; // 그 다음 비용 검사
+
 
         switch (CurMiniGame) //씬 이동
         {
@@ -189,6 +189,13 @@ public class MiniGameManager : Singleton<MiniGameManager>
     public bool CanPlayMiniGame()
     {
         int index = (int)CurMiniGame; //미니게임 인덱스
+
+        if (_miniGameCosts == null || index < 0 || index >= _miniGameCosts.Length) // 인덱스 방어
+        {
+            Debug.LogError("미니게임 비용 배열 인덱스 오류");
+            return false;
+        }
+
         int cost = _miniGameCosts[index]; //미니게임 가격
 
         if(Manager.Save == null)
