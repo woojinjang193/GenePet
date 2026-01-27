@@ -30858,7 +30858,7 @@ MonoBehaviour:
   _namePanel: {fileID: 1043277979}
   _confirmButton: {fileID: 627932822}
   _nameText: {fileID: 1542110269}
-  _errorText: {fileID: 0}
+  _errorText: {fileID: 1741078713}
   _nameLengthLimit: 10
 --- !u!1 &931450406
 GameObject:
