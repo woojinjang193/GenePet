@@ -17,7 +17,7 @@ MonoBehaviour:
   ExpToGrow: 50
   HungerDecreasePerSec: 0.05
   HappinessDecreasePerSec: 0.0005
-  CleanlinessDecreasePerSec: 1
+  CleanlinessDecreasePerSec: 0.002
   PlayHappinessGain: 3
   HealthDecreasePerSec: 0.005
   HealthIncreasePerSec: 0.25

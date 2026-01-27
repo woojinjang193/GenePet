@@ -38,7 +38,8 @@ public class JumpGameUIManager : MonoBehaviour
     // ===== 패널에서 호출 =====
     public void StartGame()
     {
-        if (!Manager.Mini.CanPlayMiniGame()) return; 
+        if (!Manager.Mini.CanPlayMiniGame()) return;
+
         _jumpGame.OnGameStartClicked();
     }
     public void RestartGame()
