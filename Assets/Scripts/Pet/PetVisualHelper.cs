@@ -90,7 +90,10 @@ public static class PetVisualHelper
     }
 
     //파츠 비활성화 
-
+    /// <summary>
+    /// 모든 랜더러를 초기화합니다 (null로 만듬)
+    /// </summary>
+    /// <param name="renderers"></param>
     public static void OffAllParts(PetPartSpriteList renderers)
     {
         renderers.Acc.sprite = null;
@@ -181,7 +184,11 @@ public static class PetVisualHelper
         }
     }
 
-    private static void ActiveFalseAll(PetPartSpriteList renderers)
+    /// <summary>
+    /// 모든 오브젝트를 Off 합니다
+    /// </summary>
+    /// <param name="renderers"></param>
+    public static void ActiveFalseAll(PetPartSpriteList renderers)
     {
         renderers.Acc.gameObject.SetActive(false);
         renderers.Arm.gameObject.SetActive(false);
