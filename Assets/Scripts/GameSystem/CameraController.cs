@@ -2,18 +2,32 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Camera _zoomCamera; //줌 전용 카메라
-    [SerializeField] private int _zoomPetLayer;        //줌인 펫 레이어
-    [SerializeField] private int _defaultPetLayer;     //원래 펫 레이어
-    private GameObject _currentZoomPet;                //현재 줌인된 펫
+    [Header("Zoom 대상 레이어")]
+    [SerializeField] private int _zoomPetLayer;   //줌인 펫 레이어
+    [SerializeField] private int _defaultPetLayer;  //원래 펫 레이어
+    private GameObject _currentZoomPet;  //현재 줌인된 펫
 
+    [Header("Zoom 시 카메라 렌더(보일 레이어만)")]
+    [SerializeField] private LayerMask _zoomVisibleMask; //줌 중 MainCamera가 렌더할 레이어 마스크(UI/ZoomPet/배경/줌오브젝트만)
+    private int _backupCullingMask;  // 줌 전 MainCamera cullingMask 백업
+
+    [Header("Zoom 시 카메라 사이즈")]
+    [SerializeField] private float _zoomOrthoSize = 2.8f; // 줌인 시 OrthoSize
+    private float _backupOrthoSize;                        // 줌 전 OrthoSize 백업
+    private Vector3 _backupCamPos;
+
+    [Header("배경")]
     [SerializeField] private BackgroundRoomController _roomRoot;
+
+    [Header("드래그 설정")]
     [SerializeField] private float _dragSpeed = 0.01f;
     [SerializeField] private float _minX = -7f;
     [SerializeField] private float _maxX = 7f;
     [SerializeField] private float _minY = -1.6f;
     [SerializeField] private float _maxY = 1.6f;
     [SerializeField] private float _dragThreshold = 10f;
+
+    private Camera _mainCam;
 
     private bool _isZoom = false;
     public bool IsZoom => _isZoom;
@@ -24,6 +38,10 @@ public class CameraController : MonoBehaviour
     private Vector3 _dragStartMousePos;
     private Vector3 _startCamPos;
 
+    private void Awake()
+    {
+        _mainCam = GetComponent<Camera>();
+    }
     public void BeginDrag(Vector3 mousePos)
     {
         if (_isZoom) return;
@@ -61,33 +79,46 @@ public class CameraController : MonoBehaviour
 
     public void CameraZoomIn(Vector3 pos, GameObject petRoot)
     {
+        if (_mainCam == null || !_mainCam.orthographic) return; // 안전 체크
+
         _isZoom = true;
 
-        _currentZoomPet = petRoot; //줌인된 펫 저장
+        // ===== 카메라 상태 백업 =====
+        _backupCamPos = _mainCam.transform.position;   // 위치 백업
+        _backupOrthoSize = _mainCam.orthographicSize;  // 사이즈 백업
+        _backupCullingMask = _mainCam.cullingMask;  // 마스크 백업
 
-        _defaultPetLayer = petRoot.layer; //기존 레이어 저장
-        SetLayerRecursively(petRoot, _zoomPetLayer);
+        // ===== 줌 대상 펫만 줌 레이어로 =====
+        _currentZoomPet = petRoot;   // 줌인된 펫 저장
+        _defaultPetLayer = petRoot.layer;    // 기존 레이어 저장
+        SetLayerRecursively(petRoot, _zoomPetLayer); // 줌 레이어로 변경
 
-        _zoomCamera.gameObject.SetActive(true); // 줌 카메라 ON
+        // ===== 줌 중엔 필요한 레이어만 렌더 =====
+        _mainCam.cullingMask = _zoomVisibleMask;  // UI/ZoomPet/배경/줌오브젝트만 보이게
 
-        //Camera.main.orthographicSize = 2.8f;
-        //Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
-        _zoomCamera.transform.position = new Vector3(pos.x, pos.y, -10f);
+        // ===== 카메라 줌 연출 =====
+        _mainCam.orthographicSize = _zoomOrthoSize;  // 줌 사이즈 적용
+        _mainCam.transform.position = new Vector3(pos.x, pos.y, _backupCamPos.z); // 줌 위치로 이동(z는 유지)
     }
     public void CameraZoomOut()
     {
+        if (_mainCam == null) return; //안전 체크
+
         _isZoom = false;
 
-        if (_currentZoomPet != null) //줌인된 펫이 있으면
+        // ===== 펫 레이어 원복 =====
+        if (_currentZoomPet != null)
         {
             SetLayerRecursively(_currentZoomPet, _defaultPetLayer); //레이어 원복
             _currentZoomPet = null;
         }
 
-        _zoomCamera.gameObject.SetActive(false);
+        // ===== 카메라 상태 원복 =====
+        _mainCam.cullingMask = _backupCullingMask;   // 렌더 마스크 복구
+        _mainCam.orthographicSize = _backupOrthoSize;// OrthoSize 복구
+        _mainCam.transform.position = _backupCamPos; // 위치 복구
 
-        _roomRoot.gameObject.SetActive(false); //배경 off
-        //Camera.main.orthographicSize = 5f;
+        _roomRoot.gameObject.SetActive(false);       //배경 off
     }
     public void SetBackGround(Room room)
     {
@@ -100,7 +131,10 @@ public class CameraController : MonoBehaviour
         {
             pos.y = _minY;
         }
-        Camera.main.transform.position = new Vector3(pos.x, pos.y, -10f);
+        if (_mainCam != null)
+        {
+            _mainCam.transform.position = new Vector3(pos.x, pos.y, -10f);
+        }
     }
     private void SetLayerRecursively(GameObject obj, int layer)
     {

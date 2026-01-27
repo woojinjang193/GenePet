@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc93f521587001d4195614a976e0adb6, type: 3}
   m_Name: Arm Front 04
   m_EditorClassIdentifier: 
-  ID: 04
+  ID: 104
   DisplayName: 
   Rarity: 0
   sprite: {fileID: 21300000, guid: f894902208d2eb94c90e22cfbd4fb423, type: 3}
   Outline: {fileID: 21300000, guid: 5339c866dc41d564d93e8cbcd49fe60f, type: 3}
-  OrderInLayer: 104
+  OrderInLayer: 11
