@@ -146,14 +146,14 @@ public static class PetVisualHelper
             renderers.Body.gameObject.SetActive(true);
             renderers.Ear.gameObject.SetActive(true);
             renderers.Eye.gameObject.SetActive(true);
-            renderers.Feet.gameObject.SetActive(true);
             renderers.Mouth.gameObject.SetActive(true);
             renderers.Tail.gameObject.SetActive(true);
             renderers.Whiskers.gameObject.SetActive(true);
+            renderers.Arm.gameObject.SetActive(true);
 
+            renderers.ArmOut.gameObject.SetActive(true);
             renderers.BodyOut.gameObject.SetActive(true);
             renderers.EarOut.gameObject.SetActive(true);
-            renderers.FeetOut.gameObject.SetActive(true);
             renderers.TailOut.gameObject.SetActive(true);
         }
         else if (growth == GrowthStatus.Adult) //어른
