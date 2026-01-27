@@ -13,6 +13,9 @@ public class NamePanel : MonoBehaviour
     [SerializeField] private GameObject _namePanel;
     [SerializeField] private Button _confirmButton;
     [SerializeField] private TMP_Text _nameText;
+    [SerializeField] private TMP_Text _errorText;
+
+    [SerializeField] private int _nameLengthLimit = 10;
 
     private bool _isSubscribed = false;
 
@@ -38,6 +41,7 @@ public class NamePanel : MonoBehaviour
             {
                 TurnOnUIs(true, false);
                 _input.text = null;
+                _errorText.text = "";
             }
         }
         else
@@ -55,7 +59,14 @@ public class NamePanel : MonoBehaviour
     }
     private void OnclickedConfirm()
     {
-        //이름 예외처리 여기에 
+        if (string.IsNullOrWhiteSpace(_input.text))
+        {
+            _errorText.text = "It can not be empty"; //TODO: 로컬라이제이션
+        }
+        if(_input.text.Length > _nameLengthLimit)
+        {
+            _errorText.text = "It can not be longer than 10 letters"; //TODO: 로컬라이제이션
+        }
 
         _nameText.text = _petManager.ZoomedPet.DisplayName = _input.text;
         TurnOnUIs(false, true);
