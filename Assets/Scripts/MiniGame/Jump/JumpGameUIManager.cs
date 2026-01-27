@@ -10,7 +10,7 @@ public class JumpGameUIManager : MonoBehaviour
 
     [Header("패널")]
     [SerializeField] private JumpGameTitlePanel _titlePanel;
-    [SerializeField] private JumpGameOverPanel _gameOverPanel;
+    //[SerializeField] private JumpGameOverPanel _gameOverPanel;
 
     private void Awake()
     {
@@ -25,7 +25,6 @@ public class JumpGameUIManager : MonoBehaviour
     private void OnGameStart()
     {
         _titlePanel.Close();
-        _gameOverPanel.Close();
     }
     private void OnGameOver()
     {
@@ -33,16 +32,11 @@ public class JumpGameUIManager : MonoBehaviour
         int bestScore = curScore; // TODO: 실제 최고점수 연결
 
 
-        _gameOverPanel.Open(curScore, bestScore);
+        _titlePanel.Open(curScore, bestScore);
     }
     // ===== 패널에서 호출 =====
     public void StartGame()
     {
-        if (!Manager.Mini.CanPlayMiniGame(out int cost)) return;
-
-        var user = Manager.Save.CurrentData.UserData;
-        user.Energy = Mathf.Max(0, user.Energy - cost); // 음수 방어
-
         _jumpGame.OnGameStartClicked();
     }
     public void RestartGame()
