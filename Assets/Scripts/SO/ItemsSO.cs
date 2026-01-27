@@ -30,7 +30,7 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     [Header("미니게임 보상 알")]
     [SerializeField] public Sprite RewardEgg;
 
-    [Header("방 배경")]
+    [Header("방 배경(아이템)")]
     public Sprite Default;
     public Sprite Room_Jump;
     public Sprite Room_Rythm;
@@ -38,21 +38,6 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     public Sprite Room_Cozy;
     public Sprite Room_Poor;
     public Sprite Room_Something;
-
-    public Sprite GetRoomSprite(Room room)
-    {
-        switch (room)
-        {
-            case Room.Room_Jump: return Room_Jump;
-            case Room.Room_Rythm: return Room_Rythm;
-            case Room.Room_Pinball: return Room_Pinball;
-            case Room.Room_Cozy: return Room_Cozy;
-            case Room.Room_Poor: return Room_Poor;
-            case Room.Room_Something: return Room_Something;
-                //case Room.Room6: return Room1;
-        }
-        return Default;
-    }
 
     public Sprite GetGiftSprite(Gift gift)
     {

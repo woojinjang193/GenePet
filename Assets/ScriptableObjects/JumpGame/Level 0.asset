@@ -14,10 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlatformPrefabs:
   - {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
+  - {fileID: 1659212146967151355, guid: db83e5c9cfcb57d47aba9eee7b32d029, type: 3}
+  - {fileID: 1659212146967151355, guid: 80ce4cd074a87664ea884dcc4ea9dc30, type: 3}
+  - {fileID: 1659212146967151355, guid: b1d95fe48c9efb944961000301b51978, type: 3}
+  - {fileID: 1659212146967151355, guid: 7f96cf475d7326e41a1527a17cb14650, type: 3}
+  - {fileID: 1659212146967151355, guid: b58ceb26ec4876c46a3535b0a8ec7f49, type: 3}
+  - {fileID: 1659212146967151355, guid: 8bb94d46b76390149b3624d2845a781e, type: 3}
   MinGapY: 1.3
   DistanceBetweenPlatform: 1
-  MinItemCount: 4
-  MaxItemCount: 5
+  MinItemCount: 2
+  MaxItemCount: 4
   LevelRewards:
   - RewardType: 1
     Amount: 10

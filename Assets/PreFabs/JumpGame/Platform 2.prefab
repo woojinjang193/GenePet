@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7726760320156563267}
   - component: {fileID: 1261771437226984702}
-  - component: {fileID: 1485735532638460859}
+  - component: {fileID: 6142366718049294521}
   m_Layer: 13
-  m_Name: Platform
+  m_Name: Platform 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: 7cf8aa863ca2fda42bdef021255e731f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 52a37e52aae2eb243a1b00d0838427cd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,8 +86,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1485735532638460859
-BoxCollider2D:
+--- !u!60 &6142366718049294521
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -121,16 +121,31 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.67}
+    pivot: {x: 0.5, y: 0.53}
     oldSize: {x: 5, y: 5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 3.182346, y: 0.25054526}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.5328082, y: 0.19770141}
+      - {x: 1.4007738, y: 0.20250608}
+      - {x: 1.1167284, y: 0.38970366}
+      - {x: 0.95140475, y: 0.19192807}
+      - {x: 0.6769872, y: 0.1671063}
+      - {x: 0.26805088, y: 0.15724362}
+      - {x: -0.3484474, y: 0.14452937}
+      - {x: -0.9083146, y: 0.19467449}
+      - {x: -1.1131715, y: 0.39695707}
+      - {x: -1.385327, y: 0.19899395}
+      - {x: -1.5420277, y: 0.20305145}
+      - {x: -1.5860498, y: -0.044117287}
+      - {x: -0.57103914, y: -0.09884424}
+      - {x: 0.50061166, y: -0.11665432}
+      - {x: 1.599433, y: -0.038142223}
+  m_UseDelaunayMesh: 0
 --- !u!1 &7959864899063859072
 GameObject:
   m_ObjectHideFlags: 0

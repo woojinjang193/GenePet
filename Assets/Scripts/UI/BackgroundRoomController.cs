@@ -5,6 +5,7 @@ using UnityEngine;
 public class BackgroundRoomController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private RoomSpriteSO _roomSprite;
 
     private void Awake()
     {
@@ -15,6 +16,6 @@ public class BackgroundRoomController : MonoBehaviour
     }
     public void SetRoom(Room room)
     {
-        _renderer.sprite = Manager.Item.ItemImages.GetRoomSprite( room );
+        _renderer.sprite = _roomSprite.GetRoomSprite( room );
     }
 }

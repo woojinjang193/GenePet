@@ -24231,6 +24231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 2018689550}
+  _roomSprite: {fileID: 11400000, guid: 83ae98b934cec68468feac6de78dd4eb, type: 2}
 --- !u!1 &706008414
 GameObject:
   m_ObjectHideFlags: 0
@@ -43831,6 +43832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slider: {fileID: 1321805736}
   _text: {fileID: 648754669}
+  _petManager: {fileID: 0}
 --- !u!222 &1321805738
 CanvasRenderer:
   m_ObjectHideFlags: 0
