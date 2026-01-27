@@ -22,6 +22,8 @@ public class PetManager : MonoBehaviour
 
     private float _accum;
     private float _energyTimer; // 에너지 회복 누적시간
+    private float _energyRecoveringTime; // 에너지 1 오르는 시간
+    private int _maxEnergy; //유저 맥스 에너지
     private bool _isQuitting = false;
 
     private CameraController _camera;
@@ -54,6 +56,9 @@ public class PetManager : MonoBehaviour
     }
     private void Start()
     {
+        _energyRecoveringTime = Manager.Game.Config.EnergyRecoveringTime;
+        _maxEnergy = Manager.Game.Config.MaxEnergy;
+
         _letterPanel = FindObjectOfType<LetterPanel>(true);
         _letterPanel.OnClickMissingPoster += PetComeBack;
 
@@ -104,6 +109,7 @@ public class PetManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_letterPanel != null)
         _letterPanel.OnClickMissingPoster -= PetComeBack;
     }
     private void LoadPetListFromSave()
@@ -201,8 +207,6 @@ public class PetManager : MonoBehaviour
     }
     private void RunTick(float sec)
     {
-        RecoverEnergy(sec); // 플레이어 에너지 회복
-
         if(_activePets.Count <= 0 || _activePets ==  null) return;
 
         for (int i = 0; i < _activePets.Count; i++)
@@ -227,14 +231,14 @@ public class PetManager : MonoBehaviour
 
     private void RecoverEnergy(float sec)
     {
+        if(_energyRecoveringTime <= 0f) return;
+
         _energyTimer += sec; // 시간 누적
 
-        float need = Manager.Game.Config.EnergyRecoveringTime; // 1 오르는 시간
-
-        if (_energyTimer >= need)
+        if (_energyTimer >= _energyRecoveringTime)
         {
-            int amount = (int)(_energyTimer / need); // 오를 수 있는 양 계산
-            _energyTimer %= need; // 남은 시간만 저장
+            int amount = (int)(_energyTimer / _energyRecoveringTime); // 오를 수 있는 양 계산
+            _energyTimer %= _energyRecoveringTime; // 남은 시간만 저장
 
             AddEnergy(amount); // 실제 증가 처리
         }
@@ -244,7 +248,7 @@ public class PetManager : MonoBehaviour
     {
         var user = Manager.Save.CurrentData.UserData;
 
-        user.Energy = Mathf.Clamp(user.Energy + amount, 0, Manager.Game.Config.MaxEnergy);
+        user.Energy = Mathf.Clamp(user.Energy + amount, 0, _maxEnergy);
 
         _uiManager.UpdateEnergyBar(user.Energy); // UI 갱신
     }

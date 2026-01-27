@@ -193,13 +193,13 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         if(Manager.Save == null)
         {
-            Manager.Game.ShowPopup("Something Went Wrong. Try Later..");
+            Manager.Game.ShowPopup("Something Went Wrong. Try Later.."); //TODO: 로컬라이제이션
             return false;
         }
 
         if (Manager.Save.CurrentData.UserData.Energy < cost) //비용이 없으면
         {
-            Manager.Game.ShowPopup("You Don't Have Enough Energy");
+            Manager.Game.ShowPopup("You Don't Have Enough Energy"); //TODO: 로컬라이제이션
             return false;
         }
 

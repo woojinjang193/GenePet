@@ -62,10 +62,12 @@ public class NamePanel : MonoBehaviour
         if (string.IsNullOrWhiteSpace(_input.text))
         {
             _errorText.text = "It can not be empty"; //TODO: 로컬라이제이션
+            return;
         }
         if(_input.text.Length > _nameLengthLimit)
         {
             _errorText.text = "It can not be longer than 10 letters"; //TODO: 로컬라이제이션
+            return;
         }
 
         _nameText.text = _petManager.ZoomedPet.DisplayName = _input.text;
