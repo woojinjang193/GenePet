@@ -1865,9 +1865,9 @@ MonoBehaviour:
     PatternMask: {fileID: 7640797588716686556}
   _dirtRenderer: {fileID: 1603974988100659413}
   _dirtMask: {fileID: 973102294726828001}
-  _dirtLow: {fileID: 21300000, guid: 9c6347c64b9734f0bb8f9fc6b7c41b64, type: 3}
-  _dirtMid: {fileID: 21300000, guid: de00b5e2a30ca4a2cad58b02a4c0eabb, type: 3}
-  _dirtHigh: {fileID: 21300000, guid: d1ec46fa071af468292d7a46abfc9044, type: 3}
+  _dirtLow: {fileID: 21300000, guid: 137d3cd7725a6c44cb7f537a50ea268c, type: 3}
+  _dirtMid: {fileID: 21300000, guid: 665cdd4bf3c13c144947e41073a985b7, type: 3}
+  _dirtHigh: {fileID: 21300000, guid: 946d2bef7bd5b294e80f12ec50c8660e, type: 3}
   _sickImage: {fileID: 241661492565061739}
   _healthReducingParticle: {fileID: 8406421369502496954}
 --- !u!114 &8396101238676641885
@@ -2413,7 +2413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6257536294825790741
 RectTransform:
   m_ObjectHideFlags: 0
