@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [Header("참조")]
+    [SerializeField] private CameraResolution _cameraResolution; 
     [Header("Zoom 대상 레이어")]
     [SerializeField] private int _zoomPetLayer;   //줌인 펫 레이어
     [SerializeField] private int _defaultPetLayer;  //원래 펫 레이어
@@ -97,7 +99,9 @@ public class CameraController : MonoBehaviour
         _mainCam.cullingMask = _zoomVisibleMask;  // UI/ZoomPet/배경/줌오브젝트만 보이게
 
         // ===== 카메라 줌 연출 =====
-        _mainCam.orthographicSize = _zoomOrthoSize;  // 줌 사이즈 적용
+        float zoomSize = _cameraResolution.GetAspectFixedOrthoSize(_zoomOrthoSize); // 줌 사이즈도 화면비 보정
+        _mainCam.orthographicSize = zoomSize;
+
         _mainCam.transform.position = new Vector3(pos.x, pos.y, _backupCamPos.z); // 줌 위치로 이동(z는 유지)
     }
     public void CameraZoomOut()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072d1758ab84d0f4fa67325ac6eef229, type: 3}
   m_Name: RoomSpriteSO
   m_EditorClassIdentifier: 
-  Default: {fileID: 21300000, guid: bfaa6a06070d3461a8c6b100e9fd503c, type: 3}
+  Default: {fileID: 21300000, guid: 8be5fb419f85f394e822c61dc8a18958, type: 3}
   Room_Jump: {fileID: 21300000, guid: bfaa6a06070d3461a8c6b100e9fd503c, type: 3}
   Room_Rythm: {fileID: 21300000, guid: 84520e58ceaf16c48964db7c7a5e354b, type: 3}
   Room_Pinball: {fileID: 21300000, guid: bfaa6a06070d3461a8c6b100e9fd503c, type: 3}

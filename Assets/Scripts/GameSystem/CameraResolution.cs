@@ -68,4 +68,15 @@ public class CameraResolution : MonoBehaviour
             return new Rect(x, 0f, scaleWidth, 1f);     //필러박스(좌/우) - 태블릿 등
         }
     }
+    public float GetAspectFixedOrthoSize(float targetOrthoSize) // targetOrthoSize를 현재 화면비에 맞게 보정해서 반환
+    {
+        float currentAspect = Screen.width / (float)Screen.height; // 현재 화면비
+        float aspectForSize = Mathf.Max(currentAspect, _maxTallAspect); // 너무 길쭉하면 20:9로 클램프
+
+        if (aspectForSize < _baseAspect) // 9:16보다 세로로 길면 가로폭 유지를 위해 size 증가
+            return targetOrthoSize * (_baseAspect / aspectForSize); // 화면비 보정 적용
+
+        return targetOrthoSize; // 기준보다 덜 길면 그대로
+    }
+
 }
