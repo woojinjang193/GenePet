@@ -87,6 +87,6 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
         if (type != RewardType.GrowthBooster) return; //부스터 아니면 리턴
 
         _curHave = newValue;
-        _amountText.text = $"{newValue}";
+        _amountText.text = $"x{newValue}";
     }
 }
