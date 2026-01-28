@@ -16,6 +16,8 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
+
         _button.onClick.AddListener(OnClicked);
 
         ShopManager.CreateManager();
