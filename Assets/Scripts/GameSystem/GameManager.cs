@@ -151,20 +151,20 @@ public class GameManager : Singleton<GameManager>
         newPet.Genes.PartColors.WingColorId = PickColorId(dom, rec);
         newPet.Genes.PartColors.TailColorId = PickColorId(dom, rec);
 
-        newPet.Rarity = highestRarity; //저장 안해도 되면 PetSaveData에서 지우기
+        newPet.Rarity = highestRarity; //펫 레어리티
 
-        //알 이미지 저장
-        switch (highestRarity)
-        {
-            case RarityType.Legendary:
-                newPet.EggSprite = Config.EggRaritySO.LegendarySprite; break;
-            case RarityType.Epic:
-                newPet.EggSprite = Config.EggRaritySO.EpicSprite; break;
-            case RarityType.Rare:
-                newPet.EggSprite = Config.EggRaritySO.RareSprite; break;
-            default:
-                newPet.EggSprite = Config.EggRaritySO.CommonSprite; break;
-        }
+        ////알 이미지 저장
+        //switch (highestRarity)
+        //{
+        //    case RarityType.Legendary:
+        //        newPet.EggSprite = Config.EggRaritySO.LegendarySprite; break;
+        //    case RarityType.Epic:
+        //        newPet.EggSprite = Config.EggRaritySO.EpicSprite; break;
+        //    case RarityType.Rare:
+        //        newPet.EggSprite = Config.EggRaritySO.RareSprite; break;
+        //    default:
+        //        newPet.EggSprite = Config.EggRaritySO.CommonSprite; break;
+        //}
 
         return newPet;
     }
@@ -189,7 +189,7 @@ public class GameManager : Singleton<GameManager>
     {
         _popupText.ShowMessage(msg);
     }
-    public void ShowWarning(string textID, IConfirmRequester requster) //경고메세지 출력
+    public void ShowConfirmMessage(string textID, IConfirmRequester requster) //경고메세지 출력
     {
         _confirmMessage.OpenConfirmUI(textID, requster);
     }

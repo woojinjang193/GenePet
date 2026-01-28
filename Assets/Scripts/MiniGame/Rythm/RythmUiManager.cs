@@ -10,8 +10,8 @@ public class RythmUiManager : MonoBehaviour
     [Header("플레이어 목숨")]
     [SerializeField] private GameObject[] _playerHearts;
 
-    [Header("게임오버 판넬")]
-    [SerializeField] private GameObject _gameOverPanel;
+    [Header("타이틀 판넬")]
+    [SerializeField] private GameObject _titlePanel;
 
     private void Awake()
     {
@@ -46,6 +46,6 @@ public class RythmUiManager : MonoBehaviour
     
     public void GameOverPanelOn()
     {
-        _gameOverPanel.SetActive(true);
+        _titlePanel.SetActive(true);
     }
 }

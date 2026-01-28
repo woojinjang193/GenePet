@@ -9,4 +9,16 @@ public class EggSO : ScriptableObject
     public Sprite RareSprite;
     public Sprite EpicSprite;
     public Sprite LegendarySprite;
+
+    public Sprite GetEggSprite(RarityType type)
+    {
+        switch (type)
+        {
+            case RarityType.Common: return CommonSprite;
+            case RarityType.Rare: return RareSprite;
+            case RarityType.Epic: return EpicSprite;
+            case RarityType.Legendary: return LegendarySprite;
+                default: return null;
+        }
+    }
 }

@@ -89,9 +89,12 @@ public class InputManager : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(p, Vector2.zero, 0f, _petMask);
         if (hit.collider != null)
         {
+            //Debug.Log($"HIT collider={hit.collider.name}, root={hit.collider.transform.root.name}, pos={hit.collider.transform.position}");
+
             PetUnit pet = hit.collider.GetComponent<PetUnit>();
             if (pet != null)
             {
+                //Debug.Log($"HIT PetUnit obj={pet.gameObject.name}, PetId='{pet.PetId}'");
                 _petManager.ZoomInPet(pet);
                 Debug.Log($"{pet.PetId} 줌인");
             }

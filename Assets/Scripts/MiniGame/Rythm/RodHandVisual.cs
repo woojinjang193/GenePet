@@ -15,6 +15,7 @@ public class RodHandVisual : MonoBehaviour
     [SerializeField] private Sprite _perfectSprite;
     [SerializeField] private Sprite _goodSprite;
     [SerializeField] private Sprite _missSprite;
+    [SerializeField] private Sprite _failSprite;
 
     private Sprite _ogSprite;
     private Vector3 _ogPos;
@@ -63,5 +64,18 @@ public class RodHandVisual : MonoBehaviour
         Vector3 pos = _handsTransform.position;
         pos.y -= _handsDistanceDown;
         _handsTransform.position = pos;
+    }
+    public void Fail()
+    {
+        Vector3 pos = _handsTransform.position;
+        pos.y += _handsDistanceUp;
+        _renderer.sprite = _failSprite;
+        StartCoroutine(FailRoutine());
+    }
+    private IEnumerator FailRoutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _renderer.sprite = _ogSprite;
+        _handsTransform.position = _ogPos;
     }
 }

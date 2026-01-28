@@ -106,18 +106,20 @@ public class RythmVisualController : MonoBehaviour
             if(reward != RewardType.None)
             {
                 _rewardIcon.sprite = Manager.Item.ItemImages.GetItemSprite(reward);
+                _rewardAmount.text = $"x{amount.ToString()}";
+                _rewardAmount.gameObject.SetActive(true);
             }
             else
             {
                 _rewardIcon.sprite = _fishSprite;
+                _rewardAmount.gameObject.SetActive(false);
             }
         }
         else
         {
             _rewardIcon.sprite = null;
+            _rewardAmount.gameObject.SetActive(false);
         }
-    
-        _rewardAmount.text = $"x{amount.ToString()}";
     
         _rewardIcon.gameObject.SetActive(true);
     }
@@ -151,7 +153,7 @@ public class RythmVisualController : MonoBehaviour
         }
         else
         {
-
+            if (_rodHand != null) _rodHand.Fail();
         }
 
     }

@@ -80,10 +80,8 @@ public class MiniGameListPanel : MonoBehaviour
         {
             case 0: _text.text = "Jump Jump"; break;
             case 1: _text.text = "Rythm?"; break;
-            case 2: _text.text = "IDK"; break;
-            case 3: _text.text = "Younggi"; break;
+            case 2: _text.text = "Pinball"; break;
         }
-        
     }
 
     private void OnPlayButtonClicked()

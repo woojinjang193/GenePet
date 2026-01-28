@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +26,12 @@ public class GeneInfoButton : MonoBehaviour
     {
         var zoomedPet = _petManager.ZoomedPet;
         //펫 데이터가 있고, 떠나지않았고, 어른일 경우에만
-        if (zoomedPet != null && !_petManager.ZoomedUnit.Status.IsLeft && _petManager.ZoomedUnit.Status.Growth == GrowthStatus.Adult)
+        if(_petManager.ZoomedUnit.Status.Growth != GrowthStatus.Adult)
+        {
+            Manager.Game.ShowPopup("It has to be an Adult"); //TODO: 로컬라이제이션
+            return;
+        }
+        if (zoomedPet != null && !_petManager.ZoomedUnit.Status.IsLeft)
         {
             _geneInfo.gameObject.SetActive(true);
             _geneInfo.Init(zoomedPet);

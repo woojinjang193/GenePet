@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class SelectObject : MonoBehaviour, IPointerDownHandler
 {
+    [Header("카메라")]
+    [SerializeField] private Camera _camera;
+
     [Header("판넬")]
     [SerializeField] private GameObject _foodListPanel;
     [SerializeField] private GameObject _cleanListPanel;
@@ -126,7 +129,7 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
         if (_isDragging && _currentObj != null)
         {
             Vector2 mousePos = Input.mousePosition;
-            Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector2 worldPos = _camera.ScreenToWorldPoint(mousePos);
             _currentObj.transform.position = worldPos;
         }
 

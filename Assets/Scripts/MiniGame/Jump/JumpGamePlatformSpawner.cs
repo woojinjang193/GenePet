@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class JumpGamePlatformSpawner : MonoBehaviour
 {
+    [Header("참조")]
+    [SerializeField] private MiniGameBase _game; // 예약 상태 접근용
+
     [Header("프리팹")]
     [SerializeField] private GameObject _platformPrefab;
 
@@ -132,14 +135,25 @@ public class JumpGamePlatformSpawner : MonoBehaviour
     private void PlaceItems(JumpGameDifficultyPreset preset, bool isLastChunk)
     {
         if (_platforms.Count == 0) return; //플렛폼 없으면 리턴 
+        var reservation = _game.RewardReservation;
 
-        if (isLastChunk && preset.LevelClearRewards.Length > 0) //마지막 청크 & 리워드가 0이상일때
+        // 마지막 청크면 마지막 플랫폼에만 클리어 보상 1개 먼저 배치하고, 그 플랫폼은 일반 보상 대상에서 제외
+        if (isLastChunk && _platforms.Count > 0) // 마지막 청크 처리
         {
-            PlaceItemOnPlatform(_platforms[^1], GetWeightedRandomReward(preset.LevelClearRewards)); //아이템 배치
-            _platforms.RemoveAt(_platforms.Count - 1); //리스트에서 삭제
+            var clearPool = Manager.Mini.GetAvailableRewardPool(preset.LevelClearRewards, reservation); // 예약 반영 풀
+            LevelReward clearPicked = MiniGameRewardPicker.GetRandomReward(clearPool, reservation);
+
+            if (clearPicked.RewardType != RewardType.None)
+            {
+                PlaceItemOnPlatform(_platforms[^1], clearPicked); // 뽑은 보상 그대로 배치
+                _platforms.RemoveAt(_platforms.Count - 1); // 마지막 플랫폼 제거
+            }
         }
 
-        if (_platforms.Count == 0 || preset.LevelRewards.Length == 0) return; //레벨 리워드 0이면 리턴
+        if (_platforms.Count == 0) return;
+
+        var levelRewardsPool = Manager.Mini.GetAvailableRewardPool(preset.LevelRewards, reservation); //예약 반영 풀 생성
+        if (_platforms.Count == 0 || levelRewardsPool.Count == 0) return; //레벨 리워드 0이면 리턴
 
         int maxItemCount = Mathf.Min(preset.MaxItemCount, _platforms.Count); //최대 아이템 개수 (발판수보다 아이템수가 많으면 발판수로 설정)
         int totalItemCount = Random.Range(preset.MinItemCount, maxItemCount + 1); // 총 아이템 개수 랜덤 결정
@@ -147,15 +161,21 @@ public class JumpGamePlatformSpawner : MonoBehaviour
         for (int i = 0; i < totalItemCount; i++) //소환할 아이템 수만큼 반복
         {
             if (_platforms.Count == 0) break;
+            if (levelRewardsPool.Count == 0) break;
+
+            LevelReward picked = MiniGameRewardPicker.GetRandomReward(levelRewardsPool, reservation);
+            if (picked.RewardType == RewardType.None) break;
 
             int idx = Random.Range(0, _platforms.Count); //랜덤 플렛폼 선택
-            PlaceItemOnPlatform(_platforms[idx], GetWeightedRandomReward(preset.LevelRewards)); //아이템 배치
-            _platforms.RemoveAt(idx); // 플렛폼 리스트에서 삭제
+            PlaceItemOnPlatform(_platforms[idx], picked); //아이템 초기화
+            _platforms.RemoveAt(idx);
         }
     }
 
-    private void PlaceItemOnPlatform(GameObject platform, JumpGameDifficultyPreset.LevelReward reward)
+    private void PlaceItemOnPlatform(GameObject platform, LevelReward reward) //배치된 아이템 초기화
     {
+        if (reward.RewardType == RewardType.None) return;
+
         ItemForMiniGame item = platform.GetComponentInChildren<ItemForMiniGame>(true); //컴포넌트 찾기
         if (item == null) { Debug.Log($"{platform.name} 플렛폼에 아이템 없음"); return; }
         
@@ -171,33 +191,9 @@ public class JumpGamePlatformSpawner : MonoBehaviour
         return _platformPrefab;
     }
 
-    private JumpGameDifficultyPreset.LevelReward GetWeightedRandomReward(JumpGameDifficultyPreset.LevelReward[] rewards)
-    {
-        float totalWeight = 0f;
-
-        for (int i = 0; i < rewards.Length; i++)
-        {
-            totalWeight += rewards[i].Weight; // 각 보상의 Weight를 전부 더함
-        }
-
-        float rand = Random.Range(0f, totalWeight); //랜덤 숫자 뽑음
-        float acc = 0f;
-
-        for (int i = 0; i < rewards.Length; i++) //리워드 배열 체크
-        {
-            acc += rewards[i].Weight; // 각 보상의 Weight를 누적
-            if (rand <= acc) //범위안에 들어오면
-            {
-                return rewards[i]; //보상 뽑음
-            }  
-        }
-
-        return rewards[rewards.Length - 1]; // 안전장치
-    }
     public void ResetPrevChunkData()
     {
         _prevChunkLastPlatformY = 0f;   //이전 게임 높이 초기화
         _prevChunkLastPlatformLane = 0; //이전 게임 레인 초기화
     }
-
 }

@@ -29,7 +29,8 @@ public class PetVisualController : MonoBehaviour
     public void Init(PetSaveData save, PetUnit unit)
     {
         if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
-        _egg.sprite = save.EggSprite;
+        RarityType rarity = save.Rarity;
+        _egg.sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(rarity);
         _pet = unit;
         ApplyVisual(save.Genes); //비주얼 로더
         SetSprite(_pet.Status.Growth);
@@ -45,7 +46,8 @@ public class PetVisualController : MonoBehaviour
 
     public void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
     {
-        HideAllParts();
+        //HideAllParts();
+        PetVisualHelper.ActiveFalseAll(_renderers);
 
         if (growth == GrowthStatus.Egg) //알일때
         {
@@ -55,71 +57,73 @@ public class PetVisualController : MonoBehaviour
             return;
         }
 
-        if (growth == GrowthStatus.Baby) //애기일때
-        {
-            _renderers.Eye.gameObject.SetActive(true);
-            _renderers.Body.gameObject.SetActive(true);
-            _renderers.Ear.gameObject.SetActive(true);
-            _renderers.Blush.gameObject.SetActive(true);
-            _renderers.Mouth.gameObject.SetActive(true);
-            _renderers.Tail.gameObject.SetActive(true);
+        PetVisualHelper.SetSpriteByGrowth(_renderers, growth);
 
-            _renderers.BodyOut.gameObject.SetActive(true);
-            _renderers.EarOut.gameObject.SetActive(true);
-            _renderers.TailOut.gameObject.SetActive(true);
-
-            _dirtRenderer.gameObject.SetActive(true);
-
-            Debug.Log("Baby 상태 스프라이트 세팅");
-        }
-        else if (growth == GrowthStatus.Teen) //성장기
-        {
-            _renderers.Blush.gameObject.SetActive(true);
-            _renderers.Body.gameObject.SetActive(true);
-            _renderers.Ear.gameObject.SetActive(true);
-            _renderers.Eye.gameObject.SetActive(true);
-            _renderers.Feet.gameObject.SetActive(true);
-            _renderers.Mouth.gameObject.SetActive(true);
-            _renderers.Tail.gameObject.SetActive(true);
-            _renderers.Whiskers.gameObject.SetActive(true);
-
-            _renderers.BodyOut.gameObject.SetActive(true);
-            _renderers.EarOut.gameObject.SetActive(true);
-            _renderers.FeetOut.gameObject.SetActive(true);
-            _renderers.TailOut.gameObject.SetActive(true);
-
-            _dirtRenderer.gameObject.SetActive(true);
-            Debug.Log("Teen 상태 스프라이트 세팅");
-        }
-        else if (growth == GrowthStatus.Adult) //어른
-        {
-            _renderers.Acc.gameObject.SetActive(true);
-            _renderers.Arm.gameObject.SetActive(true);
-            _renderers.Blush.gameObject.SetActive(true);
-            _renderers.Body.gameObject.SetActive(true);
-            _renderers.Ear.gameObject.SetActive(true);
-            _renderers.Eye.gameObject.SetActive(true);
-            _renderers.Feet.gameObject.SetActive(true);
-            _renderers.Mouth.gameObject.SetActive(true);
-            _renderers.Pattern.gameObject.SetActive(true);
-            _renderers.Wing.gameObject.SetActive(true);
-            _renderers.Tail.gameObject.SetActive(true);
-            _renderers.Whiskers.gameObject.SetActive(true);
-
-            _renderers.ArmOut.gameObject.SetActive(true);
-            _renderers.BodyOut.gameObject.SetActive(true);
-            _renderers.EarOut.gameObject.SetActive(true);
-            _renderers.FeetOut.gameObject.SetActive(true);
-            _renderers.WingOut.gameObject.SetActive(true);
-            _renderers.TailOut.gameObject.SetActive(true);
-
-            _dirtRenderer.gameObject.SetActive(true);
-            Debug.Log("Adult 상태 스프라이트 세팅");
-        }
-        else
-        {
-            Debug.LogWarning("성장상태 이상함 확인 해야함.");
-        }
+        //if (growth == GrowthStatus.Baby) //애기일때
+        //{
+        //    _renderers.Eye.gameObject.SetActive(true);
+        //    _renderers.Body.gameObject.SetActive(true);
+        //    _renderers.Ear.gameObject.SetActive(true);
+        //    _renderers.Blush.gameObject.SetActive(true);
+        //    _renderers.Mouth.gameObject.SetActive(true);
+        //    _renderers.Tail.gameObject.SetActive(true);
+        //
+        //    _renderers.BodyOut.gameObject.SetActive(true);
+        //    _renderers.EarOut.gameObject.SetActive(true);
+        //    _renderers.TailOut.gameObject.SetActive(true);
+        //
+        //    _dirtRenderer.gameObject.SetActive(true);
+        //
+        //    Debug.Log("Baby 상태 스프라이트 세팅");
+        //}
+        //else if (growth == GrowthStatus.Teen) //성장기
+        //{
+        //    _renderers.Blush.gameObject.SetActive(true);
+        //    _renderers.Body.gameObject.SetActive(true);
+        //    _renderers.Ear.gameObject.SetActive(true);
+        //    _renderers.Eye.gameObject.SetActive(true);
+        //    _renderers.Feet.gameObject.SetActive(true);
+        //    _renderers.Mouth.gameObject.SetActive(true);
+        //    _renderers.Tail.gameObject.SetActive(true);
+        //    _renderers.Whiskers.gameObject.SetActive(true);
+        //
+        //    _renderers.BodyOut.gameObject.SetActive(true);
+        //    _renderers.EarOut.gameObject.SetActive(true);
+        //    _renderers.FeetOut.gameObject.SetActive(true);
+        //    _renderers.TailOut.gameObject.SetActive(true);
+        //
+        //    _dirtRenderer.gameObject.SetActive(true);
+        //    Debug.Log("Teen 상태 스프라이트 세팅");
+        //}
+        //else if (growth == GrowthStatus.Adult) //어른
+        //{
+        //    _renderers.Acc.gameObject.SetActive(true);
+        //    _renderers.Arm.gameObject.SetActive(true);
+        //    _renderers.Blush.gameObject.SetActive(true);
+        //    _renderers.Body.gameObject.SetActive(true);
+        //    _renderers.Ear.gameObject.SetActive(true);
+        //    _renderers.Eye.gameObject.SetActive(true);
+        //    _renderers.Feet.gameObject.SetActive(true);
+        //    _renderers.Mouth.gameObject.SetActive(true);
+        //    _renderers.Pattern.gameObject.SetActive(true);
+        //    _renderers.Wing.gameObject.SetActive(true);
+        //    _renderers.Tail.gameObject.SetActive(true);
+        //    _renderers.Whiskers.gameObject.SetActive(true);
+        //
+        //    _renderers.ArmOut.gameObject.SetActive(true);
+        //    _renderers.BodyOut.gameObject.SetActive(true);
+        //    _renderers.EarOut.gameObject.SetActive(true);
+        //    _renderers.FeetOut.gameObject.SetActive(true);
+        //    _renderers.WingOut.gameObject.SetActive(true);
+        //    _renderers.TailOut.gameObject.SetActive(true);
+        //
+        //    _dirtRenderer.gameObject.SetActive(true);
+        //    Debug.Log("Adult 상태 스프라이트 세팅");
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("성장상태 이상함 확인 해야함.");
+        //}
 
         _egg.gameObject.SetActive(false);
     }

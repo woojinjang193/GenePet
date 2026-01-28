@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemForMiniGame : MonoBehaviour
+public class ItemForMiniGame : MonoBehaviour 
 {
     [Header("아이템 아이콘")]
     [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -17,6 +17,14 @@ public class ItemForMiniGame : MonoBehaviour
         _spriteRenderer.sprite = GetIcon(reward);
         _reward = reward;
         _amount = amount;
+        gameObject.SetActive(true);
+    }
+
+    public void ResetItem()
+    {
+        _spriteRenderer.sprite = null;
+        _reward = RewardType.None;
+        _amount = 0;
         gameObject.SetActive(true);
     }
 

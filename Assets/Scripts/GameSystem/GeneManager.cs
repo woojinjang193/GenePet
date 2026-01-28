@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -380,35 +381,7 @@ public class GeneManager : Singleton<GeneManager>
             return RarityType.Common;
         }
     }
-    // =======특정 레어도의 파츠중 랜덤 1개 선택 (PickOneByRarity 보조)======
-    private PartBaseSO TryPickByRarity(List<PartBaseSO> source, RarityType want, PartType partType) //레어도로 파츠 뽑기
-    {
-        _options.Clear();
 
-        if (source == null || source.Count == 0)
-        {
-            Debug.LogError($"{partType}리스트가 빔");
-            return null;
-        }
-        //뽑고싶은 레어도의 파츠를 리스트에 넣음
-        for (int i = 0; i < source.Count; i++)
-        {
-            PartBaseSO cur = source[i];
-            if (cur != null && cur.Rarity == want)
-            {
-                _options.Add(cur);
-            }
-        }
-        //옵션이 없으면 null 리턴
-        if (_options.Count == 0)
-        {
-            Debug.LogError($"{want} 등급의 {partType} 파츠가 없음");
-            return null; 
-        }
-
-        int rand = UnityEngine.Random.Range(0, _options.Count);
-        return _options[rand];
-    }
     // ===========레어도 파츠 1개 선택===============
     private PartBaseSO PickOneByRarity(List<PartBaseSO> source, PartType partType)
     {
@@ -417,13 +390,8 @@ public class GeneManager : Singleton<GeneManager>
             Debug.Log($"리스트가 빔: {partType}");
             return null;
         }
-        RarityType target = RollRarity();
-        PartBaseSO pick = TryPickByRarity(source, target, partType);
-        if (pick == null)
-        {
-            return null;
-        }
-        return pick;
+        RarityType target = RollRarity(); // 확률로 레어도 결정
+        return PickWithFallback(source, target, partType); //후보검색+fallback을 한 함수로 통일
     }
     // ===================랜덤 파츠 SO 반환===================
     public T GetRandomPart<T>(PartType type) where T : PartBaseSO
@@ -506,21 +474,23 @@ public class GeneManager : Singleton<GeneManager>
 
         if (fatherSO == null || motherSO == null)
         {
-            Debug.Log($"{part.ToString()} 유전자 정보 부족함. 마이펫: {false}, 섬펫: {mother}");
+            Debug.Log($"{part.ToString()} 유전자 정보 부족함. 마이펫: {father}, 섬펫: {mother}");
             return RarityType.Common;
         }
-        if (fatherSO.Rarity == RarityType.Rare || motherSO.Rarity == RarityType.Rare)
+
+        if (fatherSO.Rarity == RarityType.Legendary || motherSO.Rarity == RarityType.Legendary)
         {
-            return RarityType.Rare;
+            return RarityType.Legendary;
         }
         if (fatherSO.Rarity == RarityType.Epic || motherSO.Rarity == RarityType.Epic)
         {
             return RarityType.Epic;
         }
-        if (fatherSO.Rarity == RarityType.Legendary || motherSO.Rarity == RarityType.Legendary)
+        if(fatherSO.Rarity == RarityType.Rare || motherSO.Rarity == RarityType.Rare)
         {
-            return RarityType.Legendary;
+            return RarityType.Rare;
         }
+
         return RarityType.Common;
     }
     // =============모든 파츠 타입 로드 완료 체크===========
@@ -532,6 +502,65 @@ public class GeneManager : Singleton<GeneManager>
             _ready = true;
         }
     }
+    // ======================= 특정 레어도에서 1개 랜덤 (외부 호출용)================
+    public PartBaseSO GetRandomPartByRarity(PartType type, RarityType rarity) 
+    {
+        if (_parts.TryGetValue(type, out var list) == false || list == null || list.Count == 0) //리스트 방어
+            return null;
+
+        return PickWithFallback(list, rarity, type); //PickWithFallback만 사용
+    }
+
+    //레어리티를 한 단계 낮추는 함수
+    private bool TryGetLowerRarity(RarityType current, out RarityType lower) //추가: 한 단계 아래 레어 반환
+    {
+         switch (current)
+         {
+             case RarityType.Legendary: lower = RarityType.Epic; return true;
+             case RarityType.Epic:      lower = RarityType.Rare; return true;
+             case RarityType.Rare:      lower = RarityType.Common; return true;
+             default: lower = current; return false;   // Common은 더 내려갈 곳 없음
+         }
+    }
+
+    // 원하는 레어리티부터 시작해서 없으면 한 단계씩 내려가며 1개 뽑기
+    private PartBaseSO PickWithFallback(List<PartBaseSO> source, RarityType start, PartType partType) //fallback 포함 랜덤 선택
+    {
+        if (source == null || source.Count == 0) 
+        {
+            Debug.LogError($"{partType} 리스트가 빔");
+            return null;
+        }
+
+        RarityType cur = start;
+
+        while (true)
+        {
+            _options.Clear(); //재사용 리스트 초기화
+
+            for (int i = 0; i < source.Count; i++)
+            {
+                var p = source[i];
+                if (p != null && p.Rarity == cur) _options.Add(p);
+            }
+
+            if (_options.Count > 0)
+            {
+                int rand = Random.Range(0, _options.Count);
+                return _options[rand];
+            }
+
+            if (TryGetLowerRarity(cur, out var lower) == false)
+            {
+                Debug.LogWarning($"{partType} 파츠에 {start}~Common 후보가 전부 없음");
+                return null;
+            }
+
+            cur = lower;
+            Debug.LogWarning($"{cur} 등급 뽑기 시도");
+        }
+    }
+
 }
 
 

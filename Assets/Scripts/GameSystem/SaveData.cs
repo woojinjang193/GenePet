@@ -2,6 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ===================== 미니게임 결과 저장용 데이터 =====================
+[Serializable]
+public class MiniGameData
+{
+    public int PlayCount; // 플레이 횟수
+    public int BestScore; // 최고 점수
+
+    public MiniGameData()
+    {
+        PlayCount = 0;
+        BestScore = 0;
+    }
+}
+
 [Serializable]
 public class UserData
 {
@@ -19,6 +33,9 @@ public class UserData
     public IslandData Island; // 섬 정보
     public List<PetSaveData> IslandPetList; //만난 섬 펫 리스트
     public UserItemData Items; // 아이템
+
+    public MiniGameData[] MiniGameResults; // 미니게임 결과(플레이횟수/최고점수)
+
     public UserData()
     {
         LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -27,13 +44,19 @@ public class UserData
         CurLanguage = Language.EN;
         UserDisplayName = "";
         PetSlot = 1; //플레이어 맥스 펫 수
-        Energy = 50;
+        Energy = 10;
         EggList = new List<EggData>();
         HavePetList = new List<PetSaveData>();
         HadPetList = new List<PetSaveData>();
         Island = new IslandData();
         IslandPetList = new List<PetSaveData>();
         Items = new UserItemData();
+
+        MiniGameResults = new MiniGameData[(int)MiniGame.Null]; // Null 제외(0~2) 3칸 생성
+        for (int i = 0; i < MiniGameResults.Length; i++) // 각 칸 초기화
+        {
+            MiniGameResults[i] = new MiniGameData(); // 기본값 세팅
+        }
     }
 }
 
@@ -138,7 +161,7 @@ public class EggData
 public class PetSaveData
 {
     public RarityType Rarity;
-    public Sprite EggSprite;
+    //public Sprite EggSprite;
     public Room RoomType;
 
     public bool IsLeft;
@@ -164,7 +187,7 @@ public class PetSaveData
     public PetSaveData()
     {
         Rarity = RarityType.Common;
-        EggSprite = null;
+        //EggSprite = null;
         RoomType = Room.Default;
 
         IsLeft = false;
@@ -180,7 +203,7 @@ public class PetSaveData
 
         GrowthStage = GrowthStatus.Egg;
         Hunger = 100f;
-        Happiness = 100f;
+        Happiness = 0f;
         Cleanliness = 100f;
         Health = 100f;
 
@@ -228,6 +251,8 @@ public class UserItemData
     public int GeneticScissors;
     public int geneticTester;
     public int Snack;
+    public int GrowthBooster;
+
     public List<Room> Rooms;
 
     //선물
@@ -235,36 +260,23 @@ public class UserItemData
     public int Gift1;
     public int Gift2;
     public int Gift3;
-    public int Gift4;
 
     public UserItemData()
     {
-        Money = 0;
+        Money = 2000;
         IsAdRemoved = false;
         IslandTicket = 1;
         MissingPoster = 1;
         GeneticScissors = 1;
         geneticTester = 1;
         Snack = 1;
-        Rooms = new List<Room>() { Room.Default, Room.Room1, Room.Room2, Room.Room3, Room.Room4, Room.Room5 };
+        Rooms = new List<Room>()  //유저가 가진 방 목록
+        { Room.Default};
 
         MasterGift = 5;
         Gift1 = 1;
         Gift2 = 1;
         Gift3 = 1;
-        Gift4 = 1;
-    }
-
-    [Serializable]
-    public class MiniGameData
-    {
-        public int PlayCount;
-        public int BestScore;
-        public MiniGameData() 
-        {
-            PlayCount = 0;
-            BestScore = 0;
-        }
     }
 }
 

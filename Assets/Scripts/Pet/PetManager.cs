@@ -22,6 +22,8 @@ public class PetManager : MonoBehaviour
 
     private float _accum;
     private float _energyTimer; // 에너지 회복 누적시간
+    private float _energyRecoveringTime; // 에너지 1 오르는 시간
+    private int _maxEnergy; //유저 맥스 에너지
     private bool _isQuitting = false;
 
     private CameraController _camera;
@@ -54,6 +56,9 @@ public class PetManager : MonoBehaviour
     }
     private void Start()
     {
+        _energyRecoveringTime = Manager.Game.Config.EnergyRecoveringTime;
+        _maxEnergy = Manager.Game.Config.MaxEnergy;
+
         _letterPanel = FindObjectOfType<LetterPanel>(true);
         _letterPanel.OnClickMissingPoster += PetComeBack;
 
@@ -104,6 +109,7 @@ public class PetManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_letterPanel != null)
         _letterPanel.OnClickMissingPoster -= PetComeBack;
     }
     private void LoadPetListFromSave()
@@ -121,6 +127,23 @@ public class PetManager : MonoBehaviour
     }
     public void SpawnPet(PetSaveData save)
     {
+        if (save == null) return;
+
+        if (string.IsNullOrWhiteSpace(save.ID))
+        {
+            var list = Manager.Save?.CurrentData?.UserData?.HavePetList; //세이브 리스트 참조
+            string newId;
+
+            do
+            {
+                newId = Guid.NewGuid().ToString(); // [추가] 새 GUID 생성
+            }
+            while (list != null && list.Exists(pet => pet != null && pet != save && pet.ID == newId)); //충돌 방지(만약을 위해)
+
+            save.ID = newId; // 저장데이터에 ID 할당
+            Debug.LogWarning($"PetSaveData.ID가 비어있어서 새 GUID 할당: {save.ID}");
+        }
+
         int index = -1;
 
         if (_petPrefab == null)
@@ -187,23 +210,21 @@ public class PetManager : MonoBehaviour
         {
             RecoverEnergy(_tickInterval); // 에너지 증가
 
-            if (_activePets.Count > 0) //펫이 있다면
+            if (_activePets != null && _activePets.Count > 0) //펫이 있다면
             {
                 RunTick(_tickInterval); // 틱
             }
             
             if (ZoomedUnit != null) // 줌된 펫 있을 때만
             {
-                _StatusUI.UpdateGauges(ZoomedUnit.Status); // UI 갱신
+                RequestGaugeUpdate(); // UI 갱신
             }
             _accum -= _tickInterval; //타이머 1초 빼기
         }     
     }
     private void RunTick(float sec)
     {
-        RecoverEnergy(sec); // 플레이어 에너지 회복
-
-        if(_activePets.Count <= 0 || _activePets ==  null) return;
+        if (_activePets == null || _activePets.Count <= 0) return; 
 
         for (int i = 0; i < _activePets.Count; i++)
         {
@@ -227,14 +248,14 @@ public class PetManager : MonoBehaviour
 
     private void RecoverEnergy(float sec)
     {
+        if(_energyRecoveringTime <= 0f) return;
+
         _energyTimer += sec; // 시간 누적
 
-        float need = Manager.Game.Config.EnergyRecoveringTime; // 1 오르는 시간
-
-        if (_energyTimer >= need)
+        if (_energyTimer >= _energyRecoveringTime)
         {
-            int amount = (int)(_energyTimer / need); // 오를 수 있는 양 계산
-            _energyTimer %= need; // 남은 시간만 저장
+            int amount = (int)(_energyTimer / _energyRecoveringTime); // 오를 수 있는 양 계산
+            _energyTimer %= _energyRecoveringTime; // 남은 시간만 저장
 
             AddEnergy(amount); // 실제 증가 처리
         }
@@ -244,7 +265,7 @@ public class PetManager : MonoBehaviour
     {
         var user = Manager.Save.CurrentData.UserData;
 
-        user.Energy = Mathf.Clamp(user.Energy + amount, 0, Manager.Game.Config.MaxEnergy);
+        user.Energy = Mathf.Clamp(user.Energy + amount, 0, _maxEnergy);
 
         _uiManager.UpdateEnergyBar(user.Energy); // UI 갱신
     }
@@ -264,6 +285,13 @@ public class PetManager : MonoBehaviour
             var unit = _activePets[i];
 
             if (unit == null) continue;
+
+            // ID 비어있으면 저장 매칭 불가 > 즉시 스킵 + 에러 로그
+            if (string.IsNullOrEmpty(unit.PetId))
+            {
+                Debug.LogError($"[SaveAllStatus] PetId가 비어있어 저장 불가. obj={unit.name}, inst={unit.GetInstanceID()}");
+                continue;
+            }
 
             var status = unit.Status;
 
@@ -294,12 +322,19 @@ public class PetManager : MonoBehaviour
     }
     public void ZoomInPet(PetUnit unit)
     {
-        ZoomedUnit = unit;
-        ZoomedUnit.ZoomThisPet(true);
+        if (unit == null) return;
 
         string id = unit.PetId;
 
+        if (string.IsNullOrWhiteSpace(id)) //id 유무 검사
+        {
+            Debug.LogError($"[ZoomInPet] PetId가 비어있음. obj={unit.name}, inst={unit.GetInstanceID()}");
+            return;
+        }
         if (ZoomedPet != null) return;
+
+        ZoomedUnit = unit;
+        ZoomedUnit.ZoomThisPet(true);
 
         if (_camera == null)
         {
@@ -317,6 +352,14 @@ public class PetManager : MonoBehaviour
             }
         }
 
+        if (ZoomedPet == null)
+        {
+            Debug.LogError($"[ZoomInPet] SaveList에서 ID '{id}' 를 찾지 못함. obj={unit.name}");
+            ZoomedUnit.ZoomThisPet(false); //줌 표시 롤백
+            ZoomedUnit = null; //상태 롤백
+            return;
+        }
+
         //카메라 줌인
         for (int i = 0; i < _activePets.Count; i++)
         {
@@ -332,7 +375,7 @@ public class PetManager : MonoBehaviour
         }
 
         _camera.SetBackGround(ZoomedPet.RoomType); //배경정보 넘겨줌
-        _StatusUI.UpdateGauges(ZoomedUnit.Status);
+        RequestGaugeUpdate();
     }
     public void ZoomOutPet()
     {
@@ -402,7 +445,7 @@ public class PetManager : MonoBehaviour
     }
     public void UpdateStatus() //스테이터스 게이지 업데이트
     {
-        _StatusUI.UpdateGauges(ZoomedUnit.Status);
+        RequestGaugeUpdate();
     }
     private void PetLeft(PetUnit pet)
     {
@@ -439,7 +482,7 @@ public class PetManager : MonoBehaviour
             ZoomedUnit.Status.SetValues(PetStat.Cleanliness, gameConfig.ComeBackCleanliness);
             ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, gameConfig.ComeBackHappiness);
             ZoomedUnit.Status.SetValues(PetStat.Health, gameConfig.ComeBackHealth);
-            _StatusUI.UpdateGauges(ZoomedUnit.Status);
+            RequestGaugeUpdate();
 
             ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
             ZoomedUnit.LeftHandled = false;
@@ -480,4 +523,33 @@ public class PetManager : MonoBehaviour
 
         _isQuitting = true;
     }
+
+    //게이지 업데이트 요청하는 유틸
+    private void RequestGaugeUpdate()
+    {
+        if (ZoomedUnit == null) return;
+
+        GrowthStatus growth = ZoomedUnit.Status.Growth;
+        float requiredEXP = _configs[(int)growth].ExpToGrow;
+        _StatusUI.UpdateGauges(ZoomedUnit.Status, requiredEXP);
+    }
+
+    //==================부스터 적용 유틸 함수=================
+    public bool ApplyGrowthBooster(PetUnit unit) // 부스터 적용(성장+config+UI)
+    {
+        if (unit == null) return false; // null 방어
+
+        bool grown = unit.ForceGrowOneStage(); // 강제 성장
+        if (!grown) return false; // 실패면 중단
+
+        if (_configMap.TryGetValue(unit.Status.Growth, out var cfg)) //새 성장단계 config 적용
+        {
+            unit.SetConfig(cfg); // 스탯 감소/증가 속도 등 갱신
+        }
+
+        if (ZoomedUnit == unit) RequestGaugeUpdate(); // 줌중이면 게이지 갱신
+
+        return true; // 성공
+    }
+
 }

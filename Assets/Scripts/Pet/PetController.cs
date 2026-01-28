@@ -25,9 +25,27 @@ public sealed class PetController : MonoBehaviour
     private Sprite _ogMouth;
     private Sprite _ogEye;
 
+    //상호작용 수치들 
+    private float _mealFullnessGain;  //밥 먹으면 오르는 포만도 양
+    private float _mealCleanlinessDecrease;  //밥 먹으면 내려가는 청결도 양
+    private float _snackFullnessGain;  //간식 먹으면 오르는 포만도 양
+    private float _snackExpGain;   //간식 먹으면 오르는 경험치 양
+    private float _snackCleanlinessDecrease;  //간식 먹으면 내려가는 청결도 양
+    private float _canFeedPetBelow;  //밥 먹일 수 있는 포만도 기준
+
     private void Awake()
     {
         _pet = GetComponent<PetUnit>();
+    }
+    private void Start()
+    {
+        GameConfig config = Manager.Game.Config;
+
+        _mealFullnessGain = config.MealFullnessGain;
+        _mealCleanlinessDecrease = config.MealCleanlinessDecrease;
+        _snackFullnessGain = config.SnackFullnessGain;
+        _snackExpGain = config.SnackExpGain;
+        _snackCleanlinessDecrease = config.SnackCleanlinessDecrease;
     }
 
     public PetStatusCore Status
@@ -39,14 +57,14 @@ public sealed class PetController : MonoBehaviour
     {
         if (_pet == null || Status == null ) return;
 
-        if (Status.Hunger > 99f)
+        if (Status.Hunger > _canFeedPetBelow)
         {
             Debug.Log("이미 배부름");
             _mouthAnim.SetTrigger("Full");
             return;
         }
 
-        Eat(10, 5);
+        Eat(_mealFullnessGain, _mealCleanlinessDecrease);
         Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 
@@ -54,31 +72,26 @@ public sealed class PetController : MonoBehaviour
     {
         if (_pet == null || Status == null) return;
 
-        if (Status.Hunger > 99f)
+        if (Status.Hunger > _canFeedPetBelow)
         {
             Debug.Log("이미 배부름");
             _mouthAnim.SetTrigger("Full");
             return;
         }
 
-        Eat(50, 10);
-        _pet.Status.IncreaseEXP(10f);
+        _pet.Status.IncreaseEXP(_snackExpGain);
+        Eat(_snackFullnessGain, _snackCleanlinessDecrease);
+        Manager.Item.UseItem(RewardType.Snack, 1);
         Debug.Log($"스낵먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 
-    private void Eat(float Increasehunger, float decreaseCleanliness) /// 오르는 포만도 수치, 감소하는 청결도 수치
+    private void Eat(float Increasehunger, float decreaseCleanliness) // 오르는 포만도 수치, 감소하는 청결도 수치
     {
         Status.IncreaseStat(PetStat.Hunger, Increasehunger); //스낵 포만도 오르는 수치
         Status.DecreaseStat(PetStat.Cleanliness, decreaseCleanliness); //식사시 감소하는 청결도 수치
         _mouthAnim.SetTrigger("Eat");
         _pet.Petmanager.UpdateStatus();
     }
-
-    public void Play()
-    {
-        //미니게임 실행
-    }
-
     public void Clean(float amount)
     {
         _cleaningAccum += amount; //이동거리 누적

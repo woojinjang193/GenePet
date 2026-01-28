@@ -16,6 +16,7 @@ TagManager:
   - MasterGift
   - DeadZone
   - Item
+  - ZoomCamera
   layers:
   - Default
   - TransparentFX
@@ -33,7 +34,7 @@ TagManager:
   - Ground
   - FinalJump
   - Wall
-  - 
+  - ZoomedUI
   - 
   - 
   - 

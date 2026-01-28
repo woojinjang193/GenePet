@@ -41,36 +41,19 @@ public class RewardPopUp : MonoBehaviour
 
         if (reward.Category == RewardCategory.Egg) //알 보상처리
         {
-            _icon.sprite = reward.Egg.PetSaveData.EggSprite; //알 스프라이트
+            RarityType rarity = reward.Egg.PetSaveData.Rarity;
+            _icon.sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(rarity); //알 스프라이트
             _amount.text = "";
+        }
+        if (MiniGameRewardPicker.TryGetRoomFromRewardType(reward.RewardType, out var room)) // 방 타입이면
+        {
+            _icon.sprite = _ItemsSO.GetItemSprite(reward.RewardType); //아이템 스프라이트
+            _amount.text = $"Roooooom";
         }
         else if (reward.Category == RewardCategory.Item) //일반 아이템 보상처리
         {
-            _icon.sprite = GetSprite(reward.RewardType); //아이템 스프라이트
-            _amount.text = $"X {reward.Amount}";
+            _icon.sprite = _ItemsSO.GetItemSprite(reward.RewardType); //아이템 스프라이트
+            _amount.text = $"x {reward.Amount}";
         }
-    }
-    public Sprite GetSprite(RewardType type)
-    {
-        switch (type)
-        {
-            case RewardType.Coin: return _ItemsSO.CoinSprite;
-            case RewardType.Energy: return _ItemsSO.Energy;
-            case RewardType.RemovedAD: return _ItemsSO.RemoveAdSprite;
-            case RewardType.IslandTicket: return _ItemsSO.IslandTicketSprite;
-            case RewardType.MissingPoster: return _ItemsSO.MissingPosterSprite;
-            case RewardType.GeneticScissors: return _ItemsSO.GeneticScissorsSprite;
-            case RewardType.GeneticTester: return _ItemsSO.geneticTesterSprite;
-            case RewardType.Snack: return _ItemsSO.SnackSprite;
-
-            case RewardType.MasterGift: return _ItemsSO.MasterGiftSprite;
-            case RewardType.Gift1: return _ItemsSO.Gift1;
-            case RewardType.Gift2: return _ItemsSO.Gift2;
-            case RewardType.Gift3: return _ItemsSO.Gift3;
-            case RewardType.Gift4: return _ItemsSO.Gift4;
-
-            case RewardType.PetSlot: return _ItemsSO.PetSlot;
-        }
-        return null;
     }
 }
