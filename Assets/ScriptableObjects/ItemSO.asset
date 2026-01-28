@@ -17,6 +17,7 @@ MonoBehaviour:
   SnackSprite: {fileID: 21300000, guid: 75b66ce37b8ec4247aa646f2104396c7, type: 3}
   Energy: {fileID: 21300000, guid: 81295fb915a9a154c926f98f89376029, type: 3}
   PetSlot: {fileID: 21300000, guid: 8294f3000c82bf64b8d58e5460887be1, type: 3}
+  GrowthBooster: {fileID: 21300000, guid: 3df5c4122c8d9db458efd258c9ef642a, type: 3}
   IslandTicketSprite: {fileID: 21300000, guid: 57db38bac1180ca459c359a0e65319d2, type: 3}
   MasterGiftSprite: {fileID: 21300000, guid: bcf0c64db1a7b4631b3d2c5f6c156b81, type: 3}
   Gift1: {fileID: 21300000, guid: ccf683b848e4f43da85b660b2ad50973, type: 3}
@@ -27,10 +28,9 @@ MonoBehaviour:
   geneticTesterSprite: {fileID: 21300000, guid: 016773b32cda34142937dde48b05dfcd, type: 3}
   EggRaritySO: {fileID: 11400000, guid: db4ee66b79c21dd4a85d20408b471776, type: 2}
   RewardEgg: {fileID: 21300000, guid: 970b68680c68e7b4cbb8a95bba272149, type: 3}
-  Default: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
+  Default: {fileID: 21300000, guid: 8be5fb419f85f394e822c61dc8a18958, type: 3}
   Room_Jump: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
   Room_Rythm: {fileID: 21300000, guid: 5ac4cfb314b32a647a207187f4576e4a, type: 3}
   Room_Pinball: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
-  Room_Cozy: {fileID: 21300000, guid: 98dfeabf16f1ec244a61d868af9fbd39, type: 3}
   Room_Poor: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
   Room_Something: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}

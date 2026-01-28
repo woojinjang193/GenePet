@@ -153,7 +153,7 @@ public class RythmVisualController : MonoBehaviour
         }
         else
         {
-
+            if (_rodHand != null) _rodHand.Fail();
         }
 
     }

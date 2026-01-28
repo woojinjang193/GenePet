@@ -178,7 +178,7 @@ public class ItemManager : Singleton<ItemManager>
             case RewardType.Room_Rythm:
             case RewardType.Room_Pinball:
             case RewardType.Room_Poor:
-            case RewardType.Room_Cozy:
+            //case RewardType.Room_Cozy:
             case RewardType.Room_Something:
                 {
                     if (user.Items.Rooms == null) user.Items.Rooms = new List<Room>();

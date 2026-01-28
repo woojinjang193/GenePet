@@ -30,7 +30,7 @@ public enum RewardType
     Room_Rythm,
     Room_Pinball,
     Room_Poor,
-    Room_Cozy,
+    //Room_Cozy,
     Room_Something,
     Egg,
     GrowthBooster,

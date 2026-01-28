@@ -53,7 +53,7 @@ public static class MiniGameRewardPicker
             case RewardType.Room_Rythm: room = Room.Room_Rythm; return true;
             case RewardType.Room_Pinball: room = Room.Room_Pinball; return true;
             case RewardType.Room_Poor: room = Room.Room_Poor; return true;
-            case RewardType.Room_Cozy: room = Room.Room_Cozy; return true;
+            //case RewardType.Room_Cozy: room = Room.Room_Cozy; return true;
             case RewardType.Room_Something: room = Room.Room_Something; return true;
             default: return false;
         }

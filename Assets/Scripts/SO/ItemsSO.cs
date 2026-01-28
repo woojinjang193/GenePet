@@ -11,6 +11,7 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     [SerializeField] public Sprite SnackSprite;
     [SerializeField] public Sprite Energy;
     [SerializeField] public Sprite PetSlot;
+    [SerializeField] public Sprite GrowthBooster;
 
     [Header("섬 아이템")]
     [SerializeField] public Sprite IslandTicketSprite;
@@ -35,7 +36,7 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     public Sprite Room_Jump;
     public Sprite Room_Rythm;
     public Sprite Room_Pinball;
-    public Sprite Room_Cozy;
+    //public Sprite Room_Cozy;
     public Sprite Room_Poor;
     public Sprite Room_Something;
 
@@ -64,6 +65,7 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
             case RewardType.Snack: return SnackSprite;
             case RewardType.MasterGift: return MasterGiftSprite;
             case RewardType.PetSlot: return PetSlot;
+            case RewardType.GrowthBooster: return GrowthBooster;
             case RewardType.Gift1: return Gift1;
             case RewardType.Gift2: return Gift2;
             case RewardType.Gift3: return Gift3;
@@ -71,13 +73,13 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
             case RewardType.Room_Jump: return Room_Jump;
             case RewardType.Room_Rythm: return Room_Rythm;
             case RewardType.Room_Pinball: return Room_Pinball;
-            case RewardType.Room_Cozy: return Room_Cozy;
+            //case RewardType.Room_Cozy: return Room_Cozy;
             case RewardType.Room_Poor: return Room_Poor;
             case RewardType.Room_Something: return Room_Something; 
 
             case RewardType.Egg: return RewardEgg;
         }
-        Debug.LogError("스프라이트 반환 안됨");
+        Debug.LogError($"스프라이트 반환 안됨 {type}");
         return null;
     }
 }
