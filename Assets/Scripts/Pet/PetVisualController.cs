@@ -180,6 +180,8 @@ public class PetVisualController : MonoBehaviour
     //================= 눈 바꾸기 유틸 ==================
     public void OnPettingPet(bool on)
     {
+        if (_pet.Status.Growth == GrowthStatus.Egg) return; //알이면 리턴
+
         if(on == true)
         {
             _renderers.Eye.sprite = _smileEye;

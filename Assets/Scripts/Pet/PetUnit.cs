@@ -60,8 +60,7 @@ public class PetUnit : MonoBehaviour
         var config = Manager.Game.Config;
 
         _pettingHappinessAdd = config.PettingHappinessAdd;
-        _pettingCooldownSec = (long)config.PettingCooldownHour *60 *60; //시간
-
+        _pettingCooldownSec = (long)(config.PettingCooldownHour * 60f * 60f);
     }
     public void SetConfig(PetConfigSO cfg) 
     {
@@ -137,7 +136,8 @@ public class PetUnit : MonoBehaviour
     private void OnPettingChanged(bool on)
     {
         if (!on) return;   // 시작(true)일 때만 체크
-        Debug.Log("쓰다듬 쿨타임 체크");
+        if (Status.Growth == GrowthStatus.Egg) return; //알일땐 행복도 안올림
+        //Debug.Log("쓰다듬 쿨타임 체크");
         TryGivePettingHappiness();  // 쿨다운 체크 후 지급
     }
     private void TryGivePettingHappiness() // 쓰다듬 행복도 지급
