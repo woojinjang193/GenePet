@@ -17,6 +17,8 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
 
     private void Awake()
     {
+        _itemManager = Manager.Item;
+
         if (_itemManager != null)
         {
             _itemManager.OnItemConsumed += UpdateUI;
@@ -71,7 +73,12 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
 
     public void Confirmed()
     {
-        //TODO: 바로 성장로직 여기
+        if (_curPet == null) return; // 방어
+        if (_petManager == null) return; // 방어
+
+        bool success = _petManager.ApplyGrowthBooster(_curPet); // 성장 적용
+        if (!success) return; // 실패면 아이템 차감 안함
+
         Manager.Item.UseItem(RewardType.GrowthBooster, 1); //컨펌시 아이템 --
     }
 

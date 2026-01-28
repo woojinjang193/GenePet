@@ -233,4 +233,9 @@ public class PetStatusCore
     {
         _growthExp = value;
     }
+    public void ResetGrowthToZero() //부스터 등으로 강제 성장 시 진행도 0으로 리셋
+    {
+        _growthTimer = 0f; // 성장 타이머 0
+        _growthExp = 0f;   // 성장 경험치 0
+    }
 }

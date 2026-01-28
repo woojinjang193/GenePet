@@ -533,4 +533,23 @@ public class PetManager : MonoBehaviour
         float requiredEXP = _configs[(int)growth].ExpToGrow;
         _StatusUI.UpdateGauges(ZoomedUnit.Status, requiredEXP);
     }
+
+    //==================부스터 적용 유틸 함수=================
+    public bool ApplyGrowthBooster(PetUnit unit) // 부스터 적용(성장+config+UI)
+    {
+        if (unit == null) return false; // null 방어
+
+        bool grown = unit.ForceGrowOneStage(); // 강제 성장
+        if (!grown) return false; // 실패면 중단
+
+        if (_configMap.TryGetValue(unit.Status.Growth, out var cfg)) //새 성장단계 config 적용
+        {
+            unit.SetConfig(cfg); // 스탯 감소/증가 속도 등 갱신
+        }
+
+        if (ZoomedUnit == unit) RequestGaugeUpdate(); // 줌중이면 게이지 갱신
+
+        return true; // 성공
+    }
+
 }

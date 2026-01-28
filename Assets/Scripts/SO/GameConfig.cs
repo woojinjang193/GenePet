@@ -25,8 +25,24 @@ public class GameConfig : ScriptableObject
     [Header("선물 안주면 줄어드는 호감도 양")]
     public float DisappointingPoint;
 
+    [Header("<color=yellow>먹이 설정</color>")]
+
+    [Header("밥먹일 수 있는 기준 포만도")]
+    public float CanFeedPetBelow;
+    [Header("밥 먹으면 오르는 포만도 양")]
+    public float MealFullnessGain;
+    [Header("밥 먹으면 내려가는 청결도 양")]
+    public float MealCleanlinessDecrease;
+
+    [Header("간식 먹으면 오르는 포만도 양")]
+    public float SnackFullnessGain;
+    [Header("간식 먹으면 오르는 경험치 양")]
+    public float SnackExpGain;
+    [Header("간식 먹으면 내려가는 청결도 양")]
+    public float SnackCleanlinessDecrease;
+
     [Header("<color=yellow>소환 설정</color>")]
-    
+
     [Header("랜덤 스폰 가격")]
     public int RandomSpawnPrice;
 

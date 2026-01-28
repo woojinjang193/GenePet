@@ -21,7 +21,12 @@ MonoBehaviour:
   GiftCooldown: 1800
   GiftingPoint: 30
   DisappointingPoint: 5
-  EggRaritySO: {fileID: 11400000, guid: db4ee66b79c21dd4a85d20408b471776, type: 2}
+  CanFeedPetBelow: 99
+  MealFullnessGain: 10
+  MealCleanlinessDecrease: 3
+  SnackFullnessGain: 30
+  SnackExpGain: 10
+  SnackCleanlinessDecrease: 5
   RandomSpawnPrice: 500
   ComeBackHunger: 20
   ComeBackCleanliness: 10

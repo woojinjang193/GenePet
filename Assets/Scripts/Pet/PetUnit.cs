@@ -18,7 +18,6 @@ public class PetUnit : MonoBehaviour
     public bool LeftHandled { get; set; }
 
     private PetSaveData _saveRef;
-
     private void OnDestroy()
     {
         _status.OnCleanlinessChanged -= _visul.OnCleanlinessChanged;
@@ -83,6 +82,22 @@ public class PetUnit : MonoBehaviour
         _visul.SetSprite(_status.Growth);
         return true;
     }
+    public bool ForceGrowOneStage() // 아이템으로 강제 1단계 성장
+    {
+        if (_status.Growth == GrowthStatus.Adult) return false; // 성체면 실패
+
+        GrowthStatus next = GetNextGrowth(_status.Growth); // 다음 단계 계산
+        _status.Growth = next; // 성장단계 변경(이벤트 포함)
+
+        _status.ResetGrowthToZero(); // 성장 진행도 0으로 리셋
+
+        if (_saveRef != null) _saveRef.GrowthStage = next; // 저장데이터 즉시 반영
+
+        if (_visul != null) _visul.SetSprite(next); // 스프라이트 갱신
+
+        return true; //성공
+    }
+
     private GrowthStatus GetNextGrowth(GrowthStatus cur)
     {
         switch (cur)
