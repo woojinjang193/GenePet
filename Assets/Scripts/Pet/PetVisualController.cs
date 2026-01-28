@@ -4,6 +4,9 @@ public class PetVisualController : MonoBehaviour
 {
     private PetUnit _pet;
 
+    [Header("참조")]
+    [SerializeField] private PetPetting _petting;
+
     [Header("알")]
     [SerializeField] private SpriteRenderer _egg;
 
@@ -12,6 +15,9 @@ public class PetVisualController : MonoBehaviour
 
     [Header("파츠")]
     [SerializeField] private PetPartSpriteList _renderers;
+
+    [Header("웃는 눈 스프라이트")]
+    [SerializeField] private Sprite _smileEye;
 
     [Header("더러움")]
     [SerializeField] private SpriteRenderer _dirtRenderer;
@@ -25,7 +31,16 @@ public class PetVisualController : MonoBehaviour
     [SerializeField] private GameObject _healthReducingParticle;
 
     private bool _isZoomed;
+    private Sprite _ogEye;
 
+    private void Awake()
+    {
+        _petting.OnPettingChanged += ChangeEye;
+    }
+    private void OnDestroy()
+    {
+        _petting.OnPettingChanged -= ChangeEye;
+    }
     public void Init(PetSaveData save, PetUnit unit)
     {
         if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
@@ -36,6 +51,8 @@ public class PetVisualController : MonoBehaviour
         SetSprite(_pet.Status.Growth);
 
         OnSick(_pet.Status.IsSick); //아픈상태면 아픔 이미지 켜줌
+
+        _ogEye = _renderers.Eye.sprite;
     }
     private void ApplyVisual(GenesContainer save)
     {
@@ -58,72 +75,6 @@ public class PetVisualController : MonoBehaviour
         }
 
         PetVisualHelper.SetSpriteByGrowth(_renderers, growth);
-
-        //if (growth == GrowthStatus.Baby) //애기일때
-        //{
-        //    _renderers.Eye.gameObject.SetActive(true);
-        //    _renderers.Body.gameObject.SetActive(true);
-        //    _renderers.Ear.gameObject.SetActive(true);
-        //    _renderers.Blush.gameObject.SetActive(true);
-        //    _renderers.Mouth.gameObject.SetActive(true);
-        //    _renderers.Tail.gameObject.SetActive(true);
-        //
-        //    _renderers.BodyOut.gameObject.SetActive(true);
-        //    _renderers.EarOut.gameObject.SetActive(true);
-        //    _renderers.TailOut.gameObject.SetActive(true);
-        //
-        //    _dirtRenderer.gameObject.SetActive(true);
-        //
-        //    Debug.Log("Baby 상태 스프라이트 세팅");
-        //}
-        //else if (growth == GrowthStatus.Teen) //성장기
-        //{
-        //    _renderers.Blush.gameObject.SetActive(true);
-        //    _renderers.Body.gameObject.SetActive(true);
-        //    _renderers.Ear.gameObject.SetActive(true);
-        //    _renderers.Eye.gameObject.SetActive(true);
-        //    _renderers.Feet.gameObject.SetActive(true);
-        //    _renderers.Mouth.gameObject.SetActive(true);
-        //    _renderers.Tail.gameObject.SetActive(true);
-        //    _renderers.Whiskers.gameObject.SetActive(true);
-        //
-        //    _renderers.BodyOut.gameObject.SetActive(true);
-        //    _renderers.EarOut.gameObject.SetActive(true);
-        //    _renderers.FeetOut.gameObject.SetActive(true);
-        //    _renderers.TailOut.gameObject.SetActive(true);
-        //
-        //    _dirtRenderer.gameObject.SetActive(true);
-        //    Debug.Log("Teen 상태 스프라이트 세팅");
-        //}
-        //else if (growth == GrowthStatus.Adult) //어른
-        //{
-        //    _renderers.Acc.gameObject.SetActive(true);
-        //    _renderers.Arm.gameObject.SetActive(true);
-        //    _renderers.Blush.gameObject.SetActive(true);
-        //    _renderers.Body.gameObject.SetActive(true);
-        //    _renderers.Ear.gameObject.SetActive(true);
-        //    _renderers.Eye.gameObject.SetActive(true);
-        //    _renderers.Feet.gameObject.SetActive(true);
-        //    _renderers.Mouth.gameObject.SetActive(true);
-        //    _renderers.Pattern.gameObject.SetActive(true);
-        //    _renderers.Wing.gameObject.SetActive(true);
-        //    _renderers.Tail.gameObject.SetActive(true);
-        //    _renderers.Whiskers.gameObject.SetActive(true);
-        //
-        //    _renderers.ArmOut.gameObject.SetActive(true);
-        //    _renderers.BodyOut.gameObject.SetActive(true);
-        //    _renderers.EarOut.gameObject.SetActive(true);
-        //    _renderers.FeetOut.gameObject.SetActive(true);
-        //    _renderers.WingOut.gameObject.SetActive(true);
-        //    _renderers.TailOut.gameObject.SetActive(true);
-        //
-        //    _dirtRenderer.gameObject.SetActive(true);
-        //    Debug.Log("Adult 상태 스프라이트 세팅");
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("성장상태 이상함 확인 해야함.");
-        //}
 
         _egg.gameObject.SetActive(false);
     }
@@ -220,5 +171,18 @@ public class PetVisualController : MonoBehaviour
     {
         _healthReducingParticle.SetActive(on);
         Debug.Log($"체력감소 파티클: {on}");
+    }
+
+    //================= 눈 바꾸기 유틸 ==================
+    public void ChangeEye(bool on)
+    {
+        if(on == true)
+        {
+            _renderers.Eye.sprite = _smileEye;
+        }
+        else
+        {
+            _renderers.Eye.sprite = _ogEye;
+        }
     }
 }

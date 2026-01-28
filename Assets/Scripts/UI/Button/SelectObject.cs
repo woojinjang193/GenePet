@@ -35,9 +35,11 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
 
     private bool _isDragging = false;
     private GameObject _currentObj;
+    public static bool IsHoldingItem { get; private set; } //다른 스크립트가 아이템 들고있는지 확인용
 
     private void Awake()
     {
+        if (_camera == null) _camera = Camera.main;
         _feedButton.onClick.AddListener(OpenFoodList);
         _cleanButton.onClick.AddListener(OpenCleanList);
 
@@ -49,6 +51,10 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
         _cleanListPanel.SetActive(false);
 
         _snackAmount.text = $"x {Manager.Save.CurrentData.UserData.Items.Snack.ToString()}";
+    }
+    private void OnDisable()
+    {
+        EndDrag(); 
     }
     private void OnDestroy()
     {
@@ -119,9 +125,13 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
     }
     private void Spawn(GameObject go)
     {
+        EndDrag();
+
         _currentObj = go;
         _currentObj.SetActive(true);
         _isDragging = true;
+
+        IsHoldingItem = true;
     }
 
     private void Update()
@@ -133,17 +143,20 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
             _currentObj.transform.position = worldPos;
         }
 
-        if (Input.GetMouseButtonUp(0) && _currentObj != null)
-        {
-            _currentObj.SetActive(false);
-            _isDragging = false;
-            _currentObj = null;
-        }
+        if (Input.GetMouseButtonUp(0)) EndDrag();
     }
     private void OnSnackConsumed(RewardType type, int newValue)
     {
         if (type != RewardType.Snack) return;
 
         _snackAmount.text = $"x {newValue.ToString()}";
+    }
+
+    private void EndDrag() // 종료 처리를 한 곳으로 모음
+    {
+        if (_currentObj != null) _currentObj.SetActive(false);
+        _isDragging = false;
+        _currentObj = null; 
+        IsHoldingItem = false;
     }
 }

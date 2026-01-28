@@ -46,6 +46,7 @@ public sealed class PetController : MonoBehaviour
         _snackFullnessGain = config.SnackFullnessGain;
         _snackExpGain = config.SnackExpGain;
         _snackCleanlinessDecrease = config.SnackCleanlinessDecrease;
+        _canFeedPetBelow = config.CanFeedPetBelow;
     }
 
     public PetStatusCore Status
@@ -66,6 +67,8 @@ public sealed class PetController : MonoBehaviour
 
         Eat(_mealFullnessGain, _mealCleanlinessDecrease);
         Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
+
+        Debug.Log($"{Status.Hunger}, {_canFeedPetBelow}");
     }
 
     public void FeedSnack() //스낵 먹었을떄
