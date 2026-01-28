@@ -63838,8 +63838,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: addenergy
-  _price: 0
+  _productID: geneticglue
+  _price: 1000
   _priceText: {fileID: 2055520407}
 --- !u!114 &1849972270
 MonoBehaviour:

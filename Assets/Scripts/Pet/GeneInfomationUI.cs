@@ -71,7 +71,8 @@ public class GeneInfomationUI : MonoBehaviour
     private void Awake()
     {
         _holders.AddRange(GetComponentsInChildren<PartTypeHolder>());
-        Manager.Item.OnItemConsumed += UpdateScissorsAmount;
+        Manager.Item.OnItemConsumed += UpdateAmountText;
+        Manager.Item.OnRewardGranted += UpdateAmountText;
 
         foreach (var h in _holders)
         {
@@ -85,13 +86,18 @@ public class GeneInfomationUI : MonoBehaviour
         _recessiveGlueButton.onClick.AddListener(OnRecessiveGlueClick);
 
         _userItemData = Manager.Save.CurrentData.UserData.Items;
+        
+    }
+    private void OnEnable()
+    {
         _scissorsAmount.text = $"x{_userItemData.GeneticScissors}"; //가위 숫자
         _glueAmount.text = $"x{_userItemData.GeneticGlue}"; //풀 숫자
     }
     private void OnDestroy()
     {
         if(Manager.Item != null)
-        Manager.Item.OnItemConsumed -= UpdateScissorsAmount;
+        Manager.Item.OnItemConsumed -= UpdateAmountText;
+        Manager.Item.OnRewardGranted -= UpdateAmountText;
     }
     //===== 유전자 테스터 클릭 =========================
     private void OnClickedGeneTester()
@@ -198,6 +204,7 @@ public class GeneInfomationUI : MonoBehaviour
         }
 
         Manager.Item.UseItem(RewardType.GeneticGlue, 1);
+
         ResetButtons();
     }
     // ==================== 파츠 카테고리 버튼 클릭시 =======================
@@ -455,9 +462,9 @@ public class GeneInfomationUI : MonoBehaviour
     }
 
     //============유전자 가위/풀 개수 업데이트용 ===============
-    private void UpdateScissorsAmount(RewardType type, int newValue)
+    private void UpdateAmountText(RewardType type, int newValue)
     {
-        if (type != RewardType.GeneticScissors) return;
+        if (type == RewardType.None) return;
 
         if(type == RewardType.GeneticScissors)
         {
@@ -467,6 +474,7 @@ public class GeneInfomationUI : MonoBehaviour
         {
             _glueAmount.text = $"x{newValue}";
         }
-        
+
+        Debug.Log($"아이템 사용: {type}이 {newValue} 남음");
     }
 }
