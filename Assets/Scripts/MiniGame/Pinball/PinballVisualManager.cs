@@ -118,7 +118,7 @@ public class PinballVisualManager : MonoBehaviour
             return;
         }
 
-        Vector2 targetLocal = (Vector2)canvasRect.InverseTransformPoint(target.position);
+        Vector2 targetLocal = WorldToCanvasLocal(canvasRect, target.position); // 목표도 동일 변환 경로 사용
 
         int rewardAmount = reward.Amount;
         StartCoroutine(ItemFlyRoutine(go, iconRect, targetLocal, color, iconImg.sprite, rewardAmount));

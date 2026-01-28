@@ -146,7 +146,9 @@ public class MiniGameManager : Singleton<MiniGameManager>
         user.MiniGameResults[idx].PlayCount += 1; // 플레이 횟수 증가
         user.MiniGameResults[idx].BestScore = Mathf.Max(user.MiniGameResults[idx].BestScore, score); // 최고점 갱신
 
-        CurPet.GrowthExp += 10;
+        //펫 스텟 증가
+        CurPet.GrowthExp += Manager.Game.Config.MiniGameEXP;
+        CurPet.Happiness += Manager.Game.Config.MiniGameHappiness;
     }
     public MiniGamePersonalityEffectSO GetEffectTable()
     {

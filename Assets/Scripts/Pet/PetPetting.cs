@@ -32,16 +32,30 @@ public class PetPetting : MonoBehaviour
         if (_cam == null) _cam = Camera.main;
         SetParticle(false); 
     }
-    private void OnEnable()
+    private void OnDisable()
     {
+        SetParticle(false);
         _isTouching = false;  // 상태 초기화
         _isOnPet = false;   //상태 초기화
         _notMovingTimer = 0f;  //타이머 초기화
         _isPlaying = false;   //캐시 초기화
     }
+    private void OnEnable()
+    {
+        _isTouching = false;
+        _isOnPet = false;
+        _notMovingTimer = 0f;
+        _isPlaying = false;
+        _pettingParticle.Stop();
+    }
+
     private void Update()
     {
-        if (SelectObject.IsHoldingItem) return; // 아이템 들고있으면 리턴
+        if (SelectObject.IsHoldingItem) // 아이템 들고있으면 리턴
+        {
+            if (_isPlaying) SetParticle(false); // [수정] 켜져있을 때만 1번 끄기
+            return;
+        }
 
         if (Input.touchCount > 0)
         {
@@ -180,6 +194,7 @@ public class PetPetting : MonoBehaviour
             {
                 _isPlaying = true;  // 상태 갱신
                 _pettingParticle.Play();  // ON
+                OnPettingChanged?.Invoke(true); //쓰다듬기 이벤트 발생
             }
         }
         else
@@ -188,9 +203,8 @@ public class PetPetting : MonoBehaviour
             {
                 _isPlaying = false;   //상태 갱신
                 _pettingParticle.Stop();
+                OnPettingChanged?.Invoke(false); //쓰다듬기 이벤트 발생
             }
         }
-
-        OnPettingChanged?.Invoke(_isPlaying); //쓰다듬기 이벤트 발생
     }
 }

@@ -13,6 +13,18 @@ public class GameConfig : ScriptableObject
     [Header("에너지 1오르는데 걸리는 시간")]
     public float EnergyRecoveringTime;
 
+    [Header("<color=yellow>펫 설정</color>")]
+    [Header("쓰다듬기 행복도 양")]
+    public float PettingHappinessAdd;
+    [Header("쓰다듬기 행복도 쿨타임(시)")]
+    public float PettingCooldownHour;
+
+    [Header("<color=yellow>미니게임 설정</color>")]
+    [Header("미니게임 경험치")]
+    public float MiniGameEXP;
+    [Header("미니게임 행복도")]
+    public float MiniGameHappiness;
+
     [Header("<color=yellow>섬 설정</color>")]
     [Header("섬 방문 호감도 쿨타임")]
     public float VisitingAffinityCooldown;

@@ -38,15 +38,16 @@ public class PetVisualController : MonoBehaviour
 
     private void Awake()
     {
-        _petting.OnPettingChanged += ChangeEye;
+        _petting.OnPettingChanged += OnPettingPet;
     }
     private void OnDestroy()
     {
-        _petting.OnPettingChanged -= ChangeEye;
+        _petting.OnPettingChanged -= OnPettingPet;
     }
     public void Init(PetSaveData save, PetUnit unit)
     {
         if (_letter.gameObject.activeSelf) { _letter.gameObject.SetActive(false); }
+
         RarityType rarity = save.Rarity;
         _egg.sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(rarity);
         _pet = unit;
@@ -177,7 +178,7 @@ public class PetVisualController : MonoBehaviour
     }
 
     //================= 눈 바꾸기 유틸 ==================
-    public void ChangeEye(bool on)
+    public void OnPettingPet(bool on)
     {
         if(on == true)
         {

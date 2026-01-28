@@ -184,6 +184,9 @@ public class PetSaveData
     public float AgeSeconds;
     public float GrowthExp;
 
+    public long LastPettingHappinessUnixTime; // 마지막 쓰다듬 행복도 지급 시간
+
+
     public PetSaveData()
     {
         Rarity = RarityType.Common;
@@ -209,6 +212,8 @@ public class PetSaveData
 
         AgeSeconds = 0f; //필요없나?
         GrowthExp = 0f;
+
+        LastPettingHappinessUnixTime = 0;
     }
 }
 

@@ -31626,7 +31626,7 @@ MonoBehaviour:
   - {fileID: 1836579937}
   - {fileID: 2037687385}
   - {fileID: 1156044215}
-  - {fileID: 1797790612}
+  _growthBooster: {fileID: 1797790612}
   _input: {fileID: 31457393}
   _namePanel: {fileID: 1043277979}
   _confirmButton: {fileID: 627932822}
@@ -74786,6 +74786,10 @@ PrefabInstance:
     - target: {fileID: 4823689596221721616, guid: 98eaeb8ea0bc3dc43a3ac3e95c78e69c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -445
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055753769205833220, guid: 98eaeb8ea0bc3dc43a3ac3e95c78e69c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -67.66998
       objectReference: {fileID: 0}
     - target: {fileID: 5241589985118882342, guid: 98eaeb8ea0bc3dc43a3ac3e95c78e69c, type: 3}
       propertyPath: m_AnchorMax.y

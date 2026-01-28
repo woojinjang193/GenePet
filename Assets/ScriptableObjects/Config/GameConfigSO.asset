@@ -16,6 +16,10 @@ MonoBehaviour:
   MaxEggAmount: 3
   MaxEnergy: 10
   EnergyRecoveringTime: 600
+  PettingHappinessAdd: 10
+  PettingCooldownHour: 0.1
+  MiniGameEXP: 5
+  MiniGameHappiness: 3
   VisitingAffinityCooldown: 1800
   VisitingAffinityGain: 5
   GiftCooldown: 1800

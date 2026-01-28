@@ -8,6 +8,7 @@ public class NamePanel : MonoBehaviour
 {
     [SerializeField] private PetManager _petManager;
     [SerializeField] private GameObject[] _hiddenUIs;
+    [SerializeField] private GameObject _growthBooster;
 
     [SerializeField] private TMP_InputField _input;
     [SerializeField] private GameObject _namePanel;
@@ -27,27 +28,30 @@ public class NamePanel : MonoBehaviour
     {
         if (_petManager.ZoomedUnit == null) return;
 
-        if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName))
+        if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName)) //이름이 없을때
         {
             _nameText.text = null;
             _petManager.ZoomedUnit.Status.OnGrown += OnGrown;
             _isSubscribed = true; //구독중 플레그 변경
 
-            if (_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg)
+            if (_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg) //알이라면
             {
                 TurnOnUIs(false, false);
+                _growthBooster.SetActive(true);
             }
-            else
+            else //알이 아니라면
             {
                 TurnOnUIs(true, false);
                 _input.text = null;
                 _errorText.text = "";
+                _growthBooster.SetActive(false);
             }
         }
-        else
+        else // 이름 있으면
         {
             _nameText.text = _petManager.ZoomedPet.DisplayName;
             TurnOnUIs(false, true);
+            _growthBooster.SetActive(true);
         }
     }
     public void CancelSubscribe()
@@ -72,6 +76,7 @@ public class NamePanel : MonoBehaviour
 
         _nameText.text = _petManager.ZoomedPet.DisplayName = _input.text;
         TurnOnUIs(false, true);
+        _growthBooster.SetActive(true);
         Debug.Log($"이름설정 : {_petManager.ZoomedPet.DisplayName} ");
     }
 
@@ -85,13 +90,14 @@ public class NamePanel : MonoBehaviour
         }
     }
 
-    private void OnGrown(GrowthStatus growth)
+    private void OnGrown(GrowthStatus growth) //성장 이벤트
     {
         if (growth != GrowthStatus.Egg)
         {
-            if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName) && !_namePanel.activeSelf)
+            if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName) && !_namePanel.activeSelf) //이름이 없으면
             {
                 TurnOnUIs(true, false);
+                _growthBooster.SetActive(false);
             }   
         }
     }

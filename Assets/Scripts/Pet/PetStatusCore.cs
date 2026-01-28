@@ -6,7 +6,7 @@ public class PetStatusCore
 {
     public float Hunger { get; private set; }
     public float Health { get; private set; }
-    public float Cleanliness { get; private set; }
+    public float Cleanliness { get; private set; } 
     public float Happiness { get; private set; }
     public bool IsSick { get; private set; }
     public bool IsLeft { get; private set; }
