@@ -1912,8 +1912,8 @@ MonoBehaviour:
   _petLayer:
     serializedVersion: 2
     m_Bits: 1024
-  _moveThresholdPx: 10
-  _stopDelay: 0.25
+  _moveThresholdPx: 15
+  _stopDelay: 0.5
 --- !u!1 &6111303871882449901
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -15,9 +16,13 @@ public class GeneInfomationUI : MonoBehaviour
     [SerializeField] private Image _dominantGeneOutline;
     [SerializeField] private Image _recessiveGeneOutline;
 
-    [Header("유전자 가위 버튼")]
-    [SerializeField] private Button _dominantButton;
-    [SerializeField] private Button _recessiveButton;
+    [Header("유전자 자르기 버튼")]
+    [SerializeField] private Button _dominantCutButton;
+    [SerializeField] private Button _recessiveCutButton;
+
+    [Header("유전자 붙히기 버튼")]
+    [SerializeField] private Button _dominantGlueButton;
+    [SerializeField] private Button _recessiveGlueButton;
 
     [Header("없음 표시")]
     [SerializeField] private Sprite _noneImage;
@@ -40,11 +45,20 @@ public class GeneInfomationUI : MonoBehaviour
     [SerializeField] private Color _selectedColor; //버튼 선택시 컬러
 
     [Header("아이템 개수")]
-    [SerializeField] private TMP_Text _itemAmount;
+    [SerializeField] private TMP_Text _testerAmount;
+    [SerializeField] private TMP_Text _scissorsAmount;
+    [SerializeField] private TMP_Text _glueAmount;
+
+    [Header("우성 성격 텍스트")]
+    [SerializeField] private TMP_Text _dominantPersonalityText;
+    [Header("열성 성격 텍스트")]
+    [SerializeField] private TMP_Text _recessivePersonalityText;
 
     //현재 펫
     private PetSaveData _curPet;
     private GenePair _curPair;
+
+    private UserItemData _userItemData;
 
     //버튼에 달린 컴포넌트 리스트
     private List<PartTypeHolder> _holders = new List<PartTypeHolder>();
@@ -57,6 +71,7 @@ public class GeneInfomationUI : MonoBehaviour
     private void Awake()
     {
         _holders.AddRange(GetComponentsInChildren<PartTypeHolder>());
+        Manager.Item.OnItemConsumed += UpdateScissorsAmount;
 
         foreach (var h in _holders)
         {
@@ -64,10 +79,21 @@ public class GeneInfomationUI : MonoBehaviour
             btn.onClick.AddListener(() => OnClickPart(h.partType, h));
         }
         _geneTesterButton.onClick.AddListener(OnClickedGeneTester);
-        _dominantButton.onClick.AddListener(TryToCutDominantGene);
-        _recessiveButton.onClick.AddListener(TryToCutRecessiveGene);
-    }
+        _dominantCutButton.onClick.AddListener(OnDominantButtonClick);
+        _recessiveCutButton.onClick.AddListener(OnRecessiveButtonClick);
+        _dominantGlueButton.onClick.AddListener(OnDominantGlueClick);
+        _recessiveGlueButton.onClick.AddListener(OnRecessiveGlueClick);
 
+        _userItemData = Manager.Save.CurrentData.UserData.Items;
+        _scissorsAmount.text = $"x{_userItemData.GeneticScissors}"; //가위 숫자
+        _glueAmount.text = $"x{_userItemData.GeneticGlue}"; //풀 숫자
+    }
+    private void OnDestroy()
+    {
+        if(Manager.Item != null)
+        Manager.Item.OnItemConsumed -= UpdateScissorsAmount;
+    }
+    //===== 유전자 테스터 클릭 =========================
     private void OnClickedGeneTester()
     {
         bool isUnlocked = _curPet.IsInfoUnlocked;
@@ -91,7 +117,8 @@ public class GeneInfomationUI : MonoBehaviour
         _recessiveMainUI.SetActive(true);
         _geneTesterButton.gameObject.SetActive(false);
     }
-    public void Init(PetSaveData pet) //유아이 초기 세팅
+    //======================유아이 초기 세팅 =========================
+    public void Init(PetSaveData pet) 
     {
         if(!pet.IsInfoUnlocked)
         {
@@ -100,7 +127,8 @@ public class GeneInfomationUI : MonoBehaviour
         }
 
         _curPet = pet;
-        _itemAmount.text = Manager.Save.CurrentData.UserData.Items.geneticTester.ToString();
+        int amount = Manager.Save.CurrentData.UserData.Items.geneticTester;
+        _testerAmount.text = $"x{amount}";
 
         //초기세팅 바디로 설정
         foreach (var h in _holders)
@@ -112,41 +140,79 @@ public class GeneInfomationUI : MonoBehaviour
             }
         }
     }
-    private void TryToCutDominantGene()
+    //======================유전자 버튼 클릭========================
+    private void OnDominantButtonClick()
     {
         CutGene(true);
     }
-    private void TryToCutRecessiveGene()
+    private void OnRecessiveButtonClick()
     {
         CutGene(false);
     }
+    private void OnDominantGlueClick()
+    {
+        GlueGene(true);
+    }
+    private void OnRecessiveGlueClick()
+    {
+        GlueGene(false);
+    }
+
+    // ================유전자 자르기======================
     private void CutGene(bool isDominant)
     {
+        if (_userItemData.GeneticScissors <= 0)
+        {
+            Manager.Game.ShowPopup("No Item"); //TODO: 로컬라이제이션
+            return;
+        }
+
         if (isDominant)
         {
             _curPair.IsDominantCut = true;
-            _dominantCutImage.SetActive(true);
         }
         else
         {
             _curPair.IsRecessiveCut = true;
-            _recessiveCutImage.SetActive(true);
         }
 
-        _dominantButton.interactable = CanCutGene(_curPair);
-        _recessiveButton.interactable = CanCutGene(_curPair);
+        Manager.Item.UseItem(RewardType.GeneticScissors, 1);
+        ResetButtons();
     }
+    // ================유전자 붙히기======================
+    private void GlueGene(bool isDominant)
+    {
+        if (_userItemData.GeneticGlue <= 0)
+        {
+            Manager.Game.ShowPopup("No Item"); //TODO: 로컬라이제이션
+            return;
+        }
 
+        if (isDominant)
+        {
+            _curPair.IsDominantCut = false;
+        }
+        else
+        {
+            _curPair.IsRecessiveCut = false;
+        }
+
+        Manager.Item.UseItem(RewardType.GeneticGlue, 1);
+        ResetButtons();
+    }
+    // ==================== 파츠 카테고리 버튼 클릭시 =======================
     private void OnClickPart(PartType partType, PartTypeHolder holder) 
     {
         HandleButtonColor(holder);
 
         ImageReset();
 
+        _dominantPersonalityText.text = ""; //성격 일때만 문자 들어감
+        _recessivePersonalityText.text = "";
+
         _curPair = GetGenePair(partType);
 
-        _dominantButton.interactable = CanCutGene(_curPair);
-        _recessiveButton.interactable = CanCutGene(_curPair);
+        ResetButtons();
 
         if (partType == PartType.Color)
         {
@@ -161,6 +227,7 @@ public class GeneInfomationUI : MonoBehaviour
             ShowPicture(partType, _curPair);
         }
     }
+    //======================이미지 리셋 =========================
     private void ImageReset() //이미지 스케일, 컬러 리셋
     {
         _dominantCutImage.SetActive(false);
@@ -175,7 +242,8 @@ public class GeneInfomationUI : MonoBehaviour
         _dominantGeneOutline.color = Color.white;
         _recessiveGeneOutline.color = Color.white;
     }
-    private void HandleButtonColor(PartTypeHolder newHolder) //버튼 컬러 함수
+    //======================버튼 컬러 바꿔주는 함수=========================
+    private void HandleButtonColor(PartTypeHolder newHolder)
     {
         if (_selectedHolder != null)
         {
@@ -188,6 +256,7 @@ public class GeneInfomationUI : MonoBehaviour
 
         _selectedHolder = newHolder;
     }
+    //======================색 보여주기 전용 =========================
     private void ShowColor(GenePair pair)
     {
         var dom = Manager.Gene.GetPartSOByID<ColorSO>(PartType.Color, pair.DominantId);
@@ -202,6 +271,7 @@ public class GeneInfomationUI : MonoBehaviour
         _dominantGeneOutline.sprite = null;
         _recessiveGeneOutline.sprite = null;
     }
+    //======================성격 보여주기 전용=========================
     private void ShowPersonality(GenePair pair)
     {
         var dom = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, pair.DominantId);
@@ -212,8 +282,11 @@ public class GeneInfomationUI : MonoBehaviour
 
         _dominantGeneOutline.sprite = dom.Sprite;
         _recessiveGeneOutline.sprite = rec.Sprite;
-    }
 
+        _dominantPersonalityText.text = dom.Personality.ToString();
+        _recessivePersonalityText.text = rec.Personality.ToString();
+    }
+    //======================신체 파트 보여주기 전용=========================
     private void ShowPicture(PartType partType, GenePair pair)
     {
         bool isDomNone = pair.DominantId == "00";
@@ -262,6 +335,7 @@ public class GeneInfomationUI : MonoBehaviour
             default: return null;
         }
     }
+    //======================파츠별 위치=========================
     private Vector3 GetScale(PartType partType)
     {
         switch (partType)
@@ -282,6 +356,7 @@ public class GeneInfomationUI : MonoBehaviour
         return Vector3.one;
     }
 
+    //====================파츠 스프라이트 가져오기=========================
     private Sprite GetSprite(PartType part, string id)
     {
         if (string.IsNullOrEmpty(id)) return null;
@@ -347,22 +422,51 @@ public class GeneInfomationUI : MonoBehaviour
             default: return g.Body;
         }
     }
-
-    private bool CanCutGene(GenePair genePair)
+    private void ResetButtons()
     {
-        if(genePair.IsDominantCut)
+        bool isDominantCut = _curPair.IsDominantCut;
+        bool isRecessiveCut = _curPair.IsRecessiveCut;
+
+        if (isDominantCut)// 우성 잘렸으면
         {
+            _dominantCutButton.gameObject.SetActive(false);
+            _dominantGlueButton.gameObject.SetActive(true);
             _dominantCutImage.SetActive(true);
-            return false;
         }
-        if(genePair.IsRecessiveCut)
+        else// 우성 안잘렸으면
         {
+            _dominantCutButton.gameObject.SetActive(true);
+            _dominantGlueButton.gameObject.SetActive(false);
+            _dominantCutImage.SetActive(false);
+        }
+
+        if (isRecessiveCut) //열성 잘렸으면
+        {
+            _recessiveCutButton.gameObject.SetActive(false);
+            _recessiveGlueButton.gameObject.SetActive(true);
             _recessiveCutImage.SetActive(true);
-            return false;
         }
-        else
+        else //열성 안잘렸으면
         {
-            return true;
+            _recessiveCutButton.gameObject.SetActive(true);
+            _recessiveGlueButton.gameObject.SetActive(false);
+            _recessiveCutImage.SetActive(false);
         }
+    }
+
+    //============유전자 가위/풀 개수 업데이트용 ===============
+    private void UpdateScissorsAmount(RewardType type, int newValue)
+    {
+        if (type != RewardType.GeneticScissors) return;
+
+        if(type == RewardType.GeneticScissors)
+        {
+            _scissorsAmount.text = $"x{newValue}";
+        }
+        else if(type == RewardType.GeneticGlue)
+        {
+            _glueAmount.text = $"x{newValue}";
+        }
+        
     }
 }

@@ -34,6 +34,7 @@ public enum RewardType
     Room_Something,
     Egg,
     GrowthBooster,
+    GeneticGlue,
     None,
     
 }

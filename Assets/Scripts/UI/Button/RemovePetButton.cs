@@ -18,10 +18,10 @@ public class RemovePetButton : MonoBehaviour, IConfirmRequester
     {
         if (_petManager.ZoomedPet == null) { Debug.LogWarning("선택된 펫 없음."); return; }
 
-        //어른검사
-        if (_petManager.ZoomedUnit.Status.Growth != GrowthStatus.Adult)
+        //성장 검사
+        if (_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg)
         {
-            //Manager.Game.ShowPopup("PopText_NotAdult"); //스프레드 시트에 추가
+            Manager.Game.ShowPopup("PopText_NotAdult"); //TODO: 로컬라이제이션
             return;
         }
 

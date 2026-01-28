@@ -15,7 +15,7 @@ public class PetPetting : MonoBehaviour
     [SerializeField] private LayerMask _petLayer;   //펫 레이어
 
     [Header("움직임")]
-    [SerializeField] private float _moveThresholdPx = 10f;   // 이 픽셀 이상 움직이면 "움직임"으로 인정
+    [SerializeField] private float _moveThresholdPx = 15f;   // 이 픽셀 이상 움직이면 "움직임"으로 인정
     [SerializeField] private float _stopDelay = 0.25f;     // 멈춘 상태가 이 시간 이상이면 파티클 정지
 
     private bool _isTouching;    //터치 유지 상태

@@ -252,6 +252,7 @@ public class UserItemData
     public int geneticTester;
     public int Snack;
     public int GrowthBooster;
+    public int GeneticGlue;
 
     public List<Room> Rooms;
 
@@ -270,6 +271,9 @@ public class UserItemData
         GeneticScissors = 1;
         geneticTester = 1;
         Snack = 1;
+        GrowthBooster = 1;
+        GeneticGlue = 1;
+
         Rooms = new List<Room>()  //유저가 가진 방 목록
         { Room.Default};
 

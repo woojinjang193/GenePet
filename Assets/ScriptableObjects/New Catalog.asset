@@ -69,3 +69,8 @@ MonoBehaviour:
     Rewards:
     - RewardType: 0
       RewardAmount: 1
+  - ProductId: geneticglue
+    ProductType: 0
+    Rewards:
+    - RewardType: 20
+      RewardAmount: 1
