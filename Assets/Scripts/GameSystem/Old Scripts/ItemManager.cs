@@ -11,9 +11,9 @@ public class ItemManager : Singleton<ItemManager>
     // ================= 이벤트 =================
     public event Action OnRewardsGiven; // 한 묶음 보상 지급 완료 알림, 보상 팝업 열기용
     public event Action<int> OnMoneyChanged; //현재 소지 골드 변경 알림
-    public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림
+    public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림 <type, newvalue>
     public event Action OnGiftAmountChanged; //선물 수량 감소 알림
-    public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림
+    public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림 <type, newvalue>
 
     // ================= 연출용 큐 =================
     private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
@@ -169,6 +169,11 @@ public class ItemManager : Singleton<ItemManager>
                 Debug.Log($"펫 슬롯 +{amount}");
                 break;
 
+            case RewardType.GrowthBooster:
+                newValue = user.Items.GrowthBooster += amount;
+                Debug.Log($"성장 부스터 +{amount}");
+                break;
+
             case RewardType.Room_Jump:
             case RewardType.Room_Rythm:
             case RewardType.Room_Pinball:
@@ -302,6 +307,18 @@ public class ItemManager : Singleton<ItemManager>
                 else
                 {
                     newValue = items.GeneticScissors -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+
+            case RewardType.GrowthBooster:
+                if (amount <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    newValue = items.GrowthBooster -= amount;
                 }
                 OnItemConsumed?.Invoke(type, newValue);
                 break;

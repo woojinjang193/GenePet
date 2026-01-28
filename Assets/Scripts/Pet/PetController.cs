@@ -61,7 +61,7 @@ public sealed class PetController : MonoBehaviour
             return;
         }
 
-        _pet.Status.IncreaseEXP(10f);
+        _pet.Status.IncreaseEXP(100f);
         Eat(50, 10);
         Manager.Item.UseItem(RewardType.Snack, 1);
         Debug.Log($"스낵먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");

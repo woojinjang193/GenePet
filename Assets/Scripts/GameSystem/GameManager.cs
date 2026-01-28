@@ -189,7 +189,7 @@ public class GameManager : Singleton<GameManager>
     {
         _popupText.ShowMessage(msg);
     }
-    public void ShowWarning(string textID, IConfirmRequester requster) //경고메세지 출력
+    public void ShowConfirmMessage(string textID, IConfirmRequester requster) //경고메세지 출력
     {
         _confirmMessage.OpenConfirmUI(textID, requster);
     }

@@ -50,7 +50,7 @@ public class PetUnit : MonoBehaviour
 
         //Debug.Log($"데이터 로드완료 ID: {_petId}");
     }
-    public void SetConfig(PetConfigSO cfg)
+    public void SetConfig(PetConfigSO cfg) 
     {
         _currentConfig = cfg;
         _status.SetConfig(cfg);

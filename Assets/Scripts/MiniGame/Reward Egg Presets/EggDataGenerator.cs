@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ public static class EggDataGenerator
         if (pet.Genes == null) pet.Genes = new GenesContainer(); // Genes 없으면 새로 만듬
 
         pet.GrowthStage = GrowthStatus.Egg; //알상태 (혹시몰라서)
+
+        pet.ID = Guid.NewGuid().ToString(); //GUID 넣어주기
 
         // 파츠 유전자(우성/열성) 채우기
         for (int i = 0; i < _genePartTypes.Length; i++)

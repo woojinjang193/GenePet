@@ -27,7 +27,7 @@ public class RemovePetButton : MonoBehaviour, IConfirmRequester
 
         if(Manager.Game != null)
         {
-            Manager.Game.ShowWarning("Warning_RemovePet", this);
+            Manager.Game.ShowConfirmMessage("Warning_RemovePet", this);
         }
     }
 

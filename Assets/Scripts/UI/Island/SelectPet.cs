@@ -71,7 +71,7 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        Manager.Game.ShowWarning("Warning_AffinityReset", this);
+        Manager.Game.ShowConfirmMessage("Warning_AffinityReset", this);
     }
     private void OnCancelButtonClicked()
     {

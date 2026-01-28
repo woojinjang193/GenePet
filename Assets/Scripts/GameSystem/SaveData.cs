@@ -251,6 +251,8 @@ public class UserItemData
     public int GeneticScissors;
     public int geneticTester;
     public int Snack;
+    public int GrowthBooster;
+
     public List<Room> Rooms;
 
     //선물

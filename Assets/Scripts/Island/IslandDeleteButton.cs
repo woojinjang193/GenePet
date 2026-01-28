@@ -17,7 +17,7 @@ public class IslandDeleteButton : MonoBehaviour, IConfirmRequester
     {
         if (Manager.Game != null)
         {
-            Manager.Game.ShowWarning("Warning_DeleteIsland", this);
+            Manager.Game.ShowConfirmMessage("Warning_DeleteIsland", this);
         }
     }
 

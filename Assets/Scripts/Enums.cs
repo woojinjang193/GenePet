@@ -33,6 +33,7 @@ public enum RewardType
     Room_Cozy,
     Room_Something,
     Egg,
+    GrowthBooster,
     None,
     
 }

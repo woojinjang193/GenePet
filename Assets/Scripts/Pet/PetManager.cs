@@ -127,6 +127,23 @@ public class PetManager : MonoBehaviour
     }
     public void SpawnPet(PetSaveData save)
     {
+        if (save == null) return;
+
+        if (string.IsNullOrWhiteSpace(save.ID))
+        {
+            var list = Manager.Save?.CurrentData?.UserData?.HavePetList; //세이브 리스트 참조
+            string newId;
+
+            do
+            {
+                newId = Guid.NewGuid().ToString(); // [추가] 새 GUID 생성
+            }
+            while (list != null && list.Exists(pet => pet != null && pet != save && pet.ID == newId)); //충돌 방지(만약을 위해)
+
+            save.ID = newId; // 저장데이터에 ID 할당
+            Debug.LogWarning($"PetSaveData.ID가 비어있어서 새 GUID 할당: {save.ID}");
+        }
+
         int index = -1;
 
         if (_petPrefab == null)
@@ -193,7 +210,7 @@ public class PetManager : MonoBehaviour
         {
             RecoverEnergy(_tickInterval); // 에너지 증가
 
-            if (_activePets.Count > 0) //펫이 있다면
+            if (_activePets != null && _activePets.Count > 0) //펫이 있다면
             {
                 RunTick(_tickInterval); // 틱
             }
@@ -207,7 +224,7 @@ public class PetManager : MonoBehaviour
     }
     private void RunTick(float sec)
     {
-        if(_activePets.Count <= 0 || _activePets ==  null) return;
+        if (_activePets == null || _activePets.Count <= 0) return; 
 
         for (int i = 0; i < _activePets.Count; i++)
         {
@@ -269,6 +286,13 @@ public class PetManager : MonoBehaviour
 
             if (unit == null) continue;
 
+            // ID 비어있으면 저장 매칭 불가 > 즉시 스킵 + 에러 로그
+            if (string.IsNullOrEmpty(unit.PetId))
+            {
+                Debug.LogError($"[SaveAllStatus] PetId가 비어있어 저장 불가. obj={unit.name}, inst={unit.GetInstanceID()}");
+                continue;
+            }
+
             var status = unit.Status;
 
             // 같은 ID 찾기
@@ -298,12 +322,19 @@ public class PetManager : MonoBehaviour
     }
     public void ZoomInPet(PetUnit unit)
     {
-        ZoomedUnit = unit;
-        ZoomedUnit.ZoomThisPet(true);
+        if (unit == null) return;
 
         string id = unit.PetId;
 
+        if (string.IsNullOrWhiteSpace(id)) //id 유무 검사
+        {
+            Debug.LogError($"[ZoomInPet] PetId가 비어있음. obj={unit.name}, inst={unit.GetInstanceID()}");
+            return;
+        }
         if (ZoomedPet != null) return;
+
+        ZoomedUnit = unit;
+        ZoomedUnit.ZoomThisPet(true);
 
         if (_camera == null)
         {
@@ -319,6 +350,14 @@ public class PetManager : MonoBehaviour
                 ZoomedPet = petlist[i];
                 break;
             }
+        }
+
+        if (ZoomedPet == null)
+        {
+            Debug.LogError($"[ZoomInPet] SaveList에서 ID '{id}' 를 찾지 못함. obj={unit.name}");
+            ZoomedUnit.ZoomThisPet(false); //줌 표시 롤백
+            ZoomedUnit = null; //상태 롤백
+            return;
         }
 
         //카메라 줌인
@@ -488,6 +527,8 @@ public class PetManager : MonoBehaviour
     //게이지 업데이트 요청하는 유틸
     private void RequestGaugeUpdate()
     {
+        if (ZoomedUnit == null) return;
+
         GrowthStatus growth = ZoomedUnit.Status.Growth;
         float requiredEXP = _configs[(int)growth].ExpToGrow;
         _StatusUI.UpdateGauges(ZoomedUnit.Status, requiredEXP);
