@@ -23,6 +23,7 @@ public class PetUnit : MonoBehaviour
         _status.OnCleanlinessChanged -= _visul.OnCleanlinessChanged;
         _status.OnSick -= _visul.OnSick;
         _status.OnHealthReducing -= _visul.OnHealthReducing;
+        _status.OnGrown -= _visul.OnGrown;
     }
     public void Init(PetSaveData save, PetManager petManager)
     {
@@ -46,7 +47,7 @@ public class PetUnit : MonoBehaviour
         _status.OnCleanlinessChanged += _visul.OnCleanlinessChanged;
         _status.OnSick += _visul.OnSick;
         _status.OnHealthReducing += _visul.OnHealthReducing;
-
+        _status.OnGrown += _visul.OnGrown; //성장이벤트 구독
         //Debug.Log($"데이터 로드완료 ID: {_petId}");
     }
     public void SetConfig(PetConfigSO cfg) 

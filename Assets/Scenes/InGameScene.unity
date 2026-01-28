@@ -31626,6 +31626,7 @@ MonoBehaviour:
   - {fileID: 1836579937}
   - {fileID: 2037687385}
   - {fileID: 1156044215}
+  - {fileID: 1797790612}
   _input: {fileID: 31457393}
   _namePanel: {fileID: 1043277979}
   _confirmButton: {fileID: 627932822}

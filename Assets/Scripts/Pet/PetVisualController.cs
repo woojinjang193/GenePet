@@ -19,6 +19,9 @@ public class PetVisualController : MonoBehaviour
     [Header("웃는 눈 스프라이트")]
     [SerializeField] private Sprite _smileEye;
 
+    [Header("성장 파티클")]
+    [SerializeField] private ParticleSystem _growParticle;
+
     [Header("더러움")]
     [SerializeField] private SpriteRenderer _dirtRenderer;
     [SerializeField] private SpriteMask _dirtMask;
@@ -184,5 +187,10 @@ public class PetVisualController : MonoBehaviour
         {
             _renderers.Eye.sprite = _ogEye;
         }
+    }
+    //===============성장 파티클 이벤트=================================
+    public void OnGrown(GrowthStatus newGrowth)
+    {
+        if (_growParticle != null) _growParticle.Play();
     }
 }
