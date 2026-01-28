@@ -15,5 +15,5 @@ MonoBehaviour:
   ID: 12
   DisplayName: 00
   Rarity: 0
-  sprite: {fileID: 21300000, guid: 55c4bb2e2bc64b043aa56e9dd805a2e3, type: 3}
+  sprite: {fileID: 21300000, guid: 7ceb2d3148e300d43a0d487c65f524d5, type: 3}
   OrderInLayer: 15

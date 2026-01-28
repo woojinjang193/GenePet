@@ -12,7 +12,7 @@ public class PinballUiManager : MonoBehaviour
     [SerializeField] private PinballGameManager _pinballManager;
 
     [Header("게임끝 판넬")]
-    [SerializeField] private GameObject _gameEndUi;
+    [SerializeField] private GameObject _titlePanel;
     [SerializeField] private float _EndPanelOpenDelay = 2;
 
     [Header("슬롯")]
@@ -68,7 +68,7 @@ public class PinballUiManager : MonoBehaviour
     private IEnumerator OpenEndPanel()
     {
         yield return new WaitForSeconds(_EndPanelOpenDelay);
-        _gameEndUi.SetActive(true);
+        _titlePanel.SetActive(true);
     }
     private void CloseSlots() //플레이어가 룰렛존 진입시 호출
     {

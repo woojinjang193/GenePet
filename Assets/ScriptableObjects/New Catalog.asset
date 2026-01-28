@@ -43,15 +43,15 @@ MonoBehaviour:
     Rewards:
     - RewardType: 7
       RewardAmount: 10
-  - ProductId: mastergift
+  - ProductId: growthbooster
     ProductType: 0
     Rewards:
-    - RewardType: 12
+    - RewardType: 19
       RewardAmount: 1
   - ProductId: petslot
     ProductType: 0
     Rewards:
-    - RewardType: 13
+    - RewardType: 12
       RewardAmount: 1
   - ProductId: package
     ProductType: 0
@@ -64,5 +64,8 @@ MonoBehaviour:
       RewardAmount: 1
     - RewardType: 11
       RewardAmount: 1
-    - RewardType: 12
+  - ProductId: addenergy
+    ProductType: 0
+    Rewards:
+    - RewardType: 0
       RewardAmount: 1

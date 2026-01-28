@@ -12,24 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b006224b5550ac2458a339267a611168, type: 3}
   m_Name: ItemSO
   m_EditorClassIdentifier: 
-  CoinSprite: {fileID: 21300000, guid: 407afb697ff434432bb8ecb2742d0545, type: 3}
+  CoinSprite: {fileID: 21300000, guid: 515dc1ca6d7b7c240abfa4cbb99dcc75, type: 3}
   RemoveAdSprite: {fileID: 21300000, guid: 158835e055be84d9aafb05d24b64dee2, type: 3}
   SnackSprite: {fileID: 21300000, guid: 75b66ce37b8ec4247aa646f2104396c7, type: 3}
-  Energy: {fileID: 21300000, guid: 050208ae96bddd44c8f34c147602480d, type: 3}
-  PetSlot: {fileID: 21300000, guid: 5151842b709d1416da434d4dfbba9941, type: 3}
-  IslandTicketSprite: {fileID: 21300000, guid: 97bb6976832134437b006828ce26b818, type: 3}
+  Energy: {fileID: 21300000, guid: 81295fb915a9a154c926f98f89376029, type: 3}
+  PetSlot: {fileID: 21300000, guid: 8294f3000c82bf64b8d58e5460887be1, type: 3}
+  GrowthBooster: {fileID: 21300000, guid: 3df5c4122c8d9db458efd258c9ef642a, type: 3}
+  IslandTicketSprite: {fileID: 21300000, guid: 57db38bac1180ca459c359a0e65319d2, type: 3}
   MasterGiftSprite: {fileID: 21300000, guid: bcf0c64db1a7b4631b3d2c5f6c156b81, type: 3}
-  Gift1: {fileID: 21300000, guid: 421658ec9a55747f99d25c575f49899e, type: 3}
-  Gift2: {fileID: 21300000, guid: aaed316abc78744a6ac4cde70853dc1e, type: 3}
-  Gift3: {fileID: 21300000, guid: d1ec46fa071af468292d7a46abfc9044, type: 3}
-  Gift4: {fileID: 21300000, guid: 725b0d71a37f3454f9e62c68b39c0036, type: 3}
-  MissingPosterSprite: {fileID: 21300000, guid: bfaa6a06070d3461a8c6b100e9fd503c, type: 3}
-  GeneticScissorsSprite: {fileID: 21300000, guid: 29e5d67fce7594545ba233e35a6cd6b5, type: 3}
-  geneticTesterSprite: {fileID: 21300000, guid: 00eddc939769743f583671854c5f7593, type: 3}
-  Default: {fileID: 21300000, guid: 866f7aa4ad57345fc80e27cdd788f832, type: 3}
-  Room1: {fileID: 21300000, guid: f90a7c1c8f84b984fbe4d169ae5840d5, type: 3}
-  Room2: {fileID: 21300000, guid: 84520e58ceaf16c48964db7c7a5e354b, type: 3}
-  Room3: {fileID: 21300000, guid: 0b547dcab0dfd4765ab375a9fd704451, type: 3}
-  Room4: {fileID: 21300000, guid: 4e1f8f293b03e4f9197b6219fe2ede5e, type: 3}
-  Room5: {fileID: 21300000, guid: e57d758667ec647ba9a894dcad8b24ef, type: 3}
-  Room6: {fileID: 21300000, guid: 688676d0d0c064d60bfc8e5a481917ee, type: 3}
+  Gift1: {fileID: 21300000, guid: ccf683b848e4f43da85b660b2ad50973, type: 3}
+  Gift2: {fileID: 21300000, guid: 0c399b720745e4f7eab0c9c85f6ea870, type: 3}
+  Gift3: {fileID: 21300000, guid: e3a0e3e87d6c34cf390d4a496212fd98, type: 3}
+  MissingPosterSprite: {fileID: 21300000, guid: 594bce51085276c438e7d4e4b5b38e92, type: 3}
+  GeneticScissorsSprite: {fileID: 21300000, guid: b9129d61620490d42b2a03edb4f497b7, type: 3}
+  geneticTesterSprite: {fileID: 21300000, guid: 016773b32cda34142937dde48b05dfcd, type: 3}
+  EggRaritySO: {fileID: 11400000, guid: db4ee66b79c21dd4a85d20408b471776, type: 2}
+  RewardEgg: {fileID: 21300000, guid: 970b68680c68e7b4cbb8a95bba272149, type: 3}
+  Default: {fileID: 21300000, guid: 8be5fb419f85f394e822c61dc8a18958, type: 3}
+  Room_Jump: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
+  Room_Rythm: {fileID: 21300000, guid: 5ac4cfb314b32a647a207187f4576e4a, type: 3}
+  Room_Pinball: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
+  Room_Poor: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
+  Room_Something: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}

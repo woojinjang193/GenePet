@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RythmGameScene.unity
     guid: 347211df844e34b429f1f12baedf395b
+  - enabled: 1
+    path: Assets/Scenes/PinballGameScene.unity
+    guid: 5b9b8b25175adec46b6dc1a41fd1bd3c
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 9c7711238cabdd54e8cc60702eb726ac, type: 2}

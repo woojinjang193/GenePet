@@ -15,6 +15,9 @@ public class RythmGameManager : MiniGameBase
     [SerializeField] private RythmUiManager _uiManager;
     [SerializeField] private RythmVisualController _rythmVisual;
 
+    [Header("랜덤 알 보상")]
+    [SerializeField] private RewardEggPresetSO[] _rewardEggs;
+
     private int _playerCurHeart;
 
     //===성격 능력=====
@@ -37,7 +40,10 @@ public class RythmGameManager : MiniGameBase
             _scoring.OnPatternResult += HandlePatternResult;
         }
         if (_rewardPlanner != null)
+        {
             _rewardPlanner.OnGiveReward += HandleGiveReward;
+            _rewardPlanner.InjectManager(this);
+        }
     }
 
     // 게임 시작 버튼 눌림
@@ -56,7 +62,8 @@ public class RythmGameManager : MiniGameBase
     {
         base.GameReset();
         ApplyAbilities(); //특수능력 초기화
-        _uiManager.SetHeart(_playerMaxHeart + _heartExtra); //체력 켜주기
+        _playerCurHeart = _playerMaxHeart + _heartExtra;
+        _uiManager.SetHeart(_playerCurHeart); //체력 켜주기
     }
 
     // 매 프레임: 오토미스는 매 프레임 처리해야 함
@@ -117,16 +124,13 @@ public class RythmGameManager : MiniGameBase
 
         if (success)
         {
-            // 1) 패턴 성공 보상: "고정 계획"에 있으면 지급
-            if (_rewardPlanner != null)
+            if (isLastPattern)
             {
-                _rewardPlanner.TryGivePatternReward(patternIndex);
+                _rewardPlanner?.GiveClearReward(preset); //마지막은 클리어만
             }
-
-            // 2) 레벨 마지막 패턴 성공 시: 클리어 보상 1개 지급
-            if (isLastPattern && _rewardPlanner != null)
+            else
             {
-                _rewardPlanner.GiveClearReward(preset);
+                _rewardPlanner?.TryGivePatternReward(patternIndex); //일반은 마지막 제외
             }
 
             _rythmVisual.PatternSuccess(true);
@@ -155,7 +159,17 @@ public class RythmGameManager : MiniGameBase
             amount = Mathf.FloorToInt(amount * _coinMul); //골드 배율만큼 더 획득
         }
 
-        GainItem(type, amount); // MiniGameBase의 보상 누적
+        if (type == RewardType.Egg)
+        {
+            int rand = Random.Range(0, _rewardEggs.Length);
+            EggData egg = EggDataGenerator.GenerateRewardEgg(_rewardEggs[rand]);
+            base.GainEgg(egg);
+        }
+        else
+        {
+            GainItem(type, amount); // 아이템 누적
+        }
+
         Debug.Log($"{type}x{amount} 지급");
     }
 

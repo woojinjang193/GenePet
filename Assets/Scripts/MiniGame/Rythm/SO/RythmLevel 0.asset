@@ -33,6 +33,12 @@ MonoBehaviour:
   - RewardType: 9
     Amount: 0
     Weight: 0.2
+  - RewardType: 19
+    Amount: 1
+    Weight: 10
+  - RewardType: 14
+    Amount: 1
+    Weight: 10
   LevelClearRewards:
   - RewardType: 9
     Amount: 1
@@ -43,3 +49,9 @@ MonoBehaviour:
   - RewardType: 1
     Amount: 20
     Weight: 1
+  - RewardType: 19
+    Amount: 1
+    Weight: 10
+  - RewardType: 14
+    Amount: 1
+    Weight: 10

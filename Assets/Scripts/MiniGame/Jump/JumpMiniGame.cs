@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JumpMiniGame : MiniGameBase
 {
@@ -25,8 +26,11 @@ public class JumpMiniGame : MiniGameBase
     [SerializeField] private TMP_Text _bestScoreText;
     [SerializeField] private TMP_Text _curScoreText;
 
+    [Header("랜덤 알 보상")]
+    [SerializeField] private RewardEggPresetSO[] _rewardEggs;
+
     // ===== 내부 상태 =====
-    
+
     private bool _isHolding; // 버튼 누르고 있는지
     private bool _isCameraMoving; // 카메라 이동중인지
     private int _direction;  // -1 왼쪽 / 1 오른쪽
@@ -176,14 +180,20 @@ public class JumpMiniGame : MiniGameBase
     // ================= 외부 이벤트 =================
     public void OnItemCollected(RewardType type, int amount)
     {
-        //if(!_isPlaying) return;
+        if (type == RewardType.Egg)
+        {
+            int rand = Random.Range(0, _rewardEggs.Length);
+            EggData egg = EggDataGenerator.GenerateRewardEgg(_rewardEggs[rand]);
+            base.GainEgg(egg);
+            return;
+        }
 
         if (type == RewardType.Coin)
         {
-            amount = Mathf.FloorToInt(amount * _coinMul); //골드 배율만큼 더 획득
+            amount = Mathf.FloorToInt(amount * _coinMul);
         }
-
-        GainItem(type, amount); // 아이템 누적
+        
+        GainItem(type, amount);
     }
 
     public void OnPlayerDead()

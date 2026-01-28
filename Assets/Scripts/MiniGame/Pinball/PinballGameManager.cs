@@ -1,5 +1,3 @@
-
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -61,6 +59,7 @@ public class PinballGameManager : MiniGameBase
         RouletteMapReset();
         RewardSlotReset();
 
+        _player.FlagReset();
         _playerSpawner.CloseDoor();
         _spawner.StartSettingBricks(_preset); //0 레벨 세팅
         _curScoreText.text = $"Score: {_score}";
@@ -114,8 +113,18 @@ public class PinballGameManager : MiniGameBase
             amount = Mathf.FloorToInt(amount * _coinMul); //골드 배율만큼 더 획득
         }
 
-        GainItem(type, amount); // 아이템 누적
-
+        if(type == RewardType.Egg)
+        {
+            int rand = Random.Range(0, _preset.RewardEggs.Length);
+            EggData egg = EggDataGenerator.GenerateRewardEgg(_preset.RewardEggs[rand]);
+            base.GainEgg(egg);
+        }
+        else
+        {
+            GainItem(type, amount); // 아이템 누적
+        }
+  
+        base.GameOver();// 게임결과 저장
         _uiManager.GameEndUiOpen();
     }
     //============== 브릭 등록/해제 ==================
@@ -153,7 +162,14 @@ public class PinballGameManager : MiniGameBase
         _slot3Reward.ResetItem();
 
         //4번 슬롯 세팅
-        LevelReward reward = MiniGameRewardPicker.GetRewardByWeight(_preset.LevelClearRewards);
+        var pool = Manager.Mini.GetAvailableRewardPool(_preset.LevelClearRewards , _rewardReservation);//조건 필터링 리스트
+        LevelReward reward = MiniGameRewardPicker.GetRandomReward(pool , _rewardReservation); //필터된 풀에서 뽑기
+
+        if (reward.RewardType == RewardType.None)
+        {
+            Debug.LogError("보상 풀이 비었음");
+            return;
+        }
         _slot4Reward.Init(reward.RewardType, reward.Amount);
     }
     //===========특수능력 ====================

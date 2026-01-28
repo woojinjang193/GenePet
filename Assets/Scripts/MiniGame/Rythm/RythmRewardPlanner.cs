@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Sprites;
 using UnityEngine;
 
 public class RythmRewardPlanner : MonoBehaviour
@@ -8,8 +7,9 @@ public class RythmRewardPlanner : MonoBehaviour
     [Header("참조")]
     [SerializeField] private RythmFlowController _flow;
 
+    private RythmGameManager _rythmManager;
     // patternIndex -> 확정 보상
-    private Dictionary<int, LevelReward> _fixedPatternRewards = new();
+    private readonly Dictionary<int, LevelReward> _fixedPatternRewards = new();
 
     public event Action<RewardType, int, bool> OnGiveReward; // (type, amount, isLast)
 
@@ -20,12 +20,16 @@ public class RythmRewardPlanner : MonoBehaviour
             _flow.OnLevelStarted += BuildPlanForLevel;
         }
     }
-
+    public void InjectManager(RythmGameManager rythmManager) //외부에서 주입
+    {
+        _rythmManager = rythmManager;
+    }
     // 레벨 시작할 때: 보상 계획을 미리 만든다(고정)
     private void BuildPlanForLevel(RythmLevelPresetSO preset)
     {
-        _fixedPatternRewards.Clear();
         if (preset == null) return;
+
+        _fixedPatternRewards.Clear();
 
         // 1) 이번 레벨에서 줄 보상 개수 N 확정
         int min = Mathf.Max(0, preset.MinItemCount);
@@ -35,15 +39,27 @@ public class RythmRewardPlanner : MonoBehaviour
         if (n <= 0) return;
         if (preset.LevelRewards == null || preset.LevelRewards.Length == 0) return;
 
+        //예약 상태 가져오기(알/방 중복 차단용)
+        var reservation = (_rythmManager != null) ? _rythmManager.RewardReservation : null;
+
+        // 패턴 보상 풀
+        var rewardPool = Manager.Mini.GetAvailableRewardPool(preset.LevelRewards, reservation);
+        if (rewardPool == null || rewardPool.Count == 0) return; //풀 없으면 계획 생성 불가
+
         // 2) 지급될 "패턴 번호"를 미리 뽑아 고정(중복 없이)
-        // 0 ~ (TotalRythmCount-1) 범위에서 n개 선택
         List<int> indices = PickDistinctPatternIndices(_flow.TotalRythmCount, n);
 
-        // 3) LevelRewards에서 가중치로 N개를 미리 뽑아 고정(중복 허용)
+        // 3) 풀에서 N개를 미리 뽑아 patternIndex에 고정
+        //None이 나오면 해당 패턴은 보상 지정하지 않음(일반고기 이벤트랑 충돌 방지)
         for (int i = 0; i < indices.Count; i++)
         {
+            if (rewardPool.Count == 0) break; //풀이 비면 중단
+
             int patternIndex = indices[i];
-            LevelReward picked = PickWeighted(preset.LevelRewards);
+            LevelReward picked = MiniGameRewardPicker.GetRandomReward(rewardPool, reservation);
+
+            if (picked.RewardType == RewardType.None) break; //weight0/실패면 더 이상 계획 생성하지 않음
+
             _fixedPatternRewards[patternIndex] = picked;
         }
     }
@@ -68,7 +84,13 @@ public class RythmRewardPlanner : MonoBehaviour
         if (preset == null) return;
         if (preset.LevelClearRewards == null || preset.LevelClearRewards.Length == 0) return;
 
-        LevelReward picked = PickWeighted(preset.LevelClearRewards);
+        var reservation = (_rythmManager != null) ? _rythmManager.RewardReservation : null; //예약 상태 가져오기
+
+        var clearPool = Manager.Mini.GetAvailableRewardPool(preset.LevelClearRewards, reservation);
+        if (clearPool == null || clearPool.Count == 0) return; //풀 없으면 지급 불가
+
+        LevelReward picked = MiniGameRewardPicker.GetRandomReward(clearPool, reservation);
+
         OnGiveReward?.Invoke(picked.RewardType, picked.Amount, true);
     }
 
@@ -87,26 +109,5 @@ public class RythmRewardPlanner : MonoBehaviour
         }
 
         return pool.GetRange(0, n);
-    }
-
-    private static LevelReward PickWeighted(LevelReward[] rewards)
-    {
-        float total = 0f;
-        for (int i = 0; i < rewards.Length; i++)
-            total += Mathf.Max(0f, rewards[i].Weight);
-
-        if (total <= 0f)
-            return rewards[UnityEngine.Random.Range(0, rewards.Length)];
-
-        float r = UnityEngine.Random.Range(0f, total);
-        float acc = 0f;
-
-        for (int i = 0; i < rewards.Length; i++)
-        {
-            acc += Mathf.Max(0f, rewards[i].Weight);
-            if (r <= acc) return rewards[i];
-        }
-
-        return rewards[rewards.Length - 1];
     }
 }

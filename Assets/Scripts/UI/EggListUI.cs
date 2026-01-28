@@ -66,8 +66,9 @@ public class EggListUI : MonoBehaviour
 
             if (i < _curEggList.Count)
             {
+                RarityType rarity = _curEggList[i].PetSaveData.Rarity;
                 _buttons[i].interactable = true;
-                _images[i].sprite = _curEggList[i].PetSaveData.EggSprite;
+                _images[i].sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(rarity);
             }
             else
             {

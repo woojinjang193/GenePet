@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public static class PetVisualHelper
 {
     public static void ApplyVisual(GenesContainer genes, PetPartSpriteList renderers)
@@ -88,7 +90,10 @@ public static class PetVisualHelper
     }
 
     //파츠 비활성화 
-
+    /// <summary>
+    /// 모든 랜더러를 초기화합니다 (null로 만듬)
+    /// </summary>
+    /// <param name="renderers"></param>
     public static void OffAllParts(PetPartSpriteList renderers)
     {
         renderers.Acc.sprite = null;
@@ -101,7 +106,7 @@ public static class PetVisualHelper
         renderers.Feet.sprite = null;
         renderers.Mouth.sprite = null;
         renderers.Wing.sprite = null;
-        renderers.Tail.sprite = null;
+        renderers.Tail.sprite = null; 
         renderers.Whiskers.sprite = null;
 
         renderers.ArmOut.sprite = null;
@@ -110,5 +115,99 @@ public static class PetVisualHelper
         renderers.FeetOut.sprite = null;
         renderers.WingOut.sprite = null;
         renderers.TailOut.sprite = null;
+    }
+
+    public static void SetSpriteByGrowth(PetPartSpriteList renderers, GrowthStatus growth) //스프라이트 끄고킴
+    {
+        ActiveFalseAll(renderers); //먼저 전부 꺼줌
+
+        if (growth == GrowthStatus.Egg) //알일때
+        {
+            return; //알이면 리턴
+        }
+
+        if (growth == GrowthStatus.Baby) //애기일때
+        {
+            renderers.Eye.gameObject.SetActive(true);
+            renderers.Body.gameObject.SetActive(true);
+            renderers.Ear.gameObject.SetActive(true);
+            renderers.Blush.gameObject.SetActive(true);
+            renderers.Mouth.gameObject.SetActive(true);
+            renderers.Tail.gameObject.SetActive(true);
+
+            renderers.BodyOut.gameObject.SetActive(true);
+            renderers.EarOut.gameObject.SetActive(true);
+            renderers.TailOut.gameObject.SetActive(true);
+
+        }
+        else if (growth == GrowthStatus.Teen) //성장기
+        {
+            renderers.Blush.gameObject.SetActive(true);
+            renderers.Body.gameObject.SetActive(true);
+            renderers.Ear.gameObject.SetActive(true);
+            renderers.Eye.gameObject.SetActive(true);
+            renderers.Mouth.gameObject.SetActive(true);
+            renderers.Tail.gameObject.SetActive(true);
+            renderers.Whiskers.gameObject.SetActive(true);
+            renderers.Arm.gameObject.SetActive(true);
+
+            renderers.ArmOut.gameObject.SetActive(true);
+            renderers.BodyOut.gameObject.SetActive(true);
+            renderers.EarOut.gameObject.SetActive(true);
+            renderers.TailOut.gameObject.SetActive(true);
+        }
+        else if (growth == GrowthStatus.Adult) //어른
+        {
+            renderers.Acc.gameObject.SetActive(true);
+            renderers.Arm.gameObject.SetActive(true);
+            renderers.Blush.gameObject.SetActive(true);
+            renderers.Body.gameObject.SetActive(true);
+            renderers.Ear.gameObject.SetActive(true);
+            renderers.Eye.gameObject.SetActive(true);
+            renderers.Feet.gameObject.SetActive(true);
+            renderers.Mouth.gameObject.SetActive(true);
+            renderers.Pattern.gameObject.SetActive(true);
+            renderers.Wing.gameObject.SetActive(true);
+            renderers.Tail.gameObject.SetActive(true);
+            renderers.Whiskers.gameObject.SetActive(true);
+
+            renderers.ArmOut.gameObject.SetActive(true);
+            renderers.BodyOut.gameObject.SetActive(true);
+            renderers.EarOut.gameObject.SetActive(true);
+            renderers.FeetOut.gameObject.SetActive(true);
+            renderers.WingOut.gameObject.SetActive(true);
+            renderers.TailOut.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("성장상태 이상함 확인 해야함.");
+        }
+    }
+
+    /// <summary>
+    /// 모든 오브젝트를 Off 합니다
+    /// </summary>
+    /// <param name="renderers"></param>
+    public static void ActiveFalseAll(PetPartSpriteList renderers)
+    {
+        renderers.Acc.gameObject.SetActive(false);
+        renderers.Arm.gameObject.SetActive(false);
+        renderers.Blush.gameObject.SetActive(false);
+        renderers.Body.gameObject.SetActive(false);
+        renderers.Pattern.gameObject.SetActive(false);
+        renderers.Ear.gameObject.SetActive(false);
+        renderers.Eye.gameObject.SetActive(false);
+        renderers.Feet.gameObject.SetActive(false);
+        renderers.Mouth.gameObject.SetActive(false);
+        renderers.Wing.gameObject.SetActive(false);
+        renderers.Tail.gameObject.SetActive(false);
+        renderers.Whiskers.gameObject.SetActive(false);
+
+        renderers.ArmOut.gameObject.SetActive(false);
+        renderers.BodyOut.gameObject.SetActive(false);
+        renderers.EarOut.gameObject.SetActive(false);
+        renderers.FeetOut.gameObject.SetActive(false);
+        renderers.WingOut.gameObject.SetActive(false);
+        renderers.TailOut.gameObject.SetActive(false);
     }
 }

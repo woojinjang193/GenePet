@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc91c57b998c8d48b34298bc5fcd4e9, type: 3}
   m_Name: Feet Front 07
   m_EditorClassIdentifier: 
-  ID: 27
+  ID: 107
   DisplayName: 00
-  Rarity: 0
-  sprite: {fileID: 21300000, guid: 8ad87afdd73b37540ba5a4a6dd0f6938, type: 3}
-  Outline: {fileID: 21300000, guid: a5fc0526043a6d9478aabd0e730893fa, type: 3}
+  Rarity: 2
+  sprite: {fileID: 21300000, guid: 1a90da81e21035548b1ac2f0c8c9826b, type: 3}
+  Outline: {fileID: 21300000, guid: 8cdabfccb6565004aa5cc6d018f0dc63, type: 3}
   OrderInLayer: 13

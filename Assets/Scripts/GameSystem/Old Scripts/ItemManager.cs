@@ -11,9 +11,9 @@ public class ItemManager : Singleton<ItemManager>
     // ================= 이벤트 =================
     public event Action OnRewardsGiven; // 한 묶음 보상 지급 완료 알림, 보상 팝업 열기용
     public event Action<int> OnMoneyChanged; //현재 소지 골드 변경 알림
-    public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림
+    public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림 <type, newvalue>
     public event Action OnGiftAmountChanged; //선물 수량 감소 알림
-    public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림
+    public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림 <type, newvalue>
 
     // ================= 연출용 큐 =================
     private Queue<RewardData> _rewardQueue = new Queue<RewardData>();
@@ -61,44 +61,49 @@ public class ItemManager : Singleton<ItemManager>
         for (int i = 0; i < entry.Rewards.Count; i++) // 보상 개수만큼 반복
         {
             var reward = entry.Rewards[i]; // 현재 보상
-            ApplyReward(reward.RewardType, reward.RewardAmount);    // 실제 지급
+            ApplyReward(reward.RewardType, reward.RewardAmount, true);    // 실제 지급
         }
 
         // 외부(UI, 저장 등)에 알림 (메인씬에서만 보여줌)
         OnRewardsGiven?.Invoke();
     }
-    public void GiveMiniGameRewards(List<RewardData> rewards) //미니게임 리워드 지급
+
+    public void GiveMiniGameRewards(List<RewardData> rewards) //미니게임 보상: "지급만"(큐/팝업/이벤트 없음)
     {
         if (rewards == null || rewards.Count == 0) return;
 
+        var user = Manager.Save.CurrentData.UserData; //알 지급에 필요
+
         for (int i = 0; i < rewards.Count; i++)
         {
-            RewardData reward = rewards[i]; 
+            RewardData reward = rewards[i];
             if (reward == null) continue;
 
-            if (reward.Category == RewardCategory.Egg)
+            if (reward.Category == RewardCategory.Egg) //알은 여기서 직접 지급(큐에는 안 넣음)
             {
-                EnqueueEgg(reward.Egg);
+                if (user.EggList == null) user.EggList = new List<EggData>(); //null 방어
+                if (reward.Egg != null) user.EggList.Add(reward.Egg); //알 지급(세이브 반영)
                 continue;
             }
 
-            // 실제 지급(세이브 값 변경 + 큐 적재 + 이벤트 발사)
-            ApplyReward(reward.RewardType, reward.Amount);
+            ApplyReward(reward.RewardType, reward.Amount, false); //아이템 지급만(큐 적재 X)
         }
 
-        OnRewardsGiven?.Invoke();
+        Manager.Save.SaveGame(); //매판 즉시 저장(꺼도 보상 유지)
     }
 
+
     // ==================실제 보상 적용 함수==========================
-    private void ApplyReward(RewardType type, int amount)
+    private void ApplyReward(RewardType type, int amount, bool enqueuePopup) //enqueuePopup = 팝업 큐 적재 여부 옵션
     {
         var user = Manager.Save.CurrentData.UserData;
+        if (user.Items == null) user.Items = new UserItemData(); // Items null 방어
         int newValue = 0;
+        bool granted = true; // 실제로 지급됐는지 여부(지급 안되면 큐/이벤트 막기)
 
         switch (type)
         {
             case RewardType.RemovedAD:
-                // 광고 제거 영구 플래그 저장
                 user.Items.IsAdRemoved = true;
                 Debug.Log("광고 제거 적용");
                 break;
@@ -110,7 +115,7 @@ public class ItemManager : Singleton<ItemManager>
 
             case RewardType.Coin:
                 newValue = user.Items.Money += amount;
-                OnMoneyChanged?.Invoke(user.Items.Money); //소지금 변경 이벤트
+                OnMoneyChanged?.Invoke(user.Items.Money);
                 Debug.Log($"코인 +{amount}");
                 break;
 
@@ -159,23 +164,72 @@ public class ItemManager : Singleton<ItemManager>
                 Debug.Log($"선물3 +{amount}");
                 break;
 
-            case RewardType.Gift4:
-                newValue = user.Items.Gift4 += amount;
-                Debug.Log($"선물4 +{amount}");
-                break;
-
             case RewardType.PetSlot:
-                newValue = Mathf.Clamp(user.PetSlot += amount, 0, Manager.Game.Config.MaxPetAmount); //초과 방어
+                newValue = Mathf.Clamp(user.PetSlot += amount, 0, Manager.Game.Config.MaxPetAmount);
                 Debug.Log($"펫 슬롯 +{amount}");
                 break;
-        }
-        //큐에 추가 
-        _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
 
-        //유아이 업데이트용
-        OnRewardGranted?.Invoke(type, newValue); // 바로 업데이트 해야하는 유아이 있으면 구독하면 됨
+            case RewardType.GrowthBooster:
+                newValue = user.Items.GrowthBooster += amount;
+                Debug.Log($"성장 부스터 +{amount}");
+                break;
+
+            case RewardType.Room_Jump:
+            case RewardType.Room_Rythm:
+            case RewardType.Room_Pinball:
+            case RewardType.Room_Poor:
+            //case RewardType.Room_Cozy:
+            case RewardType.Room_Something:
+                {
+                    if (user.Items.Rooms == null) user.Items.Rooms = new List<Room>();
+
+                    // 매핑 실패면 지급 실패 처리
+                    if (!MiniGameRewardPicker.TryGetRoomFromRewardType(type, out var room)) { granted = false; break; }
+
+                    if (room == Room.Default) { granted = false; break; } // 실수로 Default 룸 설정했을경우 방어
+
+                    if (user.Items.Rooms.Contains(room)) { granted = false; break; } //중복이면 지급 실패 처리
+
+                    user.Items.Rooms.Add(room);
+                    newValue = user.Items.Rooms.Count;
+                    Debug.Log($"방 획득: {room}");
+                    break;
+                }
+            default:
+                granted = false; // 처리 안 된 RewardType은 지급 실패로 간주
+                Debug.LogWarning($"처리되지 않은 보상 타입: {type}");
+                break;
+        }
+        if (!granted) return; //지급 실패면 큐/이벤트/팝업 모두 스킵
+
+        if (!enqueuePopup) return; //지급만 모드면 큐/이벤트 스킵
+
+        _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
+        OnRewardGranted?.Invoke(type, newValue);
     }
 
+    public void EnqueuePopupOnly(List<RewardData> rewards) //이미 지급된 보상을 큐에만 넣고 표시
+    {
+        if (rewards == null || rewards.Count == 0) return;
+
+        for (int i = 0; i < rewards.Count; i++)
+        {
+            RewardData r = rewards[i];
+            if (r == null) continue;
+
+            if (r.Category == RewardCategory.Egg)
+            {
+                EnqueueEgg(r.Egg);
+                continue;
+            }
+
+            _rewardQueue.Enqueue(RewardData.CreateItem(r.RewardType, r.Amount));
+        }
+
+        OnRewardsGiven?.Invoke();
+    }
+
+ 
     // ========================보상 큐==============================
     public bool HasReward()
     {
@@ -212,7 +266,6 @@ public class ItemManager : Singleton<ItemManager>
             case Gift.Gift1: if (item.Gift1 <= 0) { return; }; item.Gift1--; break;
             case Gift.Gift2: if (item.Gift2 <= 0) { return; }; item.Gift2--; break;
             case Gift.Gift3: if (item.Gift3 <= 0) { return; }; item.Gift3--; break;
-            case Gift.Gift4: if (item.Gift4 <= 0) { return; }; item.Gift4--; break;
             case Gift.MasterGift: if (item.MasterGift <= 0) { return; }; item.MasterGift--; break;
         }
         OnGiftAmountChanged?.Invoke();
@@ -254,6 +307,18 @@ public class ItemManager : Singleton<ItemManager>
                 else
                 {
                     newValue = items.GeneticScissors -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+
+            case RewardType.GrowthBooster:
+                if (amount <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    newValue = items.GrowthBooster -= amount;
                 }
                 OnItemConsumed?.Invoke(type, newValue);
                 break;

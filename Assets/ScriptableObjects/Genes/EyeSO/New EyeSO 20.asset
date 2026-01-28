@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d837d3e82f2df479af3c85ccf569a0, type: 3}
   m_Name: New EyeSO 20
   m_EditorClassIdentifier: 
-  ID: 18
+  ID: 20
   DisplayName: 00
-  Rarity: 0
-  sprite: {fileID: 21300000, guid: b66ebdd233e92f548a7696b8f9cc47e8, type: 3}
+  Rarity: 1
+  sprite: {fileID: 21300000, guid: aa67c6898757b8e4bb7e05f37612eb32, type: 3}
   OrderInLayer: 15

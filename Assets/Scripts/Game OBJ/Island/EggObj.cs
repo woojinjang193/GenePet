@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class EggObj : MonoBehaviour
+public class EggObj : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private SpriteRenderer _sprite;
     
     private EggData _data;
     public void Init(EggData egg)
     {
-        _sprite.sprite = egg.PetSaveData.EggSprite;
+        RarityType rarity = egg.PetSaveData.Rarity;
+        _sprite.sprite = Manager.Item.ItemImages.EggRaritySO.GetEggSprite(rarity);
         _data = egg;
     }
 
-    public void OnMouseDown() //알 획득시
+    public void OnPointerDown(PointerEventData eventData) //알 획득시
     {
         var eggHaveList = Manager.Save.CurrentData.UserData.EggList;
         int maxHave = Manager.Game.Config.MaxEggAmount;
