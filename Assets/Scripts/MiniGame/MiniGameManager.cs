@@ -49,7 +49,9 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         CurMiniGame = (MiniGame)index; // 먼저 현재 미니게임 설정
 
-        if (!Manager.Mini.CanPlayMiniGame(out int cost)) return;
+        if (pet.IsLeft) return; //떠난펫일땐 리턴
+
+        if (!Manager.Mini.CanPlayMiniGame(out int cost)) return; //비용검사
 
         switch (CurMiniGame) //씬 이동
         {

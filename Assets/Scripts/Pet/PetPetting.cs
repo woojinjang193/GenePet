@@ -9,7 +9,6 @@ public class PetPetting : MonoBehaviour
     [Header("참조")]
     [SerializeField] private Camera _cam;  // 스크린 >월드 변환용 카메라
     [SerializeField] private Collider2D _petCollider;   // 펫 판정 콜라이더
-    [SerializeField] private ParticleSystem _pettingParticle; //쓰다듬 파티클
 
     [Header("레이어 마스크")]
     [SerializeField] private LayerMask _petLayer;   //펫 레이어
@@ -46,14 +45,12 @@ public class PetPetting : MonoBehaviour
         _isOnPet = false;
         _notMovingTimer = 0f;
         _isPlaying = false;
-        _pettingParticle.Stop();
     }
-
     private void Update()
     {
         if (SelectObject.IsHoldingItem) // 아이템 들고있으면 리턴
         {
-            if (_isPlaying) SetParticle(false); // [수정] 켜져있을 때만 1번 끄기
+            if (_isPlaying) SetParticle(false); // 켜져있을 때만 1번 끄기
             return;
         }
 
@@ -186,14 +183,12 @@ public class PetPetting : MonoBehaviour
     }
     private void SetParticle(bool on)
     {
-        if (_pettingParticle == null) return; //  null 방지
 
         if (on)
         {
             if (!_isPlaying)  // 중복 Play 방지
             {
                 _isPlaying = true;  // 상태 갱신
-                _pettingParticle.Play();  // ON
                 OnPettingChanged?.Invoke(true); //쓰다듬기 이벤트 발생
             }
         }
@@ -202,7 +197,6 @@ public class PetPetting : MonoBehaviour
             if (_isPlaying)  // 중복 Stop 방지
             {
                 _isPlaying = false;   //상태 갱신
-                _pettingParticle.Stop();
                 OnPettingChanged?.Invoke(false); //쓰다듬기 이벤트 발생
             }
         }

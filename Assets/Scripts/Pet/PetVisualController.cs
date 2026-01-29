@@ -30,6 +30,9 @@ public class PetVisualController : MonoBehaviour
     [SerializeField] private Sprite _dirtMid;
     [SerializeField] private Sprite _dirtHigh;
 
+    [Header("쓰다듬 파티클")]
+    [SerializeField] private ParticleSystem _pettingParticle;
+
     [Header("아픔/ 체력감소")]
     [SerializeField] private GameObject _sickImage;
     [SerializeField] private GameObject _healthReducingParticle;
@@ -44,6 +47,10 @@ public class PetVisualController : MonoBehaviour
     private void OnDestroy()
     {
         _petting.OnPettingChanged -= OnPettingPet;
+    }
+    private void OnEnable()
+    {
+        _pettingParticle.Stop();
     }
     public void Init(PetSaveData save, PetUnit unit)
     {
@@ -123,7 +130,6 @@ public class PetVisualController : MonoBehaviour
     //===============청결도 업데이트 이벤트====================
     public void OnCleanlinessChanged(float newValue)
     {
-        Debug.Log($"[OnCleanlinessChanged] newValue={newValue}");
 
         if (newValue <= 10f)
         {
@@ -166,18 +172,23 @@ public class PetVisualController : MonoBehaviour
         Debug.Log($"체력감소 파티클: {on}");
     }
 
-    //================= 눈 바꾸기 유틸 ==================
+    //================= 쓰다듬기 이벤트 ==================
     public void OnPettingPet(bool on)
     {
         if (_pet.Status.Growth == GrowthStatus.Egg) return; //알이면 리턴
+        if (_pet.Status.IsLeft) return; //떠난 상태면 리턴
 
-        if(on == true)
+        if (_pettingParticle == null) return; //  null 방지
+
+        if (on == true)
         {
             _renderers.Eye.sprite = _smileEye;
+            _pettingParticle.Play();
         }
         else
         {
             _renderers.Eye.sprite = _ogEye;
+            _pettingParticle.Stop();
         }
     }
     //===============성장 파티클 이벤트=================================

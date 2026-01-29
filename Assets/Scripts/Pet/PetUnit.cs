@@ -54,6 +54,7 @@ public class PetUnit : MonoBehaviour
         _status.OnSick += _visul.OnSick;
         _status.OnHealthReducing += _visul.OnHealthReducing;
         _status.OnGrown += _visul.OnGrown; //성장이벤트 구독
+
         _petting.OnPettingChanged += OnPettingChanged;
         //Debug.Log($"데이터 로드완료 ID: {_petId}");
 
@@ -137,6 +138,8 @@ public class PetUnit : MonoBehaviour
     {
         if (!on) return;   // 시작(true)일 때만 체크
         if (Status.Growth == GrowthStatus.Egg) return; //알일땐 행복도 안올림
+        if (Status.IsLeft) return; //떠난 상태면 행복도 안올림
+
         //Debug.Log("쓰다듬 쿨타임 체크");
         TryGivePettingHappiness();  // 쿨다운 체크 후 지급
     }

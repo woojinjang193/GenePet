@@ -4,18 +4,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NamePanel : MonoBehaviour
+public class ZoomInUiController : MonoBehaviour
 {
+    [Header("참조")]
     [SerializeField] private PetManager _petManager;
+
+    [Header("네임판넬 활성화시 숨길 UI")]
     [SerializeField] private GameObject[] _hiddenUIs;
+
+    [Header("성장 촉진 버튼")]
     [SerializeField] private GameObject _growthBooster;
 
+    [Header("네임패널")]
     [SerializeField] private TMP_InputField _input;
     [SerializeField] private GameObject _namePanel;
     [SerializeField] private Button _confirmButton;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _errorText;
-
     [SerializeField] private int _nameLengthLimit = 10;
 
     private bool _isSubscribed = false;
@@ -24,10 +29,31 @@ public class NamePanel : MonoBehaviour
     {
         _confirmButton.onClick.AddListener(OnclickedConfirm);
     }
+    private void Start()
+    {
+        _petManager.OnPetComeBack += OnPetComeBack;
+        _petManager.OnPetLeft += OnPetLeft;
+    }
+    private void OnDestroy()
+    {
+        if( _petManager != null )
+        {
+            _petManager.OnPetComeBack -= OnPetComeBack;
+            _petManager.OnPetLeft -= OnPetLeft;
+        }    
+    }
     private void OnEnable()
     {
         if (_petManager.ZoomedUnit == null) return;
 
+        if( _petManager.ZoomedUnit.Status.IsLeft) //펫 떠난생태일때
+        {
+            TurnOnUIs(false, false);
+            _growthBooster.SetActive(false);
+            return;
+        }
+
+        //네임판넬 처리
         if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName)) //이름이 없을때
         {
             _nameText.text = null;
@@ -53,6 +79,7 @@ public class NamePanel : MonoBehaviour
             TurnOnUIs(false, true);
             _growthBooster.SetActive(true);
         }
+
     }
     public void CancelSubscribe()
     {
@@ -89,7 +116,7 @@ public class NamePanel : MonoBehaviour
             go.SetActive(others);
         }
     }
-
+    //=============외부 호출=======================
     private void OnGrown(GrowthStatus growth) //성장 이벤트
     {
         if (growth != GrowthStatus.Egg)
@@ -100,5 +127,27 @@ public class NamePanel : MonoBehaviour
                 _growthBooster.SetActive(false);
             }   
         }
+    }
+    private void OnPetComeBack(PetUnit pet)
+    {
+        if (pet != _petManager.ZoomedUnit) return;
+
+        if (string.IsNullOrWhiteSpace(_petManager.ZoomedPet.DisplayName)) //이름 없을때
+        {
+            TurnOnUIs(true, false);
+            _growthBooster.SetActive(false);
+        }
+        else //이름 있을때
+        {
+            TurnOnUIs(false, true);
+            _growthBooster.SetActive(true);
+        }
+    }
+    private void OnPetLeft(PetUnit pet)
+    {
+        if (pet != _petManager.ZoomedUnit) return;
+
+        TurnOnUIs(false, false);
+        _growthBooster.SetActive(false);
     }
 }

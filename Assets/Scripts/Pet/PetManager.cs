@@ -36,8 +36,11 @@ public class PetManager : MonoBehaviour
     private LetterPanel _letterPanel; //이벤트 구독용
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
 
-    public Action OnPetSpawned;
-    public Action OnPetRemoved;
+    public event Action OnPetSpawned;
+    public event Action OnPetRemoved;
+
+    public event Action<PetUnit> OnPetComeBack;
+    public event Action<PetUnit> OnPetLeft;
     private void Awake()
     {
         _accum = 0f;
@@ -71,7 +74,6 @@ public class PetManager : MonoBehaviour
             Debug.Log("종료중이라 리턴");
             return;
         }
-        
 
         if (Manager.Save == null || Manager.Save.CurrentData == null || Manager.Save.CurrentData.UserData == null)
         {
@@ -105,8 +107,6 @@ public class PetManager : MonoBehaviour
         if (!pause)
             ApplyOfflineTimeFromSave();
     }
-
-
     private void OnDestroy()
     {
         if (_letterPanel != null)
@@ -270,7 +270,6 @@ public class PetManager : MonoBehaviour
         _uiManager.UpdateEnergyBar(user.Energy); // UI 갱신
     }
 
-
     private void SaveAllStatus()
     {
         if (Manager.Save.CurrentData == null)
@@ -320,6 +319,7 @@ public class PetManager : MonoBehaviour
         Debug.Log("<color=green>펫 데이터 저장완료</color>");
 
     }
+    //======================펫 줌 인/아웃==================================
     public void ZoomInPet(PetUnit unit)
     {
         if (unit == null) return;
@@ -447,6 +447,7 @@ public class PetManager : MonoBehaviour
     {
         RequestGaugeUpdate();
     }
+    // =================펫 떠남처리===========================
     private void PetLeft(PetUnit pet)
     {
         LeftReason reason = FineReasonForLeaving(pet.Status);
@@ -465,6 +466,8 @@ public class PetManager : MonoBehaviour
         {
             Debug.LogError("펫 비주얼 컨트롤러 못찾음");
         }
+
+        OnPetLeft?.Invoke(pet);
     }
     //펫 돌아왔을때 처리===============================================
     private void PetComeBack()
@@ -486,6 +489,8 @@ public class PetManager : MonoBehaviour
 
             petvisul.SetSprite(ZoomedUnit.Status.Growth);
             RequestGaugeUpdate();
+
+            OnPetComeBack?.Invoke(ZoomedUnit);
         }
         else
         {

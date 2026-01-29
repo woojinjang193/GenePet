@@ -1871,6 +1871,7 @@ MonoBehaviour:
   _dirtLow: {fileID: 21300000, guid: 137d3cd7725a6c44cb7f537a50ea268c, type: 3}
   _dirtMid: {fileID: 21300000, guid: 665cdd4bf3c13c144947e41073a985b7, type: 3}
   _dirtHigh: {fileID: 21300000, guid: 946d2bef7bd5b294e80f12ec50c8660e, type: 3}
+  _pettingParticle: {fileID: 7770038037845433050}
   _sickImage: {fileID: 241661492565061739}
   _healthReducingParticle: {fileID: 8406421369502496954}
 --- !u!114 &8396101238676641885
@@ -1907,7 +1908,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cam: {fileID: 0}
   _petCollider: {fileID: 1551952634829505269}
-  _pettingParticle: {fileID: 7770038037845433050}
   _petLayer:
     serializedVersion: 2
     m_Bits: 1024

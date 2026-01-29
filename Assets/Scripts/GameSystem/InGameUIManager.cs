@@ -16,8 +16,8 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private EnergySlider _energySlider;
     [Header("리워드 UI")]
     [SerializeField] private RewardPopUp _rewardUI;
-    [Header("이름 판넬")]
-    [SerializeField] private NamePanel _namePanel;
+    [Header("줌인 UI 컨트롤러")]
+    [SerializeField] private ZoomInUiController _zoomedUIController;
     [Header("펫소환 버튼")]
     [SerializeField] private Button _spawnPetButton;
 
@@ -76,6 +76,7 @@ public class InGameUIManager : MonoBehaviour
         _zoomOutButton.gameObject.SetActive(true);
         _mainUI.SetActive(false);
         _zoomedUI.SetActive(true);
+       // _zoomedUIController.
         _spawnPetButton.interactable = false;
     }
 
@@ -85,7 +86,7 @@ public class InGameUIManager : MonoBehaviour
         _zoomOutButton.gameObject.SetActive(false);
         _mainUI.SetActive(true);
         _zoomedUI.SetActive(false);
-        _namePanel.CancelSubscribe();
+        _zoomedUIController.CancelSubscribe();
         _spawnPetButton.interactable = true;
     }
 

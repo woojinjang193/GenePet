@@ -27211,7 +27211,7 @@ MonoBehaviour:
   _letterPanel: {fileID: 1937883591}
   _energySlider: {fileID: 1321805737}
   _rewardUI: {fileID: 561160249866252705}
-  _namePanel: {fileID: 920031022}
+  _zoomedUIController: {fileID: 920031022}
   _spawnPetButton: {fileID: 1986990624}
   _camera: {fileID: 519420033}
   _petManager: {fileID: 1811970253}
