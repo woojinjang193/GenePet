@@ -23,6 +23,8 @@ public class PetUnit : MonoBehaviour
     private float _pettingHappinessAdd;     //한 번에 오르는 행복도
 
     private PetSaveData _saveRef;
+
+    public PetSaveData SaveData => _saveRef;
     private void OnDestroy()
     {
         _status.OnCleanlinessChanged -= _visul.OnCleanlinessChanged;

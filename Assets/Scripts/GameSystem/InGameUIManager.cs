@@ -100,15 +100,17 @@ public class InGameUIManager : MonoBehaviour
     }
     public void TryOpenLetter(PetUnit pet, LeftReason reason) //편지오픈 조건 검사
     {
-        if (_petManager.ZoomedUnit != pet)
-            return;
+        if (_petManager.ZoomedUnit != pet) return;
 
-        OpenLetterPanel(reason);
+        GrowthStatus growth = _petManager.ZoomedUnit.Status.Growth;
+        PetSaveData saveData = _petManager.ZoomedUnit.SaveData;
+
+        OpenLetterPanel(reason, saveData, growth);
     }
-    private void OpenLetterPanel(LeftReason reason) //편지 UI 오픈
+    private void OpenLetterPanel(LeftReason reason, PetSaveData saveData, GrowthStatus growth) //편지 UI 오픈
     {
         _letterPanel.gameObject.SetActive(true);
-        _letterPanel.WriteLetter(reason);
+        _letterPanel.SetLetter(reason, saveData, growth);
     }
 
     public void UpdateEnergyBar(int newValue) //에너지 바 업데이트

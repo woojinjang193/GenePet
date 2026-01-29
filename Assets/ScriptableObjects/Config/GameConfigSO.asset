@@ -29,7 +29,7 @@ MonoBehaviour:
   MealFullnessGain: 10
   MealCleanlinessDecrease: 3
   SnackFullnessGain: 30
-  SnackExpGain: 20
+  SnackExpGain: 15
   SnackCleanlinessDecrease: 5
   RandomSpawnPrice: 500
   ComeBackHunger: 20

@@ -10,6 +10,9 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     [Header("유저가 보게될 그림")]
     [SerializeField] private Image _reasonSprite;
 
+    [Header("사진")]
+    [SerializeField] private PetPictureOnLetter _picture;
+
     [Header("떠난 이유 스프라이트\nKOR = 0, ENG = 1, DE = 2, JP = 3, CH = 4")]
     [SerializeField] private Sprite[] _hunger;
     [SerializeField] private Sprite[] _dirty;
@@ -18,9 +21,6 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     [SerializeField] private Sprite[] _noReason;
 
     [Header("버튼 & 아이템 소지 수")]
-    //[SerializeField] private Button _callingButton;
-    //[SerializeField] private TMP_Text _callingAmount;
-
     [SerializeField] private Button _missingPosterButton;
     [SerializeField] private TMP_Text _missingPosterAmount;
 
@@ -33,23 +33,34 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
 
     private void Awake()
     {
-        //_callingButton.onClick.AddListener(OnCallingClicked);
         _missingPosterButton.onClick.AddListener(OnMissingPosterClicked);
         _giveUpButton.onClick.AddListener(OnGiveUpClicked);
         _closeButton.onClick.AddListener(OnCloseClicked);
 
+        Manager.Item.OnRewardGranted += UpdateAmount;
+
+    }
+    private void OnDestroy()
+    {
+        if(Manager.Item != null)
+        Manager.Item.OnRewardGranted -= UpdateAmount;
     }
     private void OnEnable()
     {
-        //_callingAmount.text = "0";
-        _missingPosterAmount.text = Manager.Save.CurrentData.UserData.Items.MissingPoster.ToString();
+        int amount = Manager.Save.CurrentData.UserData.Items.MissingPoster;
+        _missingPosterAmount.text = $"x{amount}";
     }
-    public void WriteLetter(LeftReason reason)
+    public void SetLetter(LeftReason reason, PetSaveData pet, GrowthStatus growth)
+    {
+        WriteLetter(reason);
+        _picture.SetPictureOnLetter(pet, growth);
+    }
+    private void WriteLetter(LeftReason reason)
     {
         _curLanguage = Manager.Lang.CurLanguage;
         switch (reason)
         {
-            case LeftReason.Hunger: 
+            case LeftReason.Hunger:
                 _reasonSprite.sprite = _hunger[(int)_curLanguage];
                 break;
             case LeftReason.Dirty:
@@ -65,9 +76,6 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
                 _reasonSprite.sprite = _noReason[(int)_curLanguage];
                 break;
         }
-    }
-    private void OnCallingClicked()
-    {
     }
     private void OnMissingPosterClicked()
     {
@@ -104,4 +112,11 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         }
     }
     public void Canceled() { }
+
+    private void UpdateAmount(RewardType item, int newValue)
+    {
+        if (item != RewardType.MissingPoster) return;
+
+        _missingPosterAmount.text = $"x{newValue}";
+    }
 }

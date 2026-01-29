@@ -100,15 +100,15 @@ public class PetPartImageList
         Body.gameObject.SetActive(true);
         Ear.gameObject.SetActive(true);
         Eye.gameObject.SetActive(true);
-        Feet.gameObject.SetActive(true);
         Mouth.gameObject.SetActive(true);
         Tail.gameObject.SetActive(true);
         Whiskers.gameObject.SetActive(true);
+        Arm.gameObject.SetActive(true);
 
         BodyOut.gameObject.SetActive(true);
         EarOut.gameObject.SetActive(true);
-        FeetOut.gameObject.SetActive(true);
         TailOut.gameObject.SetActive(true);
+        ArmOut.gameObject.SetActive(true);
     }
     public void SetAdult()
     {
