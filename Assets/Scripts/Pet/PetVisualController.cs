@@ -1,3 +1,4 @@
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class PetVisualController : MonoBehaviour
@@ -67,49 +68,35 @@ public class PetVisualController : MonoBehaviour
 
     public void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
     {
-        //HideAllParts();
-        PetVisualHelper.ActiveFalseAll(_renderers);
+        Debug.Log($"[SetSprite] cleanliness={_pet.Status.Cleanliness}");
 
         if (growth == GrowthStatus.Egg) //알일때
         {
             _egg.gameObject.SetActive(true);
-
+            _dirtRenderer.gameObject.SetActive(false); //알일땐 더러움 꺼두기
             Debug.Log("Egg 상태 스프라이트 세팅");
             return;
         }
 
-        PetVisualHelper.SetSpriteByGrowth(_renderers, growth);
+        PetVisualHelper.SetSpriteByGrowth(_renderers, growth); //파츠 세팅
 
-        _egg.gameObject.SetActive(false);
+        _dirtRenderer.gameObject.SetActive(true); //더러움 켜줌
+        _letter.gameObject.SetActive(false); //편지 꺼줌
+        _egg.gameObject.SetActive(false); //알 꺼줌
+
+        OnCleanlinessChanged(_pet.Status.Cleanliness);//더러움 설정
     }
 
     private void HideAllParts()
     {
-        if (_egg != null) _egg.gameObject.SetActive(false);
-        _letter.gameObject.SetActive(false);
-        // 베이스 끄기
-        _renderers.Acc?.gameObject.SetActive(false);
-        _renderers.Arm?.gameObject.SetActive(false);
-        _renderers.Blush?.gameObject.SetActive(false);
-        _renderers.Body?.gameObject.SetActive(false);
-        _renderers.Ear?.gameObject.SetActive(false);
-        _renderers.Eye?.gameObject.SetActive(false);
-        _renderers.Feet?.gameObject.SetActive(false);
-        _renderers.Mouth?.gameObject.SetActive(false);
-        _renderers.Pattern?.gameObject.SetActive(false);
-        _renderers.Wing?.gameObject.SetActive(false);
-        _renderers.Tail?.gameObject.SetActive(false);
-        _renderers.Whiskers?.gameObject.SetActive(false);
-        _dirtRenderer?.gameObject.SetActive(false);
+        if (_egg != null) _egg.gameObject.SetActive(false); //알 끄기
+        _letter.gameObject.SetActive(false); //편지 끄기
 
-        // 아웃라인 끄기
-        _renderers.ArmOut?.gameObject.SetActive(false);
-        _renderers.BodyOut?.gameObject.SetActive(false);
-        _renderers.EarOut?.gameObject.SetActive(false);
-        _renderers.FeetOut?.gameObject.SetActive(false);
-        _renderers.WingOut?.gameObject.SetActive(false);
-        _renderers.TailOut?.gameObject.SetActive(false);
+        PetVisualHelper.ActiveFalseAll(_renderers); //파츠 다 꺼줌
+
+        _dirtRenderer.gameObject.SetActive(false); //더러움 꺼줌
     }
+    //편지 켜줌
     public void LetterOn(LeftReason reason)
     {
         HideAllParts();
@@ -133,23 +120,26 @@ public class PetVisualController : MonoBehaviour
             _letter.SetClickable(on);
         }
     }
+    //===============청결도 업데이트 이벤트====================
     public void OnCleanlinessChanged(float newValue)
     {
-        if(newValue < 10f)
+        Debug.Log($"[OnCleanlinessChanged] newValue={newValue}");
+
+        if (newValue <= 10f)
         {
             if(_dirtRenderer.sprite != _dirtHigh)
             {
                 _dirtRenderer.sprite = _dirtHigh;
             }   
         }
-        else if(newValue < 30f)
+        else if(newValue <= 30f)
         {
             if (_dirtRenderer.sprite != _dirtMid)
             {
                 _dirtRenderer.sprite = _dirtMid;
             }
         }
-        else if(newValue < 50f)
+        else if(newValue <= 50f)
         {
             if (_dirtRenderer.sprite != _dirtLow)
             {
@@ -164,7 +154,6 @@ public class PetVisualController : MonoBehaviour
             }
         }
     }
-
     public void OnSick(bool on)
     {
         _sickImage.SetActive(on);

@@ -95,7 +95,8 @@ public sealed class PetController : MonoBehaviour
         _mouthAnim.SetTrigger("Eat");
         _pet.Petmanager.UpdateStatus();
     }
-    public void Clean(float amount)
+    //===================씻기기==========================
+    public void Clean(float amount) 
     {
         _cleaningAccum += amount; //이동거리 누적
 

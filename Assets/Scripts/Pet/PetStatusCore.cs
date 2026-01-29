@@ -85,7 +85,7 @@ public class PetStatusCore
         //청결도 조건
         if (Cleanliness < 50f)
         {
-            OnCleanlinessChanged?.Invoke(Cleanliness); //PetUnit 에서 구독
+            OnCleanlinessChanged?.Invoke(Cleanliness); //PetUnit 에서 구독 
         }
 
         //아픔 조건

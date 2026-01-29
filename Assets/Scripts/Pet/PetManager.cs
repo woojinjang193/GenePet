@@ -466,6 +466,7 @@ public class PetManager : MonoBehaviour
             Debug.LogError("펫 비주얼 컨트롤러 못찾음");
         }
     }
+    //펫 돌아왔을때 처리===============================================
     private void PetComeBack()
     {
         if(ZoomedUnit == null) return;
@@ -476,16 +477,15 @@ public class PetManager : MonoBehaviour
 
         if (petvisul)
         {
-            petvisul.SetSprite(ZoomedUnit.Status.Growth);
-
             ZoomedUnit.Status.SetValues(PetStat.Hunger, gameConfig.ComeBackHunger);
             ZoomedUnit.Status.SetValues(PetStat.Cleanliness, gameConfig.ComeBackCleanliness);
             ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, gameConfig.ComeBackHappiness);
             ZoomedUnit.Status.SetValues(PetStat.Health, gameConfig.ComeBackHealth);
-            RequestGaugeUpdate();
-
             ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
             ZoomedUnit.LeftHandled = false;
+
+            petvisul.SetSprite(ZoomedUnit.Status.Growth);
+            RequestGaugeUpdate();
         }
         else
         {
