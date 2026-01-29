@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class SelectPet : MonoBehaviour, IConfirmRequester
 {
-    //[Header("플러스 아이콘")]
-    //[SerializeField] private GameObject _plusIcon;  //굳이 안넣어도 될거같음
+    [Header("플러스 아이콘")]
+    [SerializeField] private GameObject _plusIcon;
 
     [Header("비쥬얼 로더")]
     [SerializeField] private IslandPetVisualLoader _visualLoader;
@@ -39,6 +39,7 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
         _petList.Clear();
         GetPetList();
 
+        _plusIcon.SetActive(false);
         string selectedId = _islandManager.IslandMyPetID;
 
         if (string.IsNullOrWhiteSpace(selectedId))
