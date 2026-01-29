@@ -135,6 +135,4 @@ public class InGameUIManager : MonoBehaviour
 
         Manager.Mini.StartMiniGame(pet, index);
     }
-
-
 }

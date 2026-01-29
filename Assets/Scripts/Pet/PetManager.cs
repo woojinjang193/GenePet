@@ -469,7 +469,7 @@ public class PetManager : MonoBehaviour
 
         OnPetLeft?.Invoke(pet);
     }
-    //펫 돌아왔을때 처리===============================================
+    //==================================펫 돌아왔을때 처리===============================================
     private void PetComeBack()
     {
         if(ZoomedUnit == null) return;
@@ -486,6 +486,8 @@ public class PetManager : MonoBehaviour
             ZoomedUnit.Status.SetValues(PetStat.Health, gameConfig.ComeBackHealth);
             ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
             ZoomedUnit.LeftHandled = false;
+
+            SaveAllStatus();//세이브 데이터에 저장
 
             petvisul.SetSprite(ZoomedUnit.Status.Growth);
             RequestGaugeUpdate();
