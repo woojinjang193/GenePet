@@ -604,7 +604,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 07b430b20b7b99f48af10f494c1a1e5e, type: 2}
   - {fileID: 11400000, guid: 6b819d1c83b7d2548b39528022b10258, type: 2}
   - {fileID: 11400000, guid: 51084595636b8ca4e84efbdfa9114260, type: 2}
-  _miniGameCosts: 020000000200000002000000
+  _miniGameCosts: 010000000100000001000000
 --- !u!4 &384484730
 Transform:
   m_ObjectHideFlags: 0
@@ -889,6 +889,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ad4149f11a10945ad3fdefcf98d29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPinballScene: 0
+  _pinballUI: {fileID: 0}
   _baseAspect: 0.5625
   _baseOrthoSize: 5
   _maxTallAspect: 0.45

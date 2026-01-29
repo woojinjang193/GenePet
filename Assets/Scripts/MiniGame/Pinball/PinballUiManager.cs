@@ -12,7 +12,7 @@ public class PinballUiManager : MonoBehaviour
     [SerializeField] private PinballGameManager _pinballManager;
 
     [Header("게임끝 판넬")]
-    [SerializeField] private GameObject _titlePanel;
+    [SerializeField] private PinballTitlePanel _titlePanel;
     [SerializeField] private float _EndPanelOpenDelay = 2;
 
     [Header("슬롯")]
@@ -70,8 +70,12 @@ public class PinballUiManager : MonoBehaviour
     private IEnumerator OpenEndPanel()
     {
         yield return new WaitForSeconds(_EndPanelOpenDelay);
-        _titlePanel.SetActive(true);
-        //_titlePanel.UpdateScore();
+        
+        //스코어 업데이트
+        int curScore = _pinballManager.Score;
+        int bestScore = Manager.Mini.GetBestScore(MiniGame.Pinball);
+        _titlePanel.UpdateScore(curScore, bestScore);
+        _titlePanel.gameObject.SetActive(true);
     }
     //===================플레이어가 룰렛존 진입시 호출===========================
     private void CloseSlots()
