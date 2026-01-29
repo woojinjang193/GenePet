@@ -68,6 +68,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
         CurPet = null;
         CurMiniGame = MiniGame.Null;
 
+        Manager.Pool.Clear(); // 풀 비워줌
         SceneManager.LoadScene("InGameScene");
     }
     public void AccumulateRewards(List<RewardData> rewards) //한 판 끝날 때 보상표시큐 누적만

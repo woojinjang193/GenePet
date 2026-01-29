@@ -61,18 +61,27 @@ public class PinballUiManager : MonoBehaviour
             text.gameObject.SetActive(false);
         }
     }
+    //게임종료 UI 오픈===========================
     public void GameEndUiOpen()
     {
         StartCoroutine(OpenEndPanel());
     }
+
     private IEnumerator OpenEndPanel()
     {
         yield return new WaitForSeconds(_EndPanelOpenDelay);
         _titlePanel.SetActive(true);
+        //_titlePanel.UpdateScore();
     }
-    private void CloseSlots() //플레이어가 룰렛존 진입시 호출
+    //===================플레이어가 룰렛존 진입시 호출===========================
+    private void CloseSlots()
     {
         _slotPanel.SetActive(false);
+
+        //개수 텍스트 초기화
+        _slot1Text.text = "";
+        _slot2Text.text = "";
+        _slot3Text.text = "";
     }
     private void ResetUis() //게임 시작시 호출
     {

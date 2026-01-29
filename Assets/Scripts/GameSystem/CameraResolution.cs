@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraResolution : MonoBehaviour
 {
-    private Camera _cam; // [유지] 카메라 캐시
+    private Camera _cam; // 카메라 캐시
 
     [Header("핀볼UI 전용")]
     [SerializeField] private bool _isPinballScene = false;

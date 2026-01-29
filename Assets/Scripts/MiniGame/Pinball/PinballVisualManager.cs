@@ -59,8 +59,8 @@ public class PinballVisualManager : MonoBehaviour
             case BrickColor.three: particle = _color3DestroyParticle; break;
             default: particle = _color0DestroyParticle; break; //없으면 기본 파티클
         }
-
-        GameObject go = Instantiate(particle, worldPos, Quaternion.identity, transform); //TODO: 풀로 변경
+        GameObject go = Manager.Pool.Get(particle, worldPos, transform);
+        //GameObject go = Instantiate(particle, worldPos, Quaternion.identity, transform); //TODO: 풀로 변경
 
         StartCoroutine(ParticleRoutine(go));
     }
@@ -70,23 +70,27 @@ public class PinballVisualManager : MonoBehaviour
         yield return new WaitForSeconds(_particleDuration);
         go.SetActive(false);
 
-        Destroy(go); //TODO: 풀로 변경
+        Manager.Pool.Release(go);
+        //Destroy(go); //TODO: 풀로 변경
     }
     // =========== 아이템 획득시 ====================
     private void OnGivenItem(BrickColor color, LevelReward reward, Vector3 worldPos)
     {
         if (_uiCanvas == null) return;
-        if(color == BrickColor.None && reward.RewardType == RewardType.None) return;
+        if (color == BrickColor.None && reward.RewardType == RewardType.None) return;
 
         // UI 아이콘 생성(캔버스 아래)
         RectTransform canvasRect = _uiCanvas.transform as RectTransform;
-        GameObject go = Instantiate(_itemIcon, _uiCanvas.transform);  //TODO: 풀로 교체
+
+        GameObject go = Manager.Pool.Get(_itemIcon, Vector3.zero, _uiCanvas.transform); //UI는 position 0으로 둠
+        //GameObject go = Instantiate(_itemIcon, _uiCanvas.transform);  //TODO: 풀로 교체
         RectTransform iconRect = go.GetComponent<RectTransform>();
 
         Image iconImg = go.GetComponent<Image>();
+        if (iconImg != null) iconImg.color = Color.white; //알파 초기화용
 
         //  reward에 맞는 스프라이트로 세팅
-        if(Manager.Item != null)
+        if (Manager.Item != null)
         {
             iconImg.sprite = Manager.Item.ItemImages.GetItemSprite(reward.RewardType);
         }
@@ -114,7 +118,8 @@ public class PinballVisualManager : MonoBehaviour
 
         if (target == null)
         {
-            Destroy(go);  //TODO: 풀로 교체
+            Manager.Pool.Release(go);
+            //Destroy(go);  //TODO: 풀로 교체
             return;
         }
 
@@ -144,7 +149,8 @@ public class PinballVisualManager : MonoBehaviour
             yield return null;
         }
 
-        Destroy(go); //TODO: 풀로 교체
+        Manager.Pool.Release(go);
+        //Destroy(go); //TODO: 풀로 교체
     }
     private IEnumerator ItemFlyRoutine(GameObject go, RectTransform iconRect, Vector2 targetLocal, BrickColor color, Sprite icon, int rewardAmount)
     {

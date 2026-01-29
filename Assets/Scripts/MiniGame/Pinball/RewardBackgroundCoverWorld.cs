@@ -14,7 +14,7 @@ public class RewardBackgroundCoverWorld : MonoBehaviour
     private RectTransform _parent;
     private Camera _cam;
 
-    private bool _dirty; // [추가] 재적용 필요 플래그
+    private bool _dirty; // 재적용 필요 플래그
 
     private void Awake()
     {
