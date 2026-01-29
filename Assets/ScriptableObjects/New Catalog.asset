@@ -74,3 +74,8 @@ MonoBehaviour:
     Rewards:
     - RewardType: 20
       RewardAmount: 1
+  - ProductId: roompoor
+    ProductType: 0
+    Rewards:
+    - RewardType: 16
+      RewardAmount: 1

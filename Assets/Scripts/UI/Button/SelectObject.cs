@@ -43,7 +43,8 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
         _feedButton.onClick.AddListener(OpenFoodList);
         _cleanButton.onClick.AddListener(OpenCleanList);
 
-        Manager.Item.OnItemConsumed += OnSnackConsumed;
+        Manager.Item.OnItemConsumed += OnUiUpdate;
+        Manager.Item.OnRewardGranted += OnUiUpdate;
     }
     private void OnEnable()
     {
@@ -60,7 +61,8 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
     {
         if(Manager.Item != null)
         {
-            Manager.Item.OnItemConsumed -= OnSnackConsumed;
+            Manager.Item.OnItemConsumed -= OnUiUpdate;
+            Manager.Item.OnRewardGranted -= OnUiUpdate;
         }
     }
     private void OpenFoodList()
@@ -145,13 +147,12 @@ public class SelectObject : MonoBehaviour, IPointerDownHandler
 
         if (Input.GetMouseButtonUp(0)) EndDrag();
     }
-    private void OnSnackConsumed(RewardType type, int newValue)
+    private void OnUiUpdate(RewardType type, int newValue)
     {
         if (type != RewardType.Snack) return;
 
         _snackAmount.text = $"x {newValue.ToString()}";
     }
-
     private void EndDrag() // 종료 처리를 한 곳으로 모음
     {
         if (_currentObj != null) _currentObj.SetActive(false);

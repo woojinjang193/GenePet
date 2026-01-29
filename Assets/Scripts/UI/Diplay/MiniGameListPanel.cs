@@ -19,6 +19,9 @@ public class MiniGameListPanel : MonoBehaviour
     [Header("타이틀")]
     [SerializeField] private TMP_Text _text;
 
+    [Header("최고점수")]
+    [SerializeField] private TMP_Text _bestScoreText;
+
     private int _curIndex = 0;
 
     private void Awake()
@@ -35,9 +38,13 @@ public class MiniGameListPanel : MonoBehaviour
             return;
         }
 
+        int bestScore = Manager.Mini.GetBestScore(MiniGame.Jump);
+
         _curIndex = 0;
         _text.text = "Jump Jump";
-        SetImage();
+        _bestScoreText.text = bestScore.ToString();
+
+        UpdateUI();
     }
     private void OnLeftButtonClicked()
     {
@@ -49,7 +56,7 @@ public class MiniGameListPanel : MonoBehaviour
             _curIndex = _sprites.Length - 1;
         }
 
-        SetImage();
+        UpdateUI();
     }
     private void OnRightButtonClicked()
     {
@@ -61,9 +68,9 @@ public class MiniGameListPanel : MonoBehaviour
             _curIndex = 0;
         }
 
-        SetImage();
+        UpdateUI();
     }
-    private void SetImage()
+    private void UpdateUI()
     {
         if (_spriteRenderer == null) return;
 
@@ -78,12 +85,11 @@ public class MiniGameListPanel : MonoBehaviour
 
         switch(_curIndex)
         {
-            case 0: _text.text = "Jump Jump"; break;
-            case 1: _text.text = "Rythm?"; break;
-            case 2: _text.text = "Pinball"; break;
+            case 0: _text.text = "Jump Jump"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Jump).ToString();  break;
+            case 1: _text.text = "Fishing"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Rythm).ToString(); break;
+            case 2: _text.text = "Pinball"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Pinball).ToString(); break;
         }
     }
-
     private void OnPlayButtonClicked()
     {
         if (_sprites == null || _sprites.Length == 0) return;

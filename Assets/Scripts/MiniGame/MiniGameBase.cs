@@ -94,6 +94,7 @@ public class MiniGameBase : MonoBehaviour
         if (!_isPlaying) return;
 
         _score += amount;
+        if(_score < 0) _score = 0;
     }
 
     // ===== 아이템 =====

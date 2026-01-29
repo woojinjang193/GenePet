@@ -11,11 +11,8 @@ public class RythmUiManager : MonoBehaviour
     [SerializeField] private GameObject[] _playerHearts;
 
     [Header("타이틀 판넬")]
-    [SerializeField] private GameObject _titlePanel;
+    [SerializeField] private RythmGameTitlePanel _titlePanel;
 
-    private void Awake()
-    {
-    }
     public void SetHeart(int amount) //하트 켜줌
     {
         if (amount <= 0) return;
@@ -42,10 +39,9 @@ public class RythmUiManager : MonoBehaviour
             }
         }
     }
-    
-    
-    public void GameOverPanelOn()
+    public void GameOverPanelOn(int curScore, int bestScore)
     {
-        _titlePanel.SetActive(true);
+        _titlePanel.UpdateScore(curScore, bestScore);
+        _titlePanel.gameObject.SetActive(true);
     }
 }

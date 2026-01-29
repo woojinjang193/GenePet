@@ -212,7 +212,6 @@ public class ItemManager : Singleton<ItemManager>
         _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
         OnRewardGranted?.Invoke(type, newValue);
     }
-
     public void EnqueuePopupOnly(List<RewardData> rewards) //이미 지급된 보상을 큐에만 넣고 표시
     {
         if (rewards == null || rewards.Count == 0) return;
@@ -233,7 +232,6 @@ public class ItemManager : Singleton<ItemManager>
 
         OnRewardsGiven?.Invoke();
     }
-
  
     // ========================보상 큐==============================
     public bool HasReward()

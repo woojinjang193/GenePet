@@ -65,7 +65,7 @@ public class PoolManager : Singleton<PoolManager>
 
         obj.SetActive(false); // 비활성화
         obj.transform.SetParent(transform); // 풀 매니저 밑으로 정리
-        obj.transform.localScale = Vector3.one; //풀 보관 중 스케일 정리(다음 사용 시 튐 방지)
+        //obj.transform.localScale = Vector3.one; //풀 보관 중 스케일 정리(다음 사용 시 튐 방지)
         _pool[prefab].Push(obj); // 풀에 다시 넣기
     }
 

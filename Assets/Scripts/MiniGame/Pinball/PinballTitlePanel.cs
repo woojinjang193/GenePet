@@ -22,7 +22,6 @@ public class PinballTitlePanel : MonoBehaviour
     [SerializeField] private GameObject _curScoreSPrite;
     [SerializeField] private GameObject _newRecordSprite;
 
-
     private void Awake()
     {
         _startButton.onClick.AddListener(OnStartButtonClicked);
@@ -30,6 +29,9 @@ public class PinballTitlePanel : MonoBehaviour
         _goHomeButton.onClick.AddListener(OnGoHomeButtonClicked);
 
         int bestScore = Manager.Mini.GetBestScore(MiniGame.Pinball);
+
+        _curScoreSPrite.SetActive(false);
+        _newRecordSprite.SetActive(false);
         _bestScoreText.text = bestScore.ToString();
         _curScoreText.text = "";
     }
@@ -39,7 +41,7 @@ public class PinballTitlePanel : MonoBehaviour
     }
     public void UpdateScore(int curScore, int bestScore)
     {
-        bool isNewRecord = curScore > bestScore;
+        bool isNewRecord = curScore == bestScore;
 
         _newRecordSprite.SetActive(isNewRecord);
         _curScoreSPrite.SetActive(true);
