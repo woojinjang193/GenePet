@@ -1,9 +1,14 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
 public class CameraResolution : MonoBehaviour
 {
     private Camera _cam; // [유지] 카메라 캐시
+
+    [Header("핀볼UI 전용")]
+    [SerializeField] private bool _isPinballScene = false;
+    [SerializeField] private RewardBackgroundCoverWorld _pinballUI;
 
     [Header("Base (9:16)")]
     [SerializeField] private float _baseAspect = 9f / 16f;  // 기준 비율(9:16, width/height)
@@ -49,6 +54,11 @@ public class CameraResolution : MonoBehaviour
             _cam.rect = GetLetterboxRect(currentAspect, _maxTallAspect); // 20:9 영역만 그리기
         else
             _cam.rect = new Rect(0f, 0f, 1f, 1f); // 정상 범위면 전체 사용
+
+        if(_isPinballScene == true )
+        {
+            _pinballUI.RequestApply();
+        }
     }
 
     private Rect GetLetterboxRect(float windowAspect, float targetAspect)
