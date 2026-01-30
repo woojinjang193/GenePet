@@ -13,47 +13,47 @@ MonoBehaviour:
   m_Name: New Catalog
   m_EditorClassIdentifier: 
   _entries:
-  - ProductId: coin5000
+  - ProductId: gold_coin5000
     ProductType: 0
     Rewards:
     - RewardType: 1
       RewardAmount: 5000
-  - ProductId: ticket
+  - ProductId: gold_ticket
     ProductType: 0
     Rewards:
     - RewardType: 3
       RewardAmount: 1
-  - ProductId: geneticScissors
+  - ProductId: gold_geneticScissors
     ProductType: 0
     Rewards:
     - RewardType: 4
       RewardAmount: 1
-  - ProductId: genetictester
+  - ProductId: gold_genetictester
     ProductType: 0
     Rewards:
     - RewardType: 5
       RewardAmount: 1
-  - ProductId: missingposter
+  - ProductId: gold_missingposter
     ProductType: 0
     Rewards:
     - RewardType: 6
       RewardAmount: 1
-  - ProductId: snack
+  - ProductId: gold_snack
     ProductType: 0
     Rewards:
     - RewardType: 7
       RewardAmount: 10
-  - ProductId: growthbooster
+  - ProductId: gold_growthbooster
     ProductType: 0
     Rewards:
     - RewardType: 19
       RewardAmount: 1
-  - ProductId: petslot
+  - ProductId: gold_petslot
     ProductType: 0
     Rewards:
     - RewardType: 12
       RewardAmount: 1
-  - ProductId: package
+  - ProductId: gold_package
     ProductType: 0
     Rewards:
     - RewardType: 8
@@ -64,18 +64,43 @@ MonoBehaviour:
       RewardAmount: 1
     - RewardType: 11
       RewardAmount: 1
-  - ProductId: addenergy
+  - ProductId: gold_addenergy
     ProductType: 0
     Rewards:
     - RewardType: 0
       RewardAmount: 1
-  - ProductId: geneticglue
+  - ProductId: gold_geneticglue
     ProductType: 0
     Rewards:
     - RewardType: 20
       RewardAmount: 1
-  - ProductId: roompoor
+  - ProductId: gold_roompoor
     ProductType: 1
     Rewards:
     - RewardType: 16
+      RewardAmount: 1
+  - ProductId: coin1000
+    ProductType: 0
+    Rewards:
+    - RewardType: 1
+      RewardAmount: 1000
+  - ProductId: coin5000
+    ProductType: 0
+    Rewards:
+    - RewardType: 1
+      RewardAmount: 5000
+  - ProductId: coin10000
+    ProductType: 0
+    Rewards:
+    - RewardType: 1
+      RewardAmount: 10000
+  - ProductId: coin25000
+    ProductType: 0
+    Rewards:
+    - RewardType: 1
+      RewardAmount: 25000
+  - ProductId: removeadbanner
+    ProductType: 1
+    Rewards:
+    - RewardType: 2
       RewardAmount: 1

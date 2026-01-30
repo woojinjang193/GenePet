@@ -11265,7 +11265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: addenergy
+  _productID: gold_addenergy
   _price: 0
   _priceText: {fileID: 1377343768}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -11583,7 +11583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: snack
+  _productID: gold_snack
   _price: 500
   _priceText: {fileID: 1576525282}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -17927,7 +17927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: growthbooster
+  _productID: gold_growthbooster
   _price: 1000
   _priceText: {fileID: 1854603937}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -20806,7 +20806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: missingposter
+  _productID: gold_missingposter
   _price: 1000
   _priceText: {fileID: 606569805}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -28839,7 +28839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: package
+  _productID: gold_package
   _price: 5000
   _priceText: {fileID: 203689393}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -35236,7 +35236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: ticket
+  _productID: gold_ticket
   _price: 1000
   _priceText: {fileID: 820713270}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -36121,7 +36121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: coin5000
+  _productID: gold_coin5000
   _price: 0
   _priceText: {fileID: 1554791065}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -41892,7 +41892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: genetictester
+  _productID: gold_genetictester
   _price: 1000
   _priceText: {fileID: 2108107853}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -52970,7 +52970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: roompoor
+  _productID: gold_roompoor
   _price: 1000
   _priceText: {fileID: 1666468056}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -67145,7 +67145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: geneticglue
+  _productID: gold_geneticglue
   _price: 1000
   _priceText: {fileID: 2055520407}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -70617,7 +70617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21e245a00c259e4baed2f878623a056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productID: geneticScissors
+  _productID: gold_geneticScissors
   _price: 1000
   _priceText: {fileID: 702923675}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}

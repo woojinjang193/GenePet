@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PetSlotBuyButton : MonoBehaviour
 {
-    private string _productID = "petslot";
+    private string _productID = "gold_petslot";
 
     [Header("슬롯 가격 테이블")]
     [SerializeField] private int[] _prices;
