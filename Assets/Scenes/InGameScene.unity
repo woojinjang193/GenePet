@@ -9577,11 +9577,11 @@ RectTransform:
   - {fileID: 1937883588}
   - {fileID: 1020318566}
   - {fileID: 1253834078}
-  - {fileID: 341540377}
   - {fileID: 1335878443}
-  - {fileID: 590654550}
   - {fileID: 1400583531}
   - {fileID: 1371377405}
+  - {fileID: 341540377}
+  - {fileID: 590654550}
   m_Father: {fileID: 2033371587}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -27969,6 +27969,8 @@ MonoBehaviour:
   _spawnPetButton: {fileID: 1986990624}
   _camera: {fileID: 519420033}
   _petManager: {fileID: 1811970253}
+  _reservedUiPanels:
+  - {fileID: 341540376}
 --- !u!114 &777693874
 MonoBehaviour:
   m_ObjectHideFlags: 0

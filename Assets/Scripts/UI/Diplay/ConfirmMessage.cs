@@ -15,28 +15,32 @@ public class ConfirmMessage : MonoBehaviour
     [SerializeField] private TMP_Text _text;
 
     private IConfirmRequester _requester;
+    private int _requestNum = -1;
 
     private void Awake()
     {
         _confirmButton.onClick.AddListener(OnClickedConfirm);
         _cancelButton.onClick.AddListener(OnClickedCancel);
     }
-    public void OpenConfirmUI(string textID, IConfirmRequester requster)
+    public void OpenConfirmUI(string textID, int requestNum, IConfirmRequester requster)
     {
         _panel.SetActive(true);
-        _requester = requster;
-
+        _requester = requster; // 리퀘스터
+        _requestNum = requestNum; //요청 번호
         _text.text = Manager.Lang.GetText(textID);
     }
     private void OnClickedConfirm()
     {
-        _requester.Confirmed();
+        _requester.Confirmed(_requestNum);
+        _requester = null;
+        _requestNum = -1;
         _panel.SetActive(false);
     }
     private void OnClickedCancel()
     {
-        _requester.Canceled();
+        _requester.Canceled(_requestNum);
         _requester = null;
+        _requestNum = -1;
         _panel.SetActive(false);
     }
     

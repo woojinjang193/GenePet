@@ -259,6 +259,14 @@ public class UserItemData
     public int GrowthBooster;
     public int GeneticGlue;
 
+    //차후 업데이트할때 추가될걸 대비한 아이템 미리 생성
+    public int TimeSpeedUp; //추후 내펫끼리 교배에 쓰일수 있는 아이템
+    public int AdditionalItem1; //추후 추가될수도 있는 아이템
+    public int AdditionalItem2; //추후 추가될수도 있는 아이템
+    public int AdditionalItem3; //추후 추가될수도 있는 아이템
+    public int AdditionalItem4; //추후 추가될수도 있는 아이템
+    public int AdditionalItem5; //추후 추가될수도 있는 아이템
+
     public List<Room> Rooms;
 
     //선물

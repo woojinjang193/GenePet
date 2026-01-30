@@ -27,13 +27,16 @@ public class RemovePetButton : MonoBehaviour, IConfirmRequester
 
         if(Manager.Game != null)
         {
-            Manager.Game.ShowConfirmMessage("Warning_RemovePet", this);
+            Manager.Game.ShowConfirmMessage("Warning_RemovePet",0, this);
         }
     }
 
-    public void Confirmed()
+    public void Confirmed(int requestNum)
     {
-        _petManager.RemovePet();
+        if (requestNum == 0) //펫 삭제
+        {
+            _petManager.RemovePet();
+        }
     }
-    public void Canceled() { }
+    public void Canceled(int requestNum) { }
 }

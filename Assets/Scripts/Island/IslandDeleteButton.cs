@@ -17,16 +17,19 @@ public class IslandDeleteButton : MonoBehaviour, IConfirmRequester
     {
         if (Manager.Game != null)
         {
-            Manager.Game.ShowConfirmMessage("Warning_DeleteIsland", this);
+            Manager.Game.ShowConfirmMessage("Warning_DeleteIsland",0, this);
         }
     }
 
-    public void Confirmed()
+    public void Confirmed(int requestNum)
     {
-        Manager.Save.RemoveIsland();
-        SceneManager.LoadScene("InGameScene");
+        if(requestNum == 0) //아일랜드 삭제 경고
+        {
+            Manager.Save.RemoveIsland();
+            SceneManager.LoadScene("InGameScene");
+        }
     }
-    public void Canceled()
+    public void Canceled(int requestNum)
     {
         
     }

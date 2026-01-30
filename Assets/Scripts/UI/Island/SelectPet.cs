@@ -72,7 +72,7 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        Manager.Game.ShowConfirmMessage("Warning_AffinityReset", this);
+        Manager.Game.ShowConfirmMessage("Warning_AffinityReset", 0, this);
     }
     private void OnCancelButtonClicked()
     {
@@ -127,13 +127,19 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
         _visualLoader.LoadIslandPet(data);
     }
 
-    public void Confirmed()
+    public void Confirmed(int requestNum)
     {
-        ApplyFinalChange(_curIndex);
+        if(requestNum == 0)// 호감도 초기화
+        {
+            ApplyFinalChange(_curIndex);
+        }
     }
-    public void Canceled()
+    public void Canceled(int requestNum)
     {
-        Rollback(_ogIndex);
+        if (requestNum == 0)// 호감도 초기화
+        {
+            Rollback(_ogIndex);
+        }
     }
 
     public void ApplyFinalChange(int newIndex)

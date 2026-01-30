@@ -25,6 +25,9 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private CameraController _camera;
     [SerializeField] private PetManager _petManager;
 
+    [Header("유아이 예약")]
+    [SerializeField] private GameObject[] _reservedUiPanels;
+
     private void Awake()
     {
         if(_camera == null)
@@ -47,6 +50,12 @@ public class InGameUIManager : MonoBehaviour
         if (_rewardUI == null)
         {
             _rewardUI = FindObjectOfType<RewardPopUp>();
+        }
+
+        //예약된 UI판넬이 있을때
+        if(Manager.Game.ReservedUI != UIPanel.None)
+        {
+            OpenReservedUI(Manager.Game.ReservedUI); //UI 열어줌
         }
 
         //메인씬 돌아왔을때 보상 있으면 실행
@@ -136,5 +145,22 @@ public class InGameUIManager : MonoBehaviour
         var pet = _petManager.ZoomedPet;
 
         Manager.Mini.StartMiniGame(pet, index);
+    }
+
+    //==============예약된 UI 판넬 열어주는 유틸======================
+    private void OpenReservedUI(UIPanel reservedUI)
+    {
+        switch (reservedUI)
+        {
+            case UIPanel.Shop: _reservedUiPanels[0].SetActive(true); break;
+        }
+    }
+    //==============메인씬에서 판넬 열어주는 유틸======================
+    public void OpenUiPanel(UIPanel reservedUI)
+    {
+        switch (reservedUI)
+        {
+            case UIPanel.Shop: _reservedUiPanels[0].SetActive(true); break;
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -14,6 +14,8 @@ public class GameManager : Singleton<GameManager>
     private int _loadingCount = 0;
     private PopupMessage _popupText;
     private ConfirmMessage _confirmMessage;
+
+    public UIPanel ReservedUI { get; private set; }
 
     private bool _isOnline = true;
     public bool IsOnline { get { return _isOnline; } }
@@ -78,13 +80,13 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log($"현재 유저가 키울 수 있는 최대 펫 수 : {userMaxAmount}.\n현재 펫 수 {curAmount}");
                 //TODO: 여기에 슬롯 구매 바로가기 창 띄우기
                 return;
-            } 
+            }
         }
         PetSaveData newpet = CreateRandomPetData(isMine);
         Manager.Save.RegisterNewPet(newpet, isMine);
 
         PetManager petManager = FindObjectOfType<PetManager>();
-        if(isMine && petManager != null)
+        if (isMine && petManager != null)
         {
             petManager.SpawnPet(newpet);
         }
@@ -128,7 +130,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.LogWarning($"{part.ToString()} 파츠 없음");
                 continue; // 안전 처리
             }
-            
+
             PartBaseSO dominant = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 우성 랜덤
             PartBaseSO recessive = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 열성 랜덤
 
@@ -153,19 +155,6 @@ public class GameManager : Singleton<GameManager>
 
         newPet.Rarity = highestRarity; //펫 레어리티
 
-        ////알 이미지 저장
-        //switch (highestRarity)
-        //{
-        //    case RarityType.Legendary:
-        //        newPet.EggSprite = Config.EggRaritySO.LegendarySprite; break;
-        //    case RarityType.Epic:
-        //        newPet.EggSprite = Config.EggRaritySO.EpicSprite; break;
-        //    case RarityType.Rare:
-        //        newPet.EggSprite = Config.EggRaritySO.RareSprite; break;
-        //    default:
-        //        newPet.EggSprite = Config.EggRaritySO.CommonSprite; break;
-        //}
-
         return newPet;
     }
 
@@ -180,7 +169,7 @@ public class GameManager : Singleton<GameManager>
     }
     private void ManagerReadyCheck()
     {
-        if(_loadingCount >= _loadingDataAmount)
+        if (_loadingCount >= _loadingDataAmount)
         {
             _isManagerReady = true;
         }
@@ -189,16 +178,39 @@ public class GameManager : Singleton<GameManager>
     {
         _popupText.ShowMessage(msg);
     }
-    public void ShowConfirmMessage(string textID, IConfirmRequester requster) //경고메세지 출력
+
+    //==================팝업창 오픈 요청======================
+    public void ShowConfirmMessage(string textID, int requestNum, IConfirmRequester requster) //경고메세지 출력
     {
-        _confirmMessage.OpenConfirmUI(textID, requster);
+        _confirmMessage.OpenConfirmUI(textID, requestNum, requster);
     }
 
-    //public void SetOnlineFlag(bool flag)
-    //{
-    //    if(flag != _isOnline)
-    //    {
-    //        _isOnline = flag;
-    //    }
-    //}
+    public void ReserveMainSceneUI(UIPanel ui) //메인씬 왔을때 열 UI 요청
+    {
+        Debug.Log($"예약 시도 {ui}");
+        if (ui == UIPanel.None) return;
+        
+        switch (ui)
+        {
+            case UIPanel.Shop: ReservedUI = UIPanel.Shop; break;
+        }
+
+        Debug.Log($"예약 완료 {ui}");
+    }
+    public void ResetReservedUI() //예약 UI 열고난 후 초기화
+    {
+        ReservedUI = UIPanel.None;
+    }
+
+    public void OpenUiPanel(UIPanel panel) //원하는 UI 바로 열기
+    {
+        if (panel == UIPanel.None) return;
+
+        var uiManager = FindObjectOfType<InGameUIManager>();
+
+        if (uiManager != null)
+        {
+            uiManager.OpenUiPanel(panel);
+        }
+    }
 }

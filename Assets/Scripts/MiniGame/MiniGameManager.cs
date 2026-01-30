@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
 
-public class MiniGameManager : Singleton<MiniGameManager>
+public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
 {
     [Header("미니게임 성격 효과 테이블")]
     [SerializeField] private MiniGamePersonalityEffectSO[] _effectTables;
@@ -213,9 +213,32 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         if (Manager.Save.CurrentData.UserData.Energy < cost) //비용이 없으면
         {
-            Manager.Game.ShowPopup("You Don't Have Enough Energy"); //TODO: 로컬라이제이션
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShopForEnergy", 0, this);
+            //Manager.Game.ShowPopup("You Don't Have Enough Energy"); //TODO: 로컬라이제이션
+
             return false;
         }
         return true;
+    }
+
+    public void Confirmed(int requestNum)
+    {
+        if(requestNum == 0)
+        {
+            if (SceneManager.GetActiveScene().name == "InGameScene") //인게임 씬이면
+            {
+                Manager.Game.OpenUiPanel(UIPanel.Shop);
+            }
+            else   //인게임 씬 아니면
+            {
+                Manager.Game.ReserveMainSceneUI(UIPanel.Shop);
+                EndMiniGame();
+            }
+        }
+    }
+
+    public void Canceled(int requestNum)
+    {
+
     }
 }

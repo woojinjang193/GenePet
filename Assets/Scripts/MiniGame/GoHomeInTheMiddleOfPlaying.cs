@@ -14,13 +14,16 @@ public class GoHomeInTheMiddleOfPlaying : MonoBehaviour, IConfirmRequester
     }
     private void TryGoHome()
     {
-        Manager.Game.ShowConfirmMessage("Warning_GoBackHome", this);
+        Manager.Game.ShowConfirmMessage("Warning_GoBackHome",0, this);
     }
-    public void Confirmed()
+    public void Confirmed(int requestNum)
     {
-        Manager.Mini.EndMiniGame();
+        if(requestNum == 0)
+        {
+            Manager.Mini.EndMiniGame();
+        }
     }
-    public void Canceled()
+    public void Canceled(int requestNum)
     {
     }
 }

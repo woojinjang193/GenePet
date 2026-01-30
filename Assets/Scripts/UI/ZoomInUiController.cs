@@ -111,6 +111,11 @@ public class ZoomInUiController : MonoBehaviour
     {
         _namePanel.SetActive(namePanel);
 
+        if (namePanel == true)
+        {
+            _input.text = null;
+        }
+
         foreach (GameObject go in _hiddenUIs)
         {
             go.SetActive(others);

@@ -98,3 +98,8 @@ public enum RythmType
     Eighth,
     Triplet,
 }
+public enum UIPanel
+{
+    None,
+    Shop
+}

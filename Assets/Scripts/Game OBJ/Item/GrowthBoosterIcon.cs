@@ -63,23 +63,26 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        Manager.Game.ShowConfirmMessage("Confirm_UseBooster", this); //컨멈 메세지 보내기
+        Manager.Game.ShowConfirmMessage("Confirm_UseBooster",0, this); //컨멈 메세지 보내기
     }
     // =====인터페이스 구현 =================
-    public void Canceled()
+    public void Canceled(int requestNum)
     {
 
     }
 
-    public void Confirmed()
+    public void Confirmed(int requestNum)
     {
-        if (_curPet == null) return; // 방어
-        if (_petManager == null) return; // 방어
+        if(requestNum == 0)
+        {
+            if (_curPet == null) return; // 방어
+            if (_petManager == null) return; // 방어
 
-        bool success = _petManager.ApplyGrowthBooster(_curPet); // 성장 적용
-        if (!success) return; // 실패면 아이템 차감 안함
+            bool success = _petManager.ApplyGrowthBooster(_curPet); // 성장 적용
+            if (!success) return; // 실패면 아이템 차감 안함
 
-        Manager.Item.UseItem(RewardType.GrowthBooster, 1); //컨펌시 아이템 --
+            Manager.Item.UseItem(RewardType.GrowthBooster, 1); //컨펌시 아이템 --
+        }    
     }
 
     private void UpdateUI(RewardType type, int newValue)

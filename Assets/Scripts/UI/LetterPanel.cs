@@ -84,6 +84,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         if (items.MissingPoster <= 0)
         {
             Debug.Log("포스터 수량 부족");
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop",0, this);
             return;
         }
         items.MissingPoster--;
@@ -95,23 +96,31 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     {
         if (Manager.Game != null)
         {
-            Manager.Game.ShowConfirmMessage("Warning_RemovePet", this);
+            Manager.Game.ShowConfirmMessage("Warning_RemovePet",1, this);
         }
     }
     private void OnCloseClicked() 
     { 
         gameObject.SetActive(false);
     }
-    public void Confirmed()
+    //=================컨펌창 인터페이스 ========================
+    public void Confirmed(int requestNum)
     {
-        PetManager petManager = FindObjectOfType<PetManager>();
-        if (petManager != null)
+        if (requestNum == 0) //상점이동 요청
         {
-            gameObject.SetActive (false);
-            petManager.RemovePet();
+            Manager.Game.OpenUiPanel(UIPanel.Shop);
+        }
+        else if (requestNum == 1) //펫 포기 요청
+        {
+            PetManager petManager = FindObjectOfType<PetManager>();
+            if (petManager != null)
+            {
+                gameObject.SetActive(false);
+                petManager.RemovePet();
+            }
         }
     }
-    public void Canceled() { }
+    public void Canceled(int requestNum) { }
 
     private void UpdateAmount(RewardType item, int newValue)
     {
