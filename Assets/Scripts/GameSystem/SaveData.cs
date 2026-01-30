@@ -249,6 +249,8 @@ public class IslandData
 [Serializable]
 public class UserItemData
 {
+    public List<string> PurchasedGoldNCs;
+
     public int Money; //소지금
     public bool IsAdRemoved;
     public int IslandTicket;
@@ -277,6 +279,8 @@ public class UserItemData
 
     public UserItemData()
     {
+        PurchasedGoldNCs = new List<string>();
+
         Money = 2000;
         IsAdRemoved = false;
         IslandTicket = 1;

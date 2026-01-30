@@ -11,8 +11,11 @@ public class PurchaseWithGoldButton : MonoBehaviour
     [SerializeField] private int _price;
     [SerializeField] private TMP_Text _priceText;
 
-    private Button _button;
+    [SerializeField] private Color _nonInteractableC;
+    [SerializeField] private Image _buttonCover;
 
+    private Button _button;
+    private List<string> _ncList;
     private ProductType _type;
 
     private void Awake()
@@ -20,6 +23,17 @@ public class PurchaseWithGoldButton : MonoBehaviour
         _priceText.text = _price.ToString();
         _button = GetComponent<Button>();
         _button.onClick.AddListener(OnClicked);
+
+        if (Manager.Save == null) { _button.interactable = false; return; }
+
+        _ncList = Manager.Save.CurrentData.UserData.Items.PurchasedGoldNCs;
+
+        if (_ncList == null)
+        {
+            _ncList = Manager.Save.CurrentData.UserData.Items.PurchasedGoldNCs = new List<string>(); // 리스트 생성 후 다시 저장
+        }
+
+        CheckNonConsumable();
     }
     private void OnClicked()
     {
@@ -27,12 +41,29 @@ public class PurchaseWithGoldButton : MonoBehaviour
 
         if (!canbuy) return;
 
-        switch (_type)
+        if(_type == ProductType.NonConsumable)
         {
-            case ProductType.Unknown: break;
-            case ProductType.Consumable: break;
-            case ProductType.NonConsumable: _button.interactable = false; break;
-            case ProductType.Subscription: break;
+            SaveAndOffButton();
         }
+    }
+    private void CheckNonConsumable()
+    {
+        if(_ncList.Contains(_productID))
+        {
+            _priceText.text = "Sold";
+            _button.interactable = false;
+            _buttonCover.color = _nonInteractableC;
+        }
+    }
+    private void SaveAndOffButton()
+    {
+        if (!_ncList.Contains(_productID))
+        {
+            _ncList.Add(_productID);
+            Manager.Save.SaveGame();
+        }
+        _priceText.text = "Sold";
+        _button.interactable = false;
+        _buttonCover.color = _nonInteractableC;
     }
 }

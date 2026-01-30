@@ -14,12 +14,14 @@ public class PetSlotBuyButton : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TMP_Text _priceText;
     [SerializeField] private TMP_Text _haveAmountText;
+    [SerializeField] private Image _cover;
+    [SerializeField] private Color _nonInteractableC;
 
     private int _maxSlot;
     private int _curPrice;
     private Button _button;
 
-    private ProductType _type;
+    private ProductType _type;  //여기선 안씀
 
     private void Awake()
     {
@@ -44,14 +46,6 @@ public class PetSlotBuyButton : MonoBehaviour
         bool canbuy = Manager.Shop.TryPurchaseWithGold(_productID, _curPrice, out _type);
 
         if (!canbuy) return;
-
-        switch (_type)
-        {
-            case ProductType.Unknown: break;
-            case ProductType.Consumable: break;
-            case ProductType.NonConsumable: _button.interactable = false; break;
-            case ProductType.Subscription: break;
-        }
     }
     private void UpdateUI(RewardType type, int newValue)
     {
@@ -68,6 +62,7 @@ public class PetSlotBuyButton : MonoBehaviour
         {
             _haveAmountText.text = "Full";
             _button.interactable = false;  // 버튼 비활성화
+            _cover.color = _nonInteractableC;
             _priceText.text = "-";  // 가격 비움
             return;
         }
@@ -84,6 +79,7 @@ public class PetSlotBuyButton : MonoBehaviour
         {
             Debug.LogError("슬롯 가격 테이블 없음");
             _button.interactable = false;
+            _cover.color = _nonInteractableC;
             return 99999;
         }
 
@@ -91,6 +87,7 @@ public class PetSlotBuyButton : MonoBehaviour
         {
             Debug.LogWarning("슬롯 가격 범위 초과");
             _button.interactable = false;
+            _cover.color = _nonInteractableC;
             return 99999;
         }
 
