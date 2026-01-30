@@ -76,6 +76,7 @@ public class PinballUiManager : MonoBehaviour
         int bestScore = Manager.Mini.GetBestScore(MiniGame.Pinball);
         _titlePanel.UpdateScore(curScore, bestScore);
         _titlePanel.gameObject.SetActive(true);
+        Manager.Item.NotifyRewardsReady();
     }
     //===================플레이어가 룰렛존 진입시 호출===========================
     private void CloseSlots()

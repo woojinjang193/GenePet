@@ -43,5 +43,6 @@ public class RythmUiManager : MonoBehaviour
     {
         _titlePanel.UpdateScore(curScore, bestScore);
         _titlePanel.gameObject.SetActive(true);
+        Manager.Item.NotifyRewardsReady();
     }
 }

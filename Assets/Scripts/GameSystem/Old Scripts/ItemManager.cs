@@ -23,6 +23,7 @@ public class ItemManager : Singleton<ItemManager>
     // =========================초기화=====================================
     protected override void Awake()
     {
+        base.Awake();
         var handle = Addressables.LoadAssetAsync<ItemsSO>("ItemSO");
         handle.Completed += OnItemSOLoaded;
     }
@@ -39,13 +40,16 @@ public class ItemManager : Singleton<ItemManager>
             Debug.LogError("GameConfig 로드 실패");
         }
     }
+    // ===================== 팝업 오픈 트리거 =====================
+    public void NotifyRewardsReady() //원하는 타이밍에 보상 팝업을 열라고 이벤트를 발생시키는 함수
+    {
+        OnRewardsGiven?.Invoke(); // 보상팝업 열기 신호 이벤트 발생
+    }
 
     // ===========================골드로 아이템 구매 =========================
-    public void PurchaseWithGold(ProductCatalogSO.Entry entry, int price)
+    public void PurchaseWithGold(ProductCatalogSO.Entry entry, int price, UserData user)
     {
         if (entry == null) return;
-
-        var user = Manager.Save.CurrentData.UserData;
 
         user.Items.Money -= price;                 // 골드 차감
         OnMoneyChanged?.Invoke(user.Items.Money); // UI 알림
@@ -67,8 +71,8 @@ public class ItemManager : Singleton<ItemManager>
         // 외부(UI, 저장 등)에 알림 (메인씬에서만 보여줌)
         OnRewardsGiven?.Invoke();
     }
-
-    public void GiveMiniGameRewards(List<RewardData> rewards) //미니게임 보상: "지급만"(큐/팝업/이벤트 없음)
+    //==================미니게임 보상=====================
+    public void GiveMiniGameRewards(List<RewardData> rewards) // : 지급 + 표시용 큐 적재, 팝업 오픈은 NotifyRewardsReady로 외부에서 결정
     {
         if (rewards == null || rewards.Count == 0) return;
 
@@ -79,19 +83,22 @@ public class ItemManager : Singleton<ItemManager>
             RewardData reward = rewards[i];
             if (reward == null) continue;
 
-            if (reward.Category == RewardCategory.Egg) //알은 여기서 직접 지급(큐에는 안 넣음)
+            if (reward.Category == RewardCategory.Egg) //알은 여기서 직접 지급
             {
                 if (user.EggList == null) user.EggList = new List<EggData>(); //null 방어
                 if (reward.Egg != null) user.EggList.Add(reward.Egg); //알 지급(세이브 반영)
+
+                if (reward.Egg != null) EnqueueEgg(reward.Egg); // 알도 팝업 표시를 위해 큐에 적재
                 continue;
             }
 
-            ApplyReward(reward.RewardType, reward.Amount, false); //아이템 지급만(큐 적재 X)
+            if (reward.RewardType == RewardType.None) continue; // None 보상 스킵
+
+            ApplyReward(reward.RewardType, reward.Amount, true); // 미니게임 보상도 표시 큐에 적재
         }
 
-        Manager.Save.SaveGame(); //매판 즉시 저장(꺼도 보상 유지)
+        Manager.Save.SaveGame(); //매판 즉시 저장
     }
-
 
     // ==================실제 보상 적용 함수==========================
     private void ApplyReward(RewardType type, int amount, bool enqueuePopup) //enqueuePopup = 팝업 큐 적재 여부 옵션
@@ -212,26 +219,6 @@ public class ItemManager : Singleton<ItemManager>
         _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
         OnRewardGranted?.Invoke(type, newValue);
     }
-    public void EnqueuePopupOnly(List<RewardData> rewards) //이미 지급된 보상을 큐에만 넣고 표시
-    {
-        if (rewards == null || rewards.Count == 0) return;
-
-        for (int i = 0; i < rewards.Count; i++)
-        {
-            RewardData r = rewards[i];
-            if (r == null) continue;
-
-            if (r.Category == RewardCategory.Egg)
-            {
-                EnqueueEgg(r.Egg);
-                continue;
-            }
-
-            _rewardQueue.Enqueue(RewardData.CreateItem(r.RewardType, r.Amount));
-        }
-
-        OnRewardsGiven?.Invoke();
-    }
  
     // ========================보상 큐==============================
     public bool HasReward()
@@ -258,7 +245,6 @@ public class ItemManager : Singleton<ItemManager>
     {
         _rewardQueue.Clear();
     }
-
     // ========================아이템 사용==============================
     public void UseGift(Gift gift)
     {

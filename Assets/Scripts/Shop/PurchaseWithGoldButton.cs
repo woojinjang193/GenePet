@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.UI;
 
 public class PurchaseWithGoldButton : MonoBehaviour
@@ -12,6 +13,8 @@ public class PurchaseWithGoldButton : MonoBehaviour
 
     private Button _button;
 
+    private ProductType _type;
+
     private void Awake()
     {
         _priceText.text = _price.ToString();
@@ -20,6 +23,16 @@ public class PurchaseWithGoldButton : MonoBehaviour
     }
     private void OnClicked()
     {
-        Manager.Shop.PurchaseWithGold(_productID, _price);
+        bool canbuy = Manager.Shop.TryPurchaseWithGold(_productID, _price, out _type);
+
+        if (!canbuy) return;
+
+        switch (_type)
+        {
+            case ProductType.Unknown: break;
+            case ProductType.Consumable: break;
+            case ProductType.NonConsumable: _button.interactable = false; break;
+            case ProductType.Subscription: break;
+        }
     }
 }

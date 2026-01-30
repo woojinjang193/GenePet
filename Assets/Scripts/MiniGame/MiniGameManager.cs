@@ -16,9 +16,6 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
     public MiniGame CurMiniGame { get; private set; }
     public PetSaveData CurPet { get; private set; }
 
-    private readonly Dictionary<RewardType, int> _sessionItemSums = new(); //연속 플레이 보상 합산(아이템)
-    private readonly List<EggData> _sessionEggs = new(); //연속 플레이 보상 리스트(알은 개별 표시)
-
     protected override void Awake()
     {
         base.Awake();
@@ -35,9 +32,6 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
             Manager.Game.ShowPopup("It's still an egg");
             return;
         }
-
-        _sessionItemSums.Clear(); //새 미니게임 시작 시 누적 보상 초기화
-        _sessionEggs.Clear(); //새 미니게임 시작 시 누적 보상 초기화
 
         CurPet = pet; //펫정보 저장
 
@@ -63,59 +57,13 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
     //============ 메인씬으로 돌아감 ==================
     public void EndMiniGame()
     {
-        FlushRewardsToPopup(); //메인씬으로 넘어갈 때만 팝업 표시큐에 적재
-
         CurPet = null;
         CurMiniGame = MiniGame.Null;
 
         Manager.Pool.Clear(); // 풀 비워줌
         SceneManager.LoadScene("InGameScene");
     }
-    public void AccumulateRewards(List<RewardData> rewards) //한 판 끝날 때 보상표시큐 누적만
-    {
-        if (rewards == null || rewards.Count == 0) return;
-
-        for (int i = 0; i < rewards.Count; i++)
-        {
-            RewardData reward = rewards[i];
-            if (reward == null) continue;
-
-            if (reward.Category == RewardCategory.Egg)
-            {
-                if (reward.Egg != null) _sessionEggs.Add(reward.Egg);
-                continue;
-            }
-
-            if (reward.RewardType == RewardType.None) continue;
-
-            if (_sessionItemSums.ContainsKey(reward.RewardType)) //같은 아이템이 이미 있으면 
-            {
-                _sessionItemSums[reward.RewardType] += reward.Amount; //숫자만 더해줌 
-            } 
-            else _sessionItemSums[reward.RewardType] = reward.Amount; //처음 얻는거면 추가
-        }
-    }
-    private void FlushRewardsToPopup() //누적된 보상을 "큐에만" 넣고 팝업 트리거
-    {
-        if (_sessionItemSums.Count == 0 && _sessionEggs.Count == 0) return;
-
-        List<RewardData> list = new();
-
-        foreach (var pair in _sessionItemSums)
-        {
-            list.Add(RewardData.CreateItem(pair.Key, pair.Value)); //아이템은 합산 1개로
-        }
-
-        for (int i = 0; i < _sessionEggs.Count; i++)
-        {
-            list.Add(RewardData.CreateEgg(_sessionEggs[i])); //알은 개별로
-        }
-
-        if (Manager.Item != null) Manager.Item.EnqueuePopupOnly(list); //표시 큐 적재 + 팝업 오픈
-
-        _sessionItemSums.Clear();
-        _sessionEggs.Clear();
-    }
+    
     // =========================== 결과 저장 유틸 ============================
     public void UpdateMiniGameResult(int score) 
     {

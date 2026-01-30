@@ -14,8 +14,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private LetterPanel _letterPanel;
     [Header("에너지 슬라이더")]
     [SerializeField] private EnergySlider _energySlider;
-    [Header("리워드 UI")]
-    [SerializeField] private RewardPopUp _rewardUI;
+
     [Header("줌인 UI 컨트롤러")]
     [SerializeField] private ZoomInUiController _zoomedUIController;
     [Header("펫소환 버튼")]
@@ -47,36 +46,17 @@ public class InGameUIManager : MonoBehaviour
         {
             _energySlider = FindObjectOfType<EnergySlider>();
         }
-        if (_rewardUI == null)
-        {
-            _rewardUI = FindObjectOfType<RewardPopUp>();
-        }
 
         //예약된 UI판넬이 있을때
         if(Manager.Game.ReservedUI != UIPanel.None)
         {
             OpenReservedUI(Manager.Game.ReservedUI); //UI 열어줌
         }
-
-        //메인씬 돌아왔을때 보상 있으면 실행
-        if (Manager.Item.HasReward())
-        {
-            ShowReward();
-        }
-
-        Manager.Item.OnRewardsGiven += ShowReward;
     }
 
     private void Start()
     {
         Manager.Audio.PlayBGM("BGM_Test"); //비지엠 재생
-    }
-    private void OnDestroy()
-    {
-        if (Manager.Item != null)
-        {
-            Manager.Item.OnRewardsGiven -= ShowReward;
-        }
     }
     
     // 펫 줌인 시
@@ -125,14 +105,6 @@ public class InGameUIManager : MonoBehaviour
     public void UpdateEnergyBar(int newValue) //에너지 바 업데이트
     {
         _energySlider.SetEnergy(newValue);
-    }
-
-    public void ShowReward() //메인씬 보상용
-    {
-        if (_rewardUI.gameObject.activeSelf) return;
-
-        _rewardUI.gameObject.SetActive(true);
-        _rewardUI.ShowNext();
     }
 
     public void MiniGameStartButtonClicked(int index) //미니게임 시작버튼 클릭

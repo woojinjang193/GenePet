@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.UI;
 
 public class PetSlotBuyButton : MonoBehaviour
@@ -17,6 +18,8 @@ public class PetSlotBuyButton : MonoBehaviour
     private int _maxSlot;
     private int _curPrice;
     private Button _button;
+
+    private ProductType _type;
 
     private void Awake()
     {
@@ -38,7 +41,17 @@ public class PetSlotBuyButton : MonoBehaviour
     }
     private void OnClicked()
     {
-        Manager.Shop.PurchaseWithGold(_productID, _curPrice);
+        bool canbuy = Manager.Shop.TryPurchaseWithGold(_productID, _curPrice, out _type);
+
+        if (!canbuy) return;
+
+        switch (_type)
+        {
+            case ProductType.Unknown: break;
+            case ProductType.Consumable: break;
+            case ProductType.NonConsumable: _button.interactable = false; break;
+            case ProductType.Subscription: break;
+        }
     }
     private void UpdateUI(RewardType type, int newValue)
     {

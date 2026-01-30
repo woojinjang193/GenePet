@@ -40,8 +40,7 @@ public class EggObj : MonoBehaviour
         _sprite.sprite = null;
         Debug.Log($"알 추가. 현재: {eggHaveList.Count}");
 
-        //알 획득 연출 넣을거면 여기서
-
-        SceneManager.LoadScene("InGameScene");
+        Manager.Item.NotifyRewardsReady(); // 보상팝업 호출
+        gameObject.SetActive(false);
     }
 }

@@ -129,7 +129,6 @@ public class MiniGameBase : MonoBehaviour
         if (rewards.Count <= 0) return;
 
         Manager.Item.GiveMiniGameRewards(rewards); //지급+저장(큐 적재 X)
-        Manager.Mini.AccumulateRewards(rewards); //메인씬 팝업용 누적
     }
     private List<RewardData> BuildRewardList() //현재 라운드 보상 -> RewardData 변환
     {

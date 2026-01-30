@@ -11,9 +11,16 @@ public class JumpGameUIManager : MonoBehaviour
     [Header("패널")]
     [SerializeField] private JumpGameTitlePanel _titlePanel;
 
+    [Header("보상 UI")]
+    [SerializeField] private RewardPopUp _rewardPopup;
+
     private void Awake()
     {
         _jumpGame.OnGameOver += OnGameOver;
+    }
+    private void OnDestroy()
+    {
+        _jumpGame.OnGameOver -= OnGameOver;
     }
     private void OnGameOver()
     {
@@ -22,6 +29,11 @@ public class JumpGameUIManager : MonoBehaviour
 
         _titlePanel.UpdateScore(curScore, bestScore);
         _titlePanel.gameObject.SetActive(true);
+
+        if(Manager.Item != null)
+        {
+            Manager.Item.NotifyRewardsReady();
+        }
     }
     // ===== 패널에서 호출 =====
     public void StartGame()
