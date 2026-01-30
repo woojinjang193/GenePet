@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _brickMaps:
   - {fileID: 3078005126651753967, guid: 2d7d4e9f597464f438ef5a7ff4cea133, type: 3}
+  - {fileID: 1891367077973604753, guid: a0f0b549659b39643a04b0b336b24324, type: 3}
+  - {fileID: 6193961575335605984, guid: 946530ad97c55fd49bf82e66b7e9c835, type: 3}
+  - {fileID: 8813535351625948556, guid: eb9eabc65d7f4984abcae157953c4217, type: 3}
+  - {fileID: 6368893974966732865, guid: 9359ea2dd86f8d043a0953bed0e00886, type: 3}
+  - {fileID: 2328291012470042170, guid: 4b3ba0978ebe7d14eb9a0db6b7ed14a0, type: 3}
   _rouletteMaps:
   - {fileID: 5128794969366140824, guid: f56fe26e59de43b48b0a4763a7b1005a, type: 3}
   - {fileID: 2766868691478453805, guid: 3eeaddabc3dba6345a9610970afc1b5f, type: 3}

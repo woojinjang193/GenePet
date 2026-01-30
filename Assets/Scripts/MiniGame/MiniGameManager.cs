@@ -155,7 +155,7 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
 
         if(Manager.Save == null)
         {
-            Manager.Game.ShowPopup("Something Went Wrong. Try Later.."); //TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("Something Went Wrong. Please Restart Game.."); //TODO: 로컬라이제이션
             return false;
         }
 
@@ -179,8 +179,16 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
             }
             else   //인게임 씬 아니면
             {
-                Manager.Game.ReserveMainSceneUI(UIPanel.Shop);
-                EndMiniGame();
+                var shop = FindObjectOfType<MoneyAmountShower>(); //샵에 붙은 컴포넌트 찾아봄
+                if (shop != null) // 찾으면
+                {
+                    shop.gameObject.SetActive(true);
+                }
+                else// 못찾으면 메인씬으로 감
+                {
+                    Manager.Game.ReserveMainSceneUI(UIPanel.Shop);
+                    EndMiniGame();
+                }
             }
         }
     }

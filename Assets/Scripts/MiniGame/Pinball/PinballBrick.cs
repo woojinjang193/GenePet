@@ -44,9 +44,9 @@ public class PinballBrick : MonoBehaviour
         VisualSetting();
     }
 
-    public void Hit()
+    public void Hit(int damage)
     {
-        _curHp--;
+        _curHp -= damage;
         if (_curHp > 0)
         {
             // TODO: 히트 연출(깜빡/사운드)
@@ -70,14 +70,6 @@ public class PinballBrick : MonoBehaviour
         }
 
         gameObject.SetActive(false); // 비활성화
-    }
-
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        if(col.collider.CompareTag("Player"))
-        {
-            Hit();
-        }
     }
     private void VisualSetting()
     {

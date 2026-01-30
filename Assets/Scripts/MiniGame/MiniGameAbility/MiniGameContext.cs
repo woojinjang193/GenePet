@@ -10,6 +10,9 @@ public class MiniGameContext
     //리듬게임
     public int ExtraHeart = 0;     // 추가하트
 
+    //핀볼게임
+    public int BallDamage = 1;
+
     //사용안함
     public bool Battle_CollectAllCoins = false;  // 전체 코인 획득 여부
 }

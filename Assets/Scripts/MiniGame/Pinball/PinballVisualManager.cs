@@ -169,7 +169,8 @@ public class PinballVisualManager : MonoBehaviour
         if (go != null)
         {
             iconRect.anchoredPosition = targetLocal;
-            Destroy(go);
+            Manager.Pool.Release(go);
+            //Destroy(go);
         }
 
         // 도착 후 UI 갱신 트리거
