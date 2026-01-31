@@ -69,12 +69,15 @@ public class PinballBrickSpanwer : MonoBehaviour
         SetNormalItemBricks(preset);
         SetNormalBricks();
     }
-    public void UnregisterAll()
+    //======풀로 반환 전 초기화, 이벤트 해제================
+    private void UnregisterAll()
     {
         for (int i = 0; i < _spawnedBricks.Count; i++)
         {
             var brick = _spawnedBricks[i];
             if (brick == null) continue;
+
+            brick.ResetBrick();
 
             _pinballManager.UnregisterBrick(brick);
             _pinballVisual.UnregisterBrick(brick);

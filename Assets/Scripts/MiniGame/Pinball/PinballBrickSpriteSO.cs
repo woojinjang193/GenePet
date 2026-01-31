@@ -22,6 +22,10 @@ public class PinballBrickSpriteSO : ScriptableObject
     {
         int syncIndex = remainHP - 1; // 남은 HP 가 1이면 0번 인덱스 스프라이트 줘야함
 
+        if (syncIndex >= Rectangle.Length)
+        {
+            syncIndex = Rectangle.Length - 1; //스프라이트 인덱스보다 길면 인덱스 길이로 설정(모든 브릭이 스프라이트 개수가 같아서 기본 기준으로 잡음)
+        }
         switch(type)
         {
             case BrickType.Rectangle: return Rectangle[syncIndex];
