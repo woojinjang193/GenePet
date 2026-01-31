@@ -179,7 +179,7 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
             }
             else   //인게임 씬 아니면
             {
-                var shop = FindObjectOfType<MoneyAmountShower>(); //샵에 붙은 컴포넌트 찾아봄
+                var shop = FindObjectOfType<ShopUiManager>(true); //샵에 붙은 컴포넌트 찾아봄
                 if (shop != null) // 찾으면
                 {
                     shop.gameObject.SetActive(true);

@@ -260,6 +260,7 @@ public class UserItemData
     public int Snack;
     public int GrowthBooster;
     public int GeneticGlue;
+    public int Gem;
 
     //차후 업데이트할때 추가될걸 대비한 아이템 미리 생성
     public int TimeSpeedUp; //추후 내펫끼리 교배에 쓰일수 있는 아이템
@@ -290,6 +291,7 @@ public class UserItemData
         Snack = 1;
         GrowthBooster = 1;
         GeneticGlue = 1;
+        Gem = 20;
 
         Rooms = new List<Room>()  //유저가 가진 방 목록
         { Room.Default};

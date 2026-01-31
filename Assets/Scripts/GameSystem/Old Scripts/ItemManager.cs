@@ -186,6 +186,11 @@ public class ItemManager : Singleton<ItemManager>
                 Debug.Log($"유전자 풀 +{amount}");
                 break;
 
+            case RewardType.Gem:
+                newValue = user.Items.Gem += amount;
+                Debug.Log($"잼 +{amount}");
+                break;
+
             case RewardType.Room_Jump:
             case RewardType.Room_Rythm:
             case RewardType.Room_Pinball:
@@ -320,6 +325,18 @@ public class ItemManager : Singleton<ItemManager>
                 else
                 {
                     newValue = items.GrowthBooster -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+
+            case RewardType.Gem:
+                if (amount <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    newValue = items.Gem -= amount;
                 }
                 OnItemConsumed?.Invoke(type, newValue);
                 break;

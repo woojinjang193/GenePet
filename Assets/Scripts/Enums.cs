@@ -35,6 +35,7 @@ public enum RewardType
     Egg,
     GrowthBooster,
     GeneticGlue,
+    Gem,
     None,
     
 }
