@@ -18,6 +18,9 @@ public class RythmGameManager : MiniGameBase
     [Header("랜덤 알 보상")]
     [SerializeField] private RewardEggPresetSO[] _rewardEggs;
 
+    //마지막 레벨 클리어 보상 1회 제한 플래그
+    private bool _lastLevelClearRewardGiven = false; //마지막 레벨에서 클리어 보상은 1회만 주기
+
     private int _playerCurHeart;
 
     //===성격 능력=====
@@ -64,6 +67,8 @@ public class RythmGameManager : MiniGameBase
         ApplyAbilities(); //특수능력 초기화
         _playerCurHeart = _playerMaxHeart + _heartExtra;
         _uiManager.SetHeart(_playerCurHeart); //체력 켜주기
+
+        _lastLevelClearRewardGiven = false; // 새 게임 시작이면 마지막 레벨 클리어 보상 다시 1회 허용
     }
 
     // 매 프레임: 오토미스는 매 프레임 처리해야 함
@@ -117,7 +122,7 @@ public class RythmGameManager : MiniGameBase
     {
         AddScore(delta);   // MiniGameBase에 점수 반영(_isPlaying 체크)
     }
-    
+
     // 패턴 성공/실패 처리(목숨/보상)
     private void HandlePatternResult(int patternIndex, bool success, bool isLastPattern)
     {
@@ -127,18 +132,32 @@ public class RythmGameManager : MiniGameBase
         {
             if (isLastPattern)
             {
-                _rewardPlanner?.GiveClearReward(preset); //마지막은 클리어만
+                bool isLastLevel = (_flow != null) && _flow.IsLastLevel; //Flow의 마지막 레벨 여부 사용
+
+                if (!isLastLevel) //마지막 레벨이 아니면 기존대로 클리어 보상
+                {
+                    _rewardPlanner?.GiveClearReward(preset);
+                }
+                else //마지막 레벨이면 1회만 클리어 보상
+                {
+                    if (!_lastLevelClearRewardGiven) //아직 1회 지급 안 했으면
+                    {
+                        _rewardPlanner?.GiveClearReward(preset); // 마지막 레벨 클리어 보상 1회 지급
+                        _lastLevelClearRewardGiven = true;       // 이후부터는 지급 금지
+                    }
+                    // 이후 루프에서는 클리어 보상 없음
+                }
             }
             else
             {
-                _rewardPlanner?.TryGivePatternReward(patternIndex); //일반은 마지막 제외
+                _rewardPlanner?.TryGivePatternReward(patternIndex); //일반 패턴 보상
             }
 
             _rythmVisual.PatternSuccess(true);
         }
         else
         {
-            // 패턴 실패해도 즉시 게임오버는 안 함. 대신 목숨 깎기.
+            //체력 깎기
             _playerCurHeart--;
             _rythmVisual.PatternSuccess(false);
             _uiManager.RemoveHeart();
