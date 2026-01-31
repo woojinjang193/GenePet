@@ -14,6 +14,7 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
     [SerializeField] public Sprite GrowthBooster;
     [SerializeField] public Sprite GeneticGlue;
     [SerializeField] public Sprite GuaranteeSticker;
+    [SerializeField] public Sprite Gem;
 
     [Header("섬 아이템")]
     [SerializeField] public Sprite IslandTicketSprite;
@@ -70,6 +71,7 @@ public class ItemsSO : ScriptableObject //보상 아이템 이미지 모음 SO
             case RewardType.GrowthBooster: return GrowthBooster;
             case RewardType.GeneticGlue: return GeneticGlue;
             case RewardType.GuaranteeSticker: return GuaranteeSticker;
+            case RewardType.Gem: return Gem;
 
             case RewardType.Gift1: return Gift1;
             case RewardType.Gift2: return Gift2;

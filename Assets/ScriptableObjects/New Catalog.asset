@@ -109,3 +109,8 @@ MonoBehaviour:
     Rewards:
     - RewardType: 22
       RewardAmount: 1
+  - ProductId: test_gem
+    ProductType: 0
+    Rewards:
+    - RewardType: 21
+      RewardAmount: 100

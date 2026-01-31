@@ -13,6 +13,7 @@ public class ShopUiManager : MonoBehaviour
     {
         Manager.Item.OnMoneyChanged += UpdateMoney;
         Manager.Item.OnItemConsumed += UpdateGemAmount;
+        Manager.Item.OnRewardGranted += UpdateGemAmount;
     }
     private void OnDestroy()
     {
@@ -20,6 +21,7 @@ public class ShopUiManager : MonoBehaviour
         {
             Manager.Item.OnMoneyChanged -= UpdateMoney;
             Manager.Item.OnItemConsumed -= UpdateGemAmount;
+            Manager.Item.OnRewardGranted -= UpdateGemAmount;
         }
     }
     private void OnEnable()

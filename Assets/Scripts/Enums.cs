@@ -7,6 +7,7 @@ public enum RarityType { Common, Rare, Epic, Legendary } //GeneManager 에서 �
 //public enum Confirm { RemovePet, GiveUpPet, DeleteIsland, ChangingIslandMyPet }
 public enum Gift { None, Gift1, Gift2, Gift3, MasterGift }
 public enum Room { Default, Room_Jump, Room_Rythm, Room_Pinball, Room_Poor, Room_Cozy, Room_Something }
+public enum GMPurchaseType {None, Coin, Gem }
 public enum RewardCategory
 {
     Item,   //일반 아이템 보상

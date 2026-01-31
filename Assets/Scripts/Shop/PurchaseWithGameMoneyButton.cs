@@ -1,17 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.UI;
 
-public class PurchaseWithGoldButton : MonoBehaviour
+public class PurchaseWithGameMoneyButton : MonoBehaviour
 {
+    [Header("프로덕트 ID")]
     [SerializeField] private string _productID;
+    [Header("결제 화폐")]
+    [SerializeField] private GMPurchaseType _gmPurchaseType;
+    [Header("가격")]
     [SerializeField] private int _price;
+    [Header("가격 텍스트")]
     [SerializeField] private TMP_Text _priceText;
-
+ 
+    [Header("버튼 비활성화 컬러")]
     [SerializeField] private Color _nonInteractableC;
+    [Header("버튼 커버 이미지")]
     [SerializeField] private Image _buttonCover;
 
     private Button _button;
@@ -37,7 +43,9 @@ public class PurchaseWithGoldButton : MonoBehaviour
     }
     private void OnClicked()
     {
-        bool canbuy = Manager.Shop.TryPurchaseWithGold(_productID, _price, out _type);
+        if (_gmPurchaseType == GMPurchaseType.None) return; //결제타입 설정 안하면 return
+
+        bool canbuy = Manager.Shop.TryPurchaseWith(_productID, _price , _gmPurchaseType, out _type); //돈 확인
 
         if (!canbuy) return;
 

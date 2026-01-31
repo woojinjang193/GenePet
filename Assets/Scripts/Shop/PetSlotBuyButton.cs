@@ -8,6 +8,9 @@ public class PetSlotBuyButton : MonoBehaviour
 {
     private string _productID = "gold_petslot";
 
+    [Header("결제 화폐")]
+    [SerializeField] private GMPurchaseType _gmPurchaseType;
+
     [Header("슬롯 가격 테이블")]
     [SerializeField] private int[] _prices;
 
@@ -43,7 +46,9 @@ public class PetSlotBuyButton : MonoBehaviour
     }
     private void OnClicked()
     {
-        bool canbuy = Manager.Shop.TryPurchaseWithGold(_productID, _curPrice, out _type);
+        if (_gmPurchaseType == GMPurchaseType.None) return;
+
+        bool canbuy = Manager.Shop.TryPurchaseWith(_productID, _curPrice, _gmPurchaseType, out _type);
 
         if (!canbuy) return;
     }

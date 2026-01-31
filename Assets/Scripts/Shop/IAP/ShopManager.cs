@@ -279,22 +279,38 @@ public class ShopManager : Singleton<ShopManager>
 
     //===============골드구매===============
 
-    public bool TryPurchaseWithGold(string productId, int price, out ProductType productType) //골드 아이템구매시도
+    public bool TryPurchaseWith(string productId, int price, GMPurchaseType moneyType, out ProductType productType) //인게임 화폐 아이템구매시도 
     {
         productType = ProductType.Unknown; //프로덕트 타입
+
+        if (moneyType == GMPurchaseType.None) return false; //화폐 타입 없으면 리턴
 
         var user = Manager.Save.CurrentData.UserData;
 
         if (user == null) return false; //유저정보 없으면 리턴
 
-        int haveMoney = Manager.Save.CurrentData.UserData.Items.Money;
-
-        if (haveMoney < price)
+        if(moneyType == GMPurchaseType.Coin)
         {
-            Manager.Game.ShowPopup("You are broke"); //TODO: 로컬라이제이션
-            return false;
+            int haveMoney = Manager.Save.CurrentData.UserData.Items.Money;
+
+            if (haveMoney < price)
+            {
+                Manager.Game.ShowPopup("You are broke"); //TODO: 로컬라이제이션
+                return false;
+            }
         }
 
+        if (moneyType == GMPurchaseType.Gem)
+        {
+            int haveGem = Manager.Save.CurrentData.UserData.Items.Gem;
+
+            if (haveGem < price)
+            {
+                Manager.Game.ShowPopup("You are broke"); //TODO: 로컬라이제이션
+                return false;
+            }
+        }
+        //------- 구매 진행---------
         ProductCatalogSO.Entry entry = _catalog.GetEntryById(productId);
 
         if (entry == null) //카탈로그에 없는 상품 방어
