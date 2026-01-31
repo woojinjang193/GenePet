@@ -65,13 +65,18 @@ public class GenePair
     public string RecessiveId;
     public bool IsDominantCut;
     public bool IsRecessiveCut;
+
+    public bool IsDoGuaranteed;
+    public bool IsReGuaranteed;
     public GenePair()
     {
         DominantId = "";
         IsDominantCut = false;
+        IsDoGuaranteed = false;
 
         RecessiveId = "";
         IsRecessiveCut = false;
+        IsReGuaranteed = false;
     }
 }
 

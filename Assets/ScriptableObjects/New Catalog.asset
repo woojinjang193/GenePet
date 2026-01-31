@@ -104,3 +104,8 @@ MonoBehaviour:
     Rewards:
     - RewardType: 2
       RewardAmount: 1
+  - ProductId: gold_guarantee
+    ProductType: 0
+    Rewards:
+    - RewardType: 22
+      RewardAmount: 1

@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class GeneInfomationUI : MonoBehaviour
@@ -24,12 +21,20 @@ public class GeneInfomationUI : MonoBehaviour
     [SerializeField] private Button _dominantGlueButton;
     [SerializeField] private Button _recessiveGlueButton;
 
+    [Header("개런티 버튼")]
+    [SerializeField] private Button _doGuaranteeButton;
+    [SerializeField] private Button _reGuaranteeButton;
+
     [Header("없음 표시")]
     [SerializeField] private Sprite _noneImage;
 
     [Header("잘림표시 이미지")]
     [SerializeField] private GameObject _dominantCutImage;
     [SerializeField] private GameObject _recessiveCutImage;
+
+    [Header("확정표시 이미지")]
+    [SerializeField] private GameObject _doGuaranteedImage;
+    [SerializeField] private GameObject _reGuaranteedImage;
 
     [Header("레어도 별")]
     [SerializeField] private ShowRarityUI _dominantRarityUI;
@@ -48,6 +53,7 @@ public class GeneInfomationUI : MonoBehaviour
     [SerializeField] private TMP_Text _testerAmount;
     [SerializeField] private TMP_Text _scissorsAmount;
     [SerializeField] private TMP_Text _glueAmount;
+    [SerializeField] private TMP_Text _guaranteeStickerAmount;
 
     [Header("우성 성격 텍스트")]
     [SerializeField] private TMP_Text _dominantPersonalityText;
@@ -84,6 +90,8 @@ public class GeneInfomationUI : MonoBehaviour
         _recessiveCutButton.onClick.AddListener(OnRecessiveButtonClick);
         _dominantGlueButton.onClick.AddListener(OnDominantGlueClick);
         _recessiveGlueButton.onClick.AddListener(OnRecessiveGlueClick);
+        _doGuaranteeButton.onClick.AddListener(OnDoGuaranteeClick);
+        _reGuaranteeButton.onClick.AddListener(OnReGuaranteeClick);
 
         _userItemData = Manager.Save.CurrentData.UserData.Items;
         
@@ -92,12 +100,15 @@ public class GeneInfomationUI : MonoBehaviour
     {
         _scissorsAmount.text = $"x{_userItemData.GeneticScissors}"; //가위 숫자
         _glueAmount.text = $"x{_userItemData.GeneticGlue}"; //풀 숫자
+        _guaranteeStickerAmount.text = $"x{_userItemData.GuaranteeSticker}"; //확정 숫자
     }
     private void OnDestroy()
     {
         if(Manager.Item != null)
-        Manager.Item.OnItemConsumed -= UpdateAmountText;
-        Manager.Item.OnRewardGranted -= UpdateAmountText;
+        {
+            Manager.Item.OnItemConsumed -= UpdateAmountText;
+            Manager.Item.OnRewardGranted -= UpdateAmountText;
+        }
     }
     //===== 유전자 테스터 클릭 =========================
     private void OnClickedGeneTester()
@@ -163,6 +174,14 @@ public class GeneInfomationUI : MonoBehaviour
     {
         GlueGene(false);
     }
+    private void OnDoGuaranteeClick()
+    {
+        GuaranteeGene(true);
+    }
+    private void OnReGuaranteeClick()
+    {
+        GuaranteeGene(false);
+    }
 
     // ================유전자 자르기======================
     private void CutGene(bool isDominant)
@@ -207,6 +226,37 @@ public class GeneInfomationUI : MonoBehaviour
 
         ResetButtons();
     }
+    // ================유전자 확정======================
+    private void GuaranteeGene(bool isDominant)
+    {
+        if (_userItemData.GuaranteeSticker <= 0)
+        {
+            Manager.Game.ShowPopup("No Item"); //TODO: 로컬라이제이션
+            return;
+        }
+        // 상대가 이미 확정이면 확정 불가
+        if (isDominant ? _curPair.IsReGuaranteed : _curPair.IsDoGuaranteed)
+        {
+            Manager.Game.ShowPopup("Already Guaranteed"); // TODO: 로컬라이제이션
+            return;
+        }
+
+        // 잘린 상태면 확정 불가 체크 공통화
+        bool isCut = isDominant ? _curPair.IsDominantCut : _curPair.IsRecessiveCut;
+        if (isCut)
+        {
+            Manager.Game.ShowPopup("It's Already Cut"); // TODO: 로컬라이제이션
+            return;
+        }
+
+        // 확정 플래그 세팅 공통화
+        if (isDominant) _curPair.IsDoGuaranteed = true;
+        else _curPair.IsReGuaranteed = true;
+
+        Manager.Item.UseItem(RewardType.GuaranteeSticker, 1);
+        ResetButtons();
+    }
+
     // ==================== 파츠 카테고리 버튼 클릭시 =======================
     private void OnClickPart(PartType partType, PartTypeHolder holder) 
     {
@@ -429,36 +479,34 @@ public class GeneInfomationUI : MonoBehaviour
             default: return g.Body;
         }
     }
+    //================== 버튼 리셋 =====================
     private void ResetButtons()
     {
         bool isDominantCut = _curPair.IsDominantCut;
         bool isRecessiveCut = _curPair.IsRecessiveCut;
 
-        if (isDominantCut)// 우성 잘렸으면
-        {
-            _dominantCutButton.gameObject.SetActive(false);
-            _dominantGlueButton.gameObject.SetActive(true);
-            _dominantCutImage.SetActive(true);
-        }
-        else// 우성 안잘렸으면
-        {
-            _dominantCutButton.gameObject.SetActive(true);
-            _dominantGlueButton.gameObject.SetActive(false);
-            _dominantCutImage.SetActive(false);
-        }
+        bool isDoGuaranteed = _curPair.IsDoGuaranteed;
+        bool isReGuaranteed = _curPair.IsReGuaranteed;
 
-        if (isRecessiveCut) //열성 잘렸으면
-        {
-            _recessiveCutButton.gameObject.SetActive(false);
-            _recessiveGlueButton.gameObject.SetActive(true);
-            _recessiveCutImage.SetActive(true);
-        }
-        else //열성 안잘렸으면
-        {
-            _recessiveCutButton.gameObject.SetActive(true);
-            _recessiveGlueButton.gameObject.SetActive(false);
-            _recessiveCutImage.SetActive(false);
-        }
+        //컷/글루 버튼 처리
+        _dominantCutButton.interactable = !isDominantCut; // 우성 안잘렸으면 컷 가능
+        _dominantGlueButton.interactable = isDominantCut; // 우성 잘렸으면 글루 가능
+        _dominantCutImage.SetActive(isDominantCut);        // 잘림 표시
+
+        _recessiveCutButton.interactable = !isRecessiveCut; // 열성 안잘렸으면 컷 가능
+        _recessiveGlueButton.interactable = isRecessiveCut; // 열성 잘렸으면 글루 가능
+        _recessiveCutImage.SetActive(isRecessiveCut);        // 잘림 표시
+
+        // --- 우성 확정 버튼 인터랙션 적용 ---
+        bool dominantGuaranteeInteractable = !isDoGuaranteed && !isDominantCut && !isReGuaranteed;
+
+        _doGuaranteeButton.interactable = dominantGuaranteeInteractable;
+        _doGuaranteedImage.SetActive(isDoGuaranteed);  // 수정: 우성 확정이면 이미지 ON
+
+        bool recessiveGuaranteeInteractable = !isReGuaranteed && !isRecessiveCut && !isDoGuaranteed;
+
+        _reGuaranteeButton.interactable = recessiveGuaranteeInteractable; 
+        _reGuaranteedImage.SetActive(isReGuaranteed);
     }
 
     //============유전자 가위/풀 개수 업데이트용 ===============
@@ -473,6 +521,10 @@ public class GeneInfomationUI : MonoBehaviour
         else if(type == RewardType.GeneticGlue)
         {
             _glueAmount.text = $"x{newValue}";
+        }
+        else if(type == RewardType.GuaranteeSticker)
+        {
+            _guaranteeStickerAmount.text = $"x{newValue}";
         }
 
         Debug.Log($"아이템 사용: {type}이 {newValue} 남음");

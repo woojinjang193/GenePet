@@ -40,24 +40,7 @@ public class PetBreed : MonoBehaviour
         baby.Genes.PartColors.EarColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.WingColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.TailColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
-        //egg.Genes.PartColors.BlushColorId = Choose(egg.Genes.Color.DominantId, egg.Genes.Color.RecessiveId);
 
-        //var eggImage = Manager.Game.Config.EggRaritySO;
-        //switch (_finalRarity)
-        //{
-        //    case RarityType.Legendary:
-        //        egg.PetSaveData.EggSprite = eggImage.LegendarySprite;
-        //        break;
-        //    case RarityType.Epic:
-        //        egg.PetSaveData.EggSprite = eggImage.EpicSprite; ;
-        //        break;
-        //    case RarityType.Rare:
-        //        egg.PetSaveData.EggSprite = eggImage.RareSprite;
-        //        break;
-        //    default:
-        //        egg.PetSaveData.EggSprite = eggImage.CommonSprite;
-        //        break;
-        //}
         return egg;
     }
     // ======== 유전자 합치기======
@@ -66,24 +49,37 @@ public class PetBreed : MonoBehaviour
         string fatherGene;
         string motherGene;
 
-        //유전자 가위 여부 확인
-        if (myPet.IsDominantCut) fatherGene = myPet.RecessiveId;
-        else if (myPet.IsRecessiveCut) fatherGene = myPet.DominantId;
-        else fatherGene = Choose(myPet.DominantId, myPet.RecessiveId);
+        // 확정 우선 처리 (확정이면 무조건 그 유전자 사용)
+        if (myPet.IsDoGuaranteed) fatherGene = myPet.DominantId;          // 우성 확정
+        else if (myPet.IsReGuaranteed) fatherGene = myPet.RecessiveId;    // 열성 확정
+        else if (myPet.IsDominantCut) fatherGene = myPet.RecessiveId;     // 우성 잘림
+        else if (myPet.IsRecessiveCut) fatherGene = myPet.DominantId;     // 열성 잘림
+        else fatherGene = Choose(myPet.DominantId, myPet.RecessiveId);    // 랜덤 선택
 
-        if (islandPet.IsDominantCut) motherGene = islandPet.RecessiveId;
-        else if (islandPet.IsRecessiveCut) motherGene = islandPet.DominantId;
-        else motherGene = Choose(islandPet.DominantId, islandPet.RecessiveId);
+        // 수정: "확정" 우선 처리 (확정이면 무조건 그 유전자 사용)
+        if (islandPet.IsDoGuaranteed) motherGene = islandPet.DominantId;        // 우성 확정
+        else if (islandPet.IsReGuaranteed) motherGene = islandPet.RecessiveId;  // 열성 확정
+        else if (islandPet.IsDominantCut) motherGene = islandPet.RecessiveId;   // 우성 잘림
+        else if (islandPet.IsRecessiveCut) motherGene = islandPet.DominantId;   // 열성 잘림
+        else motherGene = Choose(islandPet.DominantId, islandPet.RecessiveId);  // 랜덤 선택
 
         RarityType curRarity = Manager.Gene.CheckRarity(type, fatherGene, motherGene);
 
-        //최고등급만 저장
-        if (curRarity > _finalRarity)
+        if (curRarity > _finalRarity) _finalRarity = curRarity;
+
+        // 추가: 확정된 유전자가 있으면 baby 우성(Dominant)에 배치
+        bool fatherForced = myPet.IsDoGuaranteed || myPet.IsReGuaranteed;
+        bool motherForced = islandPet.IsDoGuaranteed || islandPet.IsReGuaranteed;
+
+        if (fatherForced ^ motherForced) // 둘 중 하나만 확정일 때만 확정 유전자=우성을 보장
         {
-            _finalRarity = curRarity;
+            baby.DominantId = fatherForced ? fatherGene : motherGene;
+            baby.RecessiveId = fatherForced ? motherGene : fatherGene;
+            return;
         }
 
-        if (UnityEngine.Random.value < 0.5)
+        // 둘 다 확정 아니거나/ 둘 다 확정이면 기존 랜덤 배치
+        if (UnityEngine.Random.value < 0.5f)
         {
             baby.DominantId = fatherGene;
             baby.RecessiveId = motherGene;
