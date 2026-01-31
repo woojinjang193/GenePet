@@ -59,7 +59,7 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
 
         if(_curHave <= 0)
         {
-            Manager.Game.ShowPopup("No Item"); //TODO: 로컬라이제이션
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 1, this);
             return;
         }
 
@@ -73,7 +73,7 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
 
     public void Confirmed(int requestNum)
     {
-        if(requestNum == 0)
+        if(requestNum == 0) //부스터 사용
         {
             if (_curPet == null) return; // 방어
             if (_petManager == null) return; // 방어
@@ -82,7 +82,11 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
             if (!success) return; // 실패면 아이템 차감 안함
 
             Manager.Item.UseItem(RewardType.GrowthBooster, 1); //컨펌시 아이템 --
-        }    
+        }
+        else if (requestNum == 1) //상점이동 요청
+        {
+            Manager.Game.OpenUiPanel(UIPanel.Shop);
+        }
     }
 
     private void UpdateUI(RewardType type, int newValue)

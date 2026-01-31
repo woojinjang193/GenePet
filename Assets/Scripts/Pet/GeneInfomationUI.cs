@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GeneInfomationUI : MonoBehaviour
+public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
 {
     [Header("베이스")]
     [SerializeField] private Image _dominantGene;
@@ -188,7 +188,7 @@ public class GeneInfomationUI : MonoBehaviour
     {
         if (_userItemData.GeneticScissors <= 0)
         {
-            Manager.Game.ShowPopup("No Item"); //TODO: 로컬라이제이션
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
             return;
         }
 
@@ -209,7 +209,7 @@ public class GeneInfomationUI : MonoBehaviour
     {
         if (_userItemData.GeneticGlue <= 0)
         {
-            Manager.Game.ShowPopup("No Item"); //TODO: 로컬라이제이션
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
             return;
         }
 
@@ -231,7 +231,7 @@ public class GeneInfomationUI : MonoBehaviour
     {
         if (_userItemData.GuaranteeSticker <= 0)
         {
-            Manager.Game.ShowPopup("No Item"); //TODO: 로컬라이제이션
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
             return;
         }
         // 상대가 이미 확정이면 확정 불가
@@ -529,4 +529,14 @@ public class GeneInfomationUI : MonoBehaviour
 
         Debug.Log($"아이템 사용: {type}이 {newValue} 남음");
     }
+
+    public void Confirmed(int requestNum)
+    {
+        if (requestNum == 0) //상점이동 요청
+        {
+            Manager.Game.OpenUiPanel(UIPanel.Shop);
+        }
+    }
+
+    public void Canceled(int requestNum){}
 }

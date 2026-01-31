@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EggListUI : MonoBehaviour
+public class SpawnOptionList : MonoBehaviour, IConfirmRequester
 {
     [Header("알 버튼 목록")]
     [SerializeField] private Button[] _buttons;
@@ -97,7 +97,7 @@ public class EggListUI : MonoBehaviour
 
         if (_randomSpawnPrice > haveMoney)
         {
-            Manager.Game.ShowPopup("You are broke");
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShopForMoney", 0, this);
             return;
         }
         if (CanSpawn())
@@ -126,4 +126,14 @@ public class EggListUI : MonoBehaviour
         else
             return true;
     }
+
+    public void Confirmed(int requestNum)
+    {
+        if (requestNum == 0) //상점이동 요청
+        {
+            Manager.Game.OpenUiPanel(UIPanel.Shop);
+        }
+    }
+
+    public void Canceled(int requestNum) { }
 }
