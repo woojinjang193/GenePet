@@ -50,8 +50,6 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
             FirebaseUser user = result.User;
 
             Debug.Log($"익명 로그인 성공 UID: {user.UserId}");
-            Manager.Save.CurrentData.UserData.FirebaseUID = user.UserId;
-            Manager.Save.SaveGame();
 
             IsReady = true;
         });

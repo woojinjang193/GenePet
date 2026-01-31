@@ -1,3 +1,4 @@
+using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
         }
 
         var save = Manager.Save.CurrentData;
-        var uid = save.UserData.FirebaseUID;
+        var uid = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
 
         if (string.IsNullOrEmpty(uid))
         {
@@ -80,7 +81,7 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
         }
 
         var localSave = Manager.Save.CurrentData;
-        var uid = localSave.UserData.FirebaseUID;
+        var uid = FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
 
         if (string.IsNullOrEmpty(uid))
         {

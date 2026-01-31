@@ -20,7 +20,6 @@ public class UserData
 {
     public long LastPlayedUnixTime; //마지막 접속 시간
     public string LocalUID; // UID
-    public string FirebaseUID; // UID
     public Language CurLanguage; //현재 언어
     public string UserDisplayName; // 유저네임
     public int PetSlot; // 최대 보유 가능 펫 수
@@ -38,7 +37,6 @@ public class UserData
     {
         LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         LocalUID = "";
-        FirebaseUID = "";
         CurLanguage = Language.EN;
         UserDisplayName = "";
         PetSlot = 1; //플레이어 맥스 펫 수
