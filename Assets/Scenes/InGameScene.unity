@@ -24474,6 +24474,7 @@ MonoBehaviour:
   _zoomedUI: {fileID: 920031017}
   _letterPanel: {fileID: 1937883591}
   _energySlider: {fileID: 1321805737}
+  _goldAmount: {fileID: 1430347527}
   _zoomedUIController: {fileID: 920031022}
   _spawnPetButton: {fileID: 1986990624}
   _camera: {fileID: 519420033}
@@ -38572,7 +38573,6 @@ GameObject:
   - component: {fileID: 1278554815}
   - component: {fileID: 1278554817}
   - component: {fileID: 1278554816}
-  - component: {fileID: 1278554818}
   m_Layer: 5
   m_Name: 'Money Background '
   m_TagString: Untagged
@@ -38640,19 +38640,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278554814}
   m_CullTransparentMesh: 1
---- !u!114 &1278554818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1278554814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f916d2519acc5d544a066f1df09be9be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moneyAmount: {fileID: 1430347527}
 --- !u!1 &1283423406
 GameObject:
   m_ObjectHideFlags: 0
@@ -43811,7 +43798,7 @@ GameObject:
   - component: {fileID: 1430347528}
   - component: {fileID: 1430347527}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Money Amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

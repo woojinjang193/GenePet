@@ -19,8 +19,8 @@ MonoBehaviour:
   PetSlot: {fileID: 21300000, guid: 8294f3000c82bf64b8d58e5460887be1, type: 3}
   GrowthBooster: {fileID: 21300000, guid: 3df5c4122c8d9db458efd258c9ef642a, type: 3}
   GeneticGlue: {fileID: 21300000, guid: bc32d6809ca27f7498f9bf96bdd33167, type: 3}
-  GuaranteeSticker: {fileID: 21300000, guid: 050208ae96bddd44c8f34c147602480d, type: 3}
-  Gem: {fileID: 21300000, guid: 49ce9a232e4fe4f38a6cd83bad8d7072, type: 3}
+  GuaranteeSticker: {fileID: 21300000, guid: a1c208edf3a9bb74ca93ae41d32376fd, type: 3}
+  Gem: {fileID: 21300000, guid: aecbee763f78fb042b3394379b993a5d, type: 3}
   IslandTicketSprite: {fileID: 21300000, guid: 57db38bac1180ca459c359a0e65319d2, type: 3}
   MasterGiftSprite: {fileID: 21300000, guid: bcf0c64db1a7b4631b3d2c5f6c156b81, type: 3}
   Gift1: {fileID: 21300000, guid: ccf683b848e4f43da85b660b2ad50973, type: 3}

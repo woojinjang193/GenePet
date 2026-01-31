@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class ShopUiManager : MonoBehaviour
 {
@@ -11,17 +12,15 @@ public class ShopUiManager : MonoBehaviour
     [SerializeField] private TMP_Text _moneyAmount;
     private void Awake()
     {
-        Manager.Item.OnMoneyChanged += UpdateMoney;
-        Manager.Item.OnItemConsumed += UpdateGemAmount;
-        Manager.Item.OnRewardGranted += UpdateGemAmount;
+        Manager.Item.OnItemConsumed += UpdateAmounts;
+        Manager.Item.OnRewardGranted += UpdateAmounts;
     }
     private void OnDestroy()
     {
         if (Manager.Item != null)
         {
-            Manager.Item.OnMoneyChanged -= UpdateMoney;
-            Manager.Item.OnItemConsumed -= UpdateGemAmount;
-            Manager.Item.OnRewardGranted -= UpdateGemAmount;
+            Manager.Item.OnItemConsumed -= UpdateAmounts;
+            Manager.Item.OnRewardGranted -= UpdateAmounts;
         }
     }
     private void OnEnable()
@@ -30,14 +29,15 @@ public class ShopUiManager : MonoBehaviour
         _gemAmount.text = Manager.Save.CurrentData.UserData.Items.Gem.ToString(); // 소지금 초기화
     }
 
-    private void UpdateGemAmount(RewardType type, int newValue)
+    private void UpdateAmounts(RewardType type, int newValue)
     {
-        if (type != RewardType.Gem) return;
-
-        _gemAmount.text = newValue.ToString();
-    }
-    private void UpdateMoney(int value)
-    {
-        _moneyAmount.text = value.ToString();
+        if (type == RewardType.Gem)
+        {
+            _gemAmount.text = newValue.ToString();
+        }
+        else if (type == RewardType.Coin)
+        {
+            _moneyAmount.text = newValue.ToString();
+        }
     }
 }

@@ -103,7 +103,7 @@ public class SpawnOptionList : MonoBehaviour, IConfirmRequester
         if (CanSpawn())
         {
             Manager.Game.CreateRandomPet(true);
-            Manager.Item.AddOrSubtractMoney(-_randomSpawnPrice);
+            Manager.Item.UseItem(RewardType.Coin, _randomSpawnPrice);
             gameObject.SetActive(false);
         }
     }

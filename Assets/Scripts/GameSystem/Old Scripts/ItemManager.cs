@@ -10,7 +10,6 @@ public class ItemManager : Singleton<ItemManager>
 
     // ================= 이벤트 =================
     public event Action OnRewardsGiven; // 한 묶음 보상 지급 완료 알림, 보상 팝업 열기용
-    public event Action<int> OnMoneyChanged; //현재 소지 골드 변경 알림
     public event Action<RewardType, int> OnRewardGranted; //개별 보상 1개 지급 알림 <type, newvalue>
     public event Action OnGiftAmountChanged; //선물 수량 감소 알림
     public event Action<RewardType, int> OnItemConsumed; //아이템 소비 알림 <type, newvalue>
@@ -47,12 +46,18 @@ public class ItemManager : Singleton<ItemManager>
     }
 
     // ===========================골드로 아이템 구매 =========================
-    public void PurchaseWithGold(ProductCatalogSO.Entry entry, int price, UserData user)
+    public void PurchaseWith(GMPurchaseType moneyType, int price, ProductCatalogSO.Entry entry, UserData user)
     {
         if (entry == null) return;
 
-        user.Items.Money -= price;                 // 골드 차감
-        OnMoneyChanged?.Invoke(user.Items.Money); // UI 알림
+        if(moneyType == GMPurchaseType.Gem)
+        {
+            UseItem(RewardType.Gem, price); // 잼 사용
+        }
+        if(moneyType == GMPurchaseType.Coin)
+        {
+            UseItem(RewardType.Coin, price); // 코인 사용
+        }
 
         GiveReward(entry); // 보상 지급
     }
@@ -122,7 +127,6 @@ public class ItemManager : Singleton<ItemManager>
 
             case RewardType.Coin:
                 newValue = user.Items.Money += amount;
-                OnMoneyChanged?.Invoke(user.Items.Money);
                 Debug.Log($"코인 +{amount}");
                 break;
 
@@ -269,16 +273,6 @@ public class ItemManager : Singleton<ItemManager>
         }
         OnGiftAmountChanged?.Invoke();
     }
-
-    public void AddOrSubtractMoney(int amount) //돈 액수만 빠르게 변화시킬때
-    {
-        var user = Manager.Save.CurrentData.UserData;
-
-        user.Items.Money += amount;
-
-        OnMoneyChanged?.Invoke(user.Items.Money); // UI 알림
-    }
-
     public void UseItem(RewardType type, int amount)
     {
         var items = Manager.Save.CurrentData.UserData.Items;
@@ -342,6 +336,18 @@ public class ItemManager : Singleton<ItemManager>
                 else
                 {
                     newValue = items.Gem -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+
+            case RewardType.Coin:
+                if (amount <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    newValue = items.Money -= amount;
                 }
                 OnItemConsumed?.Invoke(type, newValue);
                 break;

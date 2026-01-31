@@ -1,12 +1,13 @@
 using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class GPGSAuthManager : MonoBehaviour
 {
     private void Awake()
     {
+        PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
     }
     public void Login(Action<bool> callback) // 로그인 요청 + 결과 콜백
@@ -26,9 +27,10 @@ public class GPGSAuthManager : MonoBehaviour
         }
 
         // 로그인 시도
-        Social.localUser.Authenticate(success =>
+        PlayGamesPlatform.Instance.Authenticate(status =>
         {
-            callback?.Invoke(success); // 결과 전달
+            Debug.Log($"GPGS SignInStatus: {status}");     // 원인 status 출력
+            callback?.Invoke(status == SignInStatus.Success); //성공 판정
         });
     }
 }

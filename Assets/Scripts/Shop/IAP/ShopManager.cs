@@ -278,7 +278,6 @@ public class ShopManager : Singleton<ShopManager>
     }
 
     //===============골드구매===============
-
     public bool TryPurchaseWith(string productId, int price, GMPurchaseType moneyType, out ProductType productType) //인게임 화폐 아이템구매시도 
     {
         productType = ProductType.Unknown; //프로덕트 타입
@@ -321,7 +320,7 @@ public class ShopManager : Singleton<ShopManager>
 
         productType = entry.ProductType; // 성공 시 out 값 세팅
 
-        Manager.Item.PurchaseWithGold(entry, price, user); // 구매 진행
+        Manager.Item.PurchaseWith(moneyType, price, entry, user); // 구매 진행
         return true;
     }
 

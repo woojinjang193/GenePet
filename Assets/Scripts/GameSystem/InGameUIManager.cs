@@ -14,6 +14,8 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private LetterPanel _letterPanel;
     [Header("에너지 슬라이더")]
     [SerializeField] private EnergySlider _energySlider;
+    [Header("골드 소지량")]
+    [SerializeField] private TMP_Text _goldAmount;
 
     [Header("줌인 UI 컨트롤러")]
     [SerializeField] private ZoomInUiController _zoomedUIController;
@@ -52,13 +54,28 @@ public class InGameUIManager : MonoBehaviour
         {
             OpenReservedUI(Manager.Game.ReservedUI); //UI 열어줌
         }
+
+        Manager.Item.OnItemConsumed += AmountChange;
+        Manager.Item.OnItemConsumed += AmountChange;
     }
 
     private void Start()
     {
         Manager.Audio.PlayBGM("BGM_Test"); //비지엠 재생
     }
-    
+    private void OnEnable()
+    {
+        _goldAmount.text = Manager.Save.CurrentData.UserData.Items.Money.ToString();
+
+    }
+    private void OnDestroy()
+    {
+        if(Manager.Item != null)
+        {
+            Manager.Item.OnItemConsumed -= AmountChange;
+            Manager.Item.OnItemConsumed -= AmountChange;
+        }
+    }
     // 펫 줌인 시
     public void OnZoomInPet()
     {
@@ -133,6 +150,14 @@ public class InGameUIManager : MonoBehaviour
         switch (reservedUI)
         {
             case UIPanel.Shop: _reservedUiPanels[0].SetActive(true); break;
+        }
+    }
+
+    private void AmountChange(RewardType type, int newValue)
+    {
+        if(type == RewardType.Coin)
+        {
+            _goldAmount.text = newValue.ToString();
         }
     }
 }
