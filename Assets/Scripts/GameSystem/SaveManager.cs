@@ -1,3 +1,4 @@
+using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -83,6 +84,7 @@ public class SaveManager : Singleton<SaveManager>
             CurrentData.UserData.HavePetList.Add(pet);
             CurrentData.UserData.HadPetList.Add(pet);
 
+            CurrentData.UserData.TotalRaisedPets++;
             Debug.Log($"펫 ID: {pet.ID} 등록");
         }
         else //섬 펫일때

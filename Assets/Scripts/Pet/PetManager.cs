@@ -415,6 +415,7 @@ public class PetManager : MonoBehaviour
         Debug.Log($"오프라인 틱 적용양: {offlineSec}");
         if (offlineSec <= 0) return;
 
+        RecoverEnergy(offlineSec);
         RunTick(offlineSec);
 
         for (int i = 0; i < _activePets.Count; i++) //성장 가능하면 성장시킴

@@ -18,6 +18,7 @@ public class MiniGameData
 [Serializable]
 public class UserData
 {
+    public int TotalRaisedPets;
     public long LastPlayedUnixTime; //마지막 접속 시간
     public string LocalUID; // UID
     public Language CurLanguage; //현재 언어
@@ -35,6 +36,7 @@ public class UserData
 
     public UserData()
     {
+        TotalRaisedPets = 0;
         LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         LocalUID = "";
         CurLanguage = Language.EN;
