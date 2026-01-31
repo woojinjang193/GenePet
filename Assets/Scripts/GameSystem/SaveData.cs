@@ -8,7 +8,6 @@ public class MiniGameData
 {
     public int PlayCount; // 플레이 횟수
     public int BestScore; // 최고 점수
-
     public MiniGameData()
     {
         PlayCount = 0;
@@ -19,7 +18,6 @@ public class MiniGameData
 [Serializable]
 public class UserData
 {
-
     public long LastPlayedUnixTime; //마지막 접속 시간
     public string LocalUID; // UID
     public string FirebaseUID; // UID
@@ -261,6 +259,7 @@ public class UserItemData
     public int GrowthBooster;
     public int GeneticGlue;
     public int Gem;
+    public int GuaranteeSticker;
 
     //차후 업데이트할때 추가될걸 대비한 아이템 미리 생성
     public int TimeSpeedUp; //추후 내펫끼리 교배에 쓰일수 있는 아이템
@@ -292,6 +291,7 @@ public class UserItemData
         GrowthBooster = 1;
         GeneticGlue = 1;
         Gem = 20;
+        GuaranteeSticker = 1;
 
         Rooms = new List<Room>()  //유저가 가진 방 목록
         { Room.Default};

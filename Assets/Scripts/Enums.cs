@@ -36,6 +36,7 @@ public enum RewardType
     GrowthBooster,
     GeneticGlue,
     Gem,
+    GuaranteeSticker,
     None,
     
 }

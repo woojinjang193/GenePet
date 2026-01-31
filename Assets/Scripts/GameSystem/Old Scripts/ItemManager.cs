@@ -191,6 +191,11 @@ public class ItemManager : Singleton<ItemManager>
                 Debug.Log($"잼 +{amount}");
                 break;
 
+            case RewardType.GuaranteeSticker:
+                newValue = user.Items.GuaranteeSticker += amount;
+                Debug.Log($"확정스티커 +{amount}");
+                break;
+
             case RewardType.Room_Jump:
             case RewardType.Room_Rythm:
             case RewardType.Room_Pinball:
@@ -337,6 +342,18 @@ public class ItemManager : Singleton<ItemManager>
                 else
                 {
                     newValue = items.Gem -= amount;
+                }
+                OnItemConsumed?.Invoke(type, newValue);
+                break;
+
+            case RewardType.GuaranteeSticker:
+                if (amount <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    newValue = items.GuaranteeSticker -= amount;
                 }
                 OnItemConsumed?.Invoke(type, newValue);
                 break;

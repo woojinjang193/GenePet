@@ -18,7 +18,7 @@ MonoBehaviour:
   Energy: {fileID: 21300000, guid: 81295fb915a9a154c926f98f89376029, type: 3}
   PetSlot: {fileID: 21300000, guid: 8294f3000c82bf64b8d58e5460887be1, type: 3}
   GrowthBooster: {fileID: 21300000, guid: 3df5c4122c8d9db458efd258c9ef642a, type: 3}
-  GeneticGlue: {fileID: 0}
+  GeneticGlue: {fileID: 21300000, guid: bc32d6809ca27f7498f9bf96bdd33167, type: 3}
   IslandTicketSprite: {fileID: 21300000, guid: 57db38bac1180ca459c359a0e65319d2, type: 3}
   MasterGiftSprite: {fileID: 21300000, guid: bcf0c64db1a7b4631b3d2c5f6c156b81, type: 3}
   Gift1: {fileID: 21300000, guid: ccf683b848e4f43da85b660b2ad50973, type: 3}
