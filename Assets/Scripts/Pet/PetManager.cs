@@ -24,7 +24,6 @@ public class PetManager : MonoBehaviour
     private float _energyTimer; // 에너지 회복 누적시간
     private float _energyRecoveringTime; // 에너지 1 오르는 시간
     private int _maxEnergy; //유저 맥스 에너지
-    private bool _isQuitting = false;
 
     private CameraController _camera;
     private InGameUIManager _uiManager;
@@ -46,6 +45,8 @@ public class PetManager : MonoBehaviour
         _accum = 0f;
         _camera = FindObjectOfType<CameraController>();
         _uiManager = FindObjectOfType<InGameUIManager>();
+        _energyRecoveringTime = Manager.Game.Config.EnergyRecoveringTime;
+        _maxEnergy = Manager.Game.Config.MaxEnergy;
 
         foreach (var cfg in _configs)
         {
@@ -55,63 +56,46 @@ public class PetManager : MonoBehaviour
             }
         }
 
-        LoadPetListFromSave();
+        LoadPetListFromSave(); //펫 데이터 로드
+        ApplyOfflineTimeFromSave(); //오프라인 시간 적용
     }
-    private void Start()
+    private void OnEnable()
     {
-        _energyRecoveringTime = Manager.Game.Config.EnergyRecoveringTime;
-        _maxEnergy = Manager.Game.Config.MaxEnergy;
-
         _letterPanel = FindObjectOfType<LetterPanel>(true);
         _letterPanel.OnClickMissingPoster += PetComeBack;
 
-        ApplyOfflineTimeFromSave();
+        Manager.Save.OnAppPaused += OnAppPaused; //백그라운드시 저장용
     }
     private void OnDisable()
     {
-        if (_isQuitting)
+        if(Manager.Save == null)
         {
-            Debug.Log("종료중이라 리턴");
+            Debug.LogError("[PetManager] 세이브 매니저 없음");
             return;
         }
 
-        if (Manager.Save == null || Manager.Save.CurrentData == null || Manager.Save.CurrentData.UserData == null)
-        {
-            Debug.LogError("저장 불가: saveManager 준비 전");
-            return;
-        }
-
+        // 메인 씬을 떠날때 시간, 펫상태 저장
         SaveAllStatus();
-        Debug.Log("펫 스테이터스 저장 완료");
+        Manager.Save.SaveMainSceneLeaveTime();
+        Debug.Log("메인씬 떠남저장 완료");
 
-        // 메인 씬을 떠나는 지금 시간기록
-        Manager.Save.SavePlayTime();
-
-        // 상태 + 시간까지 포함해서 저장
+        // 상태 저장
         Manager.Save.SaveGame();
+
+        //-----------이벤트 해제-------------------
+        if (_letterPanel != null)
+            _letterPanel.OnClickMissingPoster -= PetComeBack;
+
+        Manager.Save.OnAppPaused -= OnAppPaused;
+
     }
     private void OnApplicationPause(bool pause)
     {
-        if (pause)
-        {
-            Debug.Log("앱 백그라운드 전환. 즉시 저장");
-
-            SaveAllStatus();
-            Manager.Save.SavePlayTime();
-            Manager.Save.SaveGame();
-
-            return;
-        }
-
         // 복귀 시 오프라인 시간 적용
         if (!pause)
             ApplyOfflineTimeFromSave();
     }
-    private void OnDestroy()
-    {
-        if (_letterPanel != null)
-        _letterPanel.OnClickMissingPoster -= PetComeBack;
-    }
+
     private void LoadPetListFromSave()
     {
         var saveList = Manager.Save.CurrentData.UserData.HavePetList;
@@ -314,9 +298,7 @@ public class PetManager : MonoBehaviour
                 }
             }
         }
-
         Debug.Log("<color=green>펫 데이터 저장완료</color>");
-
     }
     //======================펫 줌 인/아웃==================================
     public void ZoomInPet(PetUnit unit)
@@ -395,8 +377,14 @@ public class PetManager : MonoBehaviour
     }
     private void ApplyOfflineTimeFromSave()
     {
-        long last = Manager.Save.CurrentData.UserData.LastPlayedUnixTime;
+        long last = Manager.Save.CurrentData.UserData.LastPetSavedUnixTime;
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        if(last == 0) //첫 사용자면
+        {
+            Manager.Save.CurrentData.UserData.LastPetSavedUnixTime = now; //세이브에 현재시간 마지막 메인씬 시간으로 기록
+            return;
+        }
 
         int offlineSec = (int)(now - last);
 
@@ -523,12 +511,6 @@ public class PetManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         Debug.Log("_isQuitting = true");
-
-        SaveAllStatus();
-        Manager.Save.SavePlayTime();
-        Manager.Save.SaveGame();
-
-        _isQuitting = true;
     }
 
     //게이지 업데이트 요청하는 유틸
@@ -558,5 +540,10 @@ public class PetManager : MonoBehaviour
 
         return true; // 성공
     }
-
+    //앱 백그라운드 이벤트로 호출
+    private void OnAppPaused()
+    {
+        SaveAllStatus();
+        Manager.Save.SaveMainSceneLeaveTime();
+    }
 }

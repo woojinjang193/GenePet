@@ -3,6 +3,7 @@ using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,12 +19,28 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
 
     private bool _isResolvingLinkConflict = false;  // 연동 직후 충돌 선택 진행중 표시(중복 방지)
 
+    private long _lastUploadUnix = 0; // 마지막 서버 업로드 성공 시간(초)
+
+    private int _uploadIntervalSec; // 백그라운드 업로드 최소 간격 캐싱
+
     protected override void Awake()
     {
         base.Awake();
         _db = FirebaseFirestore.DefaultInstance;
         IsReady = false;
+
+        StartCoroutine(WaitForConfigRoutine());
     }
+    private IEnumerator WaitForConfigRoutine()
+    {
+        while (Manager.Game == null || Manager.Game.Config == null)
+        {
+            yield return null;
+        }
+
+        _uploadIntervalSec = Manager.Game.Config.UploadIntervalSec;
+    }
+
     // ===================== 공통 유틸 =====================
 
     private bool HasInternet() //오프라인 체크
@@ -116,8 +133,8 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
             _isUploading = false; //업로드 종료
 
             // TEST: 실패 원인 출력
-            if (task.IsFaulted) Debug.LogError(task.Exception);
-            if (task.IsCanceled) Debug.LogWarning("Canceled");
+            //if (task.IsFaulted) Debug.LogError(task.Exception);
+            //if (task.IsCanceled) Debug.LogWarning("Canceled");
 
             if (task.IsFaulted || task.IsCanceled)
             {
@@ -125,6 +142,7 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
                 return;
             }
 
+            _lastUploadUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //성공 업로드 시간 기록
             Debug.Log("<color=green>서버에 세이브 업로드 성공</color>");
         });
     }
@@ -197,7 +215,7 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
 
                     LocalVersion = localVersion,
                     LocalTotalPets = localTotalPets,
-                    LocalLastPlayed = localSave.UserData.LastPlayedUnixTime,
+                    LocalLastPlayed = localSave.UserData.LastSavedUnixTime,
 
                     ServerVersion = serverVersion,
                     ServerTotalPets = serverTotalPets,
@@ -303,7 +321,7 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
 
             long localVersion = localSave.SnapshotVersion;
             int localTotalPets = localSave.UserData.TotalRaisedPets;
-            long localLastPlayed = localSave.UserData.LastPlayedUnixTime;
+            long localLastPlayed = localSave.UserData.LastSavedUnixTime;
 
             long serverVersion = snap.GetValue<long>("version");
             int serverTotalPets = GetIntFieldOrDefault(snap, "totalRaisedPets", 0);
@@ -343,6 +361,19 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
     {
         _pendingConflict = null; // 충돌 정보 제거(단순 제거)
     }
+    //================== 백그라운드 진입 시 호출용===================
+    public void TryUploadOnBackground()
+    {
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //현재 시간
+
+        if (_isUploading) return; //업로드 중이면 스킵
+
+        //간격 안 됐으면 스킵
+        if (_lastUploadUnix > 0 && (now - _lastUploadUnix) < _uploadIntervalSec) return;
+
+        UploadSave(); // 간격 됐으면 업로드
+    }
+
 }
 
 // ===================== 충돌 데이터 컨테이너) =====================

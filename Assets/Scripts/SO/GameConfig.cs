@@ -3,6 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New GameConfigSO", menuName = "SO/GameConfigSO")]
 public class GameConfig : ScriptableObject
 {
+    [Header("<color=yellow>게임 설정</color>")]
+    [Header("백그라운드 게임저장 간격")]
+    public int UploadIntervalSec;
+
     [Header("<color=yellow>유저 설정</color>")]
     [Header("최대 소유 펫 수")]
     public int MaxPetAmount;

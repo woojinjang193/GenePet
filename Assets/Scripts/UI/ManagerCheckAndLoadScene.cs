@@ -150,7 +150,7 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
     {
         _loadingText.text = "Syncing Save Data..";
 
-        Debug.Log($"[Auth] uid={FirebaseAuth.DefaultInstance.CurrentUser?.UserId}");
+        //Debug.Log($"[Auth] uid={FirebaseAuth.DefaultInstance.CurrentUser?.UserId}");
 
         Manager.Server.DownloadIfNewer();
 

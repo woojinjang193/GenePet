@@ -19,7 +19,11 @@ public class MiniGameData
 public class UserData
 {
     public int TotalRaisedPets;
-    public long LastPlayedUnixTime; //마지막 접속 시간
+
+    //public long LastPlayedUnixTime;
+    public long LastSavedUnixTime; //마지막 세이브 타임
+    public long LastPetSavedUnixTime; //마지막 펫 상태 저장 타임
+
     public string LocalUID; // UID
     public Language CurLanguage; //현재 언어
     public string UserDisplayName; // 유저네임
@@ -37,7 +41,11 @@ public class UserData
     public UserData()
     {
         TotalRaisedPets = 0;
-        LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        //LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        LastSavedUnixTime = 0;
+        LastPetSavedUnixTime = 0; 
+
         LocalUID = "";
         CurLanguage = Language.EN;
         UserDisplayName = "";
