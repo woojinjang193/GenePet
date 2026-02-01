@@ -196,6 +196,6 @@ public class PetVisualController : MonoBehaviour
     //===============성장 파티클 이벤트=================================
     public void OnGrown(GrowthStatus newGrowth)
     {
-        if (_growParticle != null) _growParticle.Play();
+        if (_growParticle != null) _growParticle.Emit(30);
     }
 }

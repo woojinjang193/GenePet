@@ -369,7 +369,11 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
         if (_isUploading) return; //업로드 중이면 스킵
 
         //간격 안 됐으면 스킵
-        if (_lastUploadUnix > 0 && (now - _lastUploadUnix) < _uploadIntervalSec) return;
+        if (_lastUploadUnix > 0 && (now - _lastUploadUnix) < _uploadIntervalSec)
+        {
+            Debug.Log("<color=red>저장 쿨타임 안지나서 서버에 업로드 안함</color>");
+            return;
+        } 
 
         UploadSave(); // 간격 됐으면 업로드
     }

@@ -202,7 +202,7 @@ public class GameManager : Singleton<GameManager>
         ReservedUI = UIPanel.None;
     }
 
-    public void OpenUiPanel(UIPanel panel) //원하는 UI 바로 열기
+    public void OpenUiPanel(UIPanel panel) //메인씬에서 원하는 UI 바로 열기
     {
         if (panel == UIPanel.None) return;
 

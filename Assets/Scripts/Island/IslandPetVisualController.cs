@@ -46,13 +46,13 @@ public class IslandPetVisualController : MonoBehaviour
         ParticleSystem particle;
         particle = isUp ? _particleAffinityUp : _particleAffinityDown;
 
-        particle.Play();
+        particle.Emit(30);
     }
     public void ShowLayOrLeaveEffect(bool isMarried) //true = 알 , false = 떠남
     {
         ParticleSystem particle;
         particle = isMarried ? _particleLayEgg : _particleLeave;
 
-        particle.Play();
+        particle.Emit(30);
     }
 }

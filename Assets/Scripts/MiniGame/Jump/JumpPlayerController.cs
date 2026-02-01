@@ -121,7 +121,7 @@ public class JumpPlayerController : MonoBehaviour
         _pendingGrounded = true;
         IsGrounded = false;
 
-        Debug.Log($"낙하스피드 : {fallSpeed}");
+        //Debug.Log($"낙하스피드 : {fallSpeed}");
         PlayLandingSquash(fallSpeed);  // 착지 연출 실행  
     }
 
@@ -190,7 +190,7 @@ public class JumpPlayerController : MonoBehaviour
             dir.normalized * power,  // 방향 정규화 후 파워 곱함
             ForceMode2D.Impulse   // 즉시 힘 적용
         );
-        Debug.Log($"{power}의 파워로 점프함");
+        //Debug.Log($"{power}의 파워로 점프함");
     }
     // ================= 충돌 처리 =================
     private void OnTriggerEnter2D(Collider2D col) //트리거 
