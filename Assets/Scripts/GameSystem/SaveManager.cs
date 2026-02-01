@@ -1,3 +1,4 @@
+using Firebase.Auth;
 using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
@@ -158,6 +159,8 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log("SaveManager Quit 시간 + 전체 저장");
         SavePlayTime();
         SaveGame();
+
+        Debug.Log($"[Auth] uid={FirebaseAuth.DefaultInstance.CurrentUser?.UserId}");
 
         Manager.Server.UploadSave();
     }

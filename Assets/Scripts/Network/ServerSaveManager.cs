@@ -115,6 +115,10 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
         {
             _isUploading = false; //업로드 종료
 
+            // TEST: 실패 원인 출력
+            if (task.IsFaulted) Debug.LogError(task.Exception);
+            if (task.IsCanceled) Debug.LogWarning("Canceled");
+
             if (task.IsFaulted || task.IsCanceled)
             {
                 Debug.LogError("서버 업로드 실패");
@@ -152,6 +156,10 @@ public class ServerSaveManager : Singleton<ServerSaveManager>
         {
             if (task.IsFaulted || task.IsCanceled)
             {
+                // TEST: 실패 원인 출력
+                if (task.IsFaulted) Debug.LogError(task.Exception); 
+                if (task.IsCanceled) Debug.LogWarning("Canceled");
+
                 Debug.LogWarning("서버 세이브 요청 실패. 로컬 유지");
                 IsReady = true;
                 return;

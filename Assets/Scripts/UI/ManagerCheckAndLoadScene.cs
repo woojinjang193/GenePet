@@ -1,3 +1,4 @@
+using Firebase.Auth;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -148,6 +149,8 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
     private IEnumerator WaitForServerSave()
     {
         _loadingText.text = "Syncing Save Data..";
+
+        Debug.Log($"[Auth] uid={FirebaseAuth.DefaultInstance.CurrentUser?.UserId}");
 
         Manager.Server.DownloadIfNewer();
 
