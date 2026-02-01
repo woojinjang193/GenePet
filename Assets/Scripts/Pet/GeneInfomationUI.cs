@@ -25,9 +25,6 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     [SerializeField] private Button _doGuaranteeButton;
     [SerializeField] private Button _reGuaranteeButton;
 
-    [Header("없음 표시")]
-    [SerializeField] private Sprite _noneImage;
-
     [Header("잘림표시 이미지")]
     [SerializeField] private GameObject _dominantCutImage;
     [SerializeField] private GameObject _recessiveCutImage;
@@ -60,6 +57,18 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     [Header("열성 성격 텍스트")]
     [SerializeField] private TMP_Text _recessivePersonalityText;
 
+    [Header("없음 표시 스프라이트")]
+    [SerializeField] private Sprite _noneImage;
+
+    [Header("개런티 버튼 아이콘")]
+    [SerializeField] private Image _doGuaranteeButtonImage;
+    [SerializeField] private Image _reGuaranteeButtonImage;
+
+    [Header("확정취소 버튼 스프라이트")]
+    [SerializeField] private Sprite _cancelGuaranteeSprite;
+
+    private Sprite _guaranteeDefaultSprite; //확정버튼 디폴트 이미지 캐싱용
+
     //현재 펫
     private PetSaveData _curPet;
     private GenePair _curPair;
@@ -72,6 +81,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     private PartTypeHolder _selectedHolder; //선택된 버튼
 
     private Color _defaultColor = Color.white; //버튼 디폴트 컬러
+    private PartType _curPart; //현재 조회중인 파츠 타입
 
     private void Awake()
     {
@@ -93,7 +103,8 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         _reGuaranteeButton.onClick.AddListener(OnReGuaranteeClick);
 
         _userItemData = Manager.Save.CurrentData.UserData.Items;
-        
+
+        _guaranteeDefaultSprite = _doGuaranteeButtonImage.sprite; //같은 이미지이니 하나만 캐싱해도 됨
     }
     private void OnEnable()
     {
@@ -228,11 +239,24 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     // ================유전자 확정======================
     private void GuaranteeGene(bool isDominant)
     {
-        if (_userItemData.GuaranteeSticker <= 0)
+        if (_userItemData.GuaranteeSticker <= 0) //아이템 부족시
         {
             Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
             return;
         }
+
+        // 이미 확정된 상태면 해제확인 팝업
+        if (isDominant && _curPair.IsDoGuaranteed)
+        {
+            Manager.Game.ShowConfirmMessage("Confirm_GeneGuarantorCancel", 3, this);
+            return;
+        }
+        if (!isDominant && _curPair.IsReGuaranteed)
+        {
+            Manager.Game.ShowConfirmMessage("Confirm_GeneGuarantorCancel", 4, this);
+            return;
+        }
+
         // 다른 유전자가 이미 확정이면 확정 불가
         if (isDominant ? _curPair.IsReGuaranteed : _curPair.IsDoGuaranteed)
         {
@@ -257,6 +281,8 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     // ==================== 파츠 카테고리 버튼 클릭시 =======================
     private void OnClickPart(PartType partType, PartTypeHolder holder) 
     {
+        _curPart = partType;
+
         HandleButtonColor(holder);
 
         ImageReset();
@@ -485,25 +511,38 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         bool isDoGuaranteed = _curPair.IsDoGuaranteed;
         bool isReGuaranteed = _curPair.IsReGuaranteed;
 
-        //컷/글루 버튼 처리
-        _dominantCutButton.interactable = !isDominantCut; // 우성 안잘렸으면 컷 가능
-        _dominantGlueButton.interactable = isDominantCut; // 우성 잘렸으면 글루 가능
-        _dominantCutImage.SetActive(isDominantCut);        // 잘림 표시
+        bool anyGuaranteed = isDoGuaranteed || isReGuaranteed; // 둘 중 하나라도 확정이면 true
 
-        _recessiveCutButton.interactable = !isRecessiveCut; // 열성 안잘렸으면 컷 가능
-        _recessiveGlueButton.interactable = isRecessiveCut; // 열성 잘렸으면 글루 가능
-        _recessiveCutImage.SetActive(isRecessiveCut);        // 잘림 표시
+        _dominantCutButton.interactable = !anyGuaranteed && !isDominantCut; //확정 없고 안잘린 상태면 활성화(우성 컷)
+        _dominantGlueButton.interactable = !anyGuaranteed && isDominantCut; //확정 없고 잘린 상태면 활성화(우성 글루)
+        _dominantCutImage.SetActive(isDominantCut); // 잘린 표시(우성)
 
-        // --- 우성 확정 버튼 인터랙션 적용 ---
-        bool dominantGuaranteeInteractable = !isDoGuaranteed && !isDominantCut && !isReGuaranteed;
+        _recessiveCutButton.interactable = !anyGuaranteed && !isRecessiveCut; // 확정 없고 안잘린 상태면 활성화(열성 컷)
+        _recessiveGlueButton.interactable = !anyGuaranteed && isRecessiveCut; //확정 없고 잘린 상태면 활성화(열성 글루)
+        _recessiveCutImage.SetActive(isRecessiveCut); //잘린 표시(열성)
 
-        _doGuaranteeButton.interactable = dominantGuaranteeInteractable;
-        _doGuaranteedImage.SetActive(isDoGuaranteed);  // 수정: 우성 확정이면 이미지 ON
+        bool canToggleDominantGuarantee = !isDominantCut && (isDoGuaranteed || !anyGuaranteed);  //우성 확정 상태?
+        bool canToggleRecessiveGuarantee = !isRecessiveCut && (isReGuaranteed || !anyGuaranteed); //열성 확정 상태?
 
-        bool recessiveGuaranteeInteractable = !isReGuaranteed && !isRecessiveCut && !isDoGuaranteed;
+        if (_curPart == PartType.Color) //Color 파츠면 확정 기능 비활성화
+        {
+            _doGuaranteeButton.interactable = false; //Color일 땐 확정 버튼 비활성화(우성)
+            _reGuaranteeButton.interactable = false; //Color일 땐 확정 버튼 비활성화(열성)
 
-        _reGuaranteeButton.interactable = recessiveGuaranteeInteractable; 
-        _reGuaranteedImage.SetActive(isReGuaranteed);
+            _doGuaranteeButtonImage.sprite = _guaranteeDefaultSprite; // 아이콘은 기본으로
+            _reGuaranteeButtonImage.sprite = _guaranteeDefaultSprite;
+        }
+        else
+        {
+            //확정버튼 이미지 변경
+            _doGuaranteeButtonImage.sprite = isDoGuaranteed ? _cancelGuaranteeSprite : _guaranteeDefaultSprite;
+            _reGuaranteeButtonImage.sprite = isReGuaranteed ? _cancelGuaranteeSprite : _guaranteeDefaultSprite;
+
+            _doGuaranteeButton.interactable = canToggleDominantGuarantee; //우성 확정이면 활성화 (우성 확정 취소버튼)
+            _reGuaranteeButton.interactable = canToggleRecessiveGuarantee;//열성 확정이 면 활성화 (열성 확정 취소버튼)
+        }
+        _doGuaranteedImage.SetActive(isDoGuaranteed); // 확정 표시(우성)
+        _reGuaranteedImage.SetActive(isReGuaranteed); // 확정 표시(열성)
     }
 
     //============유전자 가위/풀 개수 업데이트용 ===============
@@ -544,6 +583,16 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         {
             _curPair.IsReGuaranteed = true;
             Manager.Item.UseItem(RewardType.GuaranteeSticker, 1);
+            ResetButtons();
+        }
+        else if (requestNum == 3) //우성 확정 해제
+        {
+            _curPair.IsDoGuaranteed = false;
+            ResetButtons();
+        }
+        else if (requestNum == 4)
+        {
+            _curPair.IsReGuaranteed = false;
             ResetButtons();
         }
     }

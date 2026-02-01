@@ -8835,7 +8835,6 @@ MonoBehaviour:
   _recessiveGlueButton: {fileID: 3901334754014830648}
   _doGuaranteeButton: {fileID: 8273937349231706778}
   _reGuaranteeButton: {fileID: 3853123417389196164}
-  _noneImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   _dominantCutImage: {fileID: 1469093641031108116}
   _recessiveCutImage: {fileID: 8225576801493077364}
   _doGuaranteedImage: {fileID: 406866434820186607}
@@ -8851,6 +8850,10 @@ MonoBehaviour:
   _guaranteeStickerAmount: {fileID: 4894591928709139451}
   _dominantPersonalityText: {fileID: 5050817968335269599}
   _recessivePersonalityText: {fileID: 2256089116248009217}
+  _noneImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _doGuaranteeButtonImage: {fileID: 3935694403787303322}
+  _reGuaranteeButtonImage: {fileID: 1266386491711158318}
+  _cancelGuaranteeSprite: {fileID: 21300000, guid: 7f1b45f5bad9c02478fea9cf564c10cd, type: 3}
 --- !u!1 &8100469267364685104
 GameObject:
   m_ObjectHideFlags: 0
