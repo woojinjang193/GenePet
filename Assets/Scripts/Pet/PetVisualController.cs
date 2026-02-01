@@ -91,6 +91,8 @@ public class PetVisualController : MonoBehaviour
         _letter.gameObject.SetActive(false); //편지 꺼줌
         _egg.gameObject.SetActive(false); //알 꺼줌
 
+        if (_pet.Status.IsSick) _sickImage.SetActive(true); //아픈상태면 이미지 켜줌
+
         OnCleanlinessChanged(_pet.Status.Cleanliness);//더러움 설정
     }
 

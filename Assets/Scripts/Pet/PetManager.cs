@@ -245,7 +245,6 @@ public class PetManager : MonoBehaviour
             }
         }
     }
-
     private void RecoverEnergy(float sec)
     {
         if(_energyRecoveringTime <= 0f) return;
