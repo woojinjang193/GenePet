@@ -72,7 +72,6 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     private PartTypeHolder _selectedHolder; //선택된 버튼
 
     private Color _defaultColor = Color.white; //버튼 디폴트 컬러
-    
 
     private void Awake()
     {
@@ -234,7 +233,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
             Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
             return;
         }
-        // 상대가 이미 확정이면 확정 불가
+        // 다른 유전자가 이미 확정이면 확정 불가
         if (isDominant ? _curPair.IsReGuaranteed : _curPair.IsDoGuaranteed)
         {
             Manager.Game.ShowPopup("Already Guaranteed"); // TODO: 로컬라이제이션
@@ -249,12 +248,10 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        // 확정 플래그 세팅 공통화
-        if (isDominant) _curPair.IsDoGuaranteed = true;
-        else _curPair.IsReGuaranteed = true;
-
-        Manager.Item.UseItem(RewardType.GuaranteeSticker, 1);
-        ResetButtons();
+        if(isDominant)
+            Manager.Game.ShowConfirmMessage("Confirm_GeneGuarantor", 1, this);
+        else
+            Manager.Game.ShowConfirmMessage("Confirm_GeneGuarantor", 2, this);
     }
 
     // ==================== 파츠 카테고리 버튼 클릭시 =======================
@@ -535,6 +532,19 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         if (requestNum == 0) //상점이동 요청
         {
             Manager.Game.OpenUiPanel(UIPanel.Shop);
+        }
+        else if (requestNum == 1) //유전자 스티커 사용 (우성용)
+        {
+            _curPair.IsDoGuaranteed = true;
+
+            Manager.Item.UseItem(RewardType.GuaranteeSticker, 1);
+            ResetButtons();
+        }
+        else if (requestNum == 2)//유전자 스티커 사용 (열성용)
+        {
+            _curPair.IsReGuaranteed = true;
+            Manager.Item.UseItem(RewardType.GuaranteeSticker, 1);
+            ResetButtons();
         }
     }
 

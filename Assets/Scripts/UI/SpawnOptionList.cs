@@ -117,10 +117,16 @@ public class SpawnOptionList : MonoBehaviour, IConfirmRequester
         int playerMaxAmount = Manager.Save.CurrentData.UserData.PetSlot;
         int havePet = Manager.Save.CurrentData.UserData.HavePetList.Count;
 
-        if (havePet >= maxPetAmount || havePet >= playerMaxAmount)
+        if (havePet >= maxPetAmount)
         {
             Debug.Log("펫 자리 없음");
-            Manager.Game.ShowPopup("Lack of slot");
+            Manager.Game.ShowPopup("Already Max"); //TODO:로컬라이제이션
+            return false;
+        }
+        else if(havePet >= playerMaxAmount)
+        {
+            Debug.Log("펫 자리 없음");
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShopForSlot", 0 , this);
             return false;
         }
         else
