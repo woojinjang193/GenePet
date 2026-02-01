@@ -53,7 +53,7 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
 
         if(_curPet.Status.Growth == GrowthStatus.Adult)
         {
-            Manager.Game.ShowPopup("It's already fully grown"); //TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_AlreadyGrown"); //TODO: 로컬라이제이션
             return;
         }
 

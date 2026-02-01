@@ -13,7 +13,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     [Header("사진")]
     [SerializeField] private PetPictureOnLetter _picture;
 
-    [Header("떠난 이유 스프라이트\nKOR = 0, ENG = 1, DE = 2, JP = 3, CH = 4")]
+    [Header("떠난 이유 스프라이트\nKR = 0, EN = 1, DE = 2, SP = 3, JP = 4, CHS = 5, CHT = 6,")]
     [SerializeField] private Sprite[] _hunger;
     [SerializeField] private Sprite[] _dirty;
     [SerializeField] private Sprite[] _unhappy;

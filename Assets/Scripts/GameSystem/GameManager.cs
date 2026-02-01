@@ -78,7 +78,6 @@ public class GameManager : Singleton<GameManager>
             if (curAmount >= userMaxAmount)
             {
                 Debug.Log($"현재 유저가 키울 수 있는 최대 펫 수 : {userMaxAmount}.\n현재 펫 수 {curAmount}");
-                //TODO: 여기에 슬롯 구매 바로가기 창 띄우기
                 return;
             }
         }
@@ -174,9 +173,10 @@ public class GameManager : Singleton<GameManager>
             _isManagerReady = true;
         }
     }
-    public void ShowPopup(string msg) //팝업 텍스트 출력
+    public void ShowPopup(string stringID) //팝업 텍스트 출력
     {
-        _popupText.ShowMessage(msg);
+        string text = Manager.Lang.GetText(stringID);
+        _popupText.ShowMessage(text);
     }
 
     //==================팝업창 오픈 요청======================

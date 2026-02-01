@@ -92,12 +92,12 @@ public class ZoomInUiController : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(_input.text))
         {
-            _errorText.text = "It can not be empty"; //TODO: 로컬라이제이션
+            _errorText.text = Manager.Lang.GetText("PopUp_EmptyName");
             return;
         }
         if(_input.text.Length > _nameLengthLimit)
         {
-            _errorText.text = "It can not be longer than 10 letters"; //TODO: 로컬라이제이션
+            _errorText.text = Manager.Lang.GetText("PopUp_TooLongName");
             return;
         }
 

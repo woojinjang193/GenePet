@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: PopUp_AleadyGuaranteed
+  m_EditorClassIdentifier: 
+  KOR: "\uC774\uBBF8 \uC6B0\uC120 \uC801\uC6A9\uB41C \uC720\uC804\uC790\uC785\uB2C8\uB2E4."
+  ENG: This gene already has Priority Apply.
+  DE: "F\xFCr dieses Gen wurde \u201EPriorit\xE4t anwenden\u201C bereits verwendet."
+  SP: "Este gen ya tiene \xABAplicaci\xF3n prioritaria\xBB."
+  JP: "\u3053\u306E\u907A\u4F1D\u5B50\u306B\u306F\u3059\u3067\u306B\u512A\u5148\u9069\u7528\u3055\u308C\u3066\u3044\u307E\u3059\u3002"
+  CHS: "\u8BE5\u57FA\u56E0\u5DF2\u88AB\u4F18\u5148\u9002\u7528\u3002"
+  CHT: "\u8A72\u57FA\u56E0\u5DF2\u88AB\u512A\u5148\u9069\u7528\u3002"

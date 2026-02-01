@@ -155,15 +155,13 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
 
         if(Manager.Save == null)
         {
-            Manager.Game.ShowPopup("Something Went Wrong. Please Restart Game.."); //TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_SomethingWentWrong");
             return false;
         }
 
         if (Manager.Save.CurrentData.UserData.Energy < cost) //비용이 없으면
         {
             Manager.Game.ShowConfirmMessage("Asking_MoveToShopForEnergy", 0, this);
-            //Manager.Game.ShowPopup("You Don't Have Enough Energy"); //TODO: 로컬라이제이션
-
             return false;
         }
         return true;

@@ -8,7 +8,7 @@ public class IslandPetVisualController : MonoBehaviour
     [SerializeField] private ParticleSystem _particleAffinityUp;
     [SerializeField] private ParticleSystem _particleAffinityDown;
 
-    [Header("펫 떠남/알남 파티클")] //TODO: 안쓰면 지우기
+    [Header("펫 떠남/알남 파티클")]
     [SerializeField] private ParticleSystem _particleLeave;
     [SerializeField] private ParticleSystem _particleLayEgg;
 

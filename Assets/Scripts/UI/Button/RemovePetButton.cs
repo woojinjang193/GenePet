@@ -21,7 +21,7 @@ public class RemovePetButton : MonoBehaviour, IConfirmRequester
         //성장 검사
         if (_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg)
         {
-            Manager.Game.ShowPopup("PopText_NotAdult"); //TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_TooYoungForReleased");
             return;
         }
 

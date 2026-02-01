@@ -8,7 +8,8 @@ public class TextSO : ScriptableObject
     public string KOR;
     public string ENG;
     public string DE;
-    public string JP;
-    public string CH;
     public string SP;
+    public string JP;
+    public string CHS;
+    public string CHT;
 }

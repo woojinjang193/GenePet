@@ -47,7 +47,7 @@ public class UserData
         LastPetSavedUnixTime = 0; 
 
         LocalUID = "";
-        CurLanguage = Language.EN;
+        CurLanguage = Language.None;
         UserDisplayName = "";
         PetSlot = 1; //플레이어 맥스 펫 수
         Energy = 10;

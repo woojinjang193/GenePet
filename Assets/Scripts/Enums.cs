@@ -84,9 +84,12 @@ public enum Language
     KR = 0,
     EN = 1,
     DE = 2,
-    JP = 3,
-    CH = 4,
-    SP = 5,
+    SP = 3,
+    JP = 4,
+    CHS = 5,
+    CHT = 6,
+
+    None = 10,
 }
 public enum MiniGame
 {

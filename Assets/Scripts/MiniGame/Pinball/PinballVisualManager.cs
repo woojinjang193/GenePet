@@ -60,7 +60,6 @@ public class PinballVisualManager : MonoBehaviour
             default: particle = _color0DestroyParticle; break; //없으면 기본 파티클
         }
         GameObject go = Manager.Pool.Get(particle, worldPos, transform);
-        //GameObject go = Instantiate(particle, worldPos, Quaternion.identity, transform); //TODO: 풀로 변경
 
         StartCoroutine(ParticleRoutine(go));
     }
@@ -83,7 +82,6 @@ public class PinballVisualManager : MonoBehaviour
         RectTransform canvasRect = _uiCanvas.transform as RectTransform;
 
         GameObject go = Manager.Pool.Get(_itemIcon, Vector3.zero, _uiCanvas.transform); //UI는 position 0으로 둠
-        //GameObject go = Instantiate(_itemIcon, _uiCanvas.transform);  //TODO: 풀로 교체
         RectTransform iconRect = go.GetComponent<RectTransform>();
 
         Image iconImg = go.GetComponent<Image>();
@@ -119,7 +117,6 @@ public class PinballVisualManager : MonoBehaviour
         if (target == null)
         {
             Manager.Pool.Release(go);
-            //Destroy(go);  //TODO: 풀로 교체
             return;
         }
 
@@ -150,7 +147,6 @@ public class PinballVisualManager : MonoBehaviour
         }
 
         Manager.Pool.Release(go);
-        //Destroy(go); //TODO: 풀로 교체
     }
     private IEnumerator ItemFlyRoutine(GameObject go, RectTransform iconRect, Vector2 targetLocal, BrickColor color, Sprite icon, int rewardAmount)
     {

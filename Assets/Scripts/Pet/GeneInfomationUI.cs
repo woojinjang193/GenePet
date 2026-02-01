@@ -260,7 +260,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         // 다른 유전자가 이미 확정이면 확정 불가
         if (isDominant ? _curPair.IsReGuaranteed : _curPair.IsDoGuaranteed)
         {
-            Manager.Game.ShowPopup("Already Guaranteed"); // TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_AleadyGuaranteed");
             return;
         }
 
@@ -268,7 +268,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         bool isCut = isDominant ? _curPair.IsDominantCut : _curPair.IsRecessiveCut;
         if (isCut)
         {
-            Manager.Game.ShowPopup("It's Already Cut"); // TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_AlreadyCut");
             return;
         }
 

@@ -294,7 +294,7 @@ public class ShopManager : Singleton<ShopManager>
 
             if (haveMoney < price)
             {
-                Manager.Game.ShowPopup("You are broke"); //TODO: 로컬라이제이션
+                Manager.Game.ShowPopup("PopUp_NoMoney");
                 return false;
             }
         }
@@ -305,7 +305,7 @@ public class ShopManager : Singleton<ShopManager>
 
             if (haveGem < price)
             {
-                Manager.Game.ShowPopup("You are broke"); //TODO: 로컬라이제이션
+                Manager.Game.ShowPopup("PopUp_NoGem");
                 return false;
             }
         }

@@ -120,7 +120,7 @@ public class SpawnOptionList : MonoBehaviour, IConfirmRequester
         if (havePet >= maxPetAmount)
         {
             Debug.Log("펫 자리 없음");
-            Manager.Game.ShowPopup("Already Max"); //TODO:로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_AlreadyMaxPet");
             return false;
         }
         else if(havePet >= playerMaxAmount)

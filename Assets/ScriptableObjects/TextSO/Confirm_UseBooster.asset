@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Confirm_UseBooster
+  m_EditorClassIdentifier: 
+  KOR: "\uC774 \uD3AB\uC744 \uC131\uC7A5\uC2DC\uD0A4\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+  ENG: Do you want to grow this pet?
+  DE: "M\xF6chtest du dieses Haustier wachsen lassen?"
+  SP: "\xBFQuieres hacer crecer a esta mascota?"
+  JP: "\u3053\u306E\u30DA\u30C3\u30C8\u3092\u6210\u9577\u3055\u305B\u307E\u3059\u304B\uFF1F"
+  CHS: "\u8981\u8BA9\u8FD9\u53EA\u5BA0\u7269\u6210\u957F\u5417\uFF1F"
+  CHT: "\u8981\u8B93\u9019\u96BB\u5BF5\u7269\u6210\u9577\u55CE\uFF1F"

@@ -21,7 +21,21 @@ public class ConfirmMessage : MonoBehaviour
     {
         _confirmButton.onClick.AddListener(OnClickedConfirm);
         _cancelButton.onClick.AddListener(OnClickedCancel);
+
+        if (Manager.Lang == null) { Debug.LogError("LangManager 없음"); return; }
+
+        Manager.Lang.OnLanguageChanged += OnLanguageChanged;
     }
+    private void OnDestroy()
+    {
+        if (Manager.Lang != null)
+            Manager.Lang.OnLanguageChanged -= OnLanguageChanged;
+    }
+    private void OnLanguageChanged(TMP_FontAsset font) //언어변경
+    {
+        _text.font = font;
+    }
+    //============================UI 컨트롤===============================
     public void OpenConfirmUI(string textID, int requestNum, IConfirmRequester requster)
     {
         _panel.SetActive(true);
@@ -43,5 +57,5 @@ public class ConfirmMessage : MonoBehaviour
         _requestNum = -1;
         _panel.SetActive(false);
     }
-    
+
 }

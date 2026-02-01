@@ -40,7 +40,7 @@ public class MoveToIslandButton : MonoBehaviour, IConfirmRequester
         if (!hasAdult)
         {
             //Debug.Log("섬은 어른만 갈 수 있음");
-            Manager.Game.ShowPopup("Only Adult"); // TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_TooYoungForIsland");
             return;
         }
         bool isIslandOpen = userData.Island.IsOpen;
