@@ -99,7 +99,7 @@ MonoBehaviour:
     Rewards:
     - RewardType: 1
       RewardAmount: 25000
-  - ProductId: removeadbanner
+  - ProductId: testremoveadbanner
     ProductType: 1
     Rewards:
     - RewardType: 2

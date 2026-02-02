@@ -31,7 +31,7 @@ public class TextLoader : MonoBehaviour
     //================텍스트 + 폰트 동시 적용===================
     private void ApplyTextAndFont() 
     {
-        if(string.IsNullOrWhiteSpace(_textID))
+        if(!string.IsNullOrWhiteSpace(_textID))
         {
             _text.text = Manager.Lang.GetText(_textID);   // 텍스트 갱신
         }

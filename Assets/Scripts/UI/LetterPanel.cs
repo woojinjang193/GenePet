@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LetterPanel : MonoBehaviour, IConfirmRequester
+public class LetterPanel : MonoBehaviour, IConfirmRequester, IAdRequester
 {
     [Header("유저가 보게될 그림")]
     [SerializeField] private Image _reasonSprite;
@@ -24,6 +24,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     [SerializeField] private Button _missingPosterButton;
     [SerializeField] private TMP_Text _missingPosterAmount;
 
+    [SerializeField] private Button _watchAdButton;
     [SerializeField] private Button _giveUpButton;
     [SerializeField] private Button _closeButton;
 
@@ -36,9 +37,9 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         _missingPosterButton.onClick.AddListener(OnMissingPosterClicked);
         _giveUpButton.onClick.AddListener(OnGiveUpClicked);
         _closeButton.onClick.AddListener(OnCloseClicked);
+        _watchAdButton.onClick.AddListener(OnClickRequestAD);
 
         Manager.Item.OnRewardGranted += UpdateAmount;
-
     }
     private void OnDestroy()
     {
@@ -77,6 +78,11 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
                 break;
         }
     }
+    //==================광고버튼 클릭====================
+    private void OnClickRequestAD()
+    {
+        Manager.AD.ShowRewardedAd(this);
+    }
     private void OnMissingPosterClicked()
     {
         UserItemData items = Manager.Save.CurrentData.UserData.Items;
@@ -89,6 +95,10 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         }
         items.MissingPoster--;
 
+        BringPetBack();
+    }
+    private void BringPetBack()
+    {
         OnClickMissingPoster?.Invoke(); //펫 매니저가 구독함
         gameObject.SetActive(false);
     }
@@ -127,5 +137,13 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         if (item != RewardType.MissingPoster) return;
 
         _missingPosterAmount.text = $"x{newValue}";
+    }
+    public void AdWatched()
+    {
+        
+    }
+    public void AdClosed()
+    {
+        BringPetBack();
     }
 }
