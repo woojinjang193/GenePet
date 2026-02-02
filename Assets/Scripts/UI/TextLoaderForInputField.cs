@@ -4,7 +4,6 @@ using UnityEngine;
 public class TextLoaderForInputField : MonoBehaviour
 {
     private TMP_InputField _text;
-    private TMP_FontAsset _curFont;
     private void Awake()
     {
         _text = GetComponent<TMP_InputField>();
@@ -24,12 +23,11 @@ public class TextLoaderForInputField : MonoBehaviour
 
     private void UpdateFont(TMP_FontAsset font) //언어 변경 시 폰트도 같이 적용
     {
-        _curFont = font;
         ApplyTextAndFont();
     }
     //================텍스트 + 폰트 동시 적용===================
     private void ApplyTextAndFont()
     {
-        _text.textComponent.font = _curFont;
+        _text.textComponent.font = Manager.Lang.CurFont;
     }
 }

@@ -1,10 +1,11 @@
+using GoogleMobileAds.Api;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RewardAdButton : MonoBehaviour
+public class RewardAdButton : MonoBehaviour, IAdRequester
 {
     private Button _button;
 
@@ -16,6 +17,8 @@ public class RewardAdButton : MonoBehaviour
 
     [Header("알 보상 목록(프리셋)")]
     [SerializeField] private List<RewardEggPresetSO> _eggPresets = new();
+
+    private List<RewardData> _rewards = new();
 
     [Serializable]
     public class ItemRewardEntry
@@ -33,11 +36,12 @@ public class RewardAdButton : MonoBehaviour
     public void ClaimRewards()
     {
         if (Manager.Item == null) return;
+        _rewards.Clear();
 
-        List<RewardData> payout = BuildPayoutList();
-        if (payout.Count == 0) return;
+        _rewards = BuildPayoutList();
+        if (_rewards.Count == 0) return;
 
-        Manager.AD.ShowRewardedAd(payout);
+        Manager.AD.ShowRewardedAd(this);
     }
 
     private List<RewardData> BuildPayoutList()
@@ -85,5 +89,15 @@ public class RewardAdButton : MonoBehaviour
         if (egg == null) return;
 
         payout.Add(RewardData.CreateEgg(egg)); // RewardData로 변환
+    }
+
+    public void AdWatched()
+    {
+        Manager.Item.GiveMiniGameRewards(_rewards);// 보상 지급
+    }
+
+    public void AdClosed()
+    {
+        Manager.Item.NotifyRewardsReady();// 팝업 신호
     }
 }
