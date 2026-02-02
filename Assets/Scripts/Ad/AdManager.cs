@@ -2,6 +2,7 @@ using GoogleMobileAds.Api;
 using GooglePlayGames.BasicApi;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AdManager : Singleton<AdManager>
@@ -77,16 +78,14 @@ public class AdManager : Singleton<AdManager>
         Debug.Log("[AdManager] 배너 로드");
     }
     //===================리워드 광고 띄우기(씬에서 호출)================
-    public void ShowRewardedAd(RewardType reward) //보상형 광고 띄우기 (외부 호출용)
+    public void ShowRewardedAd(List<RewardData> rewards) //보상형 광고 띄우기 (외부 호출용)
     {
-        //const string rewardMsg =
-        //    "Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
-
         if (_rewardedAd != null && _rewardedAd.CanShowAd()) // 광고 객체가 있고 현재 표시 가능 상태라면
         {
             _rewardedAd.Show((Reward reward) => // 광고를 표시하고, 보상 조건 충족 시 콜백 실행
             {
-                TODO:리워드 지급
+                Manager.Item.GiveMiniGameRewards(rewards);// 보상 지급
+                Debug.Log("[AdManager] 리워드 지급");
             });
         }
     }
@@ -134,7 +133,8 @@ public class AdManager : Singleton<AdManager>
     }
     public void HandleOnRewardedAdClosed() // 리워드 광고가 닫혔을 때 호출되는 핸들러
     {
-        Debug.Log("[AdManager] 리워드 광고 닫힘");
+        Manager.Item.NotifyRewardsReady();// 팝업 신호
+        Debug.Log("[AdManager] 리워드 광고 닫힘, 리워드 팝업 On");
 
         //광고를 보고 클로즈하면 광고를 다시 요청해서 로드
         RequestRewarded();

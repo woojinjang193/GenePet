@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 public enum EggPresetMode { ByRarity, ById }
 
-[CreateAssetMenu(fileName = "New RewardEggPresetSO", menuName = "MiniGameSO/RewardEggPresetSO")]
+[CreateAssetMenu(fileName = "New RewardEggPresetSO", menuName = "MiniGameSO/RewardEggPresetSO")] 
 public class RewardEggPresetSO : ScriptableObject
 {
     [Header("보상 전용 알 파츠 정보")]

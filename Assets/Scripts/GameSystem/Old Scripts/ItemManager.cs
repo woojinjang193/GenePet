@@ -62,7 +62,7 @@ public class ItemManager : Singleton<ItemManager>
         GiveReward(entry); // 보상 지급
     }
 
-    // ======================보상지급(카탈로그 상품용)=======================================
+    // ======================보상지급================================================
     public void GiveReward(ProductCatalogSO.Entry entry)
     {
         if (entry == null) return;
@@ -70,42 +70,13 @@ public class ItemManager : Singleton<ItemManager>
         for (int i = 0; i < entry.Rewards.Count; i++) // 보상 개수만큼 반복
         {
             var reward = entry.Rewards[i]; // 현재 보상
-            ApplyReward(reward.RewardType, reward.RewardAmount, true); // 실제 지급
+            ApplyReward(reward.RewardType, reward.RewardAmount, true);    // 실제 지급
         }
 
         // 외부(UI, 저장 등)에 알림 (메인씬에서만 보여줌)
         OnRewardsGiven?.Invoke();
     }
-    //======================보상 바로지급===================================
-    public void GiveDirectReward(RewardType type, int amount, bool openPopup)
-    {
-        if (type == RewardType.None) return;
-        if (amount <= 0) return;
-
-        ApplyReward(type, amount, true); // 실제 지급 + 큐 적재 + OnRewardGranted 이벤트
-
-        Manager.Save.SaveGame(); // 즉시 저장
-
-        if (openPopup) NotifyRewardsReady(); // 바로 팝업 열고 싶으면 트리거
-    }
-    //-------------------------여러 보상 일괄 지급--------------------------
-    public void GiveDirectRewards(List<(RewardType type, int amount)> rewards, bool openPopup)
-    {
-        if (rewards == null || rewards.Count == 0) return;
-
-        for (int i = 0; i < rewards.Count; i++)
-        {
-            var r = rewards[i];
-            if (r.type == RewardType.None) continue; 
-            if (r.amount <= 0) continue;
-
-            ApplyReward(r.type, r.amount, true);
-        }
-
-        Manager.Save.SaveGame(); //일괄 지급 후 한 번만 저장
-        if (openPopup) NotifyRewardsReady(); //원하면 팝업 오픈
-    }
-    //==================미니게임 보상=====================
+    //==================미니게임 보상===================== 
     public void GiveMiniGameRewards(List<RewardData> rewards) // : 지급 + 표시용 큐 적재, 팝업 오픈은 NotifyRewardsReady로 외부에서 결정
     {
         if (rewards == null || rewards.Count == 0) return;
@@ -262,6 +233,7 @@ public class ItemManager : Singleton<ItemManager>
         _rewardQueue.Enqueue(RewardData.CreateItem(type, amount));
         OnRewardGranted?.Invoke(type, newValue);
     }
+ 
     // ========================보상 큐==============================
     public bool HasReward()
     {
