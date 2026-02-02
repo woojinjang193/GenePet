@@ -12,20 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab444e4173b3fc94196cae85f4c5484f, type: 3}
   m_Name: GameConfigSO
   m_EditorClassIdentifier: 
+  UploadIntervalSec: 180
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10
-  EnergyRecoveringTime: 600
+  EnergyRecoveringTime: 30
+  PettingHappinessAdd: 3
+  PettingCooldownHour: 0.5
+  MiniGameEXP: 5
+  MiniGameHappiness: 3
   VisitingAffinityCooldown: 1800
-  VisitingAffinityGain: 5
-  GiftCooldown: 1800
-  GiftingPoint: 30
+  VisitingAffinityGain: 50
+  GiftCooldown: 30
+  GiftingPoint: 50
   DisappointingPoint: 5
   CanFeedPetBelow: 99
   MealFullnessGain: 10
   MealCleanlinessDecrease: 3
   SnackFullnessGain: 30
-  SnackExpGain: 10
+  SnackExpGain: 15
   SnackCleanlinessDecrease: 5
   RandomSpawnPrice: 500
   ComeBackHunger: 20

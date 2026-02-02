@@ -8,7 +8,6 @@ public class MiniGameData
 {
     public int PlayCount; // 플레이 횟수
     public int BestScore; // 최고 점수
-
     public MiniGameData()
     {
         PlayCount = 0;
@@ -19,10 +18,13 @@ public class MiniGameData
 [Serializable]
 public class UserData
 {
+    public int TotalRaisedPets;
 
-    public long LastPlayedUnixTime; //마지막 접속 시간
+    //public long LastPlayedUnixTime;
+    public long LastSavedUnixTime; //마지막 세이브 타임
+    public long LastPetSavedUnixTime; //마지막 펫 상태 저장 타임
+
     public string LocalUID; // UID
-    public string FirebaseUID; // UID
     public Language CurLanguage; //현재 언어
     public string UserDisplayName; // 유저네임
     public int PetSlot; // 최대 보유 가능 펫 수
@@ -38,10 +40,14 @@ public class UserData
 
     public UserData()
     {
-        LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        TotalRaisedPets = 0;
+
+        //LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        LastSavedUnixTime = 0;
+        LastPetSavedUnixTime = 0; 
+
         LocalUID = "";
-        FirebaseUID = "";
-        CurLanguage = Language.EN;
+        CurLanguage = Language.None;
         UserDisplayName = "";
         PetSlot = 1; //플레이어 맥스 펫 수
         Energy = 10;
@@ -67,13 +73,18 @@ public class GenePair
     public string RecessiveId;
     public bool IsDominantCut;
     public bool IsRecessiveCut;
+
+    public bool IsDoGuaranteed;
+    public bool IsReGuaranteed;
     public GenePair()
     {
         DominantId = "";
         IsDominantCut = false;
+        IsDoGuaranteed = false;
 
         RecessiveId = "";
         IsRecessiveCut = false;
+        IsReGuaranteed = false;
     }
 }
 
@@ -184,6 +195,9 @@ public class PetSaveData
     public float AgeSeconds;
     public float GrowthExp;
 
+    public long LastPettingHappinessUnixTime; // 마지막 쓰다듬 행복도 지급 시간
+
+
     public PetSaveData()
     {
         Rarity = RarityType.Common;
@@ -209,6 +223,8 @@ public class PetSaveData
 
         AgeSeconds = 0f; //필요없나?
         GrowthExp = 0f;
+
+        LastPettingHappinessUnixTime = 0;
     }
 }
 
@@ -244,6 +260,8 @@ public class IslandData
 [Serializable]
 public class UserItemData
 {
+    public List<string> PurchasedGoldNCs;
+
     public int Money; //소지금
     public bool IsAdRemoved;
     public int IslandTicket;
@@ -252,6 +270,17 @@ public class UserItemData
     public int geneticTester;
     public int Snack;
     public int GrowthBooster;
+    public int GeneticGlue;
+    public int Gem;
+    public int GuaranteeSticker;
+
+    //차후 업데이트할때 추가될걸 대비한 아이템 미리 생성
+    public int TimeSpeedUp; //추후 내펫끼리 교배에 쓰일수 있는 아이템
+    public int AdditionalItem1; //추후 추가될수도 있는 아이템
+    public int AdditionalItem2; //추후 추가될수도 있는 아이템
+    public int AdditionalItem3; //추후 추가될수도 있는 아이템
+    public int AdditionalItem4; //추후 추가될수도 있는 아이템
+    public int AdditionalItem5; //추후 추가될수도 있는 아이템
 
     public List<Room> Rooms;
 
@@ -263,6 +292,8 @@ public class UserItemData
 
     public UserItemData()
     {
+        PurchasedGoldNCs = new List<string>();
+
         Money = 2000;
         IsAdRemoved = false;
         IslandTicket = 1;
@@ -270,6 +301,11 @@ public class UserItemData
         GeneticScissors = 1;
         geneticTester = 1;
         Snack = 1;
+        GrowthBooster = 1;
+        GeneticGlue = 1;
+        Gem = 20;
+        GuaranteeSticker = 1;
+
         Rooms = new List<Room>()  //유저가 가진 방 목록
         { Room.Default};
 

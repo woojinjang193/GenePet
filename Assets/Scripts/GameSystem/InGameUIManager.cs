@@ -14,16 +14,20 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private LetterPanel _letterPanel;
     [Header("에너지 슬라이더")]
     [SerializeField] private EnergySlider _energySlider;
-    [Header("리워드 UI")]
-    [SerializeField] private RewardPopUp _rewardUI;
-    [Header("이름 판넬")]
-    [SerializeField] private NamePanel _namePanel;
+    [Header("골드 소지량")]
+    [SerializeField] private TMP_Text _goldAmount;
+
+    [Header("줌인 UI 컨트롤러")]
+    [SerializeField] private ZoomInUiController _zoomedUIController;
     [Header("펫소환 버튼")]
     [SerializeField] private Button _spawnPetButton;
 
     [Header("의존")]
     [SerializeField] private CameraController _camera;
     [SerializeField] private PetManager _petManager;
+
+    [Header("유아이 예약")]
+    [SerializeField] private GameObject[] _reservedUiPanels;
 
     private void Awake()
     {
@@ -44,38 +48,41 @@ public class InGameUIManager : MonoBehaviour
         {
             _energySlider = FindObjectOfType<EnergySlider>();
         }
-        if (_rewardUI == null)
+
+        //예약된 UI판넬이 있을때
+        if(Manager.Game.ReservedUI != UIPanel.None)
         {
-            _rewardUI = FindObjectOfType<RewardPopUp>();
+            OpenReservedUI(Manager.Game.ReservedUI); //UI 열어줌
         }
 
-        //메인씬 돌아왔을때 보상 있으면 실행
-        if (Manager.Item.HasReward())
-        {
-            ShowReward();
-        }
-
-        Manager.Item.OnRewardsGiven += ShowReward;
+        Manager.Item.OnItemConsumed += AmountChange;
+        Manager.Item.OnItemConsumed += AmountChange;
     }
 
     private void Start()
     {
         Manager.Audio.PlayBGM("BGM_Test"); //비지엠 재생
     }
+    private void OnEnable()
+    {
+        _goldAmount.text = Manager.Save.CurrentData.UserData.Items.Money.ToString();
+
+    }
     private void OnDestroy()
     {
-        if (Manager.Item != null)
+        if(Manager.Item != null)
         {
-            Manager.Item.OnRewardsGiven -= ShowReward;
+            Manager.Item.OnItemConsumed -= AmountChange;
+            Manager.Item.OnItemConsumed -= AmountChange;
         }
     }
-    
     // 펫 줌인 시
     public void OnZoomInPet()
     {
         _zoomOutButton.gameObject.SetActive(true);
         _mainUI.SetActive(false);
         _zoomedUI.SetActive(true);
+       // _zoomedUIController.
         _spawnPetButton.interactable = false;
     }
 
@@ -85,7 +92,7 @@ public class InGameUIManager : MonoBehaviour
         _zoomOutButton.gameObject.SetActive(false);
         _mainUI.SetActive(true);
         _zoomedUI.SetActive(false);
-        _namePanel.CancelSubscribe();
+        _zoomedUIController.CancelSubscribe();
         _spawnPetButton.interactable = true;
     }
 
@@ -99,28 +106,22 @@ public class InGameUIManager : MonoBehaviour
     }
     public void TryOpenLetter(PetUnit pet, LeftReason reason) //편지오픈 조건 검사
     {
-        if (_petManager.ZoomedUnit != pet)
-            return;
+        if (_petManager.ZoomedUnit != pet) return;
 
-        OpenLetterPanel(reason);
+        GrowthStatus growth = _petManager.ZoomedUnit.Status.Growth;
+        PetSaveData saveData = _petManager.ZoomedUnit.SaveData;
+
+        OpenLetterPanel(reason, saveData, growth);
     }
-    private void OpenLetterPanel(LeftReason reason) //편지 UI 오픈
+    private void OpenLetterPanel(LeftReason reason, PetSaveData saveData, GrowthStatus growth) //편지 UI 오픈
     {
         _letterPanel.gameObject.SetActive(true);
-        _letterPanel.WriteLetter(reason);
+        _letterPanel.SetLetter(reason, saveData, growth);
     }
 
     public void UpdateEnergyBar(int newValue) //에너지 바 업데이트
     {
         _energySlider.SetEnergy(newValue);
-    }
-
-    public void ShowReward() //메인씬 보상용
-    {
-        if (_rewardUI.gameObject.activeSelf) return;
-
-        _rewardUI.gameObject.SetActive(true);
-        _rewardUI.ShowNext();
     }
 
     public void MiniGameStartButtonClicked(int index) //미니게임 시작버튼 클릭
@@ -135,5 +136,28 @@ public class InGameUIManager : MonoBehaviour
         Manager.Mini.StartMiniGame(pet, index);
     }
 
+    //==============예약된 UI 판넬 열어주는 유틸======================
+    private void OpenReservedUI(UIPanel reservedUI)
+    {
+        switch (reservedUI)
+        {
+            case UIPanel.Shop: _reservedUiPanels[0].SetActive(true); break;
+        }
+    }
+    //==============메인씬에서 판넬 열어주는 유틸======================
+    public void OpenUiPanel(UIPanel reservedUI)
+    {
+        switch (reservedUI)
+        {
+            case UIPanel.Shop: _reservedUiPanels[0].SetActive(true); break;
+        }
+    }
 
+    private void AmountChange(RewardType type, int newValue)
+    {
+        if(type == RewardType.Coin)
+        {
+            _goldAmount.text = newValue.ToString();
+        }
+    }
 }

@@ -1,11 +1,15 @@
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Purchasing;
 using UnityEngine.UI;
 
 public class PetSlotBuyButton : MonoBehaviour
 {
-    private string _productID = "petslot";
+    private string _productID = "gold_petslot";
+
+    [Header("결제 화폐")]
+    [SerializeField] private GMPurchaseType _gmPurchaseType;
 
     [Header("슬롯 가격 테이블")]
     [SerializeField] private int[] _prices;
@@ -13,10 +17,14 @@ public class PetSlotBuyButton : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TMP_Text _priceText;
     [SerializeField] private TMP_Text _haveAmountText;
+    [SerializeField] private Image _cover;
+    [SerializeField] private Color _nonInteractableC;
 
     private int _maxSlot;
     private int _curPrice;
     private Button _button;
+
+    private ProductType _type;  //여기선 안씀
 
     private void Awake()
     {
@@ -38,7 +46,11 @@ public class PetSlotBuyButton : MonoBehaviour
     }
     private void OnClicked()
     {
-        Manager.Shop.PurchaseWithGold(_productID, _curPrice);
+        if (_gmPurchaseType == GMPurchaseType.None) return;
+
+        bool canbuy = Manager.Shop.TryPurchaseWith(_productID, _curPrice, _gmPurchaseType, out _type);
+
+        if (!canbuy) return;
     }
     private void UpdateUI(RewardType type, int newValue)
     {
@@ -55,6 +67,7 @@ public class PetSlotBuyButton : MonoBehaviour
         {
             _haveAmountText.text = "Full";
             _button.interactable = false;  // 버튼 비활성화
+            _cover.color = _nonInteractableC;
             _priceText.text = "-";  // 가격 비움
             return;
         }
@@ -71,6 +84,7 @@ public class PetSlotBuyButton : MonoBehaviour
         {
             Debug.LogError("슬롯 가격 테이블 없음");
             _button.interactable = false;
+            _cover.color = _nonInteractableC;
             return 99999;
         }
 
@@ -78,6 +92,7 @@ public class PetSlotBuyButton : MonoBehaviour
         {
             Debug.LogWarning("슬롯 가격 범위 초과");
             _button.interactable = false;
+            _cover.color = _nonInteractableC;
             return 99999;
         }
 

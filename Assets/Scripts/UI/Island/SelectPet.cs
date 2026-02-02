@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class SelectPet : MonoBehaviour, IConfirmRequester
 {
-    //[Header("플러스 아이콘")]
-    //[SerializeField] private GameObject _plusIcon;  //굳이 안넣어도 될거같음
+    [Header("플러스 아이콘")]
+    [SerializeField] private GameObject _plusIcon;
 
     [Header("비쥬얼 로더")]
     [SerializeField] private IslandPetVisualLoader _visualLoader;
@@ -39,6 +39,7 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
         _petList.Clear();
         GetPetList();
 
+        _plusIcon.SetActive(false);
         string selectedId = _islandManager.IslandMyPetID;
 
         if (string.IsNullOrWhiteSpace(selectedId))
@@ -71,7 +72,7 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        Manager.Game.ShowConfirmMessage("Warning_AffinityReset", this);
+        Manager.Game.ShowConfirmMessage("Warning_AffinityReset", 0, this);
     }
     private void OnCancelButtonClicked()
     {
@@ -126,13 +127,19 @@ public class SelectPet : MonoBehaviour, IConfirmRequester
         _visualLoader.LoadIslandPet(data);
     }
 
-    public void Confirmed()
+    public void Confirmed(int requestNum)
     {
-        ApplyFinalChange(_curIndex);
+        if(requestNum == 0)// 호감도 초기화
+        {
+            ApplyFinalChange(_curIndex);
+        }
     }
-    public void Canceled()
+    public void Canceled(int requestNum)
     {
-        Rollback(_ogIndex);
+        if (requestNum == 0)// 호감도 초기화
+        {
+            Rollback(_ogIndex);
+        }
     }
 
     public void ApplyFinalChange(int newIndex)

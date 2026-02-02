@@ -14,7 +14,7 @@ public class IslandManager : MonoBehaviour
 
     [Header("섬 세팅")]
     [SerializeField] private GameObject _islandPet;
-    [SerializeField] private GameObject _letter;
+    [SerializeField] private GameObject _goodbyeSign;
     [SerializeField] private EggObj _egg;
 
     [Header("알 낳는 호감도")]
@@ -78,12 +78,12 @@ public class IslandManager : MonoBehaviour
     public void LeaveIslandPet() //섬펫 떠남처리
     {
         _islandPet.SetActive(false);
-        _letter.SetActive(true);
+        _goodbyeSign.SetActive(true);
     }
     public void LayEggAndLeave()
     {
         _islandPet.SetActive(false);
-        _letter.SetActive(false);
+        _goodbyeSign.SetActive(false);
 
         if (IslandPetData == null || IslandMypetData == null)
         {

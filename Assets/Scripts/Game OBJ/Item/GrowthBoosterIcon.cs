@@ -53,33 +53,40 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
 
         if(_curPet.Status.Growth == GrowthStatus.Adult)
         {
-            Manager.Game.ShowPopup("It's already fully grown"); //TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_AlreadyGrown"); //TODO: 로컬라이제이션
             return;
         }
 
         if(_curHave <= 0)
         {
-            Manager.Game.ShowPopup("No Item"); //TODO: 로컬라이제이션
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 1, this);
             return;
         }
 
-        Manager.Game.ShowConfirmMessage("Confirm_UseBooster", this); //컨멈 메세지 보내기
+        Manager.Game.ShowConfirmMessage("Confirm_UseBooster",0, this); //컨멈 메세지 보내기
     }
     // =====인터페이스 구현 =================
-    public void Canceled()
+    public void Canceled(int requestNum)
     {
 
     }
 
-    public void Confirmed()
+    public void Confirmed(int requestNum)
     {
-        if (_curPet == null) return; // 방어
-        if (_petManager == null) return; // 방어
+        if(requestNum == 0) //부스터 사용
+        {
+            if (_curPet == null) return; // 방어
+            if (_petManager == null) return; // 방어
 
-        bool success = _petManager.ApplyGrowthBooster(_curPet); // 성장 적용
-        if (!success) return; // 실패면 아이템 차감 안함
+            bool success = _petManager.ApplyGrowthBooster(_curPet); // 성장 적용
+            if (!success) return; // 실패면 아이템 차감 안함
 
-        Manager.Item.UseItem(RewardType.GrowthBooster, 1); //컨펌시 아이템 --
+            Manager.Item.UseItem(RewardType.GrowthBooster, 1); //컨펌시 아이템 --
+        }
+        else if (requestNum == 1) //상점이동 요청
+        {
+            Manager.Game.OpenUiPanel(UIPanel.Shop);
+        }
     }
 
     private void UpdateUI(RewardType type, int newValue)

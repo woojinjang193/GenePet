@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
 
-public class MiniGameManager : Singleton<MiniGameManager>
+public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
 {
     [Header("미니게임 성격 효과 테이블")]
     [SerializeField] private MiniGamePersonalityEffectSO[] _effectTables;
@@ -15,9 +15,6 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
     public MiniGame CurMiniGame { get; private set; }
     public PetSaveData CurPet { get; private set; }
-
-    private readonly Dictionary<RewardType, int> _sessionItemSums = new(); //연속 플레이 보상 합산(아이템)
-    private readonly List<EggData> _sessionEggs = new(); //연속 플레이 보상 리스트(알은 개별 표시)
 
     protected override void Awake()
     {
@@ -36,9 +33,6 @@ public class MiniGameManager : Singleton<MiniGameManager>
             return;
         }
 
-        _sessionItemSums.Clear(); //새 미니게임 시작 시 누적 보상 초기화
-        _sessionEggs.Clear(); //새 미니게임 시작 시 누적 보상 초기화
-
         CurPet = pet; //펫정보 저장
 
         if (_miniGameCosts == null || index < 0 || index >= _miniGameCosts.Length) // 비용 배열 기준으로 검사
@@ -49,7 +43,9 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         CurMiniGame = (MiniGame)index; // 먼저 현재 미니게임 설정
 
-        if (!Manager.Mini.CanPlayMiniGame(out int cost)) return;
+        if (pet.IsLeft) return; //떠난펫일땐 리턴
+
+        if (!Manager.Mini.CanPlayMiniGame(out int cost)) return; //비용검사
 
         switch (CurMiniGame) //씬 이동
         {
@@ -61,58 +57,13 @@ public class MiniGameManager : Singleton<MiniGameManager>
     //============ 메인씬으로 돌아감 ==================
     public void EndMiniGame()
     {
-        FlushRewardsToPopup(); //메인씬으로 넘어갈 때만 팝업 표시큐에 적재
-
         CurPet = null;
         CurMiniGame = MiniGame.Null;
 
+        Manager.Pool.Clear(); // 풀 비워줌
         SceneManager.LoadScene("InGameScene");
     }
-    public void AccumulateRewards(List<RewardData> rewards) //한 판 끝날 때 보상표시큐 누적만
-    {
-        if (rewards == null || rewards.Count == 0) return;
-
-        for (int i = 0; i < rewards.Count; i++)
-        {
-            RewardData reward = rewards[i];
-            if (reward == null) continue;
-
-            if (reward.Category == RewardCategory.Egg)
-            {
-                if (reward.Egg != null) _sessionEggs.Add(reward.Egg);
-                continue;
-            }
-
-            if (reward.RewardType == RewardType.None) continue;
-
-            if (_sessionItemSums.ContainsKey(reward.RewardType)) //같은 아이템이 이미 있으면 
-            {
-                _sessionItemSums[reward.RewardType] += reward.Amount; //숫자만 더해줌 
-            } 
-            else _sessionItemSums[reward.RewardType] = reward.Amount; //처음 얻는거면 추가
-        }
-    }
-    private void FlushRewardsToPopup() //누적된 보상을 "큐에만" 넣고 팝업 트리거
-    {
-        if (_sessionItemSums.Count == 0 && _sessionEggs.Count == 0) return;
-
-        List<RewardData> list = new();
-
-        foreach (var pair in _sessionItemSums)
-        {
-            list.Add(RewardData.CreateItem(pair.Key, pair.Value)); //아이템은 합산 1개로
-        }
-
-        for (int i = 0; i < _sessionEggs.Count; i++)
-        {
-            list.Add(RewardData.CreateEgg(_sessionEggs[i])); //알은 개별로
-        }
-
-        if (Manager.Item != null) Manager.Item.EnqueuePopupOnly(list); //표시 큐 적재 + 팝업 오픈
-
-        _sessionItemSums.Clear();
-        _sessionEggs.Clear();
-    }
+    
     // =========================== 결과 저장 유틸 ============================
     public void UpdateMiniGameResult(int score) 
     {
@@ -146,7 +97,9 @@ public class MiniGameManager : Singleton<MiniGameManager>
         user.MiniGameResults[idx].PlayCount += 1; // 플레이 횟수 증가
         user.MiniGameResults[idx].BestScore = Mathf.Max(user.MiniGameResults[idx].BestScore, score); // 최고점 갱신
 
-        CurPet.GrowthExp += 10;
+        //펫 스텟 증가
+        CurPet.GrowthExp += Manager.Game.Config.MiniGameEXP;
+        CurPet.Happiness += Manager.Game.Config.MiniGameHappiness;
     }
     public MiniGamePersonalityEffectSO GetEffectTable()
     {
@@ -202,15 +155,44 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         if(Manager.Save == null)
         {
-            Manager.Game.ShowPopup("Something Went Wrong. Try Later.."); //TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_SomethingWentWrong");
             return false;
         }
 
         if (Manager.Save.CurrentData.UserData.Energy < cost) //비용이 없으면
         {
-            Manager.Game.ShowPopup("You Don't Have Enough Energy"); //TODO: 로컬라이제이션
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShopForEnergy", 0, this);
             return false;
         }
         return true;
+    }
+
+    public void Confirmed(int requestNum)
+    {
+        if(requestNum == 0)
+        {
+            if (SceneManager.GetActiveScene().name == "InGameScene") //인게임 씬이면
+            {
+                Manager.Game.OpenUiPanel(UIPanel.Shop);
+            }
+            else   //인게임 씬 아니면
+            {
+                var shop = FindObjectOfType<ShopUiManager>(true); //샵에 붙은 컴포넌트 찾아봄
+                if (shop != null) // 찾으면
+                {
+                    shop.gameObject.SetActive(true);
+                }
+                else// 못찾으면 메인씬으로 감
+                {
+                    Manager.Game.ReserveMainSceneUI(UIPanel.Shop);
+                    EndMiniGame();
+                }
+            }
+        }
+    }
+
+    public void Canceled(int requestNum)
+    {
+
     }
 }

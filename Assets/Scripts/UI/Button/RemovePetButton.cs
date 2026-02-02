@@ -18,22 +18,25 @@ public class RemovePetButton : MonoBehaviour, IConfirmRequester
     {
         if (_petManager.ZoomedPet == null) { Debug.LogWarning("선택된 펫 없음."); return; }
 
-        //어른검사
-        if (_petManager.ZoomedUnit.Status.Growth != GrowthStatus.Adult)
+        //성장 검사
+        if (_petManager.ZoomedUnit.Status.Growth == GrowthStatus.Egg)
         {
-            //Manager.Game.ShowPopup("PopText_NotAdult"); //스프레드 시트에 추가
+            Manager.Game.ShowPopup("PopUp_TooYoungForReleased");
             return;
         }
 
         if(Manager.Game != null)
         {
-            Manager.Game.ShowConfirmMessage("Warning_RemovePet", this);
+            Manager.Game.ShowConfirmMessage("Warning_RemovePet",0, this);
         }
     }
 
-    public void Confirmed()
+    public void Confirmed(int requestNum)
     {
-        _petManager.RemovePet();
+        if (requestNum == 0) //펫 삭제
+        {
+            _petManager.RemovePet();
+        }
     }
-    public void Canceled() { }
+    public void Canceled(int requestNum) { }
 }

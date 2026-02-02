@@ -34,10 +34,22 @@ public class PoolManager : Singleton<PoolManager>
             _originMap[obj] = prefab;   // 원본 프리팹 기록
         }
 
-        obj.transform.SetParent(parent); // 부모 설정
-        obj.transform.position = position; // 위치 설정
+        // ---------- 부모/트랜스폼 초기화 ----------
+        bool isUI = obj.transform is RectTransform;   // UI(RectTransform)인지 판별
+        obj.transform.SetParent(parent, !isUI);  //UI면 worldPositionStays=false, 월드면 true
 
-        return obj; // 반환
+        if (isUI)// UI는 로컬 기준으로 초기화
+        {
+            obj.transform.localPosition = Vector3.zero;    //  UI 로컬 위치 초기화
+            obj.transform.localRotation = Quaternion.identity;   //  UI 로컬 회전 초기화
+            obj.transform.localScale = Vector3.one;    //  UI 스케일 초기화(커지는 문제 방지)
+        }
+        else // 월드 오브젝트는 월드 위치로 세팅
+        {
+            obj.transform.position = position;  // 월드 위치 설정
+        }
+
+        return obj;
     }
 
     // ===================== 반환 =====================
@@ -53,7 +65,7 @@ public class PoolManager : Singleton<PoolManager>
 
         obj.SetActive(false); // 비활성화
         obj.transform.SetParent(transform); // 풀 매니저 밑으로 정리
-
+        //obj.transform.localScale = Vector3.one; //풀 보관 중 스케일 정리(다음 사용 시 튐 방지)
         _pool[prefab].Push(obj); // 풀에 다시 넣기
     }
 

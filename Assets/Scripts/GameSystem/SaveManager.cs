@@ -1,3 +1,5 @@
+using Firebase.Auth;
+using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +7,12 @@ using UnityEngine;
 public class SaveManager : Singleton<SaveManager>
 {
     public GameSaveSnapshot CurrentData;
+
+    private bool _isSaving = false;
     private bool _isReady = false;
     public bool IsReady { get { return _isReady; } }
 
+    public event Action OnAppPaused;//펫 데이터 저장용 PetManager 에서 구독
     protected override void Awake()
     {
         base.Awake();
@@ -79,10 +84,15 @@ public class SaveManager : Singleton<SaveManager>
             {
                 CurrentData.UserData.HavePetList = new List<PetSaveData>();
             }
+            if (CurrentData.UserData.HadPetList == null)
+            {
+                CurrentData.UserData.HadPetList = new List<PetSaveData>();
+            }
 
             CurrentData.UserData.HavePetList.Add(pet);
             CurrentData.UserData.HadPetList.Add(pet);
 
+            CurrentData.UserData.TotalRaisedPets++;
             Debug.Log($"펫 ID: {pet.ID} 등록");
         }
         else //섬 펫일때
@@ -117,17 +127,17 @@ public class SaveManager : Singleton<SaveManager>
         }
         SaveGame();
     }
-    public void RemoveIslandPet()
-    {
-        if (CurrentData.UserData.Island.IslandPetSaveData == null)
-        {
-            Debug.Log("삭제할 펫 정보 없음");
-            return;
-        }
-        CurrentData.UserData.Island.IslandPetSaveData = new PetSaveData();
-        Debug.Log($"섬펫 삭제 완료");
-        SaveGame();
-    }
+    //public void RemoveIslandPet() //RemoveIsland()에서 IslandPetSaveData 삭제되서 주석처리
+    //{
+    //    if (CurrentData.UserData.Island.IslandPetSaveData == null)
+    //    {
+    //        Debug.Log("삭제할 펫 정보 없음");
+    //        return;
+    //    }
+    //    CurrentData.UserData.Island.IslandPetSaveData = new PetSaveData();
+    //    Debug.Log($"섬펫 삭제 완료");
+    //    SaveGame();
+    //}
 
     public void RemoveIsland()
     {
@@ -144,24 +154,45 @@ public class SaveManager : Singleton<SaveManager>
     //앱 종료, 씬전환, 앱 퍼즈시
     private void OnApplicationPause(bool pause)
     {
+        if (_isSaving) return; //세이브 중이면 리턴
+
         if (pause)
         {
-            Debug.Log("SaveManager Pause 시간 저장");
-            SavePlayTime();
+            _isSaving = true;
+            
+            OnAppPaused?.Invoke(); //펫 데이터 저장용
+            SaveLastSaveTime();
             SaveGame();
+
+            Debug.Log("SaveManager Quit 시간 + 서버 저장");
+            Manager.Server.TryUploadOnBackground();
         } 
+        else
+        {
+            _isSaving = false;
+        }
     }
     private void OnApplicationQuit()
     {
-        Debug.Log("SaveManager Quit 시간 + 전체 저장");
-        SavePlayTime();
+        if (_isSaving) { Debug.LogWarning("OnApplicationQuit 호출, _isSaving = true 라서 리턴"); return; } //세이브 중이면 리턴
+
+        _isSaving = true;
+        
+        OnAppPaused?.Invoke();
+        SaveLastSaveTime();
         SaveGame();
 
-        Manager.Server.UploadSave();
+        Debug.Log("OnApplicationQuit 호출됨");
+        Manager.Server.TryUploadOnBackground();
     }
-    public void SavePlayTime()
+    public void SaveLastSaveTime()
     {
-        CurrentData.UserData.LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        Debug.Log($"떠난 시간 저장: {CurrentData.UserData.LastPlayedUnixTime}");
+        CurrentData.UserData.LastSavedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        Debug.Log($"마지막 저장시간 : {CurrentData.UserData.LastSavedUnixTime}");
+    }
+    public void SaveMainSceneLeaveTime()
+    {
+        CurrentData.UserData.LastPetSavedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        Debug.Log($"메인씬 떠난 시간 : {CurrentData.UserData.LastPetSavedUnixTime}");
     }
 }

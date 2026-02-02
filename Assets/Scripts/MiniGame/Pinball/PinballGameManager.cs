@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -22,8 +23,14 @@ public class PinballGameManager : MiniGameBase
     [SerializeField] private ItemForMiniGame _slot3Reward;
     [SerializeField] private ItemForMiniGame _slot4Reward;
 
+    private int _remainingBricks; //현재 웨이브에서 남아있는 벽돌 수 카운트
+    private bool _isWaveRespawning; //벽돌이 0 됐을 때 리젠이 중복으로 여러 번 호출되는 것 방지하는 플래그
+    private Coroutine _respawnRoutine; //웨이브 리젠 코루틴
+
+    private bool _isNextWavePending; // 다음 웨이브 스폰 대기
     // ===== 미니게임별 능력 계수 =====
     private float _coinMul = 1f;  //코인 아이템 획득 배율
+    private int _ballDamage = 1;
 
     private GameObject _rouletteMap;
     // ============== 초기화 ===============
@@ -56,14 +63,24 @@ public class PinballGameManager : MiniGameBase
         ApplyAbilities();
         base.GameReset();
 
+        // 웨이브 카운트/리젠 상태 초기화
+        _remainingBricks = 0; // 새 웨이브 시작 전 카운트 리셋
+        _isWaveRespawning = false; // 리젠 플래그 초기화
+        _isNextWavePending = false;
+
+        if (_respawnRoutine != null) // 남아있는 코루틴 정리
+        {
+            StopCoroutine(_respawnRoutine); // 중복 리젠 방지
+            _respawnRoutine = null; // 참조 정리
+        }
+
         RouletteMapReset();
         RewardSlotReset();
 
-        _player.FlagReset();
+        _player.BallReset(_ballDamage);
         _playerSpawner.CloseDoor();
         _spawner.StartSettingBricks(_preset); //0 레벨 세팅
         _curScoreText.text = $"Score: {_score}";
-
     }
     public void GoBackHome()
     {
@@ -73,8 +90,61 @@ public class PinballGameManager : MiniGameBase
     //=================== 외부 호출 ======================
     private void OnBrickBroken(BrickColor color, Vector3 worldPos) //블록 파괴시
     {
-        //블록 파괴 이벤트 여기에
+        //게임 중이 아니면 웨이브 카운트 처리 안함
+        if (!_isPlaying || _isGameOver) return; //게임 종료/대기 상태 보호
+        if (_isWaveRespawning) return; // 리젠 중 중복 트리거 방지
+
+        _remainingBricks--; //벽돌 1개 파괴 처리
+        if (_remainingBricks <= 0) // 웨이브 클리어 조건
+        {
+            _remainingBricks = 0; //음수 방지
+            _isNextWavePending = true; // 소환존 들어올 때까지 대기
+        }
     }
+    // ============= 다음 웨이브 =============
+    public void TrySpawnNextWaveFromZone()
+    {
+        if (!_isNextWavePending) return; //대기 상태 아니면 무시
+        if (_isWaveRespawning) return; //이미 리스폰 중이면 무시
+        if (!_isPlaying || _isGameOver) return;
+
+        _isNextWavePending = false;
+        RequestNextWave(); //웨이브 소환 시작
+    }
+    private void RequestNextWave() //웨이브 클리어시 리젠을 시작시키는 함수
+    {
+        // 중복 리젠 요청 방지
+        if (_isWaveRespawning) return; // 이미 리젠 중이면 무시
+        _isWaveRespawning = true; //리젠 플래그 ON
+
+        if (_respawnRoutine != null) // 혹시 남아있으면 정리
+        {
+            StopCoroutine(_respawnRoutine); //중복 코루틴 방지
+            _respawnRoutine = null; //참조 정리
+        }
+
+        _respawnRoutine = StartCoroutine(RespawnNextWaveRoutine()); //다음 프레임에 웨이브 교체
+    }
+    //=========== 다음 웨이브 리스폰 코루틴 ================
+    private IEnumerator RespawnNextWaveRoutine()
+    {
+        yield return null; // 물리 콜백 프레임 분리(안전)
+
+        // 게임 상태가 바뀌었으면 중단
+        if (!_isPlaying || _isGameOver) //종료/대기 상태 보호
+        {
+            _isWaveRespawning = false; //플래그 원복
+            _respawnRoutine = null; // 참조 정리
+            yield break; // 중단
+        }
+
+        _remainingBricks = 0; // 새 웨이브 카운트 초기화(등록하면서 다시 올라감)
+        _spawner.StartSettingBricks(_preset); // 랜덤 맵 다시 배치
+
+        _isWaveRespawning = false; // 리젠 완료
+        _respawnRoutine = null; // 참조 정리
+    }
+
     private void OnAddScore(int score) //점수 추가
     {
         AddScore(score);
@@ -133,6 +203,9 @@ public class PinballGameManager : MiniGameBase
         brick.OnBroken += OnBrickBroken;
         brick.OnAddScore += OnAddScore;
         brick.OnGiveItem += OnGivenItem;
+
+        // 현재 웨이브 벽돌 수 카운트
+        _remainingBricks++; // 웨이브 벽돌 +1
     }
     public void UnregisterBrick(PinballBrick brick)
     {
@@ -143,17 +216,20 @@ public class PinballGameManager : MiniGameBase
     // ================리셋 ===============
     private void RouletteMapReset()
     {
-        if (_preset.RouletteMaps.Length == 0 || _preset.RouletteMaps == null) return; //룰렛맵 없으면 리턴
+        if (_preset.RouletteMaps == null || _preset.RouletteMaps.Length == 0) return; //null 체크
 
-        if (_rouletteMap != null) //전에 맵 남아있으면 삭제
+        if (_rouletteMap != null) //전에 맵 남아있으면 반환
         {
-            Destroy(_rouletteMap);
+            Manager.Pool.Release(_rouletteMap); //풀 반환
             _rouletteMap = null;
         }
 
         int rand = Random.Range(0, _preset.RouletteMaps.Length);
 
-        _rouletteMap = Instantiate(_preset.RouletteMaps[rand], transform); // 룰렛맵 소환
+        _rouletteMap = Manager.Pool.Get(_preset.RouletteMaps[rand], transform.position, transform); //풀로 맵 소환
+        _rouletteMap.transform.localPosition = Vector3.zero; //부모 기준 위치 정리
+        _rouletteMap.transform.localRotation = Quaternion.identity; //회전 정리
+        _rouletteMap.transform.localScale = Vector3.one; //스케일 정리
     }
     private void RewardSlotReset()
     {
@@ -178,5 +254,6 @@ public class PinballGameManager : MiniGameBase
         if (_effectContext == null) { Debug.LogWarning("_effectContext 없음"); return; }
 
         _coinMul = _effectContext.GoldMultiplier; //코인 배율
+        _ballDamage = _effectContext.BallDamage;
     }
 }

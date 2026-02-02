@@ -278,20 +278,50 @@ public class ShopManager : Singleton<ShopManager>
     }
 
     //===============골드구매===============
-
-    public void PurchaseWithGold(string productId, int price) //골드 아이템구매
+    public bool TryPurchaseWith(string productId, int price, GMPurchaseType moneyType, out ProductType productType) //인게임 화폐 아이템구매시도 
     {
-        int haveMoney = Manager.Save.CurrentData.UserData.Items.Money;
+        productType = ProductType.Unknown; //프로덕트 타입
 
-        if (haveMoney < price)
+        if (moneyType == GMPurchaseType.None) return false; //화폐 타입 없으면 리턴
+
+        var user = Manager.Save.CurrentData.UserData;
+
+        if (user == null) return false; //유저정보 없으면 리턴
+
+        if(moneyType == GMPurchaseType.Coin)
         {
-            Manager.Game.ShowPopup("You are broke");
-            return;
+            int haveMoney = Manager.Save.CurrentData.UserData.Items.Money;
+
+            if (haveMoney < price)
+            {
+                Manager.Game.ShowPopup("PopUp_NoMoney");
+                return false;
+            }
         }
 
-        ProductCatalogSO.Entry entry = _catalog.GetEntryById(productId);
-        Manager.Item.PurchaseWithGold(entry, price); // 구매 시도
+        if (moneyType == GMPurchaseType.Gem)
+        {
+            int haveGem = Manager.Save.CurrentData.UserData.Items.Gem;
 
+            if (haveGem < price)
+            {
+                Manager.Game.ShowPopup("PopUp_NoGem");
+                return false;
+            }
+        }
+        //------- 구매 진행---------
+        ProductCatalogSO.Entry entry = _catalog.GetEntryById(productId);
+
+        if (entry == null) //카탈로그에 없는 상품 방어
+        {
+            Debug.LogWarning($"카탈로그에 id없음: {productId}");
+            return false;
+        }
+
+        productType = entry.ProductType; // 성공 시 out 값 세팅
+
+        Manager.Item.PurchaseWith(moneyType, price, entry, user); // 구매 진행
+        return true;
     }
 
     public (string priceString, decimal priceValue, string currencyCode) GetPriceInfo(string productId)

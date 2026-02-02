@@ -6,7 +6,7 @@ public class PetStatusCore
 {
     public float Hunger { get; private set; }
     public float Health { get; private set; }
-    public float Cleanliness { get; private set; }
+    public float Cleanliness { get; private set; } 
     public float Happiness { get; private set; }
     public bool IsSick { get; private set; }
     public bool IsLeft { get; private set; }
@@ -85,7 +85,7 @@ public class PetStatusCore
         //청결도 조건
         if (Cleanliness < 50f)
         {
-            OnCleanlinessChanged?.Invoke(Cleanliness); //PetUnit 에서 구독
+            OnCleanlinessChanged?.Invoke(Cleanliness); //PetUnit 에서 구독 
         }
 
         //아픔 조건

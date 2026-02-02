@@ -99,14 +99,13 @@ public class RythmScoring : MonoBehaviour
         {
             double beatDuration = 60.0 / preset.BPM;
 
-            float inputDsp = (float)now;                                   // 실제 입력 시간
-            float targetDsp = (float)(_flow.TurnStartDspTime + beat.Time); // 정답 시간(절대 DSP)
-            float beatDurF = (float)beatDuration;                           // 1박 길이(초)
+            //절대 DSP(float) 대신 "턴 시작 기준 상대시간"으로 판정
+            double inputRel = now - _flow.TurnStartDspTime; //입력 상대시간(초)
+            double targetRel = beat.Time;     // 정답 상대시간(초)
+            double beatDur = beatDuration;    // 1박 길이(초)
 
-            result = _judge.Judge(inputDsp, targetDsp, beatDurF);          // Perfect/Good/Miss
-
-            _flow.ConsumeNextBeat();  // 입력 1번 = 비트 1개 소비(현재 규칙)
-
+            result = _judge.Judge((float)inputRel, (float)targetRel, (float)beatDur); // Judge는 동일 시그니처 유지(내부는 상대시간)
+            _flow.ConsumeNextBeat();
         }
 
         // 판정 결과를 점수 delta로 변환해서 외부에 반영 요청
@@ -192,12 +191,12 @@ public class RythmScoring : MonoBehaviour
         {
             double beatDuration = 60.0 / preset.BPM;
 
-            float inputDsp = (float)bufferedNow;
-            float targetDsp = (float)(_flow.TurnStartDspTime + beat.Time);
-            float beatDurF = (float)beatDuration;
+            // [수정] 상대시간 판정
+            double inputRel = bufferedNow - _flow.TurnStartDspTime; // 입력 상대시간(초)
+            double targetRel = beat.Time;       // 정답 상대시간(초)
+            double beatDur = beatDuration;    // 1박 길이(초)
 
-            result = _judge.Judge(inputDsp, targetDsp, beatDurF);
-
+            result = _judge.Judge((float)inputRel, (float)targetRel, (float)beatDur);
             _flow.ConsumeNextBeat();
         }
 

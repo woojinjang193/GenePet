@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IConfirmRequester
+public interface IConfirmRequester 
 {
-    void Confirmed();
-    void Canceled();
+    void Confirmed(int requestNum);
+    void Canceled(int requestNum);
 }

@@ -8,7 +8,7 @@ public class TextCSVtoSO
     private static string csvPath = "Assets/CSV/Text.csv"; // CSV 경로
     private static string textSoDir = "Assets/ScriptableObjects/TextSO"; // SO 저장 경로
     private static int startRow = 1; // 데이터 시작 행
-    private static int columnCount = 7; //열 개수
+    private static int columnCount = 8; //열 개수
 
     [MenuItem("CSV TO SO/Import Text")]
     public static void StartImportingText()
@@ -57,9 +57,10 @@ public class TextCSVtoSO
             string kor = Clean(GetString(splitData, 1));
             string eng = Clean(GetString(splitData, 2));
             string de = Clean(GetString(splitData, 3));
-            string jp = Clean(GetString(splitData, 4));
-            string ch = Clean(GetString(splitData, 5));
-            string sp = Clean(GetString(splitData, 6));
+            string sp = Clean(GetString(splitData, 4));
+            string jp = Clean(GetString(splitData, 5));
+            string chs = Clean(GetString(splitData, 6));
+            string cht = Clean(GetString(splitData, 7));
 
             string soPath = $"{textSoDir}/{id}.asset"; //SO 경로
 
@@ -75,9 +76,11 @@ public class TextCSVtoSO
             so.KOR = kor;
             so.ENG = eng;
             so.DE = de;
-            so.JP = jp;
-            so.CH = ch;
             so.SP = sp;
+            so.JP = jp;
+            so.CHS = chs;
+            so.CHT = cht;
+
 
             EditorUtility.SetDirty(so);
         }
@@ -96,7 +99,8 @@ public class TextCSVtoSO
     {
         return text
             .Replace("\"\"", "\"")   // "" > " 로 변경
-            .Trim()                             //문자열 앞뒤 공백 제거
-            .Trim('\"', '“', '”', '「', '」'); //텍스트를 감싸는 따옴표 제거
+            .Replace("\\n", "\n")
+            .Trim();  //문자열 앞뒤 공백 제거
+            //.Trim('\"', '“', '”', '「', '」'); //텍스트를 감싸는 따옴표 제거
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
 
-public class PetUnit : MonoBehaviour
+public class PetUnit : MonoBehaviour 
 {
-    [Header("코어")]
-
+    [Header("쓰다듬기")]
+    [SerializeField] private PetPetting _petting;
+    
     private PetStatusCore _status = new PetStatusCore();
     private PetConfigSO _currentConfig;
     public PetConfigSO CurConfig => _currentConfig;
@@ -17,12 +18,20 @@ public class PetUnit : MonoBehaviour
     private PetVisualController _visul;
     public bool LeftHandled { get; set; }
 
+    //--------------쓰다듬기 행복도---------------------
+    private long _pettingCooldownSec; // 120분 쿨다운(초)
+    private float _pettingHappinessAdd;     //한 번에 오르는 행복도
+
     private PetSaveData _saveRef;
+
+    public PetSaveData SaveData => _saveRef;
     private void OnDestroy()
     {
         _status.OnCleanlinessChanged -= _visul.OnCleanlinessChanged;
         _status.OnSick -= _visul.OnSick;
         _status.OnHealthReducing -= _visul.OnHealthReducing;
+        _status.OnGrown -= _visul.OnGrown;
+        _petting.OnPettingChanged -= OnPettingChanged;
     }
     public void Init(PetSaveData save, PetManager petManager)
     {
@@ -46,8 +55,15 @@ public class PetUnit : MonoBehaviour
         _status.OnCleanlinessChanged += _visul.OnCleanlinessChanged;
         _status.OnSick += _visul.OnSick;
         _status.OnHealthReducing += _visul.OnHealthReducing;
+        _status.OnGrown += _visul.OnGrown; //성장이벤트 구독
 
+        _petting.OnPettingChanged += OnPettingChanged;
         //Debug.Log($"데이터 로드완료 ID: {_petId}");
+
+        var config = Manager.Game.Config;
+
+        _pettingHappinessAdd = config.PettingHappinessAdd;
+        _pettingCooldownSec = (long)(config.PettingCooldownHour * 60f * 60f);
     }
     public void SetConfig(PetConfigSO cfg) 
     {
@@ -118,5 +134,33 @@ public class PetUnit : MonoBehaviour
     {
         //Debug.Log($"줌됨 {on}");
         _visul.AllowToClickLetter(on);
+    }
+    // ==============펫 쓰다듬기 이벤트====================
+    private void OnPettingChanged(bool on)
+    {
+        if (!on) return;   // 시작(true)일 때만 체크
+        if (Status.Growth == GrowthStatus.Egg) return; //알일땐 행복도 안올림
+        if (Status.IsLeft) return; //떠난 상태면 행복도 안올림
+
+        //Debug.Log("쓰다듬 쿨타임 체크");
+        TryGivePettingHappiness();  // 쿨다운 체크 후 지급
+    }
+    private void TryGivePettingHappiness() // 쓰다듬 행복도 지급
+    {
+        if (_saveRef == null) return; // 세이브 참조 없으면 불가
+
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //현재 UTC 시간
+        long last = _saveRef.LastPettingHappinessUnixTime;  //  마지막 지급 시간
+
+        if (now - last < _pettingCooldownSec) return;   //  쿨다운이면 지급 안 함
+
+        _saveRef.LastPettingHappinessUnixTime = now;    // 마지막 지급 시간 갱신
+
+        //행복도 증가(세이브 + 스테이터스 둘 다 반영)
+        _saveRef.Happiness += _pettingHappinessAdd;           //  저장데이터 반영
+        _status.SetValues(PetStat.Happiness, _saveRef.Happiness); // 런타임 스테이터스 반영
+        Petmanager.UpdateStatus(); //UI 업데이트
+
+        Manager.Save.SaveGame(); //즉시 저장
     }
 }
