@@ -472,6 +472,7 @@ GameObject:
   - component: {fileID: 78134632}
   - component: {fileID: 78134631}
   - component: {fileID: 78134633}
+  - component: {fileID: 78134634}
   m_Layer: 5
   m_Name: Ads Panel
   m_TagString: Untagged
@@ -556,6 +557,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &78134634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78134629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7596039cb7bf1a499346c4a0876a900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &85771735
 GameObject:
   m_ObjectHideFlags: 0
