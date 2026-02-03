@@ -16,7 +16,10 @@ MonoBehaviour:
   RewardDailyLimits:
   - Id: test
     Limit: 2
-    CoolTimeHour: 0.1
+    CoolTimeHour: 0.03
+  - Id: bringpetback
+    Limit: 3
+    CoolTimeHour: 2
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10

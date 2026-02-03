@@ -487,7 +487,7 @@ public class PetManager : MonoBehaviour
             Debug.LogError("펫 비주얼 컨트롤러 못찾음");
         }
     }
-    private LeftReason FineReasonForLeaving(PetStatusCore stats)
+    private LeftReason FineReasonForLeaving(PetStatusCore stats) //TODO: 떠남조건 확인하기
     {
         if(stats.Hunger <= 0f)
         {

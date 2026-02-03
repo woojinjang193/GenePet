@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LetterPanel : MonoBehaviour, IConfirmRequester, IAdRequester
+public class LetterPanel : MonoBehaviour, IConfirmRequester
 {
     [Header("유저가 보게될 그림")]
     [SerializeField] private Image _reasonSprite;
@@ -24,7 +24,6 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester, IAdRequester
     [SerializeField] private Button _missingPosterButton;
     [SerializeField] private TMP_Text _missingPosterAmount;
 
-    [SerializeField] private Button _watchAdButton;
     [SerializeField] private Button _giveUpButton;
     [SerializeField] private Button _closeButton;
 
@@ -37,7 +36,6 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester, IAdRequester
         _missingPosterButton.onClick.AddListener(OnMissingPosterClicked);
         _giveUpButton.onClick.AddListener(OnGiveUpClicked);
         _closeButton.onClick.AddListener(OnCloseClicked);
-        _watchAdButton.onClick.AddListener(OnClickRequestAD);
 
         Manager.Item.OnRewardGranted += UpdateAmount;
     }
@@ -79,10 +77,6 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester, IAdRequester
         }
     }
     //==================광고버튼 클릭====================
-    private void OnClickRequestAD()
-    {
-        Manager.AD.ShowRewardedAd(this);
-    }
     private void OnMissingPosterClicked()
     {
         UserItemData items = Manager.Save.CurrentData.UserData.Items;
@@ -97,7 +91,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester, IAdRequester
 
         BringPetBack();
     }
-    private void BringPetBack()
+    public void BringPetBack() //외부에서도 호출 가능
     {
         OnClickMissingPoster?.Invoke(); //펫 매니저가 구독함
         gameObject.SetActive(false);
@@ -137,13 +131,5 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester, IAdRequester
         if (item != RewardType.MissingPoster) return;
 
         _missingPosterAmount.text = $"x{newValue}";
-    }
-    public void AdWatched()
-    {
-        
-    }
-    public void AdClosed()
-    {
-        BringPetBack();
     }
 }
