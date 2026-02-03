@@ -202,15 +202,31 @@ public class GameManager : Singleton<GameManager>
         ReservedUI = UIPanel.None;
     }
 
-    public void OpenUiPanel(UIPanel panel) //메인씬에서 원하는 UI 바로 열기
+    public void OpenUiPanel(UIPanel panel, bool moveToMainScene, Action beforeGoMainScene = null) //씬에서 원하는 UI 바로 열기
     {
         if (panel == UIPanel.None) return;
 
-        var uiManager = FindObjectOfType<InGameUIManager>();
-
-        if (uiManager != null)
+        if (panel == UIPanel.Shop)
         {
-            uiManager.OpenUiPanel(panel);
+            var shopUI = FindObjectOfType<ShopUiManager>(true);
+
+            if (shopUI != null) //샵 찾으면 오픈
+            {
+                shopUI.gameObject.SetActive(true);
+            }
+            else //샵 없으면 메인으로 이동해서 오픈
+            {
+                ReserveMainSceneUI(panel); //판넬 예약
+
+                if (!moveToMainScene) //메인씬 가기전 할일 있으면
+                {
+                    beforeGoMainScene?.Invoke(); //메인씬 이동 전 필수 처리 훅
+                }
+                else //메인씬 바로가기면
+                {
+                    SceneManager.LoadScene("InGameScene");
+                }
+            }
         }
     }
 }

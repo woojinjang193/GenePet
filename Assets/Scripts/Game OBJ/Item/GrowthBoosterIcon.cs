@@ -85,7 +85,7 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
         }
         else if (requestNum == 1) //상점이동 요청
         {
-            Manager.Game.OpenUiPanel(UIPanel.Shop);
+            Manager.Game.OpenUiPanel(UIPanel.Shop, false);
         }
     }
 

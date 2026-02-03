@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
@@ -570,7 +571,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     {
         if (requestNum == 0) //상점이동 요청
         {
-            Manager.Game.OpenUiPanel(UIPanel.Shop);
+            Manager.Game.OpenUiPanel(UIPanel.Shop, true);
         }
         else if (requestNum == 1) //유전자 스티커 사용 (우성용)
         {

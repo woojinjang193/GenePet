@@ -171,23 +171,7 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
     {
         if(requestNum == 0)
         {
-            if (SceneManager.GetActiveScene().name == "InGameScene") //인게임 씬이면
-            {
-                Manager.Game.OpenUiPanel(UIPanel.Shop);
-            }
-            else   //인게임 씬 아니면
-            {
-                var shop = FindObjectOfType<ShopUiManager>(true); //샵에 붙은 컴포넌트 찾아봄
-                if (shop != null) // 찾으면
-                {
-                    shop.gameObject.SetActive(true);
-                }
-                else// 못찾으면 메인씬으로 감
-                {
-                    Manager.Game.ReserveMainSceneUI(UIPanel.Shop);
-                    EndMiniGame();
-                }
-            }
+            Manager.Game.OpenUiPanel(UIPanel.Shop, false, EndMiniGame);
         }
     }
 

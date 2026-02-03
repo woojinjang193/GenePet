@@ -118,7 +118,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester, IAdRequester
     {
         if (requestNum == 0) //상점이동 요청
         {
-            Manager.Game.OpenUiPanel(UIPanel.Shop);
+            Manager.Game.OpenUiPanel(UIPanel.Shop, false);
         }
         else if (requestNum == 1) //펫 포기 요청
         {
