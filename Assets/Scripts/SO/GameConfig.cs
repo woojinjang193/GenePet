@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New GameConfigSO", menuName = "SO/GameConfigSO")]
@@ -6,10 +8,8 @@ public class GameConfig : ScriptableObject
     [Header("<color=yellow>게임 설정</color>")]
     [Header("백그라운드 게임저장 간격")]
     public int UploadIntervalSec;
-    [Header("MissingPoster 광고 사용 리밋")]
-    public int LimitForMissingPosterAD;
-    [Header("일일 광고 보상 리밋")]
-    public int LimitForDailyRewardAD;
+    [Header("데일리 보상 Limit 테이블")]
+    public List<RewardLimitTable> RewardDailyLimits; // ID > Limit 테이블
 
     [Header("<color=yellow>유저 설정</color>")]
     [Header("최대 소유 펫 수")]
@@ -75,4 +75,24 @@ public class GameConfig : ScriptableObject
     public float ComeBackHappiness;
     [Header("체력")]
     public float ComeBackHealth;
+
+    public int GetLimitByID(string id) //리미트 넘겨주는 함수
+    {
+        foreach(RewardLimitTable info in RewardDailyLimits)
+        {
+            if(info.Id == id)
+            {
+                return info.Limit;
+            }
+        }
+        return -1;
+    }
 }
+[Serializable]
+public class RewardLimitTable //보상 제한 테이블 한 줄
+{
+    public string Id;   //보상 ID
+    public int Limit;   //하루 제한 횟수
+}
+
+

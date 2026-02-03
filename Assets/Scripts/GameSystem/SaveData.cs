@@ -70,12 +70,14 @@ public class RewardClaimRecord
     public string ID;
     public string LastDate;
     public long LastClaimUnix; // 마지막 수령 시간
+    public int TodayCount; //오늘 받은 보상 카운트
 
     public RewardClaimRecord()
     {
         ID = "";
         LastDate = "";
         LastClaimUnix = 0;
+        TodayCount = 0;
     }
 }
 

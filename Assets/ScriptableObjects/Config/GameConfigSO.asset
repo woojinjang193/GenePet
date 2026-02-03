@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: GameConfigSO
   m_EditorClassIdentifier: 
   UploadIntervalSec: 180
+  RewardDailyLimits:
+  - Id: test
+    Limit: 3
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10

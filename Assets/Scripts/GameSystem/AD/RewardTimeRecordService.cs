@@ -2,18 +2,35 @@ using System.Collections.Generic;
 
 public static class RewardTimeRecordService
 {
-    public static bool CanClaimReward(string id) //데일리 보상 용
+    private static readonly Dictionary<string, string> _cachedDateById = new();
+
+    //==================외부 호출용======================================
+    public static bool TryBeginAdClaim(string id) // 버튼 눌렀을때 
+    {
+        bool can = CanClaimReward(id); // 데일리 체크
+        if (!can) return false; //불가면 캐싱 안 함
+
+        _cachedDateById[id] = GetTodayKey(); // 광고 시작 시점 날짜 캐싱
+        return true;
+    }
+    public static bool CanClaimReward(string id) //데일리 보상 용 (버튼 활성화용)
     {
         var record = GetOrCreateRecord(id); // 레코드 확보
         string today = GetTodayKey(); // 오늘 날짜
+        int limit = Manager.Game.Config.GetLimitByID(id);
+
+        if (limit <= 0) return false; // 설정 없거나 0이면 못 받게(버그 방지)
 
         if (string.IsNullOrEmpty(record.LastDate)) return true; // 기록 없으면 가능(첫보상)
         if (string.Compare(record.LastDate, today) > 0) return false; // 미래 날짜면 패널티(잠금)
-        if (record.LastDate == today) return false; // 오늘 이미 받음
 
-        return true; // 과거면 가능
+        EnsureDailyReset(record, today); // 날짜 바뀌면 카운트 리셋
+
+        if (record.LastDate == today && record.TodayCount >= limit) return false; // 오늘 이미 리미트 받음
+
+        return true; // 마지막 수령 날짜가 과거거나 오늘 보상 아직 리밋 아니면 true
     }
-    public static bool CanClaimReward(string id, int cooldownSec) // 쿨타임 보상용
+    public static bool CanClaimReward(string id, int cooldownSec) // 쿨타임 보상용  (버튼 활성화용)
     {
         var record = GetOrCreateRecord(id); // 레코드 확보
         long now = GetNowUnix(); // 현재 시간
@@ -21,13 +38,28 @@ public static class RewardTimeRecordService
         if (record.LastClaimUnix <= 0) return true; // 첫 수령이면 가능
         return (now - record.LastClaimUnix) >= cooldownSec; // 쿨타임 경과 확인
     }
-
-    public static void MarkClaimed(string id) // 받았다고 기록
+    public static void MarkClaimed(string id) //캐싱 날짜 기준으로 저장
     {
         var record = GetOrCreateRecord(id);
-        record.LastDate = GetTodayKey(); // 하루 1회용(그대로 두기)
-        record.LastClaimUnix = GetNowUnix(); // 쿨타임용 시간 기록
-        Manager.Save.SaveGame(); 
+
+        string dateKey = GetTodayKey(); //기본은 현재 날짜
+        if (_cachedDateById.TryGetValue(id, out var cached)) dateKey = cached; //캐싱 있으면 캐싱날짜 날짜 우선
+
+        EnsureDailyReset(record, dateKey); //캐싱 날짜 기준으로 리셋 보장
+
+        record.LastDate = dateKey; //캐싱 날짜로 저장
+        record.LastClaimUnix = GetNowUnix();
+        record.TodayCount++;
+        Manager.Save.SaveGame();
+
+        _cachedDateById.Remove(id); //캐시 정리
+    }
+    //==================헬퍼======================================
+    private static void EnsureDailyReset(RewardClaimRecord record, string today) //날짜 바뀌면 카운트 리셋
+    {
+        //빈 데이터 아니고 미래가 아니면
+        if (!string.IsNullOrEmpty(record.LastDate) && string.Compare(record.LastDate, today) < 0)
+            record.TodayCount = 0;
     }
 
     private static string GetTodayKey() // 오늘 날짜 문자열(로컬 기준)

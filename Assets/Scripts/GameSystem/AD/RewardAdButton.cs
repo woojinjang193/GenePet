@@ -2,15 +2,26 @@ using GoogleMobileAds.Api;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RewardAdButton : MonoBehaviour, IAdRequester
+public class RewardAdButton : AdRequestBase
 {
-    private Button _button;
+    [Header("보상 ID")]
+    [SerializeField] private string _rewardID;
 
-    [Header("옵션")]
-    [SerializeField] private bool _isRandom = false; 
+    [Header("데일리")]
+    [SerializeField] private bool _isDaily = false;
+
+    [Header("쿨타임(시간) 데일리면 무시됨")]
+    [SerializeField] private int _coolTimeHour;
+
+    [Header("tmp")]
+    [SerializeField] private TMP_Text _text;
+
+    [Header("랜덤보상 여부")]
+    [SerializeField] private bool _isRandom = false;
 
     [Header("아이템 보상 목록")]
     [SerializeField] private List<ItemRewardEntry> _itemRewards = new();
@@ -19,6 +30,8 @@ public class RewardAdButton : MonoBehaviour, IAdRequester
     [SerializeField] private List<RewardEggPresetSO> _eggPresets = new();
 
     private List<RewardData> _rewards = new();
+    private Button _button;
+
 
     [Serializable]
     public class ItemRewardEntry
@@ -32,18 +45,33 @@ public class RewardAdButton : MonoBehaviour, IAdRequester
         _button = GetComponent<Button>();
         _button.onClick.AddListener(ClaimRewards);
     }
+    private void OnEnable()
+    {
+        if (string.IsNullOrEmpty(_rewardID)) { _button.interactable = false; return; } //id 없으면 리턴
+
+        _button.interactable = CanClickButton();
+    }
 
     public void ClaimRewards()
     {
         if (Manager.Item == null) return;
-        _rewards.Clear();
 
-        _rewards = BuildPayoutList();
-        if (_rewards.Count == 0) return;
+        if (RewardTimeRecordService.CanClaimReward(_rewardID)) //보상 수령 가능이면
+        {
+            _rewards.Clear();
 
-        Manager.AD.ShowRewardedAd(this);
+            _rewards = BuildPayoutList(); //보상 리스트 생성
+            if (_rewards.Count == 0) return; //보상 없으면 리턴
+
+            base.Request(); //광고 요청
+        }
+        else //불가능이면
+        {
+            _button.interactable= false;
+        }
+            
     }
-
+    //======리워드 리스트 생성=================
     private List<RewardData> BuildPayoutList()
     {
         List<RewardData> payout = new();
@@ -90,14 +118,30 @@ public class RewardAdButton : MonoBehaviour, IAdRequester
 
         payout.Add(RewardData.CreateEgg(egg)); // RewardData로 변환
     }
+    //==================광고 후처리=============================
 
-    public void AdWatched()
+    protected override void OnReward()
     {
         Manager.Item.GiveMiniGameRewards(_rewards);// 보상 지급
+        RewardTimeRecordService.MarkClaimed(_rewardID);
+        _button.interactable = CanClickButton();
     }
 
-    public void AdClosed()
+    protected override void OnClosed()
     {
         Manager.Item.NotifyRewardsReady();// 팝업 신호
+    }
+
+    //===================유틸=========================
+    private bool CanClickButton()
+    {
+        if (_isDaily) //데일리 보상이면
+        {
+            return RewardTimeRecordService.CanClaimReward(_rewardID);
+        }
+        else //쿨타임 보상이면
+        {
+            return RewardTimeRecordService.CanClaimReward(_rewardID, _coolTimeHour);
+        }
     }
 }
