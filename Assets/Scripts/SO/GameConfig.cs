@@ -6,6 +6,10 @@ public class GameConfig : ScriptableObject
     [Header("<color=yellow>게임 설정</color>")]
     [Header("백그라운드 게임저장 간격")]
     public int UploadIntervalSec;
+    [Header("MissingPoster 광고 사용 리밋")]
+    public int LimitForMissingPosterAD;
+    [Header("일일 광고 보상 리밋")]
+    public int LimitForDailyRewardAD;
 
     [Header("<color=yellow>유저 설정</color>")]
     [Header("최대 소유 펫 수")]

@@ -69,11 +69,13 @@ public class RewardClaimRecord
 {
     public string ID;
     public string LastDate;
+    public long LastClaimUnix; // 마지막 수령 시간
 
     public RewardClaimRecord()
     {
         ID = "";
         LastDate = "";
+        LastClaimUnix = 0;
     }
 }
 
