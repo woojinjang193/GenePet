@@ -7,13 +7,13 @@ public static class RewardTimeRecordService
     //==================외부 호출용======================================
     public static bool TryBeginAdClaim(string id) // 버튼 눌렀을때 
     {
-        bool can = CanClaimReward(id); // 데일리 체크
+        bool can = CanClaimDailyReward(id); // 데일리 체크
         if (!can) return false; //불가면 캐싱 안 함
 
         _cachedDateById[id] = GetTodayKey(); // 광고 시작 시점 날짜 캐싱
         return true;
     }
-    public static bool CanClaimReward(string id) //데일리 보상 용 (버튼 활성화용)
+    public static bool CanClaimDailyReward(string id) //데일리 보상 용 (버튼 활성화용)
     {
         var record = GetOrCreateRecord(id); // 레코드 확보
         string today = GetTodayKey(); // 오늘 날짜
@@ -30,13 +30,14 @@ public static class RewardTimeRecordService
 
         return true; // 마지막 수령 날짜가 과거거나 오늘 보상 아직 리밋 아니면 true
     }
-    public static bool CanClaimReward(string id, int cooldownSec) // 쿨타임 보상용  (버튼 활성화용)
+    public static bool CanClaimCoolTimeReward(string id) // 쿨타임 보상용  (버튼 활성화용)
     {
         var record = GetOrCreateRecord(id); // 레코드 확보
         long now = GetNowUnix(); // 현재 시간
+        int coolTimeSec = Manager.Game.Config.GetCoolTimeByID(id);
 
         if (record.LastClaimUnix <= 0) return true; // 첫 수령이면 가능
-        return (now - record.LastClaimUnix) >= cooldownSec; // 쿨타임 경과 확인
+        return (now - record.LastClaimUnix) >= coolTimeSec; // 쿨타임 경과 확인
     }
     public static void MarkClaimed(string id, bool isDaily) //캐싱 날짜 기준으로 저장
     {
@@ -88,10 +89,11 @@ public static class RewardTimeRecordService
         return record;
     }
     //====================쿨타임 계산용=======================
-    public static int GetRemainingCooldownSec(string id, int cooldownSec) //쿨타임 남은 시간(초) 반환
+    public static int GetRemainingCooldownSec(string id) //쿨타임 남은 시간(초) 반환
     {
         var record = GetOrCreateRecord(id); // 레코드 확보
         long now = GetNowUnix(); // 현재 시간
+        int cooldownSec = Manager.Game.Config.GetCoolTimeByID(id);
 
         if (record.LastClaimUnix <= 0) return 0; // 첫 수령 전이면 즉시 가능
 

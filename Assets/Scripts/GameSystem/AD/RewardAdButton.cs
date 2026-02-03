@@ -1,4 +1,3 @@
-using GoogleMobileAds.Api;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +12,6 @@ public class RewardAdButton : AdRequestBase
 
     [Header("데일리")]
     [SerializeField] private bool _isDaily = false;
-
-    [Header("쿨타임(시간) 데일리면 무시됨")]
-    [SerializeField] private float _coolTimeHour;
 
     [Header("tmp")]
     [SerializeField] private TMP_Text _text;
@@ -73,8 +69,7 @@ public class RewardAdButton : AdRequestBase
         }
         else //쿨타임이면
         {
-            int cooldownSec = (int)_coolTimeHour * 3600; // 시간 > 초 변환
-            if (!RewardTimeRecordService.CanClaimReward(_rewardID, cooldownSec)) // 쿨타임 안됐으면
+            if (!RewardTimeRecordService.CanClaimCoolTimeReward(_rewardID)) // 쿨타임 안됐으면
             {
                 RefreshUI(); //UI 갱신(남은시간 표시)
                 StartCooldownRoutineIfNeeded(); //카운트다운 시작
@@ -158,15 +153,14 @@ public class RewardAdButton : AdRequestBase
     {
         if (_isDaily) // 데일리
         {
-            bool can = RewardTimeRecordService.CanClaimReward(_rewardID);
+            bool can = RewardTimeRecordService.CanClaimDailyReward(_rewardID);
             _button.interactable = can;
             if (_text != null) _text.text = can ? "보상 받기" : "오늘 보상 수령";
             return;
         }
 
         // 쿨타임
-        int cooldownSec = (int)_coolTimeHour * 3600; //초로 변환
-        int remain = RewardTimeRecordService.GetRemainingCooldownSec(_rewardID, cooldownSec); // 남은시간 받기
+        int remain = RewardTimeRecordService.GetRemainingCooldownSec(_rewardID); // 남은시간 받기
         bool canClick = (remain <= 0); // 남은시간 0 이하면 클릭 가능
 
         if (canClick) StopCooldownRoutine();
@@ -179,8 +173,7 @@ public class RewardAdButton : AdRequestBase
     {
         StopCooldownRoutine(); // 중복 방지
 
-        int cooldownSec = (int)_coolTimeHour * 3600;
-        int remain = RewardTimeRecordService.GetRemainingCooldownSec(_rewardID, cooldownSec);
+        int remain = RewardTimeRecordService.GetRemainingCooldownSec(_rewardID);
         if (remain <= 0) return; // 이미 가능하면 안 돌림
 
         _cooldownRoutine = StartCoroutine(CooldownTickRoutine());

@@ -87,12 +87,24 @@ public class GameConfig : ScriptableObject
         }
         return -1;
     }
+    public int GetCoolTimeByID(string id) //쿨타임 넘겨주는 함수
+    {
+        foreach(RewardLimitTable info in RewardDailyLimits)
+        {
+            if(info.Id == id)
+            {
+                return (int)(info.CoolTimeHour * 3600);
+            }
+        }
+        return -1;
+    }
 }
 [Serializable]
 public class RewardLimitTable //보상 제한 테이블 한 줄
 {
     public string Id;   //보상 ID
     public int Limit;   //하루 제한 횟수
+    public float CoolTimeHour;   //하루 제한 횟수
 }
 
 

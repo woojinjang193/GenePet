@@ -16,6 +16,7 @@ MonoBehaviour:
   RewardDailyLimits:
   - Id: test
     Limit: 2
+    CoolTimeHour: 0.1
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10
