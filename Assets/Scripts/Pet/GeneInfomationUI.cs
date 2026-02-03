@@ -205,11 +205,13 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
 
         if (isDominant)
         {
-            _curPair.IsDominantCut = true;
+            if(!_curPair.IsRecessiveCut)
+                _curPair.IsDominantCut = true;
         }
         else
         {
-            _curPair.IsRecessiveCut = true;
+            if (!_curPair.IsDominantCut)
+                _curPair.IsRecessiveCut = true;
         }
 
         Manager.Item.UseItem(RewardType.GeneticScissors, 1);
@@ -512,13 +514,14 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         bool isDoGuaranteed = _curPair.IsDoGuaranteed;
         bool isReGuaranteed = _curPair.IsReGuaranteed;
 
+        bool anyCut = isDominantCut || isRecessiveCut;
         bool anyGuaranteed = isDoGuaranteed || isReGuaranteed; // 둘 중 하나라도 확정이면 true
 
-        _dominantCutButton.interactable = !anyGuaranteed && !isDominantCut; //확정 없고 안잘린 상태면 활성화(우성 컷)
+        _dominantCutButton.interactable = !anyGuaranteed && !anyCut; //확정 없고 양쪽 다 안잘린 상태면 활성화(우성 컷)
         _dominantGlueButton.interactable = !anyGuaranteed && isDominantCut; //확정 없고 잘린 상태면 활성화(우성 글루)
         _dominantCutImage.SetActive(isDominantCut); // 잘린 표시(우성)
 
-        _recessiveCutButton.interactable = !anyGuaranteed && !isRecessiveCut; // 확정 없고 안잘린 상태면 활성화(열성 컷)
+        _recessiveCutButton.interactable = !anyGuaranteed && !anyCut; // 확정 없고 양쪽 다 안잘린 상태면 활성화(열성 컷)
         _recessiveGlueButton.interactable = !anyGuaranteed && isRecessiveCut; //확정 없고 잘린 상태면 활성화(열성 글루)
         _recessiveCutImage.SetActive(isRecessiveCut); //잘린 표시(열성)
 
