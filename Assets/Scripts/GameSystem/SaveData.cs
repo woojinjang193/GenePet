@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 // ===================== 미니게임 결과 저장용 데이터 =====================
@@ -19,10 +20,9 @@ public class MiniGameData
 public class UserData
 {
     public int TotalRaisedPets;
-
-    //public long LastPlayedUnixTime;
     public long LastSavedUnixTime; //마지막 세이브 타임
     public long LastPetSavedUnixTime; //마지막 펫 상태 저장 타임
+    public List<RewardClaimRecord> RewardClaims;
 
     public string LocalUID; // UID
     public Language CurLanguage; //현재 언어
@@ -41,10 +41,9 @@ public class UserData
     public UserData()
     {
         TotalRaisedPets = 0;
-
-        //LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         LastSavedUnixTime = 0;
-        LastPetSavedUnixTime = 0; 
+        LastPetSavedUnixTime = 0;
+        RewardClaims = new();
 
         LocalUID = "";
         CurLanguage = Language.None;
@@ -63,6 +62,18 @@ public class UserData
         {
             MiniGameResults[i] = new MiniGameData(); // 기본값 세팅
         }
+    }
+}
+[Serializable]
+public class RewardClaimRecord
+{
+    public string ID;
+    public string LastDate;
+
+    public RewardClaimRecord()
+    {
+        ID = "";
+        LastDate = "";
     }
 }
 
