@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
 
 public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
@@ -141,7 +139,9 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
     //==== 에너지 사용 가능 여부======
     public bool CanPlayMiniGame(out int cost)
     {
-        cost = 0; // out은 모든 경로에서 할당돼야 함
+        cost = 0;
+
+        EnergyRecoveryService.SyncNow(); // 미니게임 가능여부 판단 직전에 에너지 정산
 
         int index = (int)CurMiniGame; //미니게임 인덱스
 

@@ -29,7 +29,7 @@ MonoBehaviour:
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10
-  EnergyRecoveringTime: 30
+  EnergyRecoveringTime: 10
   PettingHappinessAdd: 3
   PettingCooldownHour: 0.5
   MiniGameEXP: 5

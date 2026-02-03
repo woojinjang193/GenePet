@@ -21,9 +21,6 @@ public class PetManager : MonoBehaviour
     [SerializeField] private StatusUI _StatusUI;
 
     private float _accum;
-    private float _energyTimer; // 에너지 회복 누적시간
-    private float _energyRecoveringTime; // 에너지 1 오르는 시간
-    private int _maxEnergy; //유저 맥스 에너지
 
     private CameraController _camera;
     private InGameUIManager _uiManager;
@@ -45,8 +42,6 @@ public class PetManager : MonoBehaviour
         _accum = 0f;
         _camera = FindObjectOfType<CameraController>();
         _uiManager = FindObjectOfType<InGameUIManager>();
-        _energyRecoveringTime = Manager.Game.Config.EnergyRecoveringTime;
-        _maxEnergy = Manager.Game.Config.MaxEnergy;
 
         foreach (var cfg in _configs)
         {
@@ -57,7 +52,13 @@ public class PetManager : MonoBehaviour
         }
 
         LoadPetListFromSave(); //펫 데이터 로드
-        ApplyOfflineTimeFromSave(); //오프라인 시간 적용
+        ApplyOfflineTimeFromSave(); //펫 스탯 오프라인만 적용
+
+        int gained = EnergyRecoveryService.SyncNow();
+        if (gained > 0 && _uiManager != null)
+        {
+            _uiManager.UpdateEnergyBar(Manager.Save.CurrentData.UserData.Energy); // 증가했을 때만 UI 갱신
+        }
     }
     private void OnEnable()
     {
@@ -93,9 +94,13 @@ public class PetManager : MonoBehaviour
     {
         // 복귀 시 오프라인 시간 적용
         if (!pause)
-            ApplyOfflineTimeFromSave();
+        {
+            ApplyOfflineTimeFromSave(); //펫 오프라인 적용
+            int gained = EnergyRecoveryService.SyncNow(); //에너지 오프라인 정산
+            if (gained > 0 && _uiManager != null) //실제 증가했을 때만 UI 갱신
+                _uiManager.UpdateEnergyBar(Manager.Save.CurrentData.UserData.Energy); //에너지 UI 반영
+        }
     }
-
     private void LoadPetListFromSave()
     {
         var saveList = Manager.Save.CurrentData.UserData.HavePetList;
@@ -192,19 +197,23 @@ public class PetManager : MonoBehaviour
 
         while (_accum >= _tickInterval)
         {
-            RecoverEnergy(_tickInterval); // 에너지 증가
+            int gained = EnergyRecoveryService.SyncNow(); //메인씬에서 1초 틱마다 정산
 
-            if (_activePets != null && _activePets.Count > 0) //펫이 있다면
+            if (gained > 0 && _uiManager != null) // 실제 증가했을 때만 UI 갱신
+                _uiManager.UpdateEnergyBar(Manager.Save.CurrentData.UserData.Energy); // 에너지 UI 반영
+
+            if (_activePets != null && _activePets.Count > 0)
             {
                 RunTick(_tickInterval); // 틱
             }
-            
-            if (ZoomedUnit != null) // 줌된 펫 있을 때만
+
+            if (ZoomedUnit != null) 
             {
-                RequestGaugeUpdate(); // UI 갱신
+                RequestGaugeUpdate(); //UI 갱신
             }
-            _accum -= _tickInterval; //타이머 1초 빼기
-        }     
+
+            _accum -= _tickInterval;
+        }
     }
     private void RunTick(float sec)
     {
@@ -229,30 +238,6 @@ public class PetManager : MonoBehaviour
             }
         }
     }
-    private void RecoverEnergy(float sec)
-    {
-        if(_energyRecoveringTime <= 0f) return;
-
-        _energyTimer += sec; // 시간 누적
-
-        if (_energyTimer >= _energyRecoveringTime)
-        {
-            int amount = (int)(_energyTimer / _energyRecoveringTime); // 오를 수 있는 양 계산
-            _energyTimer %= _energyRecoveringTime; // 남은 시간만 저장
-
-            AddEnergy(amount); // 실제 증가 처리
-        }
-    }
-
-    private void AddEnergy(int amount)
-    {
-        var user = Manager.Save.CurrentData.UserData;
-
-        user.Energy = Mathf.Clamp(user.Energy + amount, 0, _maxEnergy);
-
-        _uiManager.UpdateEnergyBar(user.Energy); // UI 갱신
-    }
-
     private void SaveAllStatus()
     {
         if (Manager.Save.CurrentData == null)
@@ -402,7 +387,6 @@ public class PetManager : MonoBehaviour
         Debug.Log($"오프라인 틱 적용양: {offlineSec}");
         if (offlineSec <= 0) return;
 
-        RecoverEnergy(offlineSec);
         RunTick(offlineSec);
 
         for (int i = 0; i < _activePets.Count; i++) //성장 가능하면 성장시킴

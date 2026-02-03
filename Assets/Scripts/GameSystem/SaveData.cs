@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using UnityEngine;
-
 // ===================== 미니게임 결과 저장용 데이터 =====================
 [Serializable]
 public class MiniGameData
@@ -21,6 +18,7 @@ public class UserData
 {
     public int TotalRaisedPets;
     public long LastSavedUnixTime; //마지막 세이브 타임
+    public long LastEnergyUnixTime; //마지막 에너지 타임
     public long LastPetSavedUnixTime; //마지막 펫 상태 저장 타임
     public List<RewardClaimRecord> RewardClaims;
 
@@ -43,6 +41,7 @@ public class UserData
         TotalRaisedPets = 0;
         LastSavedUnixTime = 0;
         LastPetSavedUnixTime = 0;
+        LastEnergyUnixTime = 0;
         RewardClaims = new();
 
         LocalUID = "";
