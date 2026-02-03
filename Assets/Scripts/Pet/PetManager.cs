@@ -70,7 +70,7 @@ public class PetManager : MonoBehaviour
     {
         if(Manager.Save == null)
         {
-            Debug.LogError("[PetManager] 세이브 매니저 없음");
+            Debug.LogWarning("[PetManager] 세이브 매니저 없어서 저장 안함 (종료일땐 괜찮음)");
             return;
         }
 

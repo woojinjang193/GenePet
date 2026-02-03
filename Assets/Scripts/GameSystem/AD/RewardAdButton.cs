@@ -23,7 +23,7 @@ public class RewardAdButton : AdRequestBase
     [SerializeField] private List<ItemRewardEntry> _itemRewards = new();
 
     [Header("알 보상 목록(프리셋)")]
-    [SerializeField] private List<RewardEggPresetSO> _eggPresets = new();
+    [SerializeField] private List<EggRewardEntry> _eggRewards = new();
 
     private List<RewardData> _rewards = new();
     private Button _button;
@@ -35,8 +35,14 @@ public class RewardAdButton : AdRequestBase
     {
         public RewardType Type = RewardType.None;
         public int Amount = 0;
+        public float Weight = 0;
     }
-
+    [Serializable]
+    public class EggRewardEntry // 알 보상 엔트리
+    {
+        public RewardEggPresetSO Preset = null; //알 프리셋 참조
+        public float Weight = 0f;  //가중치
+    }
     private void Awake() 
     {
         _button = GetComponent<Button>();
@@ -87,33 +93,37 @@ public class RewardAdButton : AdRequestBase
         base.Request(); //광고 요청
     }
     //======리워드 리스트 생성=================
-    private List<RewardData> BuildPayoutList()
+    private List<RewardData> BuildPayoutList() //보상 리스트 만들기
     {
         List<RewardData> payout = new();
 
         int itemCount = _itemRewards.Count;
-        int eggCount = _eggPresets.Count;
+        int eggCount = _eggRewards.Count; 
         int total = itemCount + eggCount;
 
         if (total <= 0) return payout;
 
-        if (_isRandom) //랜덤이면
+        if (_isRandom) // 랜덤일 때만 1개 선택
         {
-            int pick = UnityEngine.Random.Range(0, total);
+            bool pickedItem; //아이템/알 구분
+            int pickedIndex;  // 선택 인덱스
 
-            if (pick < itemCount) // 아이템 영역
-                TryAddItem(_itemRewards[pick], payout); // 아이템 추가
-            else // 알 영역
-                TryAddEgg(_eggPresets[pick - itemCount], payout); // 알 추가
+            if (!TryPickWeighted(out pickedItem, out pickedIndex)) // Weight 기반 선택(실패 시 none)
+                return payout;      // 선택 실패면 빈 리스트
+
+            if (pickedItem) // 아이템이면
+                TryAddItem(_itemRewards[pickedIndex], payout); // 선택 인덱스로 추가
+            else //알이면
+                TryAddEgg(_eggRewards[pickedIndex].Preset, payout); //엔트리에서 Preset 꺼내 추가
 
             return payout;
         }
 
-        // 전부 지급
-        for (int i = 0; i < itemCount; i++) TryAddItem(_itemRewards[i], payout); // 아이템 전부
-        for (int i = 0; i < eggCount; i++) TryAddEgg(_eggPresets[i], payout); // 알 전부
+        // 전부 지급(Weight 무시)
+        for (int i = 0; i < itemCount; i++) TryAddItem(_itemRewards[i], payout);
+        for (int i = 0; i < eggCount; i++) TryAddEgg(_eggRewards[i].Preset, payout);
 
-        return payout; //전부 지급 리스트
+        return payout;
     }
 
     private void TryAddItem(ItemRewardEntry entry, List<RewardData> payout) // 아이템 리스트에 담기
@@ -151,6 +161,63 @@ public class RewardAdButton : AdRequestBase
         //if (!_isDaily) StartCooldownRoutineIfNeeded(); //쿨타임이면 카운트다운 유지
     }
     //===================유틸=========================
+    private bool TryPickWeighted(out bool isItem, out int index) // 아이템/알 통합 가중치 선택
+    {
+        isItem = false; // 기본값
+        index = -1;  //기본값
+
+        float totalWeight = 0f; // 전체 가중치 합
+
+        // 아이템 가중치 합
+        for (int i = 0; i < _itemRewards.Count; i++)
+        {
+            float w = _itemRewards[i].Weight; // 아이템 Weight 사용
+            if (w > 0f) totalWeight += w;  // 양수만 합산
+        }
+
+        // 알 가중치 합
+        for (int i = 0; i < _eggRewards.Count; i++)
+        {
+            float w = _eggRewards[i].Weight; // 알 Weight 사용
+            if (w > 0f) totalWeight += w;// 양수만 합산
+        }
+
+        // 전부 0이면 균등 랜덤으로 폴백
+        if (totalWeight <= 0f)
+        {
+            int total = _itemRewards.Count + _eggRewards.Count; // 전체 개수
+            if (total <= 0) return false;     // 아무것도 없으면 실패
+
+            int pick = UnityEngine.Random.Range(0, total);      // 균등 랜덤
+            if (pick < _itemRewards.Count) { isItem = true; index = pick; } // 아이템 선택
+            else { isItem = false; index = pick - _itemRewards.Count; }     //  알 선택
+            return true;
+        }
+
+        float random = UnityEngine.Random.value * totalWeight;
+        float acc = 0f;  // 누적
+
+        // 아이템 먼저 탐색 
+        for (int i = 0; i < _itemRewards.Count; i++)
+        {
+            float w = _itemRewards[i].Weight;
+            if (w <= 0f) continue;   //0 이하는 스킵
+            acc += w;
+            if (random < acc) { isItem = true; index = i; return true; }
+        }
+
+        // 알 탐색
+        for (int i = 0; i < _eggRewards.Count; i++)
+        {
+            float w = _eggRewards[i].Weight;
+            if (w <= 0f) continue;
+            acc += w; 
+            if (random < acc) { isItem = false; index = i; return true; }
+        }
+
+        return false;
+    }
+
     private void RefreshUI() //버튼/텍스트 상태를 한 곳에서 갱신
     {
         if (_isDaily) // 데일리

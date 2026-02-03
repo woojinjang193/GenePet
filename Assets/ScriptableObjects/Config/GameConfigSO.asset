@@ -20,6 +20,12 @@ MonoBehaviour:
   - Id: bringpetback
     Limit: 3
     CoolTimeHour: 2
+  - Id: dailyrandom
+    Limit: 1
+    CoolTimeHour: 5
+  - Id: cooltimerandom
+    Limit: 100
+    CoolTimeHour: 2
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10

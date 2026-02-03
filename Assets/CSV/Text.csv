@@ -29,3 +29,8 @@ PopUp_AlreadyCut,이미 잘린 유전자에는 사용할 수 없습니다.,You c
 Fixed_SpawnRandomPet, 랜덤 소환,Random Spawn,Zufallsbeschwörung,Invocación aleatoria,ランダム召喚,随机召唤,隨機召喚
 Fixed_Yes,네,Yes,Ja,Sí,はい,是,是
 Fixed_No,아니요,No,Nein,No,いいえ,否,否
+Fixed_NameYourPet,이름을 지어주세요!,Please name your pet!,Bitte gib deinem Haustier einen Namen!,¡Ponle un nombre a tu mascota!,ペットに名前をつけてください！,请给你的宠物起个名字！,請給你的寵物取個名字！
+Fixed_Confirm,확인,Confirm,Bestätigen,Confirmar,確認,确认,確認
+Fixed_WatchToBring,광고 보고 찾기,Watch an ad to find it,"Werbung ansehen, um es zu finden",Ver un anuncio para encontrarlo,広告を見て探す,看广告寻找,看廣告尋找
+Button_GetReward,보상 받기,Claim,Belohnung abholen,Reclamar recompensa,報酬を受け取る,领取奖励,領取獎勵
+Button_DailyRewardGranted,모두 수령함,Claimed,Abgeholt,Reclamado,受け取り済み,已领取,已領取
