@@ -21405,10 +21405,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -36423,13 +36423,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec300d6a0281724594f8abc90b3e39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isRandom: 0
   _rewardID: test
+  _isDaily: 0
+  _coolTimeHour: 1.5
   _text: {fileID: 651256733}
-  _isDaily: 1
-  _coolTimeHour: 0
+  _isRandom: 0
   _itemRewards:
   - Type: 8
+    Amount: 1
+  - Type: 9
     Amount: 1
   _eggPresets: []
 --- !u!114 &1174332238

@@ -38,7 +38,7 @@ public static class RewardTimeRecordService
         if (record.LastClaimUnix <= 0) return true; // 첫 수령이면 가능
         return (now - record.LastClaimUnix) >= cooldownSec; // 쿨타임 경과 확인
     }
-    public static void MarkClaimed(string id) //캐싱 날짜 기준으로 저장
+    public static void MarkClaimed(string id, bool isDaily) //캐싱 날짜 기준으로 저장
     {
         var record = GetOrCreateRecord(id);
 
@@ -49,7 +49,7 @@ public static class RewardTimeRecordService
 
         record.LastDate = dateKey; //캐싱 날짜로 저장
         record.LastClaimUnix = GetNowUnix();
-        record.TodayCount++;
+        if(isDaily) record.TodayCount++; //데일리 일때만 증가
         Manager.Save.SaveGame();
 
         _cachedDateById.Remove(id); //캐시 정리
@@ -87,5 +87,24 @@ public static class RewardTimeRecordService
         user.RewardClaims.Add(record);
         return record;
     }
+    //====================쿨타임 계산용=======================
+    public static int GetRemainingCooldownSec(string id, int cooldownSec) //쿨타임 남은 시간(초) 반환
+    {
+        var record = GetOrCreateRecord(id); // 레코드 확보
+        long now = GetNowUnix(); // 현재 시간
 
+        if (record.LastClaimUnix <= 0) return 0; // 첫 수령 전이면 즉시 가능
+
+        long elapsed = now - record.LastClaimUnix; // 필요한 시간
+        long remain = cooldownSec - elapsed; // 남은 시간(초)
+        return (int)System.Math.Max(0, remain);
+    }
+
+    public static string FormatRemainingHMS(int remainSec) // HH:MM:SS 포맷
+    {
+        int h = remainSec / 3600;
+        int m = (remainSec % 3600) / 60;
+        int s = remainSec % 60; 
+        return $"{h:00}:{m:00}:{s:00}";
+    }
 }

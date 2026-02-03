@@ -15,7 +15,7 @@ MonoBehaviour:
   UploadIntervalSec: 180
   RewardDailyLimits:
   - Id: test
-    Limit: 3
+    Limit: 2
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10

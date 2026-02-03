@@ -15,7 +15,7 @@ public class RewardAdButton : AdRequestBase
     [SerializeField] private bool _isDaily = false;
 
     [Header("쿨타임(시간) 데일리면 무시됨")]
-    [SerializeField] private int _coolTimeHour;
+    [SerializeField] private float _coolTimeHour;
 
     [Header("tmp")]
     [SerializeField] private TMP_Text _text;
@@ -32,6 +32,7 @@ public class RewardAdButton : AdRequestBase
     private List<RewardData> _rewards = new();
     private Button _button;
 
+    private Coroutine _cooldownRoutine; // 쿨타임 카운트다운 코루틴
 
     [Serializable]
     public class ItemRewardEntry
@@ -47,29 +48,46 @@ public class RewardAdButton : AdRequestBase
     }
     private void OnEnable()
     {
-        if (string.IsNullOrEmpty(_rewardID)) { _button.interactable = false; return; } //id 없으면 리턴
+        if (string.IsNullOrEmpty(_rewardID)) { _button.interactable = false; return; }
 
-        _button.interactable = CanClickButton();
+        RefreshUI(); // 버튼/텍스트 갱신
+
+        if (!_isDaily) StartCooldownRoutineIfNeeded(); // 쿨타임이면 카운트다운 시작
     }
-
+    private void OnDisable()
+    {
+        StopCooldownRoutine(); // 비활성화되면 코루틴 정리
+    }
     public void ClaimRewards()
     {
         if (Manager.Item == null) return;
 
-        if (RewardTimeRecordService.CanClaimReward(_rewardID)) //보상 수령 가능이면
+        // ===== 수령 가능 체크 =====
+        if (_isDaily) //데일리면
         {
-            _rewards.Clear();
-
-            _rewards = BuildPayoutList(); //보상 리스트 생성
-            if (_rewards.Count == 0) return; //보상 없으면 리턴
-
-            base.Request(); //광고 요청
+            if (!RewardTimeRecordService.TryBeginAdClaim(_rewardID)) // 수령 불가능이면
+            {
+                RefreshUI(); //UI 갱신
+                return;
+            }
         }
-        else //불가능이면
+        else //쿨타임이면
         {
-            _button.interactable= false;
+            int cooldownSec = (int)_coolTimeHour * 3600; // 시간 > 초 변환
+            if (!RewardTimeRecordService.CanClaimReward(_rewardID, cooldownSec)) // 쿨타임 안됐으면
+            {
+                RefreshUI(); //UI 갱신(남은시간 표시)
+                StartCooldownRoutineIfNeeded(); //카운트다운 시작
+                return;
+            }
         }
-            
+
+        // ===== 보상 리스트 생성 =====
+        _rewards.Clear();
+        _rewards = BuildPayoutList();
+        if (_rewards.Count == 0) return;
+
+        base.Request(); //광고 요청
     }
     //======리워드 리스트 생성=================
     private List<RewardData> BuildPayoutList()
@@ -122,26 +140,65 @@ public class RewardAdButton : AdRequestBase
 
     protected override void OnReward()
     {
-        Manager.Item.GiveMiniGameRewards(_rewards);// 보상 지급
-        RewardTimeRecordService.MarkClaimed(_rewardID);
-        _button.interactable = CanClickButton();
-    }
+        Manager.Item.GiveMiniGameRewards(_rewards); //보상 지급
+        RewardTimeRecordService.MarkClaimed(_rewardID, _isDaily); // 기록 저장
 
+        RefreshUI(); //버튼/텍스트 갱신
+        if (!_isDaily) StartCooldownRoutineIfNeeded(); //쿨타임이면 카운트다운 재시작
+    }
     protected override void OnClosed()
     {
-        Manager.Item.NotifyRewardsReady();// 팝업 신호
+        Manager.Item.NotifyRewardsReady(); // 팝업 신호
+
+        RefreshUI(); //버튼/텍스트 갱신
+        //if (!_isDaily) StartCooldownRoutineIfNeeded(); //쿨타임이면 카운트다운 유지
+    }
+    //===================유틸=========================
+    private void RefreshUI() //버튼/텍스트 상태를 한 곳에서 갱신
+    {
+        if (_isDaily) // 데일리
+        {
+            bool can = RewardTimeRecordService.CanClaimReward(_rewardID);
+            _button.interactable = can;
+            if (_text != null) _text.text = can ? "보상 받기" : "오늘 보상 수령";
+            return;
+        }
+
+        // 쿨타임
+        int cooldownSec = (int)_coolTimeHour * 3600; //초로 변환
+        int remain = RewardTimeRecordService.GetRemainingCooldownSec(_rewardID, cooldownSec); // 남은시간 받기
+        bool canClick = (remain <= 0); // 남은시간 0 이하면 클릭 가능
+
+        if (canClick) StopCooldownRoutine();
+        _button.interactable = canClick;
+
+        if (_text != null) _text.text = canClick ? "보상 받기" : RewardTimeRecordService.FormatRemainingHMS(remain);
     }
 
-    //===================유틸=========================
-    private bool CanClickButton()
+    private void StartCooldownRoutineIfNeeded() //쿨타임 중일 때만 코루틴 실행
     {
-        if (_isDaily) //데일리 보상이면
+        StopCooldownRoutine(); // 중복 방지
+
+        int cooldownSec = (int)_coolTimeHour * 3600;
+        int remain = RewardTimeRecordService.GetRemainingCooldownSec(_rewardID, cooldownSec);
+        if (remain <= 0) return; // 이미 가능하면 안 돌림
+
+        _cooldownRoutine = StartCoroutine(CooldownTickRoutine());
+    }
+
+    private void StopCooldownRoutine() // 코루틴 정지
+    {
+        if (_cooldownRoutine == null) return;
+        StopCoroutine(_cooldownRoutine);
+        _cooldownRoutine = null;
+    }
+
+    private IEnumerator CooldownTickRoutine() // 1초마다 남은시간 갱신
+    {
+        while (isActiveAndEnabled) //켜져있는동안
         {
-            return RewardTimeRecordService.CanClaimReward(_rewardID);
-        }
-        else //쿨타임 보상이면
-        {
-            return RewardTimeRecordService.CanClaimReward(_rewardID, _coolTimeHour);
+            RefreshUI(); // 남은시간/버튼 상태 갱신
+            yield return new WaitForSeconds(1f); // 1초 주기
         }
     }
 }

@@ -10,6 +10,8 @@ public class AdManager : Singleton<AdManager>
     public bool IsReady { get; private set; }
     public bool IsAdRemoved { get; private set; }
 
+    private bool _isAdPlaying = false; //광고 재생중 여부
+
     private IAdRequester _adRequester;
     // 광고 ID (테스트 용)
 #if UNITY_ANDROID
@@ -79,13 +81,18 @@ public class AdManager : Singleton<AdManager>
     //===================리워드 광고 띄우기(씬에서 호출)================
     public void ShowRewardedAd(IAdRequester requester) //보상형 광고 띄우기 (외부 호출용)
     {
+        if(_isAdPlaying) return; //이미 재생중이면 리턴
+
         _adRequester = requester;
 
         if (_rewardedAd != null && _rewardedAd.CanShowAd()) // 광고 객체가 있고 현재 표시 가능 상태라면
         {
+            _isAdPlaying = true;
+
             _rewardedAd.Show((Reward reward) => // 광고를 표시하고, 보상 조건 충족 시 콜백 실행
             {
                 requester.AdWatched();
+                _isAdPlaying = false;
                 Debug.Log("[AdManager] 리워드 지급");
             });
         }
