@@ -14,6 +14,7 @@ public static class Manager
     public static MiniGameManager Mini => MiniGameManager.GetInstance();
     public static PoolManager Pool => PoolManager.GetInstance();
     public static AdManager AD => AdManager.GetInstance();
+    //public static TurotialManager Tutorial => TurotialManager.GetInstance();
 
 
     //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

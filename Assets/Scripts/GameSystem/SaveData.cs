@@ -16,6 +16,7 @@ public class MiniGameData
 [Serializable]
 public class UserData
 {
+    public TutorialFlags tutorialFlags;
     public int TotalRaisedPets;
     public long LastSavedUnixTime; //마지막 세이브 타임
     public long LastEnergyUnixTime; //마지막 에너지 타임
@@ -38,6 +39,8 @@ public class UserData
 
     public UserData()
     {
+        tutorialFlags = new();
+
         TotalRaisedPets = 0;
         LastSavedUnixTime = 0;
         LastPetSavedUnixTime = 0;
@@ -288,14 +291,6 @@ public class UserItemData
     public int Gem;
     public int GuaranteeSticker;
 
-    //차후 업데이트할때 추가될걸 대비한 아이템 미리 생성
-    public int TimeSpeedUp; //추후 내펫끼리 교배에 쓰일수 있는 아이템
-    public int AdditionalItem1; //추후 추가될수도 있는 아이템
-    public int AdditionalItem2; //추후 추가될수도 있는 아이템
-    public int AdditionalItem3; //추후 추가될수도 있는 아이템
-    public int AdditionalItem4; //추후 추가될수도 있는 아이템
-    public int AdditionalItem5; //추후 추가될수도 있는 아이템
-
     public List<Room> Rooms;
 
     //선물
@@ -327,6 +322,16 @@ public class UserItemData
         Gift1 = 1;
         Gift2 = 1;
         Gift3 = 1;
+    }
+}
+[Serializable]
+public class TutorialFlags
+{
+    public bool FirstVisit;
+
+    public TutorialFlags()
+    {
+        FirstVisit = false;
     }
 }
 

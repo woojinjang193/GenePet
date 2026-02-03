@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstVisit4
+  m_EditorClassIdentifier: 
+  KOR: "\uD14C\uC2A4\uD2B8\uD14C\uC2A4\uD2B8"
+  ENG: "\uD14C\uC2A4\uD2B8\uD14C\uC2A4\uD2B8"
+  DE: "\uD14C\uC2A4\uD2B8\uD14C\uC2A4\uD2B8"
+  SP: "\uD14C\uC2A4\uD2B8\uD14C\uC2A4\uD2B8"
+  JP: "\uD14C\uC2A4\uD2B8\uD14C\uC2A4\uD2B8"
+  CHS: "\uD14C\uC2A4\uD2B8\uD14C\uC2A4\uD2B8"
+  CHT: "\uD14C\uC2A4\uD2B8\uD14C\uC2A4\uD2B8"
