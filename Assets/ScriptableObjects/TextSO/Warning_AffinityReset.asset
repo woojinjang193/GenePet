@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Warning_AffinityReset
   m_EditorClassIdentifier: 
-  KOR: "\uD638\uAC10\uB3C4 \uCD08\uAE30\uD654\uB428"
-  ENG: Affinity is gonna reset
-  DE: Affinity is gonna reset de
-  JP: Affinity is gonna reset jp
-  CH: Affinity is gonna reset ch
-  SP: Affinity is gonna reset sp
+  KOR: "\uD638\uAC10\uB3C4\uAC00 \uCD08\uAE30\uD654\uB429\uB2C8\uB2E4."
+  ENG: Affinity will be reset.
+  DE: "Die Zuneigung wird zur\xFCckgesetzt."
+  SP: "La afinidad se restablecer\xE1."
+  JP: "\u597D\u611F\u5EA6\u304C\u30EA\u30BB\u30C3\u30C8\u3055\u308C\u307E\u3059\u3002"
+  CHS: "\u597D\u611F\u5EA6\u5C06\u88AB\u91CD\u7F6E\u3002"
+  CHT: "\u597D\u611F\u5EA6\u5C07\u88AB\u91CD\u7F6E\u3002"

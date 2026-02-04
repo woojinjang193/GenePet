@@ -45,7 +45,6 @@ public class JumpMiniGame : MiniGameBase
     private float _coinMul = 1f;  //코인 아이템 획득 배율
     private float _finalJumpPower = 0f; //마지막 점프 파워
 
-
     protected override void Start()
     {
         base.Start();

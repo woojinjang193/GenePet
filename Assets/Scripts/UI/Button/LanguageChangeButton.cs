@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 public class LanguageChangeButton : MonoBehaviour
 {
+    [Header("버튼")]
     [SerializeField] private Button _krButton;
     [SerializeField] private Button _enButton;
     [SerializeField] private Button _deButton;
-    [SerializeField] private Button _jpButton;
-    [SerializeField] private Button _chButton;
     [SerializeField] private Button _spButton;
+    [SerializeField] private Button _jpButton;
+    [SerializeField] private Button _chsButton;
+    [SerializeField] private Button _chtButton;
 
     [Header("Colors")]
     [SerializeField] private Color _normalColor;
@@ -23,9 +25,10 @@ public class LanguageChangeButton : MonoBehaviour
         _krButton.onClick.AddListener(() => Change(Language.KR, _krButton));
         _enButton.onClick.AddListener(() => Change(Language.EN, _enButton));
         _deButton.onClick.AddListener(() => Change(Language.DE, _deButton));
-        _jpButton.onClick.AddListener(() => Change(Language.JP, _jpButton));
-        _chButton.onClick.AddListener(() => Change(Language.CH, _chButton));
         _spButton.onClick.AddListener(() => Change(Language.SP, _spButton));
+        _jpButton.onClick.AddListener(() => Change(Language.JP, _jpButton));
+        _chsButton.onClick.AddListener(() => Change(Language.CHS, _chsButton));
+        _chtButton.onClick.AddListener(() => Change(Language.CHT, _chtButton));
 
         Init();
     }
@@ -36,11 +39,12 @@ public class LanguageChangeButton : MonoBehaviour
         switch (curLang)
         {
             case Language.KR: _currentButton = _krButton; break;
-            case Language.EN: _currentButton = _krButton; break;
-            case Language.DE: _currentButton = _krButton; break;
-            case Language.JP: _currentButton = _krButton; break;
-            case Language.CH: _currentButton = _krButton; break;
-            case Language.SP: _currentButton = _krButton; break;
+            case Language.EN: _currentButton = _enButton; break;
+            case Language.DE: _currentButton = _deButton; break;
+            case Language.SP: _currentButton = _spButton; break;
+            case Language.JP: _currentButton = _jpButton; break;
+            case Language.CHS: _currentButton = _chsButton; break;
+            case Language.CHT: _currentButton = _chtButton; break;
         }
 
         if (_currentButton != null)

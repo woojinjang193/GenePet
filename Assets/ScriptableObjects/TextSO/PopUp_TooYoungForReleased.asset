@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: PopUp_TooYoungForReleased
+  m_EditorClassIdentifier: 
+  KOR: "\uC54C\uC740 \uBC29\uC0DD\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
+  ENG: Eggs cannot be released.
+  DE: "Eier k\xF6nnen nicht freigelassen werden."
+  SP: No se pueden liberar los huevos.
+  JP: "\u5375\u306F\u653E\u751F\u3067\u304D\u307E\u305B\u3093\u3002"
+  CHS: "\u86CB\u65E0\u6CD5\u653E\u751F\u3002"
+  CHT: "\u86CB\u7121\u6CD5\u653E\u751F\u3002"

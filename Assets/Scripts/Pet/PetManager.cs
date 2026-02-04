@@ -20,11 +20,11 @@ public class PetManager : MonoBehaviour
     [SerializeField] private float _statusUpdateDuration;
     [SerializeField] private StatusUI _StatusUI;
 
+    [Header("튜토리얼")]
+    [SerializeField] private TutorialChunk _firstVisitTutorial;
+
+
     private float _accum;
-    private float _energyTimer; // 에너지 회복 누적시간
-    private float _energyRecoveringTime; // 에너지 1 오르는 시간
-    private int _maxEnergy; //유저 맥스 에너지
-    private bool _isQuitting = false;
 
     private CameraController _camera;
     private InGameUIManager _uiManager;
@@ -36,8 +36,11 @@ public class PetManager : MonoBehaviour
     private LetterPanel _letterPanel; //이벤트 구독용
     private Dictionary<GrowthStatus, PetConfigSO> _configMap = new Dictionary<GrowthStatus, PetConfigSO>();
 
-    public Action OnPetSpawned;
-    public Action OnPetRemoved;
+    public event Action OnPetSpawned;
+    public event Action OnPetRemoved;
+
+    public event Action<PetUnit> OnPetComeBack;
+    public event Action<PetUnit> OnPetLeft;
     private void Awake()
     {
         _accum = 0f;
@@ -52,65 +55,55 @@ public class PetManager : MonoBehaviour
             }
         }
 
-        LoadPetListFromSave();
-    }
-    private void Start()
-    {
-        _energyRecoveringTime = Manager.Game.Config.EnergyRecoveringTime;
-        _maxEnergy = Manager.Game.Config.MaxEnergy;
+        LoadPetListFromSave(); //펫 데이터 로드
+        ApplyOfflineTimeFromSave(); //펫 스탯 오프라인만 적용
 
+        int gained = EnergyRecoveryService.SyncNow();
+        if (gained > 0 && _uiManager != null)
+        {
+            _uiManager.UpdateEnergyBar(Manager.Save.CurrentData.UserData.Energy); // 증가했을 때만 UI 갱신
+        }
+    }
+    private void OnEnable()
+    {
         _letterPanel = FindObjectOfType<LetterPanel>(true);
         _letterPanel.OnClickMissingPoster += PetComeBack;
 
-        ApplyOfflineTimeFromSave();
+        Manager.Save.OnAppPaused += OnAppPaused; //백그라운드시 저장용
     }
     private void OnDisable()
     {
-        if (_isQuitting)
+        if(Manager.Save == null)
         {
-            Debug.Log("종료중이라 리턴");
-            return;
-        }
-        
-
-        if (Manager.Save == null || Manager.Save.CurrentData == null || Manager.Save.CurrentData.UserData == null)
-        {
-            Debug.LogError("저장 불가: saveManager 준비 전");
+            Debug.LogWarning("[PetManager] 세이브 매니저 없어서 저장 안함 (종료일땐 괜찮음)");
             return;
         }
 
+        // 메인 씬을 떠날때 시간, 펫상태 저장
         SaveAllStatus();
-        Debug.Log("펫 스테이터스 저장 완료");
+        Manager.Save.SaveMainSceneLeaveTime();
+        Debug.Log("메인씬 떠남저장 완료");
 
-        // 메인 씬을 떠나는 지금 시간기록
-        Manager.Save.SavePlayTime();
-
-        // 상태 + 시간까지 포함해서 저장
+        // 상태 저장
         Manager.Save.SaveGame();
+
+        //-----------이벤트 해제-------------------
+        if (_letterPanel != null)
+            _letterPanel.OnClickMissingPoster -= PetComeBack;
+
+        Manager.Save.OnAppPaused -= OnAppPaused;
+
     }
     private void OnApplicationPause(bool pause)
     {
-        if (pause)
-        {
-            Debug.Log("앱 백그라운드 전환. 즉시 저장");
-
-            SaveAllStatus();
-            Manager.Save.SavePlayTime();
-            Manager.Save.SaveGame();
-
-            return;
-        }
-
         // 복귀 시 오프라인 시간 적용
         if (!pause)
-            ApplyOfflineTimeFromSave();
-    }
-
-
-    private void OnDestroy()
-    {
-        if (_letterPanel != null)
-        _letterPanel.OnClickMissingPoster -= PetComeBack;
+        {
+            ApplyOfflineTimeFromSave(); //펫 오프라인 적용
+            int gained = EnergyRecoveryService.SyncNow(); //에너지 오프라인 정산
+            if (gained > 0 && _uiManager != null) //실제 증가했을 때만 UI 갱신
+                _uiManager.UpdateEnergyBar(Manager.Save.CurrentData.UserData.Energy); //에너지 UI 반영
+        }
     }
     private void LoadPetListFromSave()
     {
@@ -208,22 +201,27 @@ public class PetManager : MonoBehaviour
 
         while (_accum >= _tickInterval)
         {
-            RecoverEnergy(_tickInterval); // 에너지 증가
+            int gained = EnergyRecoveryService.SyncNow(); //메인씬에서 1초 틱마다 정산
 
-            if (_activePets != null && _activePets.Count > 0) //펫이 있다면
+            if (gained > 0 && _uiManager != null) // 실제 증가했을 때만 UI 갱신
+                _uiManager.UpdateEnergyBar(Manager.Save.CurrentData.UserData.Energy); // 에너지 UI 반영
+
+            if (_activePets != null && _activePets.Count > 0)
             {
                 RunTick(_tickInterval); // 틱
             }
-            
-            if (ZoomedUnit != null) // 줌된 펫 있을 때만
+
+            if (ZoomedUnit != null) 
             {
-                RequestGaugeUpdate(); // UI 갱신
+                RequestGaugeUpdate(); //UI 갱신
             }
-            _accum -= _tickInterval; //타이머 1초 빼기
-        }     
+
+            _accum -= _tickInterval;
+        }
     }
     private void RunTick(float sec)
     {
+        if (_firstVisitTutorial.IsRunning) return; //첫방문 튜토리얼 중일땐 틱 안돔
         if (_activePets == null || _activePets.Count <= 0) return; 
 
         for (int i = 0; i < _activePets.Count; i++)
@@ -245,32 +243,6 @@ public class PetManager : MonoBehaviour
             }
         }
     }
-
-    private void RecoverEnergy(float sec)
-    {
-        if(_energyRecoveringTime <= 0f) return;
-
-        _energyTimer += sec; // 시간 누적
-
-        if (_energyTimer >= _energyRecoveringTime)
-        {
-            int amount = (int)(_energyTimer / _energyRecoveringTime); // 오를 수 있는 양 계산
-            _energyTimer %= _energyRecoveringTime; // 남은 시간만 저장
-
-            AddEnergy(amount); // 실제 증가 처리
-        }
-    }
-
-    private void AddEnergy(int amount)
-    {
-        var user = Manager.Save.CurrentData.UserData;
-
-        user.Energy = Mathf.Clamp(user.Energy + amount, 0, _maxEnergy);
-
-        _uiManager.UpdateEnergyBar(user.Energy); // UI 갱신
-    }
-
-
     private void SaveAllStatus()
     {
         if (Manager.Save.CurrentData == null)
@@ -316,10 +288,9 @@ public class PetManager : MonoBehaviour
                 }
             }
         }
-
         Debug.Log("<color=green>펫 데이터 저장완료</color>");
-
     }
+    //======================펫 줌 인/아웃==================================
     public void ZoomInPet(PetUnit unit)
     {
         if (unit == null) return;
@@ -396,8 +367,14 @@ public class PetManager : MonoBehaviour
     }
     private void ApplyOfflineTimeFromSave()
     {
-        long last = Manager.Save.CurrentData.UserData.LastPlayedUnixTime;
+        long last = Manager.Save.CurrentData.UserData.LastPetSavedUnixTime;
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        if(last == 0) //첫 사용자면
+        {
+            Manager.Save.CurrentData.UserData.LastPetSavedUnixTime = now; //세이브에 현재시간 마지막 메인씬 시간으로 기록
+            return;
+        }
 
         int offlineSec = (int)(now - last);
 
@@ -447,6 +424,7 @@ public class PetManager : MonoBehaviour
     {
         RequestGaugeUpdate();
     }
+    // =================펫 떠남처리===========================
     private void PetLeft(PetUnit pet)
     {
         LeftReason reason = FineReasonForLeaving(pet.Status);
@@ -465,7 +443,10 @@ public class PetManager : MonoBehaviour
         {
             Debug.LogError("펫 비주얼 컨트롤러 못찾음");
         }
+
+        OnPetLeft?.Invoke(pet);
     }
+    //==================================펫 돌아왔을때 처리===============================================
     private void PetComeBack()
     {
         if(ZoomedUnit == null) return;
@@ -476,23 +457,26 @@ public class PetManager : MonoBehaviour
 
         if (petvisul)
         {
-            petvisul.SetSprite(ZoomedUnit.Status.Growth);
-
             ZoomedUnit.Status.SetValues(PetStat.Hunger, gameConfig.ComeBackHunger);
             ZoomedUnit.Status.SetValues(PetStat.Cleanliness, gameConfig.ComeBackCleanliness);
             ZoomedUnit.Status.DecreaseStat(PetStat.Happiness, gameConfig.ComeBackHappiness);
             ZoomedUnit.Status.SetValues(PetStat.Health, gameConfig.ComeBackHealth);
-            RequestGaugeUpdate();
-
             ZoomedUnit.Status.SetFlag(PetFlag.IsLeft, false);
             ZoomedUnit.LeftHandled = false;
+
+            SaveAllStatus();//세이브 데이터에 저장
+
+            petvisul.SetSprite(ZoomedUnit.Status.Growth);
+            RequestGaugeUpdate();
+
+            OnPetComeBack?.Invoke(ZoomedUnit);
         }
         else
         {
             Debug.LogError("펫 비주얼 컨트롤러 못찾음");
         }
     }
-    private LeftReason FineReasonForLeaving(PetStatusCore stats)
+    private LeftReason FineReasonForLeaving(PetStatusCore stats) //TODO: 떠남조건 확인하기
     {
         if(stats.Hunger <= 0f)
         {
@@ -516,12 +500,6 @@ public class PetManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         Debug.Log("_isQuitting = true");
-
-        SaveAllStatus();
-        Manager.Save.SavePlayTime();
-        Manager.Save.SaveGame();
-
-        _isQuitting = true;
     }
 
     //게이지 업데이트 요청하는 유틸
@@ -551,5 +529,10 @@ public class PetManager : MonoBehaviour
 
         return true; // 성공
     }
-
+    //앱 백그라운드 이벤트로 호출
+    private void OnAppPaused()
+    {
+        SaveAllStatus();
+        Manager.Save.SaveMainSceneLeaveTime();
+    }
 }

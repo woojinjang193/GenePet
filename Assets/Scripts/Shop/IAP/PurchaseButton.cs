@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class PurchaseButton : MonoBehaviour
 {
     [SerializeField] private string _productId;
-    [SerializeField] private float _discountRate;
+    //[SerializeField] private float _discountRate;
     [SerializeField] private Button _button;
-    [SerializeField] private TMP_Text _originalPriceText;
+    //[SerializeField] private TMP_Text _originalPriceText;
     [SerializeField] private TMP_Text _currentPriceText;
 
     private bool isSubscribe = false;
@@ -54,12 +54,14 @@ public class PurchaseButton : MonoBehaviour
     {
         (string priceString, decimal currentPrice, string currencyCode) =
         Manager.Shop.GetPriceInfo(_productId);
+
         _currentPriceText.text = priceString;
-        if (_originalPriceText != null)
-        {
-            decimal originalPrice = currentPrice / (1 - (decimal)_discountRate);
-            _originalPriceText.text = $"{currencyCode} {originalPrice:#,##0.00}";
-        }
+        
+        //if (_originalPriceText != null) //할인전 가격 띄워주기. (실제가격 기반으로 할인전 가격 띄워줌)
+        //{
+        //    decimal originalPrice = currentPrice / (1 - (decimal)_discountRate);
+        //    _originalPriceText.text = $"{currencyCode} {originalPrice:#,##0.00}";
+        //}
     }
     private void OnDestroy()
     {
@@ -87,7 +89,7 @@ public class PurchaseButton : MonoBehaviour
             _button.interactable = false;
             Debug.Log($"{_productId} 이미 구매함. 버튼 비활성화");
 
-            _originalPriceText.text = null;
+            //_originalPriceText.text = null;
             _currentPriceText.text = "Purchased";
 
         }

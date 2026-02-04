@@ -10,7 +10,10 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     [Header("유저가 보게될 그림")]
     [SerializeField] private Image _reasonSprite;
 
-    [Header("떠난 이유 스프라이트\nKOR = 0, ENG = 1, DE = 2, JP = 3, CH = 4")]
+    [Header("사진")]
+    [SerializeField] private PetPictureOnLetter _picture;
+
+    [Header("떠난 이유 스프라이트\nKR = 0, EN = 1, DE = 2, SP = 3, JP = 4, CHS = 5, CHT = 6,")]
     [SerializeField] private Sprite[] _hunger;
     [SerializeField] private Sprite[] _dirty;
     [SerializeField] private Sprite[] _unhappy;
@@ -18,9 +21,6 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     [SerializeField] private Sprite[] _noReason;
 
     [Header("버튼 & 아이템 소지 수")]
-    //[SerializeField] private Button _callingButton;
-    //[SerializeField] private TMP_Text _callingAmount;
-
     [SerializeField] private Button _missingPosterButton;
     [SerializeField] private TMP_Text _missingPosterAmount;
 
@@ -33,23 +33,33 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
 
     private void Awake()
     {
-        //_callingButton.onClick.AddListener(OnCallingClicked);
         _missingPosterButton.onClick.AddListener(OnMissingPosterClicked);
         _giveUpButton.onClick.AddListener(OnGiveUpClicked);
         _closeButton.onClick.AddListener(OnCloseClicked);
 
+        Manager.Item.OnRewardGranted += UpdateAmount;
+    }
+    private void OnDestroy()
+    {
+        if(Manager.Item != null)
+        Manager.Item.OnRewardGranted -= UpdateAmount;
     }
     private void OnEnable()
     {
-        //_callingAmount.text = "0";
-        _missingPosterAmount.text = Manager.Save.CurrentData.UserData.Items.MissingPoster.ToString();
+        int amount = Manager.Save.CurrentData.UserData.Items.MissingPoster;
+        _missingPosterAmount.text = $"x{amount}";
     }
-    public void WriteLetter(LeftReason reason)
+    public void SetLetter(LeftReason reason, PetSaveData pet, GrowthStatus growth)
+    {
+        WriteLetter(reason);
+        _picture.SetPictureOnLetter(pet, growth);
+    }
+    private void WriteLetter(LeftReason reason)
     {
         _curLanguage = Manager.Lang.CurLanguage;
         switch (reason)
         {
-            case LeftReason.Hunger: 
+            case LeftReason.Hunger:
                 _reasonSprite.sprite = _hunger[(int)_curLanguage];
                 break;
             case LeftReason.Dirty:
@@ -66,9 +76,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
                 break;
         }
     }
-    private void OnCallingClicked()
-    {
-    }
+    //==================광고버튼 클릭====================
     private void OnMissingPosterClicked()
     {
         UserItemData items = Manager.Save.CurrentData.UserData.Items;
@@ -76,10 +84,15 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         if (items.MissingPoster <= 0)
         {
             Debug.Log("포스터 수량 부족");
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop",0, this);
             return;
         }
         items.MissingPoster--;
 
+        BringPetBack();
+    }
+    public void BringPetBack() //외부에서도 호출 가능
+    {
         OnClickMissingPoster?.Invoke(); //펫 매니저가 구독함
         gameObject.SetActive(false);
     }
@@ -87,21 +100,36 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     {
         if (Manager.Game != null)
         {
-            Manager.Game.ShowConfirmMessage("Warning_RemovePet", this);
+            Manager.Game.ShowConfirmMessage("Warning_RemovePet",1, this);
         }
     }
     private void OnCloseClicked() 
     { 
         gameObject.SetActive(false);
     }
-    public void Confirmed()
+    //=================컨펌창 인터페이스 ========================
+    public void Confirmed(int requestNum)
     {
-        PetManager petManager = FindObjectOfType<PetManager>();
-        if (petManager != null)
+        if (requestNum == 0) //상점이동 요청
         {
-            gameObject.SetActive (false);
-            petManager.RemovePet();
+            Manager.Game.OpenUiPanel(UIPanel.Shop, false);
+        }
+        else if (requestNum == 1) //펫 포기 요청
+        {
+            PetManager petManager = FindObjectOfType<PetManager>();
+            if (petManager != null)
+            {
+                gameObject.SetActive(false);
+                petManager.RemovePet();
+            }
         }
     }
-    public void Canceled() { }
+    public void Canceled(int requestNum) { }
+
+    private void UpdateAmount(RewardType item, int newValue)
+    {
+        if (item != RewardType.MissingPoster) return;
+
+        _missingPosterAmount.text = $"x{newValue}";
+    }
 }

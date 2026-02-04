@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Config Egg
   m_EditorClassIdentifier: 
   GrowthType: 0
-  TimeToGrow: 60
+  TimeToGrow: 10
   ExpToGrow: 0
   HungerDecreasePerSec: 0
   HappinessDecreasePerSec: 0

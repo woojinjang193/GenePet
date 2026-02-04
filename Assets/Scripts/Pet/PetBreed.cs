@@ -40,50 +40,67 @@ public class PetBreed : MonoBehaviour
         baby.Genes.PartColors.EarColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.WingColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.TailColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
-        //egg.Genes.PartColors.BlushColorId = Choose(egg.Genes.Color.DominantId, egg.Genes.Color.RecessiveId);
 
-        //var eggImage = Manager.Game.Config.EggRaritySO;
-        //switch (_finalRarity)
-        //{
-        //    case RarityType.Legendary:
-        //        egg.PetSaveData.EggSprite = eggImage.LegendarySprite;
-        //        break;
-        //    case RarityType.Epic:
-        //        egg.PetSaveData.EggSprite = eggImage.EpicSprite; ;
-        //        break;
-        //    case RarityType.Rare:
-        //        egg.PetSaveData.EggSprite = eggImage.RareSprite;
-        //        break;
-        //    default:
-        //        egg.PetSaveData.EggSprite = eggImage.CommonSprite;
-        //        break;
-        //}
         return egg;
     }
     // ======== 유전자 합치기======
     private void CombinePart(PartType type, GenePair myPet, GenePair islandPet, GenePair baby)
     {
+        bool fatherForced = myPet.IsDoGuaranteed || myPet.IsReGuaranteed;  // 내 펫 확정 여부
+        bool motherForced = islandPet.IsDoGuaranteed || islandPet.IsReGuaranteed;   // 섬펫 확정 여부
+
         string fatherGene;
         string motherGene;
 
-        //유전자 가위 여부 확인
-        if (myPet.IsDominantCut) fatherGene = myPet.RecessiveId;
-        else if (myPet.IsRecessiveCut) fatherGene = myPet.DominantId;
-        else fatherGene = Choose(myPet.DominantId, myPet.RecessiveId);
+        // 내 펫(아버지 역할)
+        if (myPet.IsDoGuaranteed) fatherGene = myPet.DominantId;          // 우성 확정
+        else if (myPet.IsReGuaranteed) fatherGene = myPet.RecessiveId;    // 열성 확정
+        else if (myPet.IsDominantCut) fatherGene = myPet.RecessiveId;     // 우성 잘림
+        else if (myPet.IsRecessiveCut) fatherGene = myPet.DominantId;     // 열성 잘림
+        else fatherGene = Choose(myPet.DominantId, myPet.RecessiveId);    // 랜덤 선택
 
-        if (islandPet.IsDominantCut) motherGene = islandPet.RecessiveId;
-        else if (islandPet.IsRecessiveCut) motherGene = islandPet.DominantId;
-        else motherGene = Choose(islandPet.DominantId, islandPet.RecessiveId);
+        // 섬 펫(어머니 역할)
+        if (islandPet.IsDoGuaranteed) motherGene = islandPet.DominantId;        // 우성 확정
+        else if (islandPet.IsReGuaranteed) motherGene = islandPet.RecessiveId;  // 열성 확정
+        else if (islandPet.IsDominantCut) motherGene = islandPet.RecessiveId;   // 우성 잘림
+        else if (islandPet.IsRecessiveCut) motherGene = islandPet.DominantId;   // 열성 잘림
+        else motherGene = Choose(islandPet.DominantId, islandPet.RecessiveId);  // 랜덤 선택
 
+        // 희귀도 계산은 "선택된 두 유전자"로 ---
         RarityType curRarity = Manager.Gene.CheckRarity(type, fatherGene, motherGene);
+        if (curRarity > _finalRarity) _finalRarity = curRarity;
 
-        //최고등급만 저장
-        if (curRarity > _finalRarity)
-        {
-            _finalRarity = curRarity;
+        // --- baby에 배치 --- 
+        if (fatherForced && motherForced) //같은 파츠에 엄마아빠 모두 유전자 확정된경우
+        {          
+            if (UnityEngine.Random.value < 0.5f) // 우성 열성 랜덤
+            {
+                baby.DominantId = fatherGene;  
+                baby.RecessiveId = motherGene;
+            }
+            else
+            {
+                baby.DominantId = motherGene;
+                baby.RecessiveId = fatherGene;
+            }
+            return;  //조기 종료
         }
 
-        if (UnityEngine.Random.value < 0.5)
+        if (fatherForced && !motherForced) //아빠만 확정
+        {
+            baby.DominantId = fatherGene;  // 내펫 유전자 우성
+            baby.RecessiveId = motherGene;
+            return;
+        }
+
+        if (!fatherForced && motherForced) // 엄마만 확정
+        {
+            baby.DominantId = motherGene;  // 섬펫 유전자 우성
+            baby.RecessiveId = fatherGene;
+            return;
+        }
+
+        if (UnityEngine.Random.value < 0.5f) // 둘 다 확정 아니면 랜덤 배치
         {
             baby.DominantId = fatherGene;
             baby.RecessiveId = motherGene;

@@ -42,14 +42,18 @@ public class PinballBrick : MonoBehaviour
         _data = data;
         _hp = data.HP;
         VisualSetting();
+        gameObject.SetActive(true);
     }
-
-    public void Hit()
+    public void ResetBrick()
     {
-        _curHp--;
+        _brickRenderer.sprite = _spriteSO.GetSprite(_type, 3); //현재 최대 HP = 3
+    }
+    public void Hit(int damage)
+    {
+        _curHp -= damage;
         if (_curHp > 0)
         {
-            // TODO: 히트 연출(깜빡/사운드)
+            // TODO: 히트 연출(사운드)
             _brickRenderer.sprite = _spriteSO.GetSprite(_type ,_curHp);
             return;
         }
@@ -70,14 +74,6 @@ public class PinballBrick : MonoBehaviour
         }
 
         gameObject.SetActive(false); // 비활성화
-    }
-
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        if(col.collider.CompareTag("Player"))
-        {
-            Hit();
-        }
     }
     private void VisualSetting()
     {

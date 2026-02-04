@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,7 +5,7 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] private float _clickTimeLimit = 0.2f;
     [SerializeField] private LayerMask _petMask;
-
+    [SerializeField] private TutorialChunk _firstVisitTutorial;
     private float _mouseDownTime;
     private bool _blockedByUI = false;
 
@@ -66,6 +64,7 @@ public class InputManager : MonoBehaviour
 
     private void HandleDragInput()
     {
+        if (_firstVisitTutorial.IsRunning) return; //튜토리얼중일땐 드래그 안됨
         // UI에서 다운하면 드래그를 아예 전달하지 않음
         if (_blockedByUI) return;
 

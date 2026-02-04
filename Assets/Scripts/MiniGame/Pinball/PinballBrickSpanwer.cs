@@ -26,7 +26,7 @@ public class PinballBrickSpanwer : MonoBehaviour
     [Header("컬러 블록 점수")]
     [SerializeField] private int _colorBrickScore = 5;
 
-    private List<PinballBrick> _allBricks = new List<PinballBrick>(); //전체 브릭 (세팅용)
+    private List<PinballBrick> _allBricks = new List<PinballBrick>(); //전체 브릭 (세팅용. 제거하면서 아이템 할당함)
     private List<PinballBrick> _spawnedBricks = new(); //이벤트 해제용
 
     private GameObject _spawnedMap;
@@ -50,10 +50,13 @@ public class PinballBrickSpanwer : MonoBehaviour
 
         int rand = Random.Range(0, preset.BrickMaps.Length); // 랜덤으로 맵 뽑음
 
-        _spawnedMap = Instantiate(preset.BrickMaps[rand], _brickParents); //프리팹 소환
+        _spawnedMap = Manager.Pool.Get(preset.BrickMaps[rand], _brickParents.position, _brickParents); // 풀로 맵 소환
+        _spawnedMap.transform.localPosition = Vector3.zero; //부모 기준 위치 정리
+        _spawnedMap.transform.localRotation = Quaternion.identity; //회전 정리
+        _spawnedMap.transform.localScale = Vector3.one; //스케일 정리
 
         PinballBrick[] bricks = _spawnedMap.GetComponentsInChildren<PinballBrick>(true);
-        _spawnedBricks.AddRange(bricks); //브릭 리스트 넣어줌
+        _spawnedBricks.AddRange(bricks); //아이템 세팅용 브릭 리스트
 
         foreach (PinballBrick brick in bricks) //브릭을 리스트에 넣어줌
         {
@@ -66,12 +69,15 @@ public class PinballBrickSpanwer : MonoBehaviour
         SetNormalItemBricks(preset);
         SetNormalBricks();
     }
-    public void UnregisterAll()
+    //======풀로 반환 전 초기화, 이벤트 해제================
+    private void UnregisterAll()
     {
         for (int i = 0; i < _spawnedBricks.Count; i++)
         {
             var brick = _spawnedBricks[i];
             if (brick == null) continue;
+
+            brick.ResetBrick();
 
             _pinballManager.UnregisterBrick(brick);
             _pinballVisual.UnregisterBrick(brick);
@@ -82,7 +88,7 @@ public class PinballBrickSpanwer : MonoBehaviour
 
         if (_spawnedMap != null)
         {
-            Destroy(_spawnedMap);
+            Manager.Pool.Release(_spawnedMap);//풀 반환
             _spawnedMap = null;
         }
     }
@@ -95,7 +101,7 @@ public class PinballBrickSpanwer : MonoBehaviour
 
         var pool = Manager.Mini.GetAvailableRewardPool(preset.ColorBrickItems, _pinballManager.RewardReservation); //필터된 보상 풀
 
-        if (pool.Count == 0 || pool == null) { Debug.LogError("풀 비었음"); return; }
+        if (pool == null || pool.Count == 0) { Debug.LogError("풀 비었음"); return; }
 
         for (int i = 0; i < colorBrickNum; i++)
         {
@@ -120,7 +126,7 @@ public class PinballBrickSpanwer : MonoBehaviour
         int normalItemBrickNum = Random.Range(preset.MinNormalItemBrickAmount, preset.MaXNormalItemBrickAmount + 1); //노멀 아이템 브릭 개수 뽑음
         var pool = Manager.Mini.GetAvailableRewardPool(preset.NormalBrickItems, _pinballManager.RewardReservation);
 
-        if (pool.Count == 0 || pool == null) { Debug.LogError("풀 비었음"); return; }
+        if (pool == null || pool.Count == 0) { Debug.LogError("풀 비었음"); return; }
 
         for (int i = 0; i < normalItemBrickNum; i++)
         {

@@ -1,9 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -15,8 +16,14 @@ public class GameManager : Singleton<GameManager>
     private PopupMessage _popupText;
     private ConfirmMessage _confirmMessage;
 
+    public UIPanel ReservedUI { get; private set; }
+
     private bool _isOnline = true;
     public bool IsOnline { get { return _isOnline; } }
+
+    public event Action OnDailyReset;
+    private Coroutine _dailyResetRoutine; //자정 리셋 코루틴 핸들
+
 
     protected override void Awake()
     {
@@ -25,7 +32,17 @@ public class GameManager : Singleton<GameManager>
         handle.Completed += OnConfigLoaded;
         var popupMessage = Addressables.LoadAssetAsync<GameObject>("PopupMessage");
         popupMessage.Completed += OnPopupPrefabLoaded;
+
+        _dailyResetRoutine = StartCoroutine(DailyResetRoutine()); // 자정 리셋 감시 시작
+
     }
+    protected override void OnDestroy() //파괴 시 정리
+    {
+        if (_dailyResetRoutine != null) StopCoroutine(_dailyResetRoutine); //코루틴 중지
+        _dailyResetRoutine = null; //핸들 정리
+        base.OnDestroy();
+    }
+
     private void OnConfigLoaded(AsyncOperationHandle<GameConfig> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -76,15 +93,14 @@ public class GameManager : Singleton<GameManager>
             if (curAmount >= userMaxAmount)
             {
                 Debug.Log($"현재 유저가 키울 수 있는 최대 펫 수 : {userMaxAmount}.\n현재 펫 수 {curAmount}");
-                //TODO: 여기에 슬롯 구매 바로가기 창 띄우기
                 return;
-            } 
+            }
         }
         PetSaveData newpet = CreateRandomPetData(isMine);
         Manager.Save.RegisterNewPet(newpet, isMine);
 
         PetManager petManager = FindObjectOfType<PetManager>();
-        if(isMine && petManager != null)
+        if (isMine && petManager != null)
         {
             petManager.SpawnPet(newpet);
         }
@@ -128,7 +144,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.LogWarning($"{part.ToString()} 파츠 없음");
                 continue; // 안전 처리
             }
-            
+
             PartBaseSO dominant = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 우성 랜덤
             PartBaseSO recessive = Manager.Gene.GetRandomPart<PartBaseSO>(part); // 열성 랜덤
 
@@ -153,19 +169,6 @@ public class GameManager : Singleton<GameManager>
 
         newPet.Rarity = highestRarity; //펫 레어리티
 
-        ////알 이미지 저장
-        //switch (highestRarity)
-        //{
-        //    case RarityType.Legendary:
-        //        newPet.EggSprite = Config.EggRaritySO.LegendarySprite; break;
-        //    case RarityType.Epic:
-        //        newPet.EggSprite = Config.EggRaritySO.EpicSprite; break;
-        //    case RarityType.Rare:
-        //        newPet.EggSprite = Config.EggRaritySO.RareSprite; break;
-        //    default:
-        //        newPet.EggSprite = Config.EggRaritySO.CommonSprite; break;
-        //}
-
         return newPet;
     }
 
@@ -180,25 +183,86 @@ public class GameManager : Singleton<GameManager>
     }
     private void ManagerReadyCheck()
     {
-        if(_loadingCount >= _loadingDataAmount)
+        if (_loadingCount >= _loadingDataAmount)
         {
             _isManagerReady = true;
         }
     }
-    public void ShowPopup(string msg) //팝업 텍스트 출력
+    public void ShowPopup(string stringID) //팝업 텍스트 출력
     {
-        _popupText.ShowMessage(msg);
-    }
-    public void ShowConfirmMessage(string textID, IConfirmRequester requster) //경고메세지 출력
-    {
-        _confirmMessage.OpenConfirmUI(textID, requster);
+        string text = Manager.Lang.GetText(stringID);
+        _popupText.ShowMessage(text);
     }
 
-    //public void SetOnlineFlag(bool flag)
-    //{
-    //    if(flag != _isOnline)
-    //    {
-    //        _isOnline = flag;
-    //    }
-    //}
+    //==================팝업창 오픈 요청======================
+    public void ShowConfirmMessage(string textID, int requestNum, IConfirmRequester requster) //경고메세지 출력
+    {
+        _confirmMessage.OpenConfirmUI(textID, requestNum, requster);
+    }
+
+    public void ReserveMainSceneUI(UIPanel ui) //메인씬 왔을때 열 UI 요청
+    {
+        Debug.Log($"예약 시도 {ui}");
+        if (ui == UIPanel.None) return;
+        
+        switch (ui)
+        {
+            case UIPanel.Shop: ReservedUI = UIPanel.Shop; break;
+        }
+
+        Debug.Log($"예약 완료 {ui}");
+    }
+    public void ResetReservedUI() //예약 UI 열고난 후 초기화
+    {
+        ReservedUI = UIPanel.None;
+    }
+
+    public void OpenUiPanel(UIPanel panel, bool moveToMainScene, Action beforeGoMainScene = null) //씬에서 원하는 UI 바로 열기
+    {
+        if (panel == UIPanel.None) return;
+
+        if (panel == UIPanel.Shop)
+        {
+            var shopUI = FindObjectOfType<ShopUiManager>(true);
+
+            if (shopUI != null) //샵 찾으면 오픈
+            {
+                shopUI.gameObject.SetActive(true);
+            }
+            else //샵 없으면 메인으로 이동해서 오픈
+            {
+                ReserveMainSceneUI(panel); //판넬 예약
+
+                if (!moveToMainScene) //메인씬 가기전 할일 있으면
+                {
+                    beforeGoMainScene?.Invoke(); //메인씬 이동 전 필수 처리 훅
+                }
+                else //메인씬 바로가기면
+                {
+                    SceneManager.LoadScene("InGameScene");
+                }
+            }
+        }
+    }
+
+    //====================자정 카운터==========================
+    private IEnumerator DailyResetRoutine()
+    {
+        while (true)
+        {
+            double seconds = GetSecondsUntilNextMidnight(); // 다음 자정까지 남은 시간(초)
+            if (seconds < 1) seconds = 1; //  0초 대기 방지
+
+            yield return new WaitForSecondsRealtime((float)seconds); // 타임스케일 무시 대기
+
+            OnDailyReset?.Invoke(); // 자정 도달 > 구독자(데일리 버튼들) 갱신 트리거
+        }
+    }
+
+    private double GetSecondsUntilNextMidnight() // 다음 00:00까지 남은 초 계산(로컬 시간 기준)
+    {
+        DateTime now = DateTime.Now; // 기기 로컬 시간
+        DateTime next = now.Date.AddDays(1); // 다음날 00:00
+        return (next - now).TotalSeconds; // 남은 초
+    }
 }

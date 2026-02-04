@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class EggObj : MonoBehaviour, IPointerDownHandler
+public class EggObj : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _sprite;
     
@@ -17,8 +17,9 @@ public class EggObj : MonoBehaviour, IPointerDownHandler
         _data = egg;
     }
 
-    public void OnPointerDown(PointerEventData eventData) //알 획득시
+    public void OnMouseDown() //알 획득시
     {
+        Debug.Log("알 클릭 ");
         var eggHaveList = Manager.Save.CurrentData.UserData.EggList;
         int maxHave = Manager.Game.Config.MaxEggAmount;
         
@@ -39,8 +40,7 @@ public class EggObj : MonoBehaviour, IPointerDownHandler
         _sprite.sprite = null;
         Debug.Log($"알 추가. 현재: {eggHaveList.Count}");
 
-        //알 획득 연출 넣을거면 여기서
-
-        SceneManager.LoadScene("InGameScene");
+        Manager.Item.NotifyRewardsReady(); // 보상팝업 호출
+        gameObject.SetActive(false);
     }
 }

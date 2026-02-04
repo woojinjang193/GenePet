@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MoveToIslandButton : MonoBehaviour
+public class MoveToIslandButton : MonoBehaviour, IConfirmRequester
 {
     private Button _islandButton;
     [SerializeField] private PetManager _petManager;
@@ -40,7 +40,7 @@ public class MoveToIslandButton : MonoBehaviour
         if (!hasAdult)
         {
             //Debug.Log("섬은 어른만 갈 수 있음");
-            Manager.Game.ShowPopup("You're Too Younggggg");
+            Manager.Game.ShowPopup("PopUp_TooYoungForIsland");
             return;
         }
         bool isIslandOpen = userData.Island.IsOpen;
@@ -64,8 +64,16 @@ public class MoveToIslandButton : MonoBehaviour
 
         if (userData.Items.IslandTicket <= 0)
         {
-            Manager.Game.ShowPopup("Lack of ticketttt");
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
             //Debug.Log("티켓이 부족합니다");
         }
     }
+    public void Confirmed(int requestNum)
+    {
+        if(requestNum == 0) // 상점이동
+        {
+            Manager.Game.OpenUiPanel(UIPanel.Shop, false);
+        }
+    }
+    public void Canceled(int requestNum) { }
 }

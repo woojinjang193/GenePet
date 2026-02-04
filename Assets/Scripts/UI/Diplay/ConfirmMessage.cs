@@ -15,29 +15,47 @@ public class ConfirmMessage : MonoBehaviour
     [SerializeField] private TMP_Text _text;
 
     private IConfirmRequester _requester;
+    private int _requestNum = -1;
 
     private void Awake()
     {
         _confirmButton.onClick.AddListener(OnClickedConfirm);
         _cancelButton.onClick.AddListener(OnClickedCancel);
+
+        if (Manager.Lang == null) { Debug.LogError("LangManager 없음"); return; }
+
+        Manager.Lang.OnLanguageChanged += OnLanguageChanged;
     }
-    public void OpenConfirmUI(string textID, IConfirmRequester requster)
+    private void OnDestroy()
+    {
+        if (Manager.Lang != null)
+            Manager.Lang.OnLanguageChanged -= OnLanguageChanged;
+    }
+    private void OnLanguageChanged(TMP_FontAsset font) //언어변경
+    {
+        _text.font = font;
+    }
+    //============================UI 컨트롤===============================
+    public void OpenConfirmUI(string textID, int requestNum, IConfirmRequester requster)
     {
         _panel.SetActive(true);
-        _requester = requster;
-
+        _requester = requster; // 리퀘스터
+        _requestNum = requestNum; //요청 번호
         _text.text = Manager.Lang.GetText(textID);
     }
     private void OnClickedConfirm()
     {
-        _requester.Confirmed();
+        _requester.Confirmed(_requestNum);
+        _requester = null;
+        _requestNum = -1;
         _panel.SetActive(false);
     }
     private void OnClickedCancel()
     {
-        _requester.Canceled();
+        _requester.Canceled(_requestNum);
         _requester = null;
+        _requestNum = -1;
         _panel.SetActive(false);
     }
-    
+
 }

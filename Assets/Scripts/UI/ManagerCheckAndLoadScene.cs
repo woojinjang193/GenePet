@@ -1,3 +1,4 @@
+using Firebase.Auth;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,6 +17,8 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
+
         _button.onClick.AddListener(OnClicked);
 
         ShopManager.CreateManager();
@@ -29,11 +32,11 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
         //FirebaseAuthManager.CreateManager();
         //MiniGameManager.CreateManager();
         PoolManager.CreateManager();
+        AdManager.CreateManager();
     }
 
     private void Start()
     {
-
         StartCoroutine(LoadRoutine());
     }
 
@@ -62,6 +65,7 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
             WaitForItem(),
             WaitForFire(),
             WaitForServerSave(),
+            WaitForAD(),
         };
 
         int totalSteps = loadSteps.Count;
@@ -147,9 +151,19 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
     {
         _loadingText.text = "Syncing Save Data..";
 
+        //Debug.Log($"[Auth] uid={FirebaseAuth.DefaultInstance.CurrentUser?.UserId}");
         Manager.Server.DownloadIfNewer();
 
         while (!Manager.Server.IsReady)
+        {
+            yield return null;
+        }
+    }
+    private IEnumerator WaitForAD()
+    {
+        _loadingText.text = "Loaing AdSyetem..";
+
+        while (!Manager.AD.IsReady)
         {
             yield return null;
         }

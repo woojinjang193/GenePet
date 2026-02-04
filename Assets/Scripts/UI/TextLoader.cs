@@ -7,26 +7,34 @@ public class TextLoader : MonoBehaviour
 {
     [SerializeField] private string _textID;
     private TMP_Text _text;
-
     private void Awake()
     {
         _text = GetComponent<TMP_Text>();
 
-        Manager.Lang._OnLanguageChanged += UpdateText;
+        Manager.Lang.OnLanguageChanged += UpdateFont;
     }
     private void OnEnable()
     {
-        _text.text = Manager.Lang.GetText(_textID);
+        ApplyTextAndFont();
     }
 
     private void OnDestroy()
     {
         if(Manager.Lang != null)
-        Manager.Lang._OnLanguageChanged -= UpdateText;
+        Manager.Lang.OnLanguageChanged -= UpdateFont;
     }
 
-    private void UpdateText()
+    private void UpdateFont(TMP_FontAsset font) //언어 변경 시 폰트도 같이 적용
     {
-        _text.text = Manager.Lang.GetText(_textID);
+        ApplyTextAndFont();
+    }
+    //================텍스트 + 폰트 동시 적용===================
+    private void ApplyTextAndFont() 
+    {
+        if(!string.IsNullOrWhiteSpace(_textID))
+        {
+            _text.text = Manager.Lang.GetText(_textID);   // 텍스트 갱신
+        }
+        _text.font = Manager.Lang.CurFont; // 폰트 갱신
     }
 }

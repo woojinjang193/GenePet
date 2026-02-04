@@ -4,13 +4,13 @@ using UnityEngine;
 public class IslandPetVisualController : MonoBehaviour
 {
 
-    [Header("펫 떠남/알남 파티클")] //TODO: 안쓰면 지우기
-    [SerializeField] private GameObject _particleAffinityUp;
-    [SerializeField] private GameObject _particleAffinityDown;
+    [Header("호감도 up/down 파티클")]
+    [SerializeField] private ParticleSystem _particleAffinityUp;
+    [SerializeField] private ParticleSystem _particleAffinityDown;
 
-    [Header("펫 떠남/알남 파티클")] //TODO: 안쓰면 지우기
-    [SerializeField] private GameObject _particleLeave;
-    [SerializeField] private GameObject _particleLayEgg;
+    [Header("펫 떠남/알남 파티클")]
+    [SerializeField] private ParticleSystem _particleLeave;
+    [SerializeField] private ParticleSystem _particleLayEgg;
 
     [Header("위시 버블")]
     [SerializeField] private WishBubble _wishBubble;
@@ -39,23 +39,20 @@ public class IslandPetVisualController : MonoBehaviour
     {
         _wishBubble.gameObject.SetActive(false);
     }
+
     //==============호감도 변경 이벤트================
     public void ShowAffinityChangeEffect(bool isUp) // true = 호감도 오름, false = 내려감
     {
-        GameObject particle;
+        ParticleSystem particle;
         particle = isUp ? _particleAffinityUp : _particleAffinityDown;
-        StartCoroutine(ParticleOnOffRoutine(particle));
+
+        particle.Emit(30);
     }
     public void ShowLayOrLeaveEffect(bool isMarried) //true = 알 , false = 떠남
     {
-        GameObject particle;
+        ParticleSystem particle;
         particle = isMarried ? _particleLayEgg : _particleLeave;
-        StartCoroutine(ParticleOnOffRoutine(particle));
-    }
-    private IEnumerator ParticleOnOffRoutine(GameObject particle) //파티클 키고꺼주기
-    {
-        particle.SetActive(true);
-        yield return new WaitForSeconds(2);
-        particle.SetActive(false);
+
+        particle.Emit(30);
     }
 }

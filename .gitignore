@@ -100,10 +100,9 @@ InitTestScene*.unity*
 /Assets/Imports
 Assets/google-services.json
 Assets/google-services.json.meta
-/Assets/Firebase/Plugins/x86_64
-Assets/Firebase/Plugins/x86_64.meta
-Assets/StreamingAssets/google-services-desktop.json
-Assets/StreamingAssets/google-services-desktop.json.meta
-/Assets/StreamingAssets
-Assets/StreamingAssets/google-services-desktop.json.meta
-/Assets/Unity-Logs-Viewer
+/Assets/Firebase/Plugins/x86_64/
+/Assets/Firebase/Plugins/x86_64.meta
+/Assets/StreamingAssets/
+/Assets/Unity-Logs-Viewer/
+Assets/GeneratedLocalRepo/
+Assets/Plugins/Android/FirebaseApp.androidlib/res/values/google-services.xml

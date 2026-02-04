@@ -28,7 +28,7 @@ public class GeneInfoButton : MonoBehaviour
         //펫 데이터가 있고, 떠나지않았고, 어른일 경우에만
         if(_petManager.ZoomedUnit.Status.Growth != GrowthStatus.Adult)
         {
-            Manager.Game.ShowPopup("It has to be an Adult"); //TODO: 로컬라이제이션
+            Manager.Game.ShowPopup("PopUp_TooYoungForInfo");
             return;
         }
         if (zoomedPet != null && !_petManager.ZoomedUnit.Status.IsLeft)

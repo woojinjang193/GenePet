@@ -7,6 +7,7 @@ public enum RarityType { Common, Rare, Epic, Legendary } //GeneManager 에서 �
 //public enum Confirm { RemovePet, GiveUpPet, DeleteIsland, ChangingIslandMyPet }
 public enum Gift { None, Gift1, Gift2, Gift3, MasterGift }
 public enum Room { Default, Room_Jump, Room_Rythm, Room_Pinball, Room_Poor, Room_Cozy, Room_Something }
+public enum GMPurchaseType {None, Coin, Gem }
 public enum RewardCategory
 {
     Item,   //일반 아이템 보상
@@ -34,6 +35,9 @@ public enum RewardType
     Room_Something,
     Egg,
     GrowthBooster,
+    GeneticGlue,
+    Gem,
+    GuaranteeSticker,
     None,
     
 }
@@ -80,9 +84,12 @@ public enum Language
     KR = 0,
     EN = 1,
     DE = 2,
-    JP = 3,
-    CH = 4,
-    SP = 5,
+    SP = 3,
+    JP = 4,
+    CHS = 5,
+    CHT = 6,
+
+    None = 10,
 }
 public enum MiniGame
 {
@@ -96,4 +103,17 @@ public enum RythmType
     Quarter,
     Eighth,
     Triplet,
+}
+public enum UIPanel
+{
+    None,
+    Shop
+}
+public enum TutorialTriggerKey
+{
+    None, //기본값(매핑/테스트용)
+    FirstVisit, // 첫 방문시
+    FirstAdult,    // 첫 어른 달성시
+    FirstGeneEdit,  //첫 GeneInfo 패널 오픈시
+    FirstIsland,  //첫 섬씬 방문시   
 }
