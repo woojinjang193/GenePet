@@ -72,7 +72,7 @@ public class MoveToIslandButton : MonoBehaviour, IConfirmRequester
     {
         if(requestNum == 0) // 상점이동
         {
-            Manager.Game.OpenUiPanel(UIPanel.Shop);
+            Manager.Game.OpenUiPanel(UIPanel.Shop, false);
         }
     }
     public void Canceled(int requestNum) { }

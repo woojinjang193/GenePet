@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-
 // ===================== 미니게임 결과 저장용 데이터 =====================
 [Serializable]
 public class MiniGameData
@@ -18,11 +16,12 @@ public class MiniGameData
 [Serializable]
 public class UserData
 {
+    public TutorialFlags tutorialFlags;
     public int TotalRaisedPets;
-
-    //public long LastPlayedUnixTime;
     public long LastSavedUnixTime; //마지막 세이브 타임
+    public long LastEnergyUnixTime; //마지막 에너지 타임
     public long LastPetSavedUnixTime; //마지막 펫 상태 저장 타임
+    public List<RewardClaimRecord> RewardClaims;
 
     public string LocalUID; // UID
     public Language CurLanguage; //현재 언어
@@ -40,11 +39,13 @@ public class UserData
 
     public UserData()
     {
-        TotalRaisedPets = 0;
+        tutorialFlags = new();
 
-        //LastPlayedUnixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        TotalRaisedPets = 0;
         LastSavedUnixTime = 0;
-        LastPetSavedUnixTime = 0; 
+        LastPetSavedUnixTime = 0;
+        LastEnergyUnixTime = 0;
+        RewardClaims = new();
 
         LocalUID = "";
         CurLanguage = Language.None;
@@ -63,6 +64,22 @@ public class UserData
         {
             MiniGameResults[i] = new MiniGameData(); // 기본값 세팅
         }
+    }
+}
+[Serializable]
+public class RewardClaimRecord
+{
+    public string ID;
+    public string LastDate;
+    public long LastClaimUnix; // 마지막 수령 시간
+    public int TodayCount; //오늘 받은 보상 카운트
+
+    public RewardClaimRecord()
+    {
+        ID = "";
+        LastDate = "";
+        LastClaimUnix = 0;
+        TodayCount = 0;
     }
 }
 
@@ -274,14 +291,6 @@ public class UserItemData
     public int Gem;
     public int GuaranteeSticker;
 
-    //차후 업데이트할때 추가될걸 대비한 아이템 미리 생성
-    public int TimeSpeedUp; //추후 내펫끼리 교배에 쓰일수 있는 아이템
-    public int AdditionalItem1; //추후 추가될수도 있는 아이템
-    public int AdditionalItem2; //추후 추가될수도 있는 아이템
-    public int AdditionalItem3; //추후 추가될수도 있는 아이템
-    public int AdditionalItem4; //추후 추가될수도 있는 아이템
-    public int AdditionalItem5; //추후 추가될수도 있는 아이템
-
     public List<Room> Rooms;
 
     //선물
@@ -313,6 +322,16 @@ public class UserItemData
         Gift1 = 1;
         Gift2 = 1;
         Gift3 = 1;
+    }
+}
+[Serializable]
+public class TutorialFlags
+{
+    public bool FirstVisit;
+
+    public TutorialFlags()
+    {
+        FirstVisit = false;
     }
 }
 

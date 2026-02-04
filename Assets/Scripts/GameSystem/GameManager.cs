@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -20,6 +21,10 @@ public class GameManager : Singleton<GameManager>
     private bool _isOnline = true;
     public bool IsOnline { get { return _isOnline; } }
 
+    public event Action OnDailyReset;
+    private Coroutine _dailyResetRoutine; //자정 리셋 코루틴 핸들
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -27,7 +32,17 @@ public class GameManager : Singleton<GameManager>
         handle.Completed += OnConfigLoaded;
         var popupMessage = Addressables.LoadAssetAsync<GameObject>("PopupMessage");
         popupMessage.Completed += OnPopupPrefabLoaded;
+
+        _dailyResetRoutine = StartCoroutine(DailyResetRoutine()); // 자정 리셋 감시 시작
+
     }
+    protected override void OnDestroy() //파괴 시 정리
+    {
+        if (_dailyResetRoutine != null) StopCoroutine(_dailyResetRoutine); //코루틴 중지
+        _dailyResetRoutine = null; //핸들 정리
+        base.OnDestroy();
+    }
+
     private void OnConfigLoaded(AsyncOperationHandle<GameConfig> handle)
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -202,15 +217,52 @@ public class GameManager : Singleton<GameManager>
         ReservedUI = UIPanel.None;
     }
 
-    public void OpenUiPanel(UIPanel panel) //메인씬에서 원하는 UI 바로 열기
+    public void OpenUiPanel(UIPanel panel, bool moveToMainScene, Action beforeGoMainScene = null) //씬에서 원하는 UI 바로 열기
     {
         if (panel == UIPanel.None) return;
 
-        var uiManager = FindObjectOfType<InGameUIManager>();
-
-        if (uiManager != null)
+        if (panel == UIPanel.Shop)
         {
-            uiManager.OpenUiPanel(panel);
+            var shopUI = FindObjectOfType<ShopUiManager>(true);
+
+            if (shopUI != null) //샵 찾으면 오픈
+            {
+                shopUI.gameObject.SetActive(true);
+            }
+            else //샵 없으면 메인으로 이동해서 오픈
+            {
+                ReserveMainSceneUI(panel); //판넬 예약
+
+                if (!moveToMainScene) //메인씬 가기전 할일 있으면
+                {
+                    beforeGoMainScene?.Invoke(); //메인씬 이동 전 필수 처리 훅
+                }
+                else //메인씬 바로가기면
+                {
+                    SceneManager.LoadScene("InGameScene");
+                }
+            }
         }
+    }
+
+    //====================자정 카운터==========================
+    private IEnumerator DailyResetRoutine()
+    {
+        while (true)
+        {
+            double seconds = GetSecondsUntilNextMidnight(); // 다음 자정까지 남은 시간(초)
+            if (seconds < 1) seconds = 1; //  0초 대기 방지
+
+            yield return new WaitForSecondsRealtime((float)seconds); // 타임스케일 무시 대기
+
+            OnDailyReset?.Invoke(); // 자정 도달 > 구독자(데일리 버튼들) 갱신 트리거
+        }
+    }
+
+    private double GetSecondsUntilNextMidnight() // 다음 00:00까지 남은 초 계산(로컬 시간 기준)
+    {
+        DateTime now = DateTime.Now; // 기기 로컬 시간
+        DateTime next = now.Date.AddDays(1); // 다음날 00:00
+        return (next - now).TotalSeconds; // 남은 초
     }
 }

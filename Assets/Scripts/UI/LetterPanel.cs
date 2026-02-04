@@ -38,7 +38,6 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         _closeButton.onClick.AddListener(OnCloseClicked);
 
         Manager.Item.OnRewardGranted += UpdateAmount;
-
     }
     private void OnDestroy()
     {
@@ -77,6 +76,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
                 break;
         }
     }
+    //==================광고버튼 클릭====================
     private void OnMissingPosterClicked()
     {
         UserItemData items = Manager.Save.CurrentData.UserData.Items;
@@ -89,6 +89,10 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
         }
         items.MissingPoster--;
 
+        BringPetBack();
+    }
+    public void BringPetBack() //외부에서도 호출 가능
+    {
         OnClickMissingPoster?.Invoke(); //펫 매니저가 구독함
         gameObject.SetActive(false);
     }
@@ -108,7 +112,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     {
         if (requestNum == 0) //상점이동 요청
         {
-            Manager.Game.OpenUiPanel(UIPanel.Shop);
+            Manager.Game.OpenUiPanel(UIPanel.Shop, false);
         }
         else if (requestNum == 1) //펫 포기 요청
         {

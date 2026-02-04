@@ -18,6 +18,7 @@ public class ShopManager : Singleton<ShopManager>
 
     public event Action<bool> OnProductsReady;
     public event Action<string> OnNonConsumableOwned;
+    public event Action OnRemoveAdPurchased;
 
     private HashSet<string> _owned = new HashSet<string>();
 
@@ -42,7 +43,6 @@ public class ShopManager : Singleton<ShopManager>
             Debug.LogError($"카탈로그 로드 실패:{handle.OperationException}");
         }
     }
-
     public void RefreshOwnership()
     {
         if (_store != null && _isConnected && _isProductsReady)
@@ -55,7 +55,6 @@ public class ShopManager : Singleton<ShopManager>
             Debug.LogWarning("스토어 준비안됨 새로고침 실패");
         }
     }
-
     private async void InitializeIAP()
     {
         _store = UnityIAPServices.StoreController();
@@ -179,6 +178,10 @@ public class ShopManager : Singleton<ShopManager>
                 OnNonConsumableOwned?.Invoke(_lastTriedProductId);
             }
 
+            if (_lastTriedProductId == "testremoveadbanner") //광고제거 구매시
+            {
+                OnRemoveAdPurchased?.Invoke();
+            }
             _lastTriedProductId = null;
 
             Manager.Save.SaveGame();

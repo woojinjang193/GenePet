@@ -73,10 +73,10 @@ public class ItemManager : Singleton<ItemManager>
             ApplyReward(reward.RewardType, reward.RewardAmount, true);    // 실제 지급
         }
 
-        // 외부(UI, 저장 등)에 알림 (메인씬에서만 보여줌)
+        // 외부(UI, 저장 등)에 알림
         OnRewardsGiven?.Invoke();
     }
-    //==================미니게임 보상=====================
+    //==================미니게임 보상===================== 
     public void GiveMiniGameRewards(List<RewardData> rewards) // : 지급 + 표시용 큐 적재, 팝업 오픈은 NotifyRewardsReady로 외부에서 결정
     {
         if (rewards == null || rewards.Count == 0) return;

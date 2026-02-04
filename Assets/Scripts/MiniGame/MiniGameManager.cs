@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
 
 public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
@@ -141,7 +139,9 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
     //==== 에너지 사용 가능 여부======
     public bool CanPlayMiniGame(out int cost)
     {
-        cost = 0; // out은 모든 경로에서 할당돼야 함
+        cost = 0;
+
+        EnergyRecoveryService.SyncNow(); // 미니게임 가능여부 판단 직전에 에너지 정산
 
         int index = (int)CurMiniGame; //미니게임 인덱스
 
@@ -171,23 +171,7 @@ public class MiniGameManager : Singleton<MiniGameManager>, IConfirmRequester
     {
         if(requestNum == 0)
         {
-            if (SceneManager.GetActiveScene().name == "InGameScene") //인게임 씬이면
-            {
-                Manager.Game.OpenUiPanel(UIPanel.Shop);
-            }
-            else   //인게임 씬 아니면
-            {
-                var shop = FindObjectOfType<ShopUiManager>(true); //샵에 붙은 컴포넌트 찾아봄
-                if (shop != null) // 찾으면
-                {
-                    shop.gameObject.SetActive(true);
-                }
-                else// 못찾으면 메인씬으로 감
-                {
-                    Manager.Game.ReserveMainSceneUI(UIPanel.Shop);
-                    EndMiniGame();
-                }
-            }
+            Manager.Game.OpenUiPanel(UIPanel.Shop, false, EndMiniGame);
         }
     }
 

@@ -13,10 +13,23 @@ MonoBehaviour:
   m_Name: GameConfigSO
   m_EditorClassIdentifier: 
   UploadIntervalSec: 180
+  RewardDailyLimits:
+  - Id: test
+    Limit: 2
+    CoolTimeHour: 0.03
+  - Id: bringpetback
+    Limit: 3
+    CoolTimeHour: 2
+  - Id: dailyrandom
+    Limit: 1
+    CoolTimeHour: 5
+  - Id: cooltimerandom
+    Limit: 100
+    CoolTimeHour: 2
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10
-  EnergyRecoveringTime: 30
+  EnergyRecoveringTime: 60
   PettingHappinessAdd: 3
   PettingCooldownHour: 0.5
   MiniGameEXP: 5

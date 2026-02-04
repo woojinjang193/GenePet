@@ -85,5 +85,10 @@ public class UserLogOut : MonoBehaviour
         ItemManager.ReleaseManager();
         FirebaseAuthManager.ReleaseManager();
         ServerSaveManager.ReleaseManager();
+        MiniGameManager.ReleaseManager();
+        PoolManager.ReleaseManager();
+        AdManager.ReleaseManager();
+
+        //TurotialManager.ReleaseManager();
     }
 }
