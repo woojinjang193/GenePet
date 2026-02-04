@@ -14,15 +14,11 @@ public class Tutorial_FirstVisit : TutorialBase
     [SerializeField] private Image _image;
     [Header("TMP")]
     [SerializeField] private TMP_Text _text;
+    [Header("TMP 이름")]
+    [SerializeField] private TMP_Text _nameText;
     [Header("대사")]
     [SerializeField] private List<LineInfo> _lines;
 
-    [Serializable]
-    public class LineInfo
-    {
-        public string _textID;
-        public Sprite _sprite;
-    }
     private int _curLine = -1;
     private void Awake()
     {
@@ -61,15 +57,18 @@ public class Tutorial_FirstVisit : TutorialBase
             return;
         }
 
-        Sprite sprite = lineInfo._sprite != null ? lineInfo._sprite : null; //있으면 쓰고 없으면 null
-        string nextLineID = string.IsNullOrEmpty(lineInfo._textID) ? "" : lineInfo._textID;
+        Sprite sprite = lineInfo.Sprite != null ? lineInfo.Sprite : null; //있으면 쓰고 없으면 null
+        string nextLineID = string.IsNullOrEmpty(lineInfo.TextID) ? "" : lineInfo.TextID;
+        string nameID = string.IsNullOrEmpty(lineInfo.NameID) ? "" : lineInfo.NameID;
 
 
         _image.sprite = sprite;
         _image.gameObject.SetActive(sprite != null); //이미지 있으면 띄워줌
         
         string nextLine = Manager.Lang.GetText(nextLineID); //번역
+        string nextName = Manager.Lang.GetText(nameID); //번역
         //Debug.Log(nextLine);
+        _nameText.text = nextName;
         _text.text = nextLine;
     }
 }

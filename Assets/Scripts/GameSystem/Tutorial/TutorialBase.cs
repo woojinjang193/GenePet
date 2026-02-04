@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class TutorialBase : MonoBehaviour
@@ -13,4 +11,14 @@ public abstract class TutorialBase : MonoBehaviour
     {
         OnCompleted?.Invoke();        // [추가] 매니저에 "끝남" 알림
     }
+}
+[Serializable]
+public class LineInfo
+{
+    public string NameID;
+    public string TextID;
+    public Sprite Sprite;
+    public Transform PointerPos;
+    public PointerDir PointerDir = PointerDir.None;
+    public bool PointerAnim = false;
 }
