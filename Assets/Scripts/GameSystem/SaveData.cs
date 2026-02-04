@@ -305,15 +305,15 @@ public class UserItemData
 
         Money = 2000;
         IsAdRemoved = false;
-        IslandTicket = 1;
-        MissingPoster = 1;
-        GeneticScissors = 1;
-        geneticTester = 1;
-        Snack = 1;
-        GrowthBooster = 1;
-        GeneticGlue = 1;
-        Gem = 20;
-        GuaranteeSticker = 1;
+        IslandTicket = 0;
+        MissingPoster = 0;
+        GeneticScissors = 0;
+        geneticTester = 0;
+        Snack = 0;
+        GrowthBooster = 0;
+        GeneticGlue = 0;
+        Gem = 0;
+        GuaranteeSticker = 0;
 
         Rooms = new List<Room>()  //유저가 가진 방 목록
         { Room.Default};
@@ -331,6 +331,7 @@ public class TutorialFlags
     public bool FirstAdult;
     public bool FirstGeneEdit;
     public bool FirstIsland;
+    public bool FirstMissing;
 
     public TutorialFlags()
     {
@@ -338,6 +339,7 @@ public class TutorialFlags
         FirstAdult = false;
         FirstGeneEdit = false;
         FirstIsland = false;
+        FirstMissing = false;
     }
 }
 
