@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstVisit22
+  m_EditorClassIdentifier: 
+  KOR: "\uC88B\uC544\uC694! \uC774\uC81C \uD560\uC218\uC788\uB294\uAC83\uB4E4\uC744
+    \uC54C\uB824\uB4DC\uB9B4\uAC8C\uC694!"
+  ENG: "\uC88B\uC544\uC694! \uC774\uC81C \uD560\uC218\uC788\uB294\uAC83\uB4E4\uC744
+    \uC54C\uB824\uB4DC\uB9B4\uAC8C\uC694!"
+  DE: "\uC88B\uC544\uC694! \uC774\uC81C \uD560\uC218\uC788\uB294\uAC83\uB4E4\uC744
+    \uC54C\uB824\uB4DC\uB9B4\uAC8C\uC694!"
+  SP: "\uC88B\uC544\uC694! \uC774\uC81C \uD560\uC218\uC788\uB294\uAC83\uB4E4\uC744
+    \uC54C\uB824\uB4DC\uB9B4\uAC8C\uC694!"
+  JP: "\uC88B\uC544\uC694! \uC774\uC81C \uD560\uC218\uC788\uB294\uAC83\uB4E4\uC744
+    \uC54C\uB824\uB4DC\uB9B4\uAC8C\uC694!"
+  CHS: "\uC88B\uC544\uC694! \uC774\uC81C \uD560\uC218\uC788\uB294\uAC83\uB4E4\uC744
+    \uC54C\uB824\uB4DC\uB9B4\uAC8C\uC694!"
+  CHT: "\uC88B\uC544\uC694! \uC774\uC81C \uD560\uC218\uC788\uB294\uAC83\uB4E4\uC744
+    \uC54C\uB824\uB4DC\uB9B4\uAC8C\uC694!"

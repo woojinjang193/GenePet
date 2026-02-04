@@ -109,3 +109,11 @@ public enum UIPanel
     None,
     Shop
 }
+public enum TutorialTriggerKey
+{
+    None, //기본값(매핑/테스트용)
+    FirstVisit, // 첫 방문시
+    FirstAdult,    // 첫 어른 달성시
+    FirstGeneEdit,  //첫 GeneInfo 패널 오픈시
+    FirstIsland,  //첫 섬씬 방문시   
+}

@@ -20,6 +20,10 @@ public class PetManager : MonoBehaviour
     [SerializeField] private float _statusUpdateDuration;
     [SerializeField] private StatusUI _StatusUI;
 
+    [Header("튜토리얼")]
+    [SerializeField] private TutorialChunk _firstVisitTutorial;
+
+
     private float _accum;
 
     private CameraController _camera;
@@ -217,6 +221,7 @@ public class PetManager : MonoBehaviour
     }
     private void RunTick(float sec)
     {
+        if (_firstVisitTutorial.IsRunning) return; //첫방문 튜토리얼 중일땐 틱 안돔
         if (_activePets == null || _activePets.Count <= 0) return; 
 
         for (int i = 0; i < _activePets.Count; i++)

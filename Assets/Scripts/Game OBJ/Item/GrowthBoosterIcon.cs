@@ -63,14 +63,13 @@ public class GrowthBoosterIcon : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        Manager.Game.ShowConfirmMessage("Confirm_UseBooster",0, this); //컨멈 메세지 보내기
+        Manager.Game.ShowConfirmMessage("Confirm_UseBooster", 0, this); //컨멈 메세지 보내기 
     }
     // =====인터페이스 구현 =================
     public void Canceled(int requestNum)
     {
 
     }
-
     public void Confirmed(int requestNum)
     {
         if(requestNum == 0) //부스터 사용
