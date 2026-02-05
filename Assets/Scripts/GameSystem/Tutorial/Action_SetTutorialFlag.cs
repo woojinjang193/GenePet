@@ -16,9 +16,9 @@ public class Action_SetTutorialFlag : TutorialActionBase
         switch(_key)
         {
             case TutorialTriggerKey.FirstVisit: tutorialFlags.FirstVisit = _completed; break;
-            case TutorialTriggerKey.FirstAdult: tutorialFlags.FirstAdult = _completed; break;
             case TutorialTriggerKey.FirstGeneEdit: tutorialFlags.FirstGeneEdit = _completed; break;
             case TutorialTriggerKey.FirstIsland: tutorialFlags.FirstIsland = _completed; break;
+            case TutorialTriggerKey.FirstMissing: tutorialFlags.FirstMissing = _completed; break;
         }
     }
 

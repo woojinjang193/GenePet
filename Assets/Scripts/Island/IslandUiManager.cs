@@ -7,6 +7,7 @@ public class IslandUiManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _panelsToClose;
     [SerializeField] private RewardPopUp _rewardPopUp;
+    [SerializeField] private TutorialController _tutorial;
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class IslandUiManager : MonoBehaviour
     }
     private void OffUisAfterGetEgg() //UI 꺼주기
     {
+        if (_tutorial.IsRunning) return;
         for (int i = 0; i < _panelsToClose.Length; i++)
         {
             _panelsToClose[i].gameObject.SetActive(false);
@@ -33,6 +35,7 @@ public class IslandUiManager : MonoBehaviour
     }
     private void MoveToMainScene()
     {
+        if (_tutorial.IsRunning) return;
         SceneManager.LoadScene("InGameScene");
     }
 }

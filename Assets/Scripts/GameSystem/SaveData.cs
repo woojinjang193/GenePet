@@ -328,7 +328,6 @@ public class UserItemData
 public class TutorialFlags
 {
     public bool FirstVisit;
-    public bool FirstAdult;
     public bool FirstGeneEdit;
     public bool FirstIsland;
     public bool FirstMissing;
@@ -336,7 +335,6 @@ public class TutorialFlags
     public TutorialFlags()
     {
         FirstVisit = false;
-        FirstAdult = false;
         FirstGeneEdit = false;
         FirstIsland = false;
         FirstMissing = false;
