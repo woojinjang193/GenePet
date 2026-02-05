@@ -26,8 +26,8 @@ public class JumpGameDifficultyPreset : ScriptableObject
     public Sprite BackgroundStart;
     [Header("루프")]
     public Sprite BackgroundLoop;
-    [Header("끝")]
-    public Sprite BackgroundEnd;
+   //[Header("끝")]
+   //public Sprite BackgroundEnd;
 
 }
 
