@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class JumpMiniGame : MiniGameBase
 {
     [Header("플레이어")]
+    [SerializeField] private float _playerSpawnY;
     [SerializeField] private JumpPlayerController _player;
     [SerializeField] private MiniGamePetVisualLoader _playerVisual;
 
@@ -73,7 +74,7 @@ public class JumpMiniGame : MiniGameBase
     {
         Camera.main.transform.position = _cameraStartPos; //카메라 포지션 리셋
         _player.gameObject.SetActive(true);
-        _player.gameObject.transform.position = Vector3.zero; //플레이어 포지션 리셋
+        _player.gameObject.transform.position = new Vector3(0f, _playerSpawnY, 0f); //플레이어 포지션 리셋
 
         _player.SetFinalJumpState(false); //플레이어 Ground 충돌 되도록 설정
         _camera.SetFinalJumpState(false);

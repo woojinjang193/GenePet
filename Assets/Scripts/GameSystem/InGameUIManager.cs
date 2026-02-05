@@ -56,7 +56,7 @@ public class InGameUIManager : MonoBehaviour
         }
 
         Manager.Item.OnItemConsumed += AmountChange;
-        Manager.Item.OnItemConsumed += AmountChange;
+        Manager.Item.OnRewardGranted += AmountChange;
     }
 
     private void Start()
@@ -74,7 +74,7 @@ public class InGameUIManager : MonoBehaviour
         if(Manager.Item != null)
         {
             Manager.Item.OnItemConsumed -= AmountChange;
-            Manager.Item.OnItemConsumed -= AmountChange;
+            Manager.Item.OnRewardGranted -= AmountChange;
         }
     }
     // 펫 줌인 시

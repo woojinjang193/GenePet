@@ -110,6 +110,7 @@ public class JumpPlayerController : MonoBehaviour
         //    IsGrounded = false;   // 공중 상태
         //    return;
         //}
+        if (!hit) return;
 
         if (hit.normal.y < _groundNormalMinY) return;  // 옆면 / 경사 심하면 무시
 

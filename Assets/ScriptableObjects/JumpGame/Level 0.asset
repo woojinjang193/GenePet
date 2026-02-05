@@ -53,6 +53,6 @@ MonoBehaviour:
   - RewardType: 19
     Amount: 1
     Weight: 10
-  BackgroundStart: {fileID: 21300000, guid: ad084886cd00d402b99424dd39f8245e, type: 3}
-  BackgroundLoop: {fileID: 21300000, guid: 1c66a9a4570ca44b681ffd9e83c6a773, type: 3}
-  BackgroundEnd: {fileID: 21300000, guid: 6b6ae7e67d4044d64b3a6474cef255b3, type: 3}
+  BackgroundStart: {fileID: 21300000, guid: bb6117036b8259c4294874f0a800986a, type: 3}
+  BackgroundLoop: {fileID: 21300000, guid: bb6117036b8259c4294874f0a800986a, type: 3}
+  BackgroundEnd: {fileID: 21300000, guid: bb6117036b8259c4294874f0a800986a, type: 3}

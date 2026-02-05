@@ -275,94 +275,25 @@ public class ItemManager : Singleton<ItemManager>
     }
     public void UseItem(RewardType type, int amount)
     {
-        var items = Manager.Save.CurrentData.UserData.Items;
-        int newValue;
+        if (amount <= 0) return;
 
+        var items = Manager.Save.CurrentData.UserData.Items;
+
+        ref int value = ref items.Money;
         switch (type)
         {
-            case RewardType.Snack: 
-                if (amount <= 0) 
-                {
-                    break; 
-                }
-                else
-                {
-                    newValue = items.Snack -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.GeneticScissors:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.GeneticScissors -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.GeneticGlue:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.GeneticGlue -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.GrowthBooster:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.GrowthBooster -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.Gem:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.Gem -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.Coin:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.Money -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.GuaranteeSticker:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.GuaranteeSticker -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
+            case RewardType.Snack: value = ref items.Snack; break;
+            case RewardType.GeneticScissors: value = ref items.GeneticScissors; break;
+            case RewardType.GeneticGlue: value = ref items.GeneticGlue; break;
+            case RewardType.GrowthBooster: value = ref items.GrowthBooster; break;
+            case RewardType.Gem: value = ref items.Gem; break;
+            case RewardType.Coin: value = ref items.Money; break;
+            case RewardType.GuaranteeSticker: value = ref items.GuaranteeSticker; break;
+            default: return;
         }
+
+        value -= amount;
+        if (value < 0) value = 0;  // 0 미만 방지
+        OnItemConsumed?.Invoke(type, value); // 아이템 사용 이벤트
     }
 }
