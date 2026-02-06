@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PopUp_AleadyGuaranteed
   m_EditorClassIdentifier: 
   KOR: "\uC774\uBBF8 \uC6B0\uC120 \uC801\uC6A9\uB41C \uC720\uC804\uC790\uC785\uB2C8\uB2E4."
-  ENG: This gene already has Priority Apply.
-  DE: "F\xFCr dieses Gen wurde \u201EPriorit\xE4t anwenden\u201C bereits verwendet."
-  SP: "Este gen ya tiene \xABAplicaci\xF3n prioritaria\xBB."
-  JP: "\u3053\u306E\u907A\u4F1D\u5B50\u306B\u306F\u3059\u3067\u306B\u512A\u5148\u9069\u7528\u3055\u308C\u3066\u3044\u307E\u3059\u3002"
-  CHS: "\u8BE5\u57FA\u56E0\u5DF2\u88AB\u4F18\u5148\u9002\u7528\u3002"
-  CHT: "\u8A72\u57FA\u56E0\u5DF2\u88AB\u512A\u5148\u9069\u7528\u3002"
+  ENG: This gene already has Dominant Priority.
+  DE: Dieses Gen hat bereits Dominant Priority.
+  SP: Este gen ya tiene Prioridad Dominante.
+  JP: "\u3053\u306E\u907A\u4F1D\u5B50\u306B\u306F\u3059\u3067\u306B\u512A\u6027\u512A\u5148\u6A29\u304C\u4ED8\u4E0E\u3055\u308C\u3066\u3044\u307E\u3059\u3002"
+  CHS: "\u8BE5\u57FA\u56E0\u5DF2\u8D4B\u4E88\u4F18\u6027\u4F18\u5148\u6743\u3002"
+  CHT: "\u8A72\u57FA\u56E0\u5DF2\u8CE6\u4E88\u512A\u6027\u512A\u5148\u6B0A\u3002"

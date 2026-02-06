@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: PopUp_TooYoungForInfo
   m_EditorClassIdentifier: 
-  KOR: "\uD3AB\uC774 \uB108\uBB34 \uC5B4\uB9BD\uB2C8\uB2E4."
-  ENG: This pet is too young.
-  DE: Dieses Haustier ist zu jung.
-  SP: Esta mascota es demasiado joven.
-  JP: "\u30DA\u30C3\u30C8\u304C\u307E\u3060\u5E7C\u3059\u304E\u307E\u3059\u3002"
-  CHS: "\u8FD9\u53EA\u5BA0\u7269\u592A\u5E7C\u5C0F\u4E86\u3002"
-  CHT: "\u9019\u96BB\u5BF5\u7269\u592A\u5E7C\u5C0F\u4E86\u3002"
+  KOR: "\uD398\uC774\uCF13\uC774 \uC544\uC9C1 \uB108\uBB34 \uC5B4\uB9BD\uB2C8\uB2E4."
+  ENG: This Faecat is still too young.
+  DE: Dieser Faecat ist noch zu jung.
+  SP: "Este Faecat a\xFAn es demasiado joven."
+  JP: "\u3053\u306E\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u306F\u307E\u3060\u5E7C\u3059\u304E\u307E\u3059\u3002"
+  CHS: "\u8FD9\u53EA\u8D39\u732B\u8FD8\u592A\u5C0F\u3002"
+  CHT: "\u9019\u96BB\u8CBB\u8C93\u9084\u592A\u5C0F\u3002"

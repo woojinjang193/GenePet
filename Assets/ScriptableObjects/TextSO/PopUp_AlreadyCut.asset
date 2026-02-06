@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KOR: "\uC774\uBBF8 \uC798\uB9B0 \uC720\uC804\uC790\uC5D0\uB294 \uC0AC\uC6A9\uD560
     \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
-  ENG: You can't use this on a gene that has already been cut.
-  DE: Das kann nicht auf ein bereits abgeschnittenes Gen angewendet werden.
-  SP: No puedes usar esto en un gen que ya ha sido cortado.
-  JP: "\u3059\u3067\u306B\u5207\u308A\u53D6\u3089\u308C\u305F\u907A\u4F1D\u5B50\u306B\u306F\u4F7F\u7528\u3067\u304D\u307E\u305B\u3093\u3002"
-  CHS: "\u65E0\u6CD5\u5BF9\u5DF2\u88AB\u526A\u5207\u7684\u57FA\u56E0\u4F7F\u7528\u3002"
-  CHT: "\u7121\u6CD5\u5C0D\u5DF2\u88AB\u526A\u5207\u7684\u57FA\u56E0\u4F7F\u7528\u3002"
+  ENG: Cannot be used on a gene that has already been cut.
+  DE: Kann nicht auf ein bereits geschnittenes Gen angewendet werden.
+  SP: No se puede usar en un gen que ya ha sido cortado.
+  JP: "\u3059\u3067\u306B\u5207\u3089\u308C\u305F\u907A\u4F1D\u5B50\u306B\u306F\u4F7F\u7528\u3067\u304D\u307E\u305B\u3093\u3002"
+  CHS: "\u65E0\u6CD5\u7528\u4E8E\u5DF2\u88AB\u526A\u6389\u7684\u57FA\u56E0\u3002"
+  CHT: "\u7121\u6CD5\u7528\u65BC\u5DF2\u88AB\u526A\u6389\u7684\u57FA\u56E0\u3002"

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Fixed_SpawnRandomPet
   m_EditorClassIdentifier: 
   KOR: "\uB79C\uB364 \uC18C\uD658"
-  ENG: Random Spawn
-  DE: "Zufallsbeschw\xF6rung"
+  ENG: Random Summon
+  DE: "Zuf\xE4llige Beschw\xF6rung"
   SP: "Invocaci\xF3n aleatoria"
   JP: "\u30E9\u30F3\u30C0\u30E0\u53EC\u559A"
   CHS: "\u968F\u673A\u53EC\u5524"

@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Tutorial_FirstVisit6
   m_EditorClassIdentifier: 
-  KOR: "\uC5EC\uC12F\uBED4\uCA30"
-  ENG: "\uC5EC\uC12F\uBED4\uCA30"
-  DE: "\uC5EC\uC12F\uBED4\uCA30"
-  SP: "\uC5EC\uC12F\uBED4\uCA30"
-  JP: "\uC5EC\uC12F\uBED4\uCA30"
-  CHS: "\uC5EC\uC12F\uBED4\uCA30"
-  CHT: "\uC5EC\uC12F\uBED4\uCA30"
+  KOR: "\uCC98\uC74C\uC774\uB77C \uC798 \uBAA8\uB974\uC2DC\uB294 \uAC83\uB4E4\uC740
+    \uC81C\uAC00 \uAC00\uB054 \uC54C\uB824\uB4DC\uB9AC\uB7EC \uC62C\uD14C\uB2C8 \uAC71\uC815
+    \uB9C8\uC138\uC694."
+  ENG: If there's anything you don't know yet, I'll come by from time to time to
+    explain, so don't worry.
+  DE: "Wenn es etwas gibt, das du noch nicht wei\xDFt, komme ich ab und zu vorbei
+    und erkl\xE4re es dir \u2013 also keine Sorge."
+  SP: "Si hay cosas que a\xFAn no sabes porque es tu primera vez, vendr\xE9 de vez
+    en cuando a explic\xE1rtelas, as\xED que no te preocupes."
+  JP: "\u521D\u3081\u3066\u3067\u5206\u304B\u3089\u306A\u3044\u3053\u3068\u306F\u3001\u79C1\u304C\u6642\u3005\u6559\u3048\u306B\u6765\u308B\u306E\u3067\u5FC3\u914D\u3057\u306A\u3044\u3067\u304F\u3060\u3055\u3044\u3002"
+  CHS: "\u7B2C\u4E00\u6B21\u4E0D\u592A\u6E05\u695A\u7684\u4E8B\u60C5\uFF0C\u6211\u4F1A\u5076\u5C14\u6765\u544A\u8BC9\u4F60\uFF0C\u6240\u4EE5\u522B\u62C5\u5FC3\u3002"
+  CHT: "\u7B2C\u4E00\u6B21\u4E0D\u592A\u6E05\u695A\u7684\u4E8B\u60C5\uFF0C\u6211\u6703\u5076\u723E\u4F86\u544A\u8A34\u4F60\uFF0C\u6240\u4EE5\u5225\u64D4\u5FC3\u3002"

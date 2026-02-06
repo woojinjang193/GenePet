@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: PopUp_AlreadyMaxPet
   m_EditorClassIdentifier: 
-  KOR: "\uC774\uBBF8 \uCD5C\uB300 \uC218\uC758 \uD3AB\uC744 \uBCF4\uC720\uD558\uACE0
+  KOR: "\uC774\uBBF8 \uCD5C\uB300 \uC218\uC758 \uD398\uC774\uCF13\uC744 \uBCF4\uC720\uD558\uACE0
     \uC788\uC2B5\uB2C8\uB2E4."
-  ENG: You already have the maximum number of pets.
-  DE: Du besitzt bereits die maximale Anzahl an Haustieren.
-  SP: "Ya tienes el n\xFAmero m\xE1ximo de mascotas."
-  JP: "\u3059\u3067\u306B\u6700\u5927\u6570\u306E\u30DA\u30C3\u30C8\u3092\u6240\u6301\u3057\u3066\u3044\u307E\u3059\u3002"
-  CHS: "\u5DF2\u62E5\u6709\u6700\u5927\u6570\u91CF\u7684\u5BA0\u7269\u3002"
-  CHT: "\u5DF2\u64C1\u6709\u6700\u5927\u6578\u91CF\u7684\u5BF5\u7269\u3002"
+  ENG: You already have the maximum number of Faecats.
+  DE: Du besitzt bereits die maximale Anzahl an Faecats.
+  SP: "Ya tienes el n\xFAmero m\xE1ximo de Faecats."
+  JP: "\u3059\u3067\u306B\u6700\u5927\u6570\u306E\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u3092\u6240\u6301\u3057\u3066\u3044\u307E\u3059\u3002"
+  CHS: "\u4F60\u5DF2\u62E5\u6709\u6700\u5927\u6570\u91CF\u7684\u8D39\u732B\u3002"
+  CHT: "\u4F60\u5DF2\u64C1\u6709\u6700\u5927\u6578\u91CF\u7684\u8CBB\u8C93\u3002"

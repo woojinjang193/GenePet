@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PopUp_EmptyName
   m_EditorClassIdentifier: 
   KOR: "\uC774\uB984\uC740 \uBE44\uC6CC\uB458 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
-  ENG: The name cannot be empty.
+  ENG: Name cannot be empty.
   DE: Der Name darf nicht leer sein.
   SP: "El nombre no puede estar vac\xEDo."
-  JP: "\u540D\u524D\u306F\u7A7A\u6B04\u306B\u3067\u304D\u307E\u305B\u3093\u3002"
+  JP: "\u540D\u524D\u306F\u7A7A\u306B\u3067\u304D\u307E\u305B\u3093\u3002"
   CHS: "\u540D\u5B57\u4E0D\u80FD\u4E3A\u7A7A\u3002"
   CHT: "\u540D\u5B57\u4E0D\u80FD\u70BA\u7A7A\u3002"

@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Tutorial_FirstVisit1
   m_EditorClassIdentifier: 
-  KOR: "\uBC18\uAC00\uC6CC\uC6A9"
-  ENG: "\uBC18\uAC00\uC6CC\uC6A9"
-  DE: "\uBC18\uAC00\uC6CC\uC6A9"
-  SP: "\uBC18\uAC00\uC6CC\uC6A9"
-  JP: "\uBC18\uAC00\uC6CC\uC6A9"
-  CHS: "\uBC18\uAC00\uC6CC\uC6A9"
-  CHT: "\uBC18\uAC00\uC6CC\uC6A9"
+  KOR: "\uBC18\uAC00\uC6CC\uC694!\n\uC800\uB294 \uAC00\uC774\uB4DC \uC774\uD30C\uC5D0\uC694!"
+  ENG: 'Nice to meet you!
+
+    I''m Eva, your guide!'
+  DE: "Sch\xF6n, dich kennenzulernen!\nIch bin Eva, dein Guide!"
+  SP: "\xA1Encantada de conocerte!\n\xA1Soy Eva, tu gu\xEDa!"
+  JP: "\u306F\u3058\u3081\u307E\u3057\u3066\uFF01\n\u30AC\u30A4\u30C9\u306E\u30A8\u30FC\u30D5\u30A1\u3067\u3059\uFF01"
+  CHS: "\u4F60\u597D\uFF01\n\u6211\u662F\u5F15\u5BFC\u5458Eva\uFF01"
+  CHT: "\u4F60\u597D\uFF01\n\u6211\u662F\u5F15\u5C0E\u54E1Eva\uFF01"

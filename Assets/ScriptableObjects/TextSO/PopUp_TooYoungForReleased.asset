@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: PopUp_TooYoungForReleased
   m_EditorClassIdentifier: 
-  KOR: "\uC54C\uC740 \uBC29\uC0DD\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
-  ENG: Eggs cannot be released.
-  DE: "Eier k\xF6nnen nicht freigelassen werden."
-  SP: No se pueden liberar los huevos.
-  JP: "\u5375\u306F\u653E\u751F\u3067\u304D\u307E\u305B\u3093\u3002"
-  CHS: "\u86CB\u65E0\u6CD5\u653E\u751F\u3002"
-  CHT: "\u86CB\u7121\u6CD5\u653E\u751F\u3002"
+  KOR: "\uC54C\uC740 \uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
+  ENG: Eggs cannot be sent away.
+  DE: "Eier k\xF6nnen nicht weggeschickt werden."
+  SP: No se pueden enviar huevos.
+  JP: "\u5375\u306F\u9001\u308C\u307E\u305B\u3093\u3002"
+  CHS: "\u65E0\u6CD5\u9001\u8D70\u86CB\u3002"
+  CHT: "\u7121\u6CD5\u9001\u8D70\u86CB\u3002"

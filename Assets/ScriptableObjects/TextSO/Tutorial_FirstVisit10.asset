@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Tutorial_FirstVisit10
   m_EditorClassIdentifier: 
-  KOR: "\uC774\uC81C \uC54C\uC744 \uC18C\uD658\uD574 \uBD10\uC694!"
-  ENG: "\uC774\uC81C \uC54C\uC744 \uC18C\uD658\uD574 \uBD10\uC694!"
-  DE: "\uC774\uC81C \uC54C\uC744 \uC18C\uD658\uD574 \uBD10\uC694!"
-  SP: "\uC774\uC81C \uC54C\uC744 \uC18C\uD658\uD574 \uBD10\uC694!"
-  JP: "\uC774\uC81C \uC54C\uC744 \uC18C\uD658\uD574 \uBD10\uC694!"
-  CHS: "\uC774\uC81C \uC54C\uC744 \uC18C\uD658\uD574 \uBD10\uC694!"
-  CHT: "\uC774\uAC8C \uB9C8\uC9C0\uB9C9"
+  KOR: "\uBA3C\uC800, \uC54C\uC744 \uC18C\uD658\uD574 \uBD10\uC694!"
+  ENG: "First, let\u2019s summon an egg!"
+  DE: "Zuerst: Lass uns ein Ei beschw\xF6ren!"
+  SP: "Primero, \xA1vamos a invocar un huevo!"
+  JP: "\u307E\u305A\u306F\u3001\u5375\u3092\u53EC\u559A\u3057\u3066\u307F\u307E\u3057\u3087\u3046\uFF01"
+  CHS: "\u9996\u5148\uFF0C\u6765\u53EC\u5524\u4E00\u679A\u86CB\u5427\uFF01"
+  CHT: "\u9996\u5148\uFF0C\u4F86\u53EC\u559A\u4E00\u9846\u86CB\u5427\uFF01"
