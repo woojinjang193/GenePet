@@ -1699,9 +1699,9 @@ RectTransform:
   - {fileID: 177068452}
   m_Father: {fileID: 2142391317}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 460, y: -107.65674}
   m_SizeDelta: {x: 500, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &602775825
@@ -2637,9 +2637,9 @@ RectTransform:
   - {fileID: 1294106567}
   m_Father: {fileID: 1822819287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 460, y: -422.0298}
   m_SizeDelta: {x: 920, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &838926224
@@ -3838,8 +3838,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 636375859}
   _jumpManager: {fileID: 850357990}
-  _gap: 1.5
-  _distanceFromPlayer: 2
+  _gap: 1
+  _distanceFromPlayer: 1
   _cameraMoveSpeed: 7
   _finalJumpYOffset: 1
   _finalJumpFollowSpeed: 50
@@ -4454,9 +4454,9 @@ RectTransform:
   - {fileID: 1694201438}
   m_Father: {fileID: 2142391317}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 460, y: -538.2837}
   m_SizeDelta: {x: 500, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1401903311
@@ -7297,9 +7297,9 @@ RectTransform:
   - {fileID: 1154681357}
   m_Father: {fileID: 2142391317}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 460, y: -322.9702}
   m_SizeDelta: {x: 500, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1905947033
@@ -8229,9 +8229,9 @@ RectTransform:
   - {fileID: 1401903310}
   m_Father: {fileID: 1822819287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 460, y: -1195}
   m_SizeDelta: {x: 920, y: 645.9404}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2142391318

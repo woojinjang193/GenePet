@@ -566,6 +566,10 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         {
             _guaranteeStickerAmount.text = $"x{newValue}";
         }
+        else if(type == RewardType.GeneticTester)
+        {
+            _testerAmount.text = $"x{newValue}";
+        }
 
         Debug.Log($"아이템 사용: {type}이 {newValue} 남음");
     }
