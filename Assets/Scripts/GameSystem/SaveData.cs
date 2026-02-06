@@ -233,7 +233,7 @@ public class PetSaveData
         Genes = new GenesContainer();
 
         GrowthStage = GrowthStatus.Egg;
-        Hunger = 100f;
+        Hunger = 60f;
         Happiness = 0f;
         Cleanliness = 100f;
         Health = 100f;

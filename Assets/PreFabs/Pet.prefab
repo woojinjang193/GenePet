@@ -1893,6 +1893,11 @@ MonoBehaviour:
   _openMouthForMedicine: {fileID: 21300000, guid: 9add2caf0c8ffd3438f388056f17d730, type: 3}
   _closeEyesWithTear: {fileID: 21300000, guid: 0394190f7c03a0a4291a6d55bf257456, type: 3}
   _closeEyesSprite: {fileID: 21300000, guid: daadb6a7b6e516b4fae30e75bb52f7e2, type: 3}
+  _nyeinSprites:
+  - {fileID: 21300000, guid: 264e40ef63aa7ba4aa75cdcea57c5978, type: 3}
+  - {fileID: 21300000, guid: bea4337207512b948a02ed5658dc1e82, type: 3}
+  - {fileID: 21300000, guid: cd35bc8ba137e56448e9aeb0537f1b25, type: 3}
+  _nyeinSpeed: 0.1
   _mouthAnim: {fileID: 261560373855071590}
 --- !u!114 &6732684128749624926
 MonoBehaviour:
