@@ -1657,6 +1657,7 @@ GameObject:
   - component: {fileID: 61010731}
   - component: {fileID: 61010730}
   - component: {fileID: 61010729}
+  - component: {fileID: 61010732}
   m_Layer: 5
   m_Name: Button Gift
   m_TagString: Untagged
@@ -1767,6 +1768,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61010727}
   m_CullTransparentMesh: 1
+--- !u!114 &61010732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61010727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f943fc0b6d9011143a2066d6d86c738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &67864723
 GameObject:
   m_ObjectHideFlags: 0
@@ -4883,7 +4896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ef54a037652a54aa0edaabd0140e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 0}
+  _button: {fileID: 839409442}
 --- !u!114 &325919623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4949,6 +4962,7 @@ GameObject:
   - component: {fileID: 349639021}
   - component: {fileID: 349639020}
   - component: {fileID: 349639019}
+  - component: {fileID: 349639022}
   m_Layer: 5
   m_Name: Gene Test Button Island Pet
   m_TagString: Untagged
@@ -5071,6 +5085,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349639017}
   m_CullTransparentMesh: 1
+--- !u!114 &349639022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349639017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f943fc0b6d9011143a2066d6d86c738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &354632710
 GameObject:
   m_ObjectHideFlags: 0
@@ -9794,6 +9820,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 837779680}
+--- !u!114 &839409442 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3768319957745164278, guid: 98eaeb8ea0bc3dc43a3ac3e95c78e69c, type: 3}
+  m_PrefabInstance: {fileID: 29615703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &846298016
 GameObject:
   m_ObjectHideFlags: 0
@@ -9806,6 +9843,7 @@ GameObject:
   - component: {fileID: 846298020}
   - component: {fileID: 846298019}
   - component: {fileID: 846298018}
+  - component: {fileID: 846298021}
   m_Layer: 5
   m_Name: Delete Island
   m_TagString: Untagged
@@ -9916,6 +9954,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846298016}
   m_CullTransparentMesh: 1
+--- !u!114 &846298021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846298016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f943fc0b6d9011143a2066d6d86c738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &847200133
 GameObject:
   m_ObjectHideFlags: 0
@@ -10469,6 +10519,7 @@ GameObject:
   - component: {fileID: 914707278}
   - component: {fileID: 914707277}
   - component: {fileID: 914707276}
+  - component: {fileID: 914707279}
   m_Layer: 5
   m_Name: Go Back Home Button
   m_TagString: Untagged
@@ -10578,6 +10629,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914707274}
   m_CullTransparentMesh: 1
+--- !u!114 &914707279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914707274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f943fc0b6d9011143a2066d6d86c738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &917168521
 GameObject:
   m_ObjectHideFlags: 0
@@ -10726,6 +10789,7 @@ MonoBehaviour:
   - {fileID: 933703293}
   - {fileID: 933703292}
   - {fileID: 933703291}
+  - {fileID: 933703299}
   _conditions:
   - {fileID: 933703290}
   _includeChildren: 0
@@ -12298,6 +12362,7 @@ GameObject:
   - component: {fileID: 1145279028}
   - component: {fileID: 1145279027}
   - component: {fileID: 1145279026}
+  - component: {fileID: 1145279029}
   m_Layer: 5
   m_Name: Gene Test Button my Pet
   m_TagString: Untagged
@@ -12420,6 +12485,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145279024}
   m_CullTransparentMesh: 1
+--- !u!114 &1145279029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145279024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f943fc0b6d9011143a2066d6d86c738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1157549531
 GameObject:
   m_ObjectHideFlags: 0
@@ -13334,7 +13411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ef54a037652a54aa0edaabd0140e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 0}
+  _button: {fileID: 687319358}
 --- !u!114 &1330429844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13953,7 +14030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ef54a037652a54aa0edaabd0140e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 0}
+  _button: {fileID: 687319358}
 --- !u!114 &1363878269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18075,6 +18152,7 @@ GameObject:
   - component: {fileID: 1882229558}
   - component: {fileID: 1882229557}
   - component: {fileID: 1882229556}
+  - component: {fileID: 1882229559}
   m_Layer: 5
   m_Name: Select Pet Button
   m_TagString: Untagged
@@ -18197,6 +18275,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882229554}
   m_CullTransparentMesh: 1
+--- !u!114 &1882229559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882229554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f943fc0b6d9011143a2066d6d86c738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1900350978
 GameObject:
   m_ObjectHideFlags: 0

@@ -186,16 +186,19 @@ public class PetVisualController : MonoBehaviour
         {
             _renderers.Eye.sprite = _smileEye;
             _pettingParticle.Play();
+            Manager.Audio.PlaySFXExclusive("Petting", true); //SFX Exclusive
         }
         else
         {
             _renderers.Eye.sprite = _ogEye;
             _pettingParticle.Stop();
+            Manager.Audio.StopSFXExclusive();
         }
     }
     //===============성장 파티클 이벤트=================================
     public void OnGrown(GrowthStatus newGrowth)
     {
         if (_growParticle != null) _growParticle.Emit(30);
+        Manager.Audio.PlaySFX("Grow"); // SFX Grow
     }
 }

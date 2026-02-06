@@ -13,12 +13,54 @@ MonoBehaviour:
   m_Name: Audio Data Base
   m_EditorClassIdentifier: 
   _audioList:
-  - key: BGM_Test
-    clip: {fileID: 8300000, guid: f646d488337c94084b47e56752970960, type: 3}
+  - key: BGM_Main
+    clip: {fileID: 8300000, guid: af195dcba53d1d34480c068841c0aef9, type: 3}
+    baseVolume: 0.5
+  - key: BGM_Shop
+    clip: {fileID: 8300000, guid: 0261ddfba7ce90d4996e1e6f93e8cc9c, type: 3}
+    baseVolume: 0.5
+  - key: BGM_Pinball
+    clip: {fileID: 8300000, guid: ea274e8415691f74b92b1158171ffd63, type: 3}
+    baseVolume: 0.5
+  - key: BGM_Jump
+    clip: {fileID: 0}
+    baseVolume: 0.5
+  - key: BGM_Rythm
+    clip: {fileID: 0}
+    baseVolume: 0.5
+  - key: BGM_GeneEdit
+    clip: {fileID: 0}
+    baseVolume: 0.5
+  - key: BGM_Island
+    clip: {fileID: 0}
+    baseVolume: 0.5
+  - key: BGM_Island
+    clip: {fileID: 0}
     baseVolume: 0.5
   - key: Button
-    clip: {fileID: 8300000, guid: 9cb19eb032d304b07acec596ae2ce4a4, type: 3}
+    clip: {fileID: 8300000, guid: 144905942e5425d48828e6ef1e698fb9, type: 3}
     baseVolume: 1
-  - key: Thunder
-    clip: {fileID: 8300000, guid: 35e4f1431945c43fc9e5bf6e158e8d1c, type: 3}
+  - key: Petting
+    clip: {fileID: 8300000, guid: 3d28d246c5c98954c989c2e8e4812d8e, type: 3}
+    baseVolume: 1
+  - key: ZoomPet
+    clip: {fileID: 0}
+    baseVolume: 1
+  - key: Feed
+    clip: {fileID: 8300000, guid: 0d40804c954f7a14bb643596de4a5a52, type: 3}
+    baseVolume: 1
+  - key: Full
+    clip: {fileID: 0}
+    baseVolume: 1
+  - key: Wash
+    clip: {fileID: 8300000, guid: 26c1a600b65e60b40b9cf64c6bb6b1f2, type: 3}
+    baseVolume: 1
+  - key: Snack
+    clip: {fileID: 0}
+    baseVolume: 1
+  - key: Grow
+    clip: {fileID: 8300000, guid: 18e7a977900e54e27a8c431b34ffc659, type: 3}
+    baseVolume: 1
+  - key: OpenLetter
+    clip: {fileID: 0}
     baseVolume: 1

@@ -62,10 +62,12 @@ public sealed class PetController : MonoBehaviour
         {
             Debug.Log("이미 배부름");
             _mouthAnim.SetTrigger("Full");
+            Manager.Audio.PlaySFXExclusive("Full"); // SFX Full Exclusive
             return;
         }
 
         Eat(_mealFullnessGain, _mealCleanlinessDecrease);
+        Manager.Audio.PlaySFXExclusive("Feed"); // SFX Feed Exclusive
         Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
 
         Debug.Log($"{Status.Hunger}, {_canFeedPetBelow}");
@@ -79,12 +81,14 @@ public sealed class PetController : MonoBehaviour
         {
             Debug.Log("이미 배부름");
             _mouthAnim.SetTrigger("Full");
+            Manager.Audio.PlaySFXExclusive("Full"); // SFX Full Exclusive
             return;
         }
 
         _pet.Status.IncreaseEXP(_snackExpGain);
         Eat(_snackFullnessGain, _snackCleanlinessDecrease);
         Manager.Item.UseItem(RewardType.Snack, 1);
+        Manager.Audio.PlaySFXExclusive("Feed"); // SFX Feed Exclusive
         Debug.Log($"스낵먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 

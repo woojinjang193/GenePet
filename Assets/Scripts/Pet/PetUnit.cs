@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PetUnit : MonoBehaviour 
+public class PetUnit : MonoBehaviour
 {
     [Header("쓰다듬기")]
     [SerializeField] private PetPetting _petting;

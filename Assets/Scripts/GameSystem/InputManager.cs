@@ -95,6 +95,7 @@ public class InputManager : MonoBehaviour
             {
                 //Debug.Log($"HIT PetUnit obj={pet.gameObject.name}, PetId='{pet.PetId}'");
                 _petManager.ZoomInPet(pet);
+                Manager.Audio.PlaySFX("ZoomPet");// SPX ZoomPet
                 Debug.Log($"{pet.PetId} 줌인");
             }
         }

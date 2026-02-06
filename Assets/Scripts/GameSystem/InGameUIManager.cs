@@ -62,7 +62,7 @@ public class InGameUIManager : MonoBehaviour
     private void Start()
     {
         CheckTutorialFlag(); //튜토리얼 체크
-        Manager.Audio.PlayBGM("BGM_Test"); //비지엠 재생
+        Manager.Audio.PlayBGM("BGM_Main"); //비지엠 재생
     }
     private void OnEnable()
     {
