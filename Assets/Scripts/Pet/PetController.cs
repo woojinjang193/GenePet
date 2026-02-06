@@ -137,7 +137,9 @@ public sealed class PetController : MonoBehaviour
         
         Status.SetFlag(PetFlag.IsSick, false);
         Status.IncreaseStat(PetStat.Health, 10f); //치료시 증가하는 체력 수치
+
         _pet.Petmanager.UpdateStatus();
+        _pet.PetCured();
         Debug.Log($"아픔 : {Status.IsSick}");
     }
     private void OnTriggerEnter2D(Collider2D collision)

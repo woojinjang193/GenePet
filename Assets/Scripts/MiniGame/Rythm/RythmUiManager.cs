@@ -13,6 +13,10 @@ public class RythmUiManager : MonoBehaviour
     [Header("타이틀 판넬")]
     [SerializeField] private RythmGameTitlePanel _titlePanel;
 
+    private void Start()
+    {
+        Manager.Audio.PlayBGM("BGM_Rythm");
+    }
     public void SetHeart(int amount) //하트 켜줌
     {
         if (amount <= 0) return;

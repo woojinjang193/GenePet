@@ -17,6 +17,10 @@ public class IslandUiManager : MonoBehaviour
         }
         _rewardPopUp.OnEndQeueu += MoveToMainScene; //보상 팝업 끝난후 처리
     }
+    private void Start()
+    {
+        Manager.Audio.PlayBGM("BGM_Island");
+    }
     private void OnDestroy()
     {
         if (Manager.Item != null)

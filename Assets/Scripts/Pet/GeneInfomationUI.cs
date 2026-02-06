@@ -84,6 +84,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     private Color _defaultColor = Color.white; //버튼 디폴트 컬러
     private PartType _curPart; //현재 조회중인 파츠 타입
 
+    private string _curBgmKey;
     private void Awake()
     {
         _holders.AddRange(GetComponentsInChildren<PartTypeHolder>());
@@ -112,6 +113,13 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         _scissorsAmount.text = $"x{_userItemData.GeneticScissors}"; //가위 숫자
         _glueAmount.text = $"x{_userItemData.GeneticGlue}"; //풀 숫자
         _guaranteeStickerAmount.text = $"x{_userItemData.GuaranteeSticker}"; //확정 숫자
+
+        _curBgmKey = Manager.Audio.CurBgmKey;
+        Manager.Audio.PlayBGM("BGM_GeneEdit");
+    }
+    private void OnDisable()
+    {
+        Manager.Audio.PlayBGM("_curBgmKey");
     }
     private void OnDestroy()
     {
@@ -134,6 +142,8 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
             {
                 Manager.Save.CurrentData.UserData.Items.geneticTester--;
                 _curPet.IsInfoUnlocked = true;
+
+                Manager.Audio.PlaySFXExclusive("GeneTester");
                 Debug.Log($"언락 : {_curPet.IsInfoUnlocked}");
                 Debug.Log($"남은 테스터 개수 : {Manager.Save.CurrentData.UserData.Items.geneticTester}");
             }
@@ -213,7 +223,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
             if (!_curPair.IsDominantCut)
                 _curPair.IsRecessiveCut = true;
         }
-
+        Manager.Audio.PlaySFXExclusive("GenScissors");
         Manager.Item.UseItem(RewardType.GeneticScissors, 1);
         ResetButtons();
     }
@@ -234,7 +244,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         {
             _curPair.IsRecessiveCut = false;
         }
-
+        Manager.Audio.PlaySFXExclusive("GenGlue");
         Manager.Item.UseItem(RewardType.GeneticGlue, 1);
 
         ResetButtons();
@@ -583,13 +593,14 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         else if (requestNum == 1) //유전자 스티커 사용 (우성용)
         {
             _curPair.IsDoGuaranteed = true;
-
+            Manager.Audio.PlaySFXExclusive("GenGuaranter");
             Manager.Item.UseItem(RewardType.GuaranteeSticker, 1);
             ResetButtons();
         }
         else if (requestNum == 2)//유전자 스티커 사용 (열성용)
         {
             _curPair.IsReGuaranteed = true;
+            Manager.Audio.PlaySFXExclusive("GenGuaranter");
             Manager.Item.UseItem(RewardType.GuaranteeSticker, 1);
             ResetButtons();
         }

@@ -141,6 +141,7 @@ public class JumpMiniGame : MiniGameBase
 
         float rate = _chargeTime / _maxChargeTime; // 0~1 차지 비율
         _player.SetChargeVisual(rate); //납작 연출 전달
+        Manager.Audio.PlaySFXExclusive("Charge");
     }
 
     // ================= 점프 =================
@@ -151,7 +152,7 @@ public class JumpMiniGame : MiniGameBase
                                                                                 // 
         float power = _basePower * chargeRate * _jumpPowerMul; // 최종 점프 파워 계산
 
-        float rad = _jumpAngle * Mathf.Deg2Rad;                // 각도 → 라디안 변환
+        float rad = _jumpAngle * Mathf.Deg2Rad;                // 각도 > 라디안 변환
 
         Vector2 jumpDir = new Vector2(                          // 점프 방향 벡터 생성
             Mathf.Cos(rad) * _direction,                        // 좌/우 반영

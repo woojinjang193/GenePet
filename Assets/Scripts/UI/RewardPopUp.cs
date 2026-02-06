@@ -65,5 +65,7 @@ public class RewardPopUp : MonoBehaviour
             _icon.sprite = _ItemsSO.GetItemSprite(reward.RewardType); //아이템 스프라이트
             _amount.text = $"x {reward.Amount}";
         }
+
+        Manager.Audio.PlaySFXExclusive("GetReward"); //SFX GetReward Excusive
     }
 }

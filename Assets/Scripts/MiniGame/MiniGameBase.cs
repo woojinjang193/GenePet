@@ -27,11 +27,6 @@ public class MiniGameBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        if(Manager.Audio != null)
-        {
-            Manager.Audio.StopBGM();
-        }
-
         _gainedItems.Clear();    // 보상 기록 초기화
         _gainedEggs.Clear();     //알 보상 초기화
         _isRewardsFinalized = false; //지급 가드 초기화
@@ -73,6 +68,7 @@ public class MiniGameBase : MonoBehaviour
     }
     protected virtual void GameOver()
     {
+        Manager.Audio.PlaySFX("GameOver");
         _isPlaying = false;
         GainMoneyByScore();
 

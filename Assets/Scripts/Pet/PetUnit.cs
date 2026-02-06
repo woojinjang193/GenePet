@@ -163,4 +163,9 @@ public class PetUnit : MonoBehaviour
 
         Manager.Save.SaveGame(); //즉시 저장
     }
+    //==============펫 치료=====================
+    public void PetCured()
+    {
+        _visul.PalyCuredParticle();
+    }
 }

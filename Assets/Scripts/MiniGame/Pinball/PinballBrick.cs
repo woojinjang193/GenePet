@@ -53,7 +53,7 @@ public class PinballBrick : MonoBehaviour
         _curHp -= damage;
         if (_curHp > 0)
         {
-            // TODO: 히트 연출(사운드)
+            Manager.Audio.PlaySFX("BrickHit");
             _brickRenderer.sprite = _spriteSO.GetSprite(_type ,_curHp);
             return;
         }
@@ -72,7 +72,7 @@ public class PinballBrick : MonoBehaviour
         {
             OnGiveItem?.Invoke(_data.ColorName, _data.Reward, worldPos); //아이템 이벤트 발생
         }
-
+        Manager.Audio.PlaySFX("BrickBroke");
         gameObject.SetActive(false); // 비활성화
     }
     private void VisualSetting()

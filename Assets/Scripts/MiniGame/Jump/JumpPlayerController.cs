@@ -191,6 +191,7 @@ public class JumpPlayerController : MonoBehaviour
             dir.normalized * power,  // 방향 정규화 후 파워 곱함
             ForceMode2D.Impulse   // 즉시 힘 적용
         );
+        Manager.Audio.PlaySFXExclusive("Jump");
         //Debug.Log($"{power}의 파워로 점프함");
     }
     // ================= 충돌 처리 =================
@@ -200,6 +201,7 @@ public class JumpPlayerController : MonoBehaviour
         {
             if (col.TryGetComponent<ItemForMiniGame>(out var item))
             {
+                Manager.Audio.PlaySFX("GetItem");
                 _jumpGame.OnItemCollected(item.Reward, item.Amount); // 로직에 전달
             }
 
