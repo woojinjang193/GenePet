@@ -55,6 +55,9 @@ public sealed class PetController : MonoBehaviour
         _snackExpGain = config.SnackExpGain;
         _snackCleanlinessDecrease = config.SnackCleanlinessDecrease;
         _canFeedPetBelow = config.CanFeedPetBelow;
+
+        _ogMouth = _mouth.sprite; //TEST
+        _ogEye = _eye.sprite;//TEST
     }
 
     public PetStatusCore Status
@@ -141,16 +144,16 @@ public sealed class PetController : MonoBehaviour
     {
         if (collision.CompareTag("Food"))
         {
-            _ogMouth = _mouth.sprite;
-            _ogEye = _eye.sprite;
+            //_ogMouth = _mouth.sprite;
+            //_ogEye = _eye.sprite;
             _mouth.sprite = _openMouthSprite;
             _eye.sprite = _closeEyesSprite;
             //Debug.Log("음식 트리거 충돌");
         }
         else if (collision.CompareTag("Snack"))
         {
-            _ogMouth = _mouth.sprite;
-            _ogEye = _eye.sprite;
+            //_ogMouth = _mouth.sprite;
+            //_ogEye = _eye.sprite;
             _mouth.sprite = _openMouthForSnackSprite;
             _eye.sprite = _closeEyesSprite;
             //Debug.Log("간식 트리거 충돌");
@@ -158,15 +161,15 @@ public sealed class PetController : MonoBehaviour
         }
         else if (collision.CompareTag("Medicine"))
         {
-            _ogMouth = _mouth.sprite;
-            _ogEye = _eye.sprite;
+            //_ogMouth = _mouth.sprite;
+            //_ogEye = _eye.sprite;
             _mouth.sprite = _openMouthForMedicine;
             _eye.sprite = _closeEyesWithTear;
             //Debug.Log("약 트리거 충돌");
         }
         else if (collision.CompareTag("CleaningTool"))
         {
-            _ogEye = _eye.sprite;
+            //_ogEye = _eye.sprite;
             _eye.sprite = _closeEyesSprite;
             //Debug.Log("씻는중");
         }
