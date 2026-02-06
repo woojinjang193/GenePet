@@ -74,7 +74,7 @@ public class RodHandVisual : MonoBehaviour
     }
     private IEnumerator FailRoutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         _renderer.sprite = _ogSprite;
         _handsTransform.position = _ogPos;
     }
