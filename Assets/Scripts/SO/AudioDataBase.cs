@@ -33,7 +33,7 @@ public class AudioDataBase : ScriptableObject
 
         if (_cache.TryGetValue(key, out var result))       // 키 조회
         {
-            if(result.clip != null) Debug.LogWarning($"오디오 클립 Null: {key}");
+            if(result.clip == null) Debug.LogWarning($"오디오 클립 Null: {key}");
             return result; // 있으면 반환
         }
             

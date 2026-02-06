@@ -85,6 +85,7 @@ public class CleaningToolMover : MonoBehaviour
             
             _target = null;  //연결 해제
             Debug.Log("버블 스탑");
+            Manager.Audio.StopSFXExclusive(); // SFX Wash Stop
         }
     }
 }
