@@ -258,6 +258,7 @@ public class IslandData
     public long LastVisitTime;
     public long GiftCooldownStartTime;
     public Gift CurWish;
+    public EggData LaidEgg;
 
     public IslandData()
     {
@@ -271,6 +272,7 @@ public class IslandData
         LastVisitTime = 0;
         GiftCooldownStartTime = 0;
         CurWish = Gift.None;
+        LaidEgg = new EggData();
     }
 }
 

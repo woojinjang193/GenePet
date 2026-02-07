@@ -43,6 +43,7 @@ public class PetBreed : MonoBehaviour
         baby.Genes.PartColors.WingColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.TailColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
 
+        baby.Rarity = _finalRarity;
         return egg;
     }
     // ======== 유전자 합치기======

@@ -58,16 +58,18 @@ public class IslandManager : MonoBehaviour
 
         TrySpawnMyPet();
 
+        if (_isMarried)
+        {
+            LayEggAndLeave();
+            return;
+        }
+
         if (_isLeft)
         {
             LeaveIslandPet(); // 없앨지 고민중
             return;
         }
-        else if (_isMarried)
-        {
-            LayEggAndLeave();
-            return;
-        }
+        
         SpawnIslandPet();
         VisitReward();
     }
@@ -77,27 +79,46 @@ public class IslandManager : MonoBehaviour
     }
     public void LeaveIslandPet() //섬펫 떠남처리
     {
+        _isLeft = true;
         _islandPet.SetActive(false);
         _goodbyeSign.SetActive(true);
     }
     public void LayEggAndLeave()
     {
-        _islandPet.SetActive(false);
-        _goodbyeSign.SetActive(false);
+        var island = Manager.Save.CurrentData.UserData.Island;
 
-        if (IslandPetData == null || IslandMypetData == null)
+        var laidEgg = island.LaidEgg;
+
+        if (laidEgg != null && string.IsNullOrEmpty(laidEgg.PetSaveData.ID) == false) //낳은 알 있을 때
         {
-            Debug.Log("펫 데이터 부족으로 교배 못함");
+            SetEgg(laidEgg);
             return;
         }
 
-        EggData egg = TryToBreed();
-        if (egg != null)
+        //---------------교배 시도-------------------
+        if (IslandPetData == null || IslandMypetData == null) //펫이 없을때
         {
-            _egg.gameObject.SetActive(true);
-            _geneInfoButton.SetActive(false); //유전자 정보 버튼 끔
-            _egg.Init(egg);
+            Debug.LogError("펫 데이터 부족으로 교배 못함");
+            return;
         }
+
+        laidEgg = TryToBreed(); //새로 생성
+        if (laidEgg == null) return;
+
+        island.LaidEgg = laidEgg;
+        island.IsMarried = true;
+        Manager.Save.SaveGame();
+
+        SetEgg(laidEgg);
+    }
+    private void SetEgg(EggData laidEgg)
+    {
+        _egg.Init(laidEgg); //알세팅
+        _egg.gameObject.SetActive(true); //알 on
+
+        _islandPet.SetActive(false); //섬펫 off
+        _geneInfoButton.SetActive(false); //유전자 편집버튼 off
+        _goodbyeSign.SetActive(false); //굿바이사인 off
     }
     private void VisitReward()
     {
@@ -112,7 +133,6 @@ public class IslandManager : MonoBehaviour
             if (Manager.Save.CurrentData.UserData.Island.Affinity >= _LayEggAt)
             {
                 LayEggAndLeave();
-                _isMarried = true;
                 return;
             }
         }
@@ -252,14 +272,12 @@ public class IslandManager : MonoBehaviour
     {
         if (newValue >= _LayEggAt) //알 낳기 충분한 호감도면
         {
-            _isMarried = true;
             _visualController.ShowLayOrLeaveEffect(true);
             LayEggAndLeave();
         }
 
         if (newValue <= _leaveAt) //떠날 호감도면
         {
-            _isLeft = true;
             _visualController.ShowLayOrLeaveEffect(false);
             LeaveIslandPet();
         }

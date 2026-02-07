@@ -28,9 +28,6 @@ MonoBehaviour:
   - key: BGM_Rythm
     clip: {fileID: 8300000, guid: 2c741be3e3ea52844b3fcdb5f085cdab, type: 3}
     baseVolume: 1
-  - key: BGM_GeneEdit
-    clip: {fileID: 8300000, guid: a8b24d6bbadb50d47a0debdba0e51599, type: 3}
-    baseVolume: 1
   - key: BGM_Island
     clip: {fileID: 8300000, guid: a2c8880b070752d48be88bf77f3ac529, type: 3}
     baseVolume: 1

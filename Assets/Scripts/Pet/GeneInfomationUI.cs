@@ -83,8 +83,6 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
 
     private Color _defaultColor = Color.white; //버튼 디폴트 컬러
     private PartType _curPart; //현재 조회중인 파츠 타입
-
-    private string _curBgmKey;
     private void Awake()
     {
         _holders.AddRange(GetComponentsInChildren<PartTypeHolder>());
@@ -113,13 +111,6 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         _scissorsAmount.text = $"x{_userItemData.GeneticScissors}"; //가위 숫자
         _glueAmount.text = $"x{_userItemData.GeneticGlue}"; //풀 숫자
         _guaranteeStickerAmount.text = $"x{_userItemData.GuaranteeSticker}"; //확정 숫자
-
-        _curBgmKey = Manager.Audio.CurBgmKey;
-        Manager.Audio.PlayBGM("BGM_GeneEdit");
-    }
-    private void OnDisable()
-    {
-        Manager.Audio.PlayBGM("_curBgmKey");
     }
     private void OnDestroy()
     {
@@ -132,27 +123,26 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     //===== 유전자 테스터 클릭 =========================
     private void OnClickedGeneTester()
     {
-        bool isUnlocked = _curPet.IsInfoUnlocked;
+        int itemAmount = Manager.Save.CurrentData.UserData.Items.geneticTester;
 
-        if (!isUnlocked)
+        if (itemAmount > 0)
         {
-            int itemAmount = Manager.Save.CurrentData.UserData.Items.geneticTester;
+            Manager.Save.CurrentData.UserData.Items.geneticTester--;
+            _curPet.IsInfoUnlocked = true;
 
-            if (itemAmount > 0)
-            {
-                Manager.Save.CurrentData.UserData.Items.geneticTester--;
-                _curPet.IsInfoUnlocked = true;
-
-                Manager.Audio.PlaySFXExclusive("GeneTester");
-                Debug.Log($"언락 : {_curPet.IsInfoUnlocked}");
-                Debug.Log($"남은 테스터 개수 : {Manager.Save.CurrentData.UserData.Items.geneticTester}");
-            }
-            else
-            {
-                Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
-                return;
-            }
+            Manager.Audio.PlaySFXExclusive("GeneTester");
+            Debug.Log($"언락 : {_curPet.IsInfoUnlocked}");
+            Debug.Log($"남은 테스터 개수 : {Manager.Save.CurrentData.UserData.Items.geneticTester}");
         }
+        else
+        {
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
+            return;
+        }
+        UnlockRecessive();
+    }
+    private void UnlockRecessive()
+    {
         _recessiveMainUI.SetActive(true);
         _geneTesterButton.gameObject.SetActive(false);
     }
@@ -178,6 +168,9 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
                 break;
             }
         }
+
+        bool isUnlocked = _curPet.IsInfoUnlocked; //열성 오픈상태 확인
+        if (isUnlocked) UnlockRecessive();
     }
     //======================유전자 버튼 클릭========================
     private void OnDominantButtonClick()
@@ -253,12 +246,6 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     // ================유전자 확정======================
     private void GuaranteeGene(bool isDominant)
     {
-        if (_userItemData.GuaranteeSticker <= 0) //아이템 부족시
-        {
-            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
-            return;
-        }
-
         // 이미 확정된 상태면 해제확인 팝업
         if (isDominant && _curPair.IsDoGuaranteed)
         {
@@ -286,7 +273,13 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
             return;
         }
 
-        if(isDominant)
+        if (_userItemData.GuaranteeSticker <= 0) //아이템 부족시
+        {
+            Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
+            return;
+        }
+
+        if (isDominant)
             Manager.Game.ShowConfirmMessage("Confirm_GeneGuarantor", 1, this);
         else
             Manager.Game.ShowConfirmMessage("Confirm_GeneGuarantor", 2, this);
@@ -364,6 +357,9 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
 
         _dominantGeneOutline.sprite = null;
         _recessiveGeneOutline.sprite = null;
+
+        _dominantRarityUI.ShowRarity(dom.Rarity);
+        _recessiveRarityUI.ShowRarity(rec.Rarity);
     }
     //======================성격 보여주기 전용=========================
     private void ShowPersonality(GenePair pair)
@@ -379,6 +375,9 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
 
         _dominantPersonalityText.text = dom.Personality.ToString();
         _recessivePersonalityText.text = rec.Personality.ToString();
+
+        _dominantRarityUI.ShowRarity(dom.Rarity);
+        _recessiveRarityUI.ShowRarity(rec.Rarity);
     }
     //======================신체 파트 보여주기 전용=========================
     private void ShowPicture(PartType partType, GenePair pair)
