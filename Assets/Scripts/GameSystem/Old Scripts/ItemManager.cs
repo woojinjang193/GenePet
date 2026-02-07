@@ -255,7 +255,7 @@ public class ItemManager : Singleton<ItemManager>
         Debug.Log($"알 큐에 들어옴 {egg}");
         _rewardQueue.Enqueue(RewardData.CreateEgg(egg));
     }
-    public void ClearRewardQueue() //보상 다 보여준 뒤 정리 (필요없으면 삭제)
+    public void ClearRewardQueue() //보상 큐 비우기
     {
         _rewardQueue.Clear();
     }

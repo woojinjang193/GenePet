@@ -15,7 +15,7 @@ public class RythmUiManager : MonoBehaviour
 
     private void Start()
     {
-        Manager.Audio.PlayBGM("BGM_Rythm");
+        
     }
     public void SetHeart(int amount) //하트 켜줌
     {

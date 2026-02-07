@@ -37,6 +37,7 @@ public class RythmGameTitlePanel : MonoBehaviour
     }
     private void OnEnable()
     {
+        Manager.Audio.PlayBGM("BGM_Rythm");
         _startButton.interactable = true;
     }
     public void UpdateScore(int curScore, int bestScore)
@@ -67,6 +68,7 @@ public class RythmGameTitlePanel : MonoBehaviour
         _startButton.interactable = false; //버튼 여러번 눌리기 방지
 
         _rythmManager.OnGameStartClicked();
+        Manager.Audio.StopBGM();
         gameObject.SetActive(false);
     }
     private void OnHowToPlayButtonClicked()
