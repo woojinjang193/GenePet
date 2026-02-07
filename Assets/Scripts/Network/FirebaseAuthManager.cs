@@ -12,6 +12,7 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
     private bool _isLinking = false;// 연동/로그인 중복 방지 플래그
 
     private FirebaseAuth _auth;
+    public FirebaseAuth Auth => _auth;
     public bool IsReady { get; private set; }  // 익명 로그인까지 완료되면 true
 
     protected override void Awake()
@@ -229,4 +230,5 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
 
         SignInAnonymously(); //다시 익명 로그인
     }
+
 }

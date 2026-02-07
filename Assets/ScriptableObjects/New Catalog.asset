@@ -99,11 +99,6 @@ MonoBehaviour:
     Rewards:
     - RewardType: 1
       RewardAmount: 25000
-  - ProductId: testremoveadbanner
-    ProductType: 1
-    Rewards:
-    - RewardType: 2
-      RewardAmount: 1
   - ProductId: gold_guarantee
     ProductType: 0
     Rewards:
@@ -114,14 +109,13 @@ MonoBehaviour:
     Rewards:
     - RewardType: 21
       RewardAmount: 100
-  - ProductId: test_gem
-    ProductType: 0
+  - ProductId: removeadbanner
+    ProductType: 1
     Rewards:
-    - RewardType: 21
-      RewardAmount: 50
-    - RewardType: 4
-      RewardAmount: 50
-    - RewardType: 5
-      RewardAmount: 50
-    - RewardType: 6
-      RewardAmount: 50
+    - RewardType: 2
+      RewardAmount: 1
+  - ProductId: testremoveadbanner
+    ProductType: 1
+    Rewards:
+    - RewardType: 2
+      RewardAmount: 1

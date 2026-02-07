@@ -183,6 +183,10 @@ public class AdManager : Singleton<AdManager>
         Debug.Log($"[AdManager] 광고제거 여부 : {_isAdRemoveFlagSet}");
     }
     //--------------광고제거 구매시------------------
+    public void RestorePurchase() //광고 구매 복원
+    {
+        PurchasedAdRemove();
+    }
     private void PurchasedAdRemove() 
     {
         IsAdRemoved = true;
