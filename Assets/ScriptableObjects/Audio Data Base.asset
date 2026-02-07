@@ -45,10 +45,10 @@ MonoBehaviour:
     baseVolume: 1
   - key: Feed
     clip: {fileID: 8300000, guid: 7f942a7a4e371be43aa2964058b267fd, type: 3}
-    baseVolume: 1
+    baseVolume: 0.7
   - key: Full
     clip: {fileID: 8300000, guid: 7f37efc016772b542b929e2a9f4880ef, type: 3}
-    baseVolume: 1
+    baseVolume: 0.6
   - key: Wash
     clip: {fileID: 8300000, guid: 26c1a600b65e60b40b9cf64c6bb6b1f2, type: 3}
     baseVolume: 1
@@ -72,7 +72,7 @@ MonoBehaviour:
     baseVolume: 1
   - key: GameOver
     clip: {fileID: 8300000, guid: 4d384fba329eede45b1aeb5ac50847e6, type: 3}
-    baseVolume: 1
+    baseVolume: 0.6
   - key: GetReward
     clip: {fileID: 8300000, guid: d6b27f42dc89cf9438361e83221955a7, type: 3}
     baseVolume: 1
@@ -97,3 +97,6 @@ MonoBehaviour:
   - key: BrickBroke
     clip: {fileID: 8300000, guid: c083e53c19b088f4fb14a19029b95f1c, type: 3}
     baseVolume: 1
+  - key: NewRecord
+    clip: {fileID: 8300000, guid: e2187a3bb9346ca408b5f8c87d2679a3, type: 3}
+    baseVolume: 0.6

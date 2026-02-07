@@ -68,7 +68,6 @@ public class MiniGameBase : MonoBehaviour
     }
     protected virtual void GameOver()
     {
-        Manager.Audio.PlaySFX("GameOver");
         _isPlaying = false;
         GainMoneyByScore();
 

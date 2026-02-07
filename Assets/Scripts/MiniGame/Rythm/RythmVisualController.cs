@@ -144,7 +144,8 @@ public class RythmVisualController : MonoBehaviour
             _rewardIcon.sprite = null;
             _rewardAmount.gameObject.SetActive(false);
         }
-    
+
+        Manager.Audio.PlaySFX("GetItem");
         _rewardIcon.gameObject.SetActive(true);
     }
     //================판정에 따른 연출=================
