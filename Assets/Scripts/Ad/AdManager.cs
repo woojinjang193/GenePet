@@ -141,12 +141,21 @@ public class AdManager : Singleton<AdManager>
     }
     public void HandleOnRewardedAdClosed() // 리워드 광고가 닫혔을 때 호출되는 핸들러
     {
-        _adRequester.AdClosed();
-        _adRequester = null;
         Debug.Log("[AdManager] 리워드 광고 닫힘");
+        _isAdPlaying = false;
 
+        StartCoroutine(WaitForFrame());
         //광고를 보고 클로즈하면 광고를 다시 요청해서 로드
         RequestRewarded();
+    }
+    private IEnumerator WaitForFrame()  // 광고 종료 후 UI 호출을 다음 프레임/포커스 복귀로 미룸
+    {
+        yield return null; //프레임 지연
+        while (!Application.isFocused) // 포커스 복귀 대기(모바일에서 중요)
+            yield return null;
+
+        _adRequester?.AdClosed();
+        _adRequester = null;
     }
     public void HandelOnRewardedAdImpression() // 리워드 광고 노출 기록 시 호출되는 핸들러
     {
@@ -215,7 +224,7 @@ public class AdManager : Singleton<AdManager>
     {
         if (_bannerView == null) return;
 
-        _bannerView.Show();
+        _bannerView.Hide();
         Debug.Log("[AdManager] 배너 Hide");
     }
     //==============매니저 준비 체크===================
