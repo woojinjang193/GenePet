@@ -149,6 +149,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
             }
             else
             {
+                Manager.Game.ShowConfirmMessage("Asking_MoveToShop", 0, this);
                 return;
             }
         }

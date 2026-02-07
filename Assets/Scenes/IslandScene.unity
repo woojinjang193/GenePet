@@ -6843,6 +6843,7 @@ MonoBehaviour:
   - {fileID: 29615706}
   _rewardPopUp: {fileID: 687319357}
   _tutorial: {fileID: 837779680}
+  _egg: {fileID: 2095789991}
 --- !u!1 &545845766
 GameObject:
   m_ObjectHideFlags: 0
