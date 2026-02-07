@@ -61,6 +61,7 @@ public class InGameUIManager : MonoBehaviour
 
     private void Start()
     {
+        Manager.Item.ClearRewardQueue(); //혹시 남아있는 보상 연출 큐 지우기
         CheckTutorialFlag(); //튜토리얼 체크
         Manager.Audio.PlayBGM("BGM_Main"); //비지엠 재생
     }
