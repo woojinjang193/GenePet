@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class RewardPopUp : MonoBehaviour
 {
     [SerializeField] private Image _icon;
+    [SerializeField] private Animator _iconAnim;
     [SerializeField] private Button _button;
     [SerializeField] private TMP_Text _amount;
     
@@ -48,6 +49,9 @@ public class RewardPopUp : MonoBehaviour
         }
 
         if (!Manager.Item.TryDequeueReward(out RewardData reward)) return; //디큐할게 없으면 리턴
+
+        //------애니메이션-----
+        _iconAnim.Play("IconAnim", 0, 0f);
 
         if (reward.Category == RewardCategory.Egg) //알 보상처리
         {
