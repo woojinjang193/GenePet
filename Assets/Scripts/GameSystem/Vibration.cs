@@ -2,10 +2,12 @@ using UnityEngine;
 
 public static class Vibration
 {
-    public static void Vibrate(long milliseconds, int amplitude)
+    public static void Vibrate(float seconds, int amplitude)
     {
         if (Application.platform != RuntimePlatform.Android) return; // 에디터/비안드로이드면 무시
+        if (seconds <= 0) return;
 
+        long milliseconds = Mathf.Max(1, Mathf.RoundToInt(seconds * 1000f));
         // activity 획득
         using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         using var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
