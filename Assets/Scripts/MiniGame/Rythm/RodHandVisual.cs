@@ -70,6 +70,7 @@ public class RodHandVisual : MonoBehaviour
         Vector3 pos = _handsTransform.position;
         pos.y += _handsDistanceUp;
         _renderer.sprite = _failSprite;
+        Vibration.Vibrate(0.05f, 50);
         StartCoroutine(FailRoutine());
     }
     private IEnumerator FailRoutine()

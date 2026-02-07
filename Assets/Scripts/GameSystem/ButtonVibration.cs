@@ -8,7 +8,7 @@ public class ButtonVibration : MonoBehaviour
     [Header("진동세기")]
     [SerializeField] [Range(1,255)]private int _amplitude;
     [Header("길이(초)")]
-    [SerializeField] [Range(0.1f, 1f)] private float _second;
+    [SerializeField] private float _second;
     private Button _button;
 
     private void Awake()

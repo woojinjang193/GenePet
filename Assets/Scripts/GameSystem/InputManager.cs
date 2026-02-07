@@ -162,6 +162,7 @@ public class InputManager : MonoBehaviour
                 //Debug.Log($"HIT PetUnit obj={pet.gameObject.name}, PetId='{pet.PetId}'");
                 _petManager.ZoomInPet(pet);
                 Manager.Audio.PlaySFX("ZoomPet");// SPX ZoomPet
+                Vibration.Vibrate(0.01f, 50);
                 Debug.Log($"{pet.PetId} 줌인");
             }
         }

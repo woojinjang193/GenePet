@@ -113,7 +113,8 @@ public class JumpMiniGame : MiniGameBase
         if (_isCameraMoving) return;
         if (_isHolding) return;
         if (!_player.IsGrounded) return;
-        
+
+        Vibration.Vibrate(0.01f, 50);
         _direction = dir;
         _isHolding = true;
     }

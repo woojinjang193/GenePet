@@ -33,4 +33,8 @@ public class FlipperMoveRotation : MonoBehaviour
 
         _rb.MoveRotation(next);
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Vibration.Vibrate(0.01f, 40);
+    }
 }

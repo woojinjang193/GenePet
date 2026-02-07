@@ -28,5 +28,6 @@ public class RythmInput : MonoBehaviour // 입력 사운드 재생 담당
         AudioClip clip = isLastMeasureLastBeat ? _inputLastBeatClip : _inputNormalClip; // 상황에 따라 선택
         if (clip == null) return; // 클립 없으면 종료
         _src.PlayOneShot(clip); // 원샷 재생(중첩 가능)
+        Vibration.Vibrate(0.01f, 50);
     }
 }

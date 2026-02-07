@@ -81,6 +81,7 @@ public class JumpPlayerController : MonoBehaviour
                     IsGrounded = true;
                     _pendingGrounded = false;
                     OnPlayerGrounded?.Invoke(transform.position.y);
+                    //Vibration.Vibrate(0.01f, 40);
                     Debug.Log("바닥 True");
                 }
             }
@@ -195,6 +196,10 @@ public class JumpPlayerController : MonoBehaviour
         //Debug.Log($"{power}의 파워로 점프함");
     }
     // ================= 충돌 처리 =================
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Vibration.Vibrate(0.01f, 40);
+    }
     private void OnTriggerEnter2D(Collider2D col) //트리거 
     {
         if (col.CompareTag("Item"))
