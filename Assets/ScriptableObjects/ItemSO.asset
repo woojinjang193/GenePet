@@ -24,7 +24,7 @@ MonoBehaviour:
   IslandTicketSprite: {fileID: 21300000, guid: 57db38bac1180ca459c359a0e65319d2, type: 3}
   MasterGiftSprite: {fileID: 21300000, guid: bcf0c64db1a7b4631b3d2c5f6c156b81, type: 3}
   Gift1: {fileID: 21300000, guid: ccf683b848e4f43da85b660b2ad50973, type: 3}
-  Gift2: {fileID: 21300000, guid: 0c399b720745e4f7eab0c9c85f6ea870, type: 3}
+  Gift2: {fileID: 21300000, guid: a5145082ec67afe49bb9adf5617935c6, type: 3}
   Gift3: {fileID: 21300000, guid: e3a0e3e87d6c34cf390d4a496212fd98, type: 3}
   MissingPosterSprite: {fileID: 21300000, guid: 594bce51085276c438e7d4e4b5b38e92, type: 3}
   GeneticScissorsSprite: {fileID: 21300000, guid: b9129d61620490d42b2a03edb4f497b7, type: 3}

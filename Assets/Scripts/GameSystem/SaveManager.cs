@@ -1,5 +1,3 @@
-using Firebase.Auth;
-using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

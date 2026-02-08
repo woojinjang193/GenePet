@@ -18,6 +18,11 @@ MonoBehaviour:
     Rewards:
     - RewardType: 1
       RewardAmount: 5000
+  - ProductId: dev_gem100
+    ProductType: 0
+    Rewards:
+    - RewardType: 21
+      RewardAmount: 100
   - ProductId: gold_ticket
     ProductType: 0
     Rewards:
@@ -74,10 +79,30 @@ MonoBehaviour:
     Rewards:
     - RewardType: 20
       RewardAmount: 5
+  - ProductId: gem_roomjump
+    ProductType: 1
+    Rewards:
+    - RewardType: 13
+      RewardAmount: 1
+  - ProductId: gem_roomrythm
+    ProductType: 1
+    Rewards:
+    - RewardType: 14
+      RewardAmount: 1
+  - ProductId: gem_roompinball
+    ProductType: 1
+    Rewards:
+    - RewardType: 15
+      RewardAmount: 1
   - ProductId: gem_roompoor
     ProductType: 1
     Rewards:
     - RewardType: 16
+      RewardAmount: 1
+  - ProductId: gem_roomsomething
+    ProductType: 1
+    Rewards:
+    - RewardType: 17
       RewardAmount: 1
   - ProductId: coin1000
     ProductType: 0
@@ -104,7 +129,7 @@ MonoBehaviour:
     Rewards:
     - RewardType: 22
       RewardAmount: 10
-  - ProductId: dev_gem
+  - ProductId: gem100
     ProductType: 0
     Rewards:
     - RewardType: 21
@@ -113,6 +138,11 @@ MonoBehaviour:
     ProductType: 1
     Rewards:
     - RewardType: 2
+      RewardAmount: 1
+  - ProductId: gem_mastergift
+    ProductType: 0
+    Rewards:
+    - RewardType: 11
       RewardAmount: 1
   - ProductId: testremoveadbanner
     ProductType: 1

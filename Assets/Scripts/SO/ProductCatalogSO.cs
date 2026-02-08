@@ -33,13 +33,13 @@ public class ProductCatalogSO : ScriptableObject
             Entry entry = _entries[i];
             if (entry == null)
             {
-                Debug.LogWarning($"{entry.ProductId}가 null임");
+                Debug.LogWarning("Catalog Entry가 null임");
                 continue;
             }
 
             if (string.IsNullOrEmpty(entry.ProductId) == true)
             {
-                Debug.LogWarning($"{entry.ProductId}가 없음");
+                Debug.LogWarning("Catalog Entry의 ProductId가 없음");
                 continue;
             }
 
