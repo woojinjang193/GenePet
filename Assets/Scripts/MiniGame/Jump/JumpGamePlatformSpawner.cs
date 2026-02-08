@@ -18,8 +18,8 @@ public class JumpGamePlatformSpawner : MonoBehaviour
     [Header("시작 여유 Y ")]
     [SerializeField] private float _startSpawnY;
 
-    [Header("마지막 발판 색")]
-    [SerializeField] private Color _lastPlatformColor = Color.yellow; //테스트용
+    //[Header("마지막 발판 색")]
+    //[SerializeField] private Color _lastPlatformColor = Color.yellow; //테스트용
 
     private int _prevChunkLastPlatformLane; //이전 청크의 마지막 발판 레인 위치
     private float _prevChunkLastPlatformY; // 이전 청크의 마지막 플렛폼 높이
@@ -69,7 +69,7 @@ public class JumpGamePlatformSpawner : MonoBehaviour
 
         if (lastPlatform == null) return;
 
-        SetLastPlatformColor(lastPlatform);
+        //SetLastPlatformColor(lastPlatform); //마지막 청크 색 바꾸기 테스트용
         SaveLastPlatform(curY, prevLane);
 
         PlaceItems(preset, isLastChunk);
@@ -123,13 +123,13 @@ public class JumpGamePlatformSpawner : MonoBehaviour
     }
 
     //==============청크 마지막 타일 색 변경======================
-    private void SetLastPlatformColor(GameObject platform)
-    {
-        var sr = platform.GetComponent<SpriteRenderer>();
-        if (sr == null) return;
-
-        sr.color = _lastPlatformColor; // 마지막 발판 색 적용
-    }
+    //private void SetLastPlatformColor(GameObject platform)
+    //{
+    //    var sr = platform.GetComponent<SpriteRenderer>();
+    //    if (sr == null) return;
+    //
+    //    sr.color = _lastPlatformColor; // 마지막 발판 색 적용
+    //}
 
     //==============아이템 배치======================
     private void PlaceItems(JumpGameDifficultyPreset preset, bool isLastChunk)

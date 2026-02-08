@@ -15,12 +15,12 @@ MonoBehaviour:
   GrowthType: 2
   TimeToGrow: 120
   ExpToGrow: 50
-  HungerDecreasePerSec: 0.01
+  HungerDecreasePerSec: 0.009
   HappinessDecreasePerSec: 0.0005
   CleanlinessDecreasePerSec: 0.005
-  PlayHappinessGain: 3
-  HealthDecreasePerSec: 0.008
+  PlayHappinessGain: 0
+  HealthDecreasePerSec: 0.009
   HealthIncreasePerSec: 0.25
   HungerAmountHealthIncrease: 80
   CleanlinessAmountGetSick: 35
-  TimeToGetSick: 1800
+  TimeToGetSick: 2700

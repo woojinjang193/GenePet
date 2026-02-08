@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstGeneEdit15
+  m_EditorClassIdentifier: 
+  KOR: "\uD558\uC9C0\uB9CC!\n\uC790\uC2DD\uC5D0\uAC8C \uC6D0\uD558\uB294 \uC720\uC804\uC790\uB97C
+    \uC6B0\uC131\uC73C\uB85C \uBB3C\uB824\uC8FC\uB294\uAC83\uB3C4 \uAC00\uB2A5\uD574\uC694!"
+  ENG: 'But!
+
+    You can also make a desired gene be inherited as dominant!'
+  DE: "Aber!\nDu kannst auch daf\xFCr sorgen, dass ein gew\xFCnschtes Gen dominant
+    vererbt wird!"
+  SP: "\xA1Pero!\n\xA1Tambi\xE9n puedes hacer que el gen que deseas se herede como
+    dominante!"
+  JP: "\u3067\u3082\uFF01\n\u6B32\u3057\u3044\u907A\u4F1D\u5B50\u3092\u512A\u6027\u3068\u3057\u3066\u5B50\u306B\u53D7\u3051\u7D99\u304C\u305B\u308B\u3053\u3068\u3082\u3067\u304D\u307E\u3059\uFF01"
+  CHS: "\u4F46\u662F\uFF01\n\u4F60\u4E5F\u53EF\u4EE5\u8BA9\u60F3\u8981\u7684\u57FA\u56E0\u4EE5\u663E\u6027\u4F20\u7ED9\u5B69\u5B50\uFF01"
+  CHT: "\u4F46\u662F\uFF01\n\u4F60\u4E5F\u53EF\u4EE5\u8B93\u60F3\u8981\u7684\u57FA\u56E0\u4EE5\u986F\u6027\u50B3\u7D66\u5B69\u5B50\uFF01"

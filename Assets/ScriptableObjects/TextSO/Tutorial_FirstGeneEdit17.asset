@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstGeneEdit17
+  m_EditorClassIdentifier: 
+  KOR: "\uB2E8!\n<color=yellow> \uAD50\uBC30 \uC0C1\uB300\uAC00 \uAC19\uC740 \uD30C\uCE20\uC5D0
+    \uC6B0\uC131 \uC6B0\uC120\uAD8C\uC744 \uC0AC\uC6A9\uD55C \uACBD\uC6B0, \uB79C\uB364\uC73C\uB85C
+    \uC6B0\uC131\uC774 \uACB0\uC815\uB418\uB2C8 \uAD50\uBC30 \uC804\uC5D0 \uC798
+    \uD655\uC778\uD574\uC8FC\uC138\uC694!</color>"
+  ENG: 'However!
+
+    <color=yellow>If the breeding partner also uses Dominant Priority
+    on the same part, dominance is decided at random, so make sure to check before
+    breeding!</color>'
+  DE: "Aber!\n<color=yellow>Wenn der Zuchtpartner f\xFCr dasselbe Teil ebenfalls
+    Dominant Priority benutzt, wird die Dominanz zuf\xE4llig entschieden \u2013 bitte
+    pr\xFCfe das vor dem Z\xFCchten!</color>"
+  SP: "\xA1Pero!\n<color=yellow>Si la pareja de cr\xEDa tambi\xE9n usa Prioridad
+    dominante en la misma parte, la dominancia se decide al azar, as\xED que aseg\xFArate
+    de comprobarlo antes de criar.</color>"
+  JP: "\u305F\u3060\u3057\uFF01\n<color=yellow>\u4EA4\u914D\u76F8\u624B\u3082\u540C\u3058\u30D1\u30FC\u30C4\u306B\u512A\u6027\u512A\u5148\u6A29\u3092\u4F7F\u3063\u3066\u3044\u308B\u5834\u5408\u3001\u512A\u6027\u306F\u30E9\u30F3\u30C0\u30E0\u3067\u6C7A\u307E\u308B\u306E\u3067\u3001\u4EA4\u914D\u524D\u306B\u3088\u304F\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\uFF01</color>"
+  CHS: "\u4E0D\u8FC7\uFF01\n<color=yellow>\u5982\u679C\u914D\u5BF9\u5BF9\u8C61\u4E5F\u5BF9\u540C\u4E00\u90E8\u4F4D\u4F7F\u7528\u4E86\u663E\u6027\u4F18\u5148\u6743\uFF0C\u5219\u663E\u6027\u4F1A\u968F\u673A\u51B3\u5B9A\uFF0C\u8BF7\u5728\u914D\u5BF9\u524D\u52A1\u5FC5\u786E\u8BA4\uFF01</color>"
+  CHT: "\u4E0D\u904E\uFF01\n<color=yellow>\u5982\u679C\u914D\u5C0D\u5C0D\u8C61\u4E5F\u5C0D\u540C\u4E00\u90E8\u4F4D\u4F7F\u7528\u4E86\u986F\u6027\u512A\u5148\u6B0A\uFF0C\u5247\u986F\u6027\u6703\u96A8\u6A5F\u6C7A\u5B9A\uFF0C\u8ACB\u5728\u914D\u5C0D\u524D\u52D9\u5FC5\u78BA\u8A8D\uFF01</color>"

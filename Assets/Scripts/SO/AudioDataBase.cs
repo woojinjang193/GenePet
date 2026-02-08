@@ -32,9 +32,13 @@ public class AudioDataBase : ScriptableObject
         }
 
         if (_cache.TryGetValue(key, out var result))       // 키 조회
-            return result;                                 // 있으면 반환
+        {
+            if(result.clip == null) Debug.LogWarning($"오디오 클립 Null: {key}");
+            return result; // 있으면 반환
+        }
+            
 
-        Debug.LogWarning($"Audio key not found: {key}");   // 없으면 경고
+        Debug.LogWarning($"오디오 없음: {key}");   // 없으면 경고
         return null;                                       // null 반환
     }
 }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstGeneEdit20
+  m_EditorClassIdentifier: 
+  KOR: "\uC544!\n\uD2B9\uC815 \uBA87\uBA87 \"\uC131\uACA9\" \uC720\uC804\uC790\uB294
+    \uC6B0\uC131\uC77C \uB54C \uBBF8\uB2C8\uAC8C\uC784\uC5D0\uC11C \uD2B9\uC218\uD55C
+    \uB2A5\uB825\uC744 \uC5BB\uC5B4\uC694!"
+  ENG: "Oh!\nSome specific \u201CPersonality\u201D genes grant special abilities
+    in mini-games when they are dominant!"
+  DE: "Oh!\nEinige bestimmte \u201EPersonality\u201C-Gene geben in Minispielen besondere
+    F\xE4higkeiten, wenn sie dominant sind!"
+  SP: "\xA1Ah!\n\xA1Algunos genes de \u201CPersonalidad\u201D otorgan habilidades
+    especiales en minijuegos cuando son dominantes!"
+  JP: "\u3042\u3063\uFF01\n\u4E00\u90E8\u306E\u300C\u6027\u683C\u300D\u907A\u4F1D\u5B50\u306F\u3001\u512A\u6027\u306E\u3068\u304D\u306B\u30DF\u30CB\u30B2\u30FC\u30E0\u3067\u7279\u5225\u306A\u80FD\u529B\u3092\u5F97\u3089\u308C\u307E\u3059\uFF01"
+  CHS: "\u554A\uFF01\n\u90E8\u5206\u201C\u6027\u683C\u201D\u57FA\u56E0\u5728\u663E\u6027\u65F6\uFF0C\u4F1A\u5728\u5C0F\u6E38\u620F\u4E2D\u83B7\u5F97\u7279\u6B8A\u80FD\u529B\uFF01"
+  CHT: "\u554A\uFF01\n\u90E8\u5206\u300C\u6027\u683C\u300D\u57FA\u56E0\u5728\u986F\u6027\u6642\uFF0C\u6703\u5728\u5C0F\u904A\u6232\u4E2D\u7372\u5F97\u7279\u6B8A\u80FD\u529B\uFF01"

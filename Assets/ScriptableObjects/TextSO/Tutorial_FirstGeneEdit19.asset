@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstGeneEdit19
+  m_EditorClassIdentifier: 
+  KOR: "\uC774 \uBCC4\uB4E4\uC740 \uC720\uC804\uC790\uC758 \uB808\uC5B4\uB4F1\uAE09\uC744
+    \uBCF4\uC5EC\uC918\uC694.\n\uB4F1\uAE09\uC740 \uC774 \uC720\uC804\uC790\uAC00
+    \uC5BC\uB9C8\uB098 \uD76C\uADC0\uD55C\uC9C0\uB9CC \uBCF4\uC5EC\uC904 \uBFD0 \uB2A5\uB825\uCE58\uC5D4
+    \uC601\uD5A5\uC774 \uC5C6\uC73C\uB2C8 \uC6D0\uD558\uB294 \uC720\uC804\uC790\uB97C
+    \uC720\uC9C0\uD558\uC138\uC694!"
+  ENG: "These stars show a gene\u2019s rarity rank.\nRank only shows how rare the
+    gene is and does not affect stats, so keep the genes you want!"
+  DE: "Diese Sterne zeigen den Seltenheitsrang eines Gens.\nDer Rang zeigt nur, wie
+    selten das Gen ist, hat aber keinen Einfluss auf Werte \u2013 behalte also die
+    Gene, die du m\xF6chtest!"
+  SP: "Estas estrellas muestran el rango de rareza del gen.\nEl rango solo indica
+    lo raro que es el gen y no afecta a las estad\xEDsticas, \xA1as\xED que conserva
+    los genes que quieras!"
+  JP: "\u3053\u306E\u661F\u306F\u907A\u4F1D\u5B50\u306E\u30EC\u30A2\u5EA6\u30E9\u30F3\u30AF\u3092\u793A\u3057\u307E\u3059\u3002\n\u30E9\u30F3\u30AF\u306F\u3069\u308C\u3060\u3051\u5E0C\u5C11\u304B\u3092\u793A\u3059\u3060\u3051\u3067\u80FD\u529B\u5024\u306B\u306F\u5F71\u97FF\u3057\u306A\u3044\u306E\u3067\u3001\u6B32\u3057\u3044\u907A\u4F1D\u5B50\u306F\u7DAD\u6301\u3057\u3066\u304F\u3060\u3055\u3044\u306D\uFF01"
+  CHS: "\u8FD9\u4E9B\u661F\u661F\u8868\u793A\u57FA\u56E0\u7684\u7A00\u6709\u7B49\u7EA7\u3002\n\u7B49\u7EA7\u53EA\u8868\u793A\u8BE5\u57FA\u56E0\u6709\u591A\u7A00\u6709\uFF0C\u4E0D\u4F1A\u5F71\u54CD\u80FD\u529B\u503C\uFF0C\u6240\u4EE5\u8BF7\u4FDD\u7559\u4F60\u60F3\u8981\u7684\u57FA\u56E0\uFF01"
+  CHT: "\u9019\u4E9B\u661F\u661F\u8868\u793A\u57FA\u56E0\u7684\u7A00\u6709\u7B49\u7D1A\u3002\n\u7B49\u7D1A\u53EA\u8868\u793A\u8A72\u57FA\u56E0\u6709\u591A\u7A00\u6709\uFF0C\u4E0D\u6703\u5F71\u97FF\u80FD\u529B\u503C\uFF0C\u6240\u4EE5\u8ACB\u4FDD\u7559\u4F60\u60F3\u8981\u7684\u57FA\u56E0\uFF01"

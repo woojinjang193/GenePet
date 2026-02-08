@@ -42,6 +42,7 @@ public class ItemManager : Singleton<ItemManager>
     // ===================== 팝업 오픈 트리거 =====================
     public void NotifyRewardsReady() //원하는 타이밍에 보상 팝업을 열라고 이벤트를 발생시키는 함수
     {
+        Debug.Log("[획득] 보상팝업 ON");
         OnRewardsGiven?.Invoke(); // 보상팝업 열기 신호 이벤트 발생
     }
 
@@ -255,7 +256,7 @@ public class ItemManager : Singleton<ItemManager>
         Debug.Log($"알 큐에 들어옴 {egg}");
         _rewardQueue.Enqueue(RewardData.CreateEgg(egg));
     }
-    public void ClearRewardQueue() //보상 다 보여준 뒤 정리 (필요없으면 삭제)
+    public void ClearRewardQueue() //보상 큐 비우기
     {
         _rewardQueue.Clear();
     }
@@ -275,94 +276,25 @@ public class ItemManager : Singleton<ItemManager>
     }
     public void UseItem(RewardType type, int amount)
     {
-        var items = Manager.Save.CurrentData.UserData.Items;
-        int newValue;
+        if (amount <= 0) return;
 
+        var items = Manager.Save.CurrentData.UserData.Items;
+
+        ref int value = ref items.Money;
         switch (type)
         {
-            case RewardType.Snack: 
-                if (amount <= 0) 
-                {
-                    break; 
-                }
-                else
-                {
-                    newValue = items.Snack -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.GeneticScissors:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.GeneticScissors -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.GeneticGlue:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.GeneticGlue -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.GrowthBooster:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.GrowthBooster -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.Gem:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.Gem -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.Coin:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.Money -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
-
-            case RewardType.GuaranteeSticker:
-                if (amount <= 0)
-                {
-                    break;
-                }
-                else
-                {
-                    newValue = items.GuaranteeSticker -= amount;
-                }
-                OnItemConsumed?.Invoke(type, newValue);
-                break;
+            case RewardType.Snack: value = ref items.Snack; break;
+            case RewardType.GeneticScissors: value = ref items.GeneticScissors; break;
+            case RewardType.GeneticGlue: value = ref items.GeneticGlue; break;
+            case RewardType.GrowthBooster: value = ref items.GrowthBooster; break;
+            case RewardType.Gem: value = ref items.Gem; break;
+            case RewardType.Coin: value = ref items.Money; break;
+            case RewardType.GuaranteeSticker: value = ref items.GuaranteeSticker; break;
+            default: return;
         }
+
+        value -= amount;
+        if (value < 0) value = 0;  // 0 미만 방지
+        OnItemConsumed?.Invoke(type, value); // 아이템 사용 이벤트
     }
 }

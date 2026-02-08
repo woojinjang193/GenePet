@@ -233,7 +233,7 @@ public class PetSaveData
         Genes = new GenesContainer();
 
         GrowthStage = GrowthStatus.Egg;
-        Hunger = 100f;
+        Hunger = 60f;
         Happiness = 0f;
         Cleanliness = 100f;
         Health = 100f;
@@ -258,6 +258,7 @@ public class IslandData
     public long LastVisitTime;
     public long GiftCooldownStartTime;
     public Gift CurWish;
+    public EggData LaidEgg;
 
     public IslandData()
     {
@@ -271,6 +272,7 @@ public class IslandData
         LastVisitTime = 0;
         GiftCooldownStartTime = 0;
         CurWish = Gift.None;
+        LaidEgg = new EggData();
     }
 }
 
@@ -305,15 +307,15 @@ public class UserItemData
 
         Money = 2000;
         IsAdRemoved = false;
-        IslandTicket = 1;
-        MissingPoster = 1;
-        GeneticScissors = 1;
-        geneticTester = 1;
-        Snack = 1;
-        GrowthBooster = 1;
-        GeneticGlue = 1;
-        Gem = 20;
-        GuaranteeSticker = 1;
+        IslandTicket = 0;
+        MissingPoster = 0;
+        GeneticScissors = 0;
+        geneticTester = 0;
+        Snack = 0;
+        GrowthBooster = 0;
+        GeneticGlue = 0;
+        Gem = 0;
+        GuaranteeSticker = 0;
 
         Rooms = new List<Room>()  //유저가 가진 방 목록
         { Room.Default};
@@ -328,10 +330,16 @@ public class UserItemData
 public class TutorialFlags
 {
     public bool FirstVisit;
+    public bool FirstGeneEdit;
+    public bool FirstIsland;
+    public bool FirstMissing;
 
     public TutorialFlags()
     {
         FirstVisit = false;
+        FirstGeneEdit = false;
+        FirstIsland = false;
+        FirstMissing = false;
     }
 }
 

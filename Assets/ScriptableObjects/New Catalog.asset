@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New Catalog
   m_EditorClassIdentifier: 
   _entries:
-  - ProductId: gold_coin5000
+  - ProductId: dev_coin5000
     ProductType: 0
     Rewards:
     - RewardType: 1
@@ -22,17 +22,17 @@ MonoBehaviour:
     ProductType: 0
     Rewards:
     - RewardType: 3
-      RewardAmount: 1
+      RewardAmount: 5
   - ProductId: gold_geneticScissors
     ProductType: 0
     Rewards:
     - RewardType: 4
-      RewardAmount: 1
+      RewardAmount: 5
   - ProductId: gold_genetictester
     ProductType: 0
     Rewards:
     - RewardType: 5
-      RewardAmount: 1
+      RewardAmount: 5
   - ProductId: gold_missingposter
     ProductType: 0
     Rewards:
@@ -43,7 +43,7 @@ MonoBehaviour:
     Rewards:
     - RewardType: 7
       RewardAmount: 10
-  - ProductId: gold_growthbooster
+  - ProductId: gem_growthbooster
     ProductType: 0
     Rewards:
     - RewardType: 19
@@ -73,8 +73,8 @@ MonoBehaviour:
     ProductType: 0
     Rewards:
     - RewardType: 20
-      RewardAmount: 1
-  - ProductId: gold_roompoor
+      RewardAmount: 5
+  - ProductId: gem_roompoor
     ProductType: 1
     Rewards:
     - RewardType: 16
@@ -99,29 +99,23 @@ MonoBehaviour:
     Rewards:
     - RewardType: 1
       RewardAmount: 25000
+  - ProductId: gem_guarantee
+    ProductType: 0
+    Rewards:
+    - RewardType: 22
+      RewardAmount: 10
+  - ProductId: dev_gem
+    ProductType: 0
+    Rewards:
+    - RewardType: 21
+      RewardAmount: 100
+  - ProductId: removeadbanner
+    ProductType: 1
+    Rewards:
+    - RewardType: 2
+      RewardAmount: 1
   - ProductId: testremoveadbanner
     ProductType: 1
     Rewards:
     - RewardType: 2
       RewardAmount: 1
-  - ProductId: gold_guarantee
-    ProductType: 0
-    Rewards:
-    - RewardType: 22
-      RewardAmount: 1
-  - ProductId: test_gem
-    ProductType: 0
-    Rewards:
-    - RewardType: 21
-      RewardAmount: 100
-  - ProductId: test_gem
-    ProductType: 0
-    Rewards:
-    - RewardType: 21
-      RewardAmount: 50
-    - RewardType: 4
-      RewardAmount: 50
-    - RewardType: 5
-      RewardAmount: 50
-    - RewardType: 6
-      RewardAmount: 50

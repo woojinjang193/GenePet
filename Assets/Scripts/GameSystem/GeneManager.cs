@@ -6,9 +6,13 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GeneManager : Singleton<GeneManager>
 {
-    [SerializeField] private float _legendaryPerc = 0.05f; //하나라도 나올 확률 : 1.2%
-    [SerializeField] private float _epicPerc = 0.25f; //하나라도 나올 확률 : 5.8%
-    [SerializeField] private float _rarePerc = 0.5f; //하나라도 나올 확률 : 11.3%
+    //하나라도 나올 확률 
+    //[1.5% = 0.054f] [3% → 0.109f] [5% = 0.183f] [7% → 0.259f] [10% → 0.376f] 
+    //[12% → 0.456f] [15% → 0.579f] [20% → 0.794f] [50% → 2.445f]
+
+    [SerializeField] private float _legendaryPerc = 0.054f; //1.5%
+    [SerializeField] private float _epicPerc = 0.259f; //7%
+    [SerializeField] private float _rarePerc = 0.794f; //15%
 
     private Dictionary<PartType, List<PartBaseSO>> _parts = new Dictionary<PartType, List<PartBaseSO>>();
     private List<PartBaseSO> _options = new List<PartBaseSO>();

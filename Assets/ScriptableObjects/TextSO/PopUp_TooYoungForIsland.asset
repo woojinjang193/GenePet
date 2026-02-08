@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: PopUp_TooYoungForIsland
   m_EditorClassIdentifier: 
-  KOR: "\uC18C\uC720\uD55C \uC131\uCCB4 \uD3AB\uC774 \uC5C6\uC2B5\uB2C8\uB2E4."
-  ENG: You don't have any adult pets.
-  DE: Du besitzt kein erwachsenes Haustier.
-  SP: No tienes ninguna mascota adulta.
-  JP: "\u6240\u6301\u3057\u3066\u3044\u308B\u6210\u4F53\u304C\u3044\u307E\u305B\u3093\u3002"
-  CHS: "\u6CA1\u6709\u62E5\u6709\u7684\u6210\u4F53\u5BA0\u7269\u3002"
-  CHT: "\u6C92\u6709\u64C1\u6709\u7684\u6210\u9AD4\u5BF5\u7269\u3002"
+  KOR: "\uC18C\uC720\uD55C \uC131\uCCB4 \uD398\uC774\uCF13\uC774 \uC5C6\uC2B5\uB2C8\uB2E4."
+  ENG: You do not own any adult Faecats.
+  DE: Du besitzt keinen erwachsenen Faecat.
+  SP: "No tienes ning\xFAn Faecat adulto."
+  JP: "\u6240\u6301\u3057\u3066\u3044\u308B\u6210\u4F53\u306E\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u304C\u3044\u307E\u305B\u3093\u3002"
+  CHS: "\u4F60\u6CA1\u6709\u4EFB\u4F55\u6210\u4F53\u8D39\u732B\u3002"
+  CHT: "\u4F60\u6C92\u6709\u4EFB\u4F55\u6210\u9AD4\u8CBB\u8C93\u3002"

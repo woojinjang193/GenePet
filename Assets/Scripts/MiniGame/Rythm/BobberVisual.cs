@@ -29,6 +29,8 @@ public class BobberVisual : MonoBehaviour
     private float _downTime;
     private float _upTime;
 
+    private bool _hapticFired;
+
     private void Awake()
     {
         _baseLocalPos = transform.localPosition;
@@ -44,6 +46,8 @@ public class BobberVisual : MonoBehaviour
         // 새 펄스 시작: 시간 초기화
         _t = 0f;
         _isPlaying = true;
+
+        _hapticFired = false;
     }
     //public void BobberUp()
     //{
@@ -69,6 +73,12 @@ public class BobberVisual : MonoBehaviour
         if (!_isPlaying) return;
 
         _t += Time.deltaTime;    // 펄스 진행 시간 누적
+
+        if (!_hapticFired && _t >= _downTime)
+        {
+            _hapticFired = true;
+            Vibration.Vibrate(0.01f, 50);
+        }
 
         float yOffset;        // 현재 프레임에서 적용할 Y 오프셋(아래로 내려가면 음수)
 

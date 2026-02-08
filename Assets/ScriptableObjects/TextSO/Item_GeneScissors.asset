@@ -12,21 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Item_GeneScissors
   m_EditorClassIdentifier: 
-  KOR: "\uC720\uC804\uC790\uB97C \uC798\uB77C \uC720\uC804\uC744 \uB9C9\uC2B5\uB2C8\uB2E4.\n\uD55C
-    \uC720\uC804\uC790 \uD0C0\uC785\uC5D0\uC11C \uD55C\uCABD\uC5D0\uB9CC \uC0AC\uC6A9\uD560
-    \uC218 \uC788\uC2B5\uB2C8\uB2E4."
-  ENG: 'Cut the gene to block its inheritance.
-
-    You can use it on only one side
-    of a gene type.'
-  DE: 'Schneide das Gen ab, um die Vererbung zu blockieren.
-
-    Pro Gentyp kann
-    es nur auf einer Seite verwendet werden.'
-  SP: 'Corta el gen para impedir su herencia.
-
-    Solo se puede usar en un lado
-    dentro de un mismo tipo de gen.'
-  JP: "\u907A\u4F1D\u5B50\u3092\u5207\u308A\u53D6\u308A\u3001\u907A\u4F1D\u3092\u9632\u304E\u307E\u3059\u3002\n1\u3064\u306E\u907A\u4F1D\u5B50\u30BF\u30A4\u30D7\u306B\u3064\u304D\u7247\u5074\u306B\u306E\u307F\u4F7F\u7528\u3067\u304D\u307E\u3059\u3002"
-  CHS: "\u526A\u5207\u57FA\u56E0\u4EE5\u963B\u6B62\u9057\u4F20\u3002\n\u5728\u540C\u4E00\u57FA\u56E0\u7C7B\u578B\u4E2D\u53EA\u80FD\u5BF9\u4E00\u4FA7\u4F7F\u7528\u3002"
-  CHT: "\u526A\u5207\u57FA\u56E0\u4EE5\u963B\u6B62\u907A\u50B3\u3002\n\u5728\u540C\u4E00\u57FA\u56E0\u985E\u578B\u4E2D\u53EA\u80FD\u5C0D\u4E00\u5074\u4F7F\u7528\u3002"
+  KOR: "\uC720\uC804\uC790 \uAC00\uC704"
+  ENG: Gene Scissors
+  DE: Gene Scissors
+  SP: "Tijeras gen\xE9ticas"
+  JP: "\u907A\u4F1D\u5B50\u30CF\u30B5\u30DF"
+  CHS: "\u57FA\u56E0\u526A\u5200"
+  CHT: "\u57FA\u56E0\u526A\u5200"

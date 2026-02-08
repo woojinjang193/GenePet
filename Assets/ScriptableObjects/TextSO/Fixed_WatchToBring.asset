@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Fixed_WatchToBring
   m_EditorClassIdentifier: 
   KOR: "\uAD11\uACE0 \uBCF4\uACE0 \uCC3E\uAE30"
-  ENG: Watch an ad to find it
-  DE: Werbung ansehen, um es zu finden
-  SP: Ver un anuncio para encontrarlo
+  ENG: Find by watching an ad
+  DE: Mit Werbung finden
+  SP: Encontrar viendo un anuncio
   JP: "\u5E83\u544A\u3092\u898B\u3066\u63A2\u3059"
-  CHS: "\u770B\u5E7F\u544A\u5BFB\u627E"
-  CHT: "\u770B\u5EE3\u544A\u5C0B\u627E"
+  CHS: "\u770B\u5E7F\u544A\u627E\u56DE"
+  CHT: "\u770B\u5EE3\u544A\u627E\u56DE"

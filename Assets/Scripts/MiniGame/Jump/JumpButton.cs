@@ -11,8 +11,9 @@ public class JumpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         if(_game)
-        //Debug.Log($"버튼눌림 : {_direction}");
-        _game.OnPressButton(_direction); // 누름 시작
+        {
+            _game.OnPressButton(_direction); // 누름 시작
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

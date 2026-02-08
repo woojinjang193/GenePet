@@ -6,6 +6,6 @@ public class Action_BoosterRemove : TutorialActionBase
 {
     public override void Execute()
     {
-        Manager.Save.CurrentData.UserData.Items.GrowthBooster = 0;
+        Manager.Item.UseItem(RewardType.GrowthBooster,1);
     }
 }

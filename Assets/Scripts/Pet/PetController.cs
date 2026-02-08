@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public sealed class PetController : MonoBehaviour
@@ -19,11 +20,18 @@ public sealed class PetController : MonoBehaviour
     [SerializeField] private Sprite _closeEyesWithTear;
     [Header("감은 눈")]
     [SerializeField] private Sprite _closeEyesSprite;
+    [Header("냐인 스프라이트")]
+    [SerializeField] private Sprite[] _nyeinSprites;
+    [Header("냐인 스피드")]
+    [SerializeField] private float _nyeinSpeed;
 
     [SerializeField] private Animator _mouthAnim;
 
     private Sprite _ogMouth;
     private Sprite _ogEye;
+
+    private bool _isNyeinPlaying = false;
+    private Coroutine _nyeinCo;
 
     //상호작용 수치들 
     private float _mealFullnessGain;  //밥 먹으면 오르는 포만도 양
@@ -47,6 +55,9 @@ public sealed class PetController : MonoBehaviour
         _snackExpGain = config.SnackExpGain;
         _snackCleanlinessDecrease = config.SnackCleanlinessDecrease;
         _canFeedPetBelow = config.CanFeedPetBelow;
+
+        _ogMouth = _mouth.sprite; //TEST
+        _ogEye = _eye.sprite;//TEST
     }
 
     public PetStatusCore Status
@@ -57,15 +68,17 @@ public sealed class PetController : MonoBehaviour
     public void FeedFood()
     {
         if (_pet == null || Status == null ) return;
+        if(_isNyeinPlaying) StopNyein();
 
         if (Status.Hunger > _canFeedPetBelow)
         {
             Debug.Log("이미 배부름");
-            _mouthAnim.SetTrigger("Full");
+            _nyeinCo = StartCoroutine(NyeinRoutine());
             return;
         }
 
         Eat(_mealFullnessGain, _mealCleanlinessDecrease);
+        Manager.Audio.PlaySFXExclusive("Feed"); // SFX Feed Exclusive
         Debug.Log($"밥먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
 
         Debug.Log($"{Status.Hunger}, {_canFeedPetBelow}");
@@ -74,17 +87,19 @@ public sealed class PetController : MonoBehaviour
     public void FeedSnack() //스낵 먹었을떄
     {
         if (_pet == null || Status == null) return;
+        if (_isNyeinPlaying) StopNyein();
 
         if (Status.Hunger > _canFeedPetBelow)
         {
             Debug.Log("이미 배부름");
-            _mouthAnim.SetTrigger("Full");
+            _nyeinCo = StartCoroutine(NyeinRoutine());
             return;
         }
 
         _pet.Status.IncreaseEXP(_snackExpGain);
         Eat(_snackFullnessGain, _snackCleanlinessDecrease);
         Manager.Item.UseItem(RewardType.Snack, 1);
+        Manager.Audio.PlaySFXExclusive("Feed"); // SFX Feed Exclusive
         Debug.Log($"스낵먹음. 허기짐 : {Status.Hunger}, 청결도 : {Status.Cleanliness}");
     }
 
@@ -110,33 +125,37 @@ public sealed class PetController : MonoBehaviour
     public void Heal()
     {
         if (_pet == null || Status == null) return;
+        if (_isNyeinPlaying) StopNyein();
 
         bool isSick = Status.IsSick;
         if (!isSick)
         {
             Debug.Log("안아픔");
+            _nyeinCo = StartCoroutine(NyeinRoutine());
             return;
         }
         
         Status.SetFlag(PetFlag.IsSick, false);
         Status.IncreaseStat(PetStat.Health, 10f); //치료시 증가하는 체력 수치
+
         _pet.Petmanager.UpdateStatus();
+        _pet.PetCured();
         Debug.Log($"아픔 : {Status.IsSick}");
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Food"))
         {
-            _ogMouth = _mouth.sprite;
-            _ogEye = _eye.sprite;
+            //_ogMouth = _mouth.sprite;
+            //_ogEye = _eye.sprite;
             _mouth.sprite = _openMouthSprite;
             _eye.sprite = _closeEyesSprite;
             //Debug.Log("음식 트리거 충돌");
         }
         else if (collision.CompareTag("Snack"))
         {
-            _ogMouth = _mouth.sprite;
-            _ogEye = _eye.sprite;
+            //_ogMouth = _mouth.sprite;
+            //_ogEye = _eye.sprite;
             _mouth.sprite = _openMouthForSnackSprite;
             _eye.sprite = _closeEyesSprite;
             //Debug.Log("간식 트리거 충돌");
@@ -144,15 +163,15 @@ public sealed class PetController : MonoBehaviour
         }
         else if (collision.CompareTag("Medicine"))
         {
-            _ogMouth = _mouth.sprite;
-            _ogEye = _eye.sprite;
+            //_ogMouth = _mouth.sprite;
+            //_ogEye = _eye.sprite;
             _mouth.sprite = _openMouthForMedicine;
             _eye.sprite = _closeEyesWithTear;
             //Debug.Log("약 트리거 충돌");
         }
         else if (collision.CompareTag("CleaningTool"))
         {
-            _ogEye = _eye.sprite;
+            //_ogEye = _eye.sprite;
             _eye.sprite = _closeEyesSprite;
             //Debug.Log("씻는중");
         }
@@ -183,5 +202,37 @@ public sealed class PetController : MonoBehaviour
             _eye.sprite = _ogEye;
             //Debug.Log("샤워도구 멀어짐");
         }
+    }
+
+    //==========냐인 전용 코루틴================
+    private void StopNyein()
+    {
+        if (_nyeinCo != null)
+        {
+            StopCoroutine(_nyeinCo);
+            _nyeinCo = null;
+            _mouth.sprite = _ogMouth;
+        }
+    }
+    private IEnumerator NyeinRoutine()
+    {
+        Manager.Audio.PlaySFXExclusive("Full"); // SFX Full Exclusive
+        _isNyeinPlaying = true;
+        int length = _nyeinSprites.Length;
+
+        for (int i = 0; i < length; i++)
+        {
+            _mouth.sprite = _nyeinSprites[i];
+            yield return new WaitForSeconds(_nyeinSpeed);
+        }
+
+        for (int i = length - 1; i > 0; i--)
+        {
+            _mouth.sprite = _nyeinSprites[i];
+            yield return new WaitForSeconds(_nyeinSpeed);
+        }
+
+        _mouth.sprite = _ogMouth;
+        _isNyeinPlaying = false;
     }
 }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstGeneEdit5
+  m_EditorClassIdentifier: 
+  KOR: "\uB124? \uC624\uB978\uCABD \uC720\uC804\uC790\uAC00 \uC548 \uBCF4\uC778\uB2E4\uACE0\uC694?"
+  ENG: "Huh? You can\u2019t see the gene on the right?"
+  DE: Hm? Du siehst das Gen rechts nicht?
+  SP: "\xBFEh? \xBFNo puedes ver el gen de la derecha?"
+  JP: "\u3048\uFF1F\u53F3\u306E\u907A\u4F1D\u5B50\u304C\u898B\u3048\u306A\u3044\u3063\u3066\uFF1F"
+  CHS: "\u8BF6\uFF1F\u4F60\u8BF4\u53F3\u8FB9\u7684\u57FA\u56E0\u770B\u4E0D\u5230\uFF1F"
+  CHT: "\u54A6\uFF1F\u4F60\u8AAA\u53F3\u908A\u7684\u57FA\u56E0\u770B\u4E0D\u5230\uFF1F"

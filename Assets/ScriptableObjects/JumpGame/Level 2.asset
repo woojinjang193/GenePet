@@ -14,24 +14,91 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlatformPrefabs:
   - {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
-  MinGapY: 1.5
-  DistanceBetweenPlatform: 1
-  MinItemCount: 4
+  - {fileID: 1659212146967151355, guid: b58ceb26ec4876c46a3535b0a8ec7f49, type: 3}
+  - {fileID: 1659212146967151355, guid: db83e5c9cfcb57d47aba9eee7b32d029, type: 3}
+  MinGapY: 1.6
+  DistanceBetweenPlatform: 2
+  MinItemCount: 3
   MaxItemCount: 4
   LevelRewards:
   - RewardType: 1
     Amount: 10
+    Weight: 10
+  - RewardType: 3
+    Amount: 1
+    Weight: 2
+  - RewardType: 7
+    Amount: 1
+    Weight: 3
+  - RewardType: 6
+    Amount: 1
+    Weight: 1
+  - RewardType: 5
+    Amount: 1
+    Weight: 1
+  - RewardType: 4
+    Amount: 1
+    Weight: 1
+  - RewardType: 20
+    Amount: 1
     Weight: 1
   - RewardType: 8
     Amount: 1
-    Weight: 1
+    Weight: 2
+  - RewardType: 11
+    Amount: 1
+    Weight: 0.5
+  - RewardType: 21
+    Amount: 5
+    Weight: 0.3
+  - RewardType: 19
+    Amount: 1
+    Weight: 0.3
+  - RewardType: 22
+    Amount: 1
+    Weight: 0.2
+  - RewardType: 13
+    Amount: 1
+    Weight: 0.3
   LevelClearRewards:
   - RewardType: 1
-    Amount: 1000
+    Amount: 100
     Weight: 1
   - RewardType: 3
-    Amount: 5
-    Weight: 1
-  - RewardType: 12
     Amount: 1
     Weight: 1
+  - RewardType: 7
+    Amount: 1
+    Weight: 1
+  - RewardType: 6
+    Amount: 1
+    Weight: 1
+  - RewardType: 5
+    Amount: 1
+    Weight: 1
+  - RewardType: 4
+    Amount: 1
+    Weight: 1
+  - RewardType: 20
+    Amount: 1
+    Weight: 1
+  - RewardType: 8
+    Amount: 1
+    Weight: 2
+  - RewardType: 11
+    Amount: 1
+    Weight: 1
+  - RewardType: 21
+    Amount: 5
+    Weight: 1
+  - RewardType: 19
+    Amount: 1
+    Weight: 1
+  - RewardType: 22
+    Amount: 1
+    Weight: 0.3
+  - RewardType: 13
+    Amount: 1
+    Weight: 1
+  BackgroundStart: {fileID: 21300000, guid: 491d6ad7aeb49d548b0ed744f2c6cad6, type: 3}
+  BackgroundLoop: {fileID: 21300000, guid: 4a3a32a3ba35e084a9a92445df111dce, type: 3}

@@ -5,16 +5,17 @@ using UnityEngine.Audio;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    [Header("Database")]
+    [Header("오디오 DB")]
     [SerializeField] private AudioDataBase _database;
 
-    [Header("Mixer")]
+    [Header("믹서")]
     [SerializeField] private AudioMixer _audioMixer;         // 오디오 믹서
     [SerializeField] private AudioMixerGroup _bgmGroup;      // BGM 믹서 그룹
     [SerializeField] private AudioMixerGroup _sfxGroup;      // SFX 믹서 그룹
 
-    [Header("Sources")]
+    [Header("소스")]
     [SerializeField] private AudioSource _bgmSource;         // BGM 전용 오디오 소스
+    [SerializeField] private AudioSource _exclusiveSfxSource; //동시재생 안될 SFX
     [SerializeField] private int _sfxPoolSize = 10;           // SFX 풀 크기
 
     // ===== 음소거 상태 =====
@@ -26,6 +27,7 @@ public class AudioManager : Singleton<AudioManager>
 
     private List<AudioSource> _sfxSources;  // SFX 오디오 소스 풀
 
+    public string CurBgmKey { get; private set; }
     public bool IsReady { get; private set; }
     protected override void Awake()
     {
@@ -60,6 +62,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlayBGM(string key)
     {
+        CurBgmKey = key; //키 저장 (외부 조회용)
         var data = _database.Get(key);       // 데이터베이스에서 조회
         if (data == null) return;            // 없으면 종료
 
@@ -80,7 +83,7 @@ public class AudioManager : Singleton<AudioManager>
     // SFX
     // =========================
 
-    public void PlaySFX(string key)
+    public void PlaySFX(string key) 
     {
         var data = _database.Get(key);        // 데이터베이스 조회
         if (data == null) return;             // 없으면 종료
@@ -96,6 +99,21 @@ public class AudioManager : Singleton<AudioManager>
         src.Play();                           // 재생
     }
 
+    public void PlaySFXExclusive(string key, bool loop = false) // 동시에 재생되면 안되는 SFX 재생
+    {
+        var data = _database.Get(key);
+        if (data == null) return;
+
+        _exclusiveSfxSource.Stop();  // 이전 사운드 즉시 끊기
+        _exclusiveSfxSource.clip = data.clip;
+        _exclusiveSfxSource.volume = data.baseVolume;
+        _exclusiveSfxSource.loop = loop;
+        _exclusiveSfxSource.Play();
+    }
+    public void StopSFXExclusive()     // 전용 채널 정지
+    {
+        _exclusiveSfxSource.Stop();
+    }
     private AudioSource GetAvailableSFXSource() //오디오소스 빈자리 찾기
     {
         foreach (var src in _sfxSources)     // 풀 순회

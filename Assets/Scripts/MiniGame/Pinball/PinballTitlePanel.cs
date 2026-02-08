@@ -43,6 +43,14 @@ public class PinballTitlePanel : MonoBehaviour
     {
         bool isNewRecord = curScore == bestScore;
 
+        if (!isNewRecord)
+        {
+            Manager.Audio.PlaySFX("GameOver");
+        }
+        else
+        {
+            Manager.Audio.PlaySFX("NewRecord");
+        }
         _newRecordSprite.SetActive(isNewRecord);
         _curScoreSPrite.SetActive(true);
 

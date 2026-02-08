@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Asking_MoveToShopForSlot
   m_EditorClassIdentifier: 
-  KOR: "\uD3AB \uC2AC\uB86F\uC774 \uBD80\uC871\uD569\uB2C8\uB2E4.\n\uC0C1\uC810\uC73C\uB85C
+  KOR: "\uB9C8\uC744\uC5D0 \uC790\uB9AC\uAC00 \uBD80\uC871\uD569\uB2C8\uB2E4.\n\uC0C1\uC810\uC73C\uB85C
     \uC774\uB3D9\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
-  ENG: 'Not enough pet slots.
+  ENG: 'Not enough space in the village.
 
     Go to the shop?'
-  DE: 'Nicht genug Haustier-Slots.
+  DE: 'Nicht genug Platz im Dorf.
 
     Zum Shop gehen?'
-  SP: "No tienes suficientes espacios de mascota.\n\xBFIr a la tienda?"
-  JP: "\u30DA\u30C3\u30C8\u30B9\u30ED\u30C3\u30C8\u304C\u8DB3\u308A\u307E\u305B\u3093\u3002\n\u30B7\u30E7\u30C3\u30D7\u3078\u79FB\u52D5\u3057\u307E\u3059\u304B\uFF1F"
-  CHS: "\u5BA0\u7269\u69FD\u4F4D\u4E0D\u8DB3\u3002\n\u8981\u524D\u5F80\u5546\u5E97\u5417\uFF1F"
-  CHT: "\u5BF5\u7269\u69FD\u4F4D\u4E0D\u8DB3\u3002\n\u8981\u524D\u5F80\u5546\u5E97\u55CE\uFF1F"
+  SP: "No hay suficiente espacio en el pueblo.\n\xBFIr a la tienda?"
+  JP: "\u6751\u306E\u7A7A\u304D\u304C\u8DB3\u308A\u307E\u305B\u3093\u3002\n\u30B7\u30E7\u30C3\u30D7\u3078\u79FB\u52D5\u3057\u307E\u3059\u304B\uFF1F"
+  CHS: "\u6751\u5E84\u7A7A\u95F4\u4E0D\u8DB3\u3002\n\u8981\u524D\u5F80\u5546\u5E97\u5417\uFF1F"
+  CHT: "\u6751\u838A\u7A7A\u9593\u4E0D\u8DB3\u3002\n\u8981\u524D\u5F80\u5546\u5E97\u55CE\uFF1F"

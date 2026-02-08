@@ -32,6 +32,10 @@ public class PinballUiManager : MonoBehaviour
         _rouletteZone.OnRouletteStart += CloseSlots;
         _pinballManager.OnGameStart += ResetUis;
     }
+    private void Start()
+    {
+        Manager.Audio.PlayBGM("BGM_Pinball");
+    }
     private void OnDestroy()
     {
         _visual.OnItemFlown -= SlotUpdate;

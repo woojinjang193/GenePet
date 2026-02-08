@@ -34,8 +34,10 @@ public class TutorialController : MonoBehaviour
     {
         Debug.Log("튜토리얼 시작 요청");
         if (key == TutorialTriggerKey.None) return;
-        if (_isRunning) return;
 
+        Debug.Log($"튜토리얼 :{_isRunning}");
+        if (_isRunning) return;
+        
         if (!_map.TryGetValue(key, out var chunk) || chunk == null) { Debug.Log("값없음"); return; } //매핑 없으면 무시
         Debug.Log("튜토리얼 시작");
         _isRunning = true; 

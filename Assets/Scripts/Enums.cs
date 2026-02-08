@@ -116,4 +116,5 @@ public enum TutorialTriggerKey
     FirstAdult,    // 첫 어른 달성시
     FirstGeneEdit,  //첫 GeneInfo 패널 오픈시
     FirstIsland,  //첫 섬씬 방문시   
+    FirstMissing //첫번째 떠남
 }

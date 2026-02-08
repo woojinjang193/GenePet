@@ -22,7 +22,7 @@ public class PetConfigSO : ScriptableObject
     public float CleanlinessDecreasePerSec;
 
     [Header("놀아주기시 오르는 행복도 수치")]
-    public float PlayHappinessGain;
+    public float PlayHappinessGain; //안쓰는듯
 
     [Header("체력 초당 감소")]
     public float HealthDecreasePerSec;

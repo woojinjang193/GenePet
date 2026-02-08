@@ -27,13 +27,9 @@ public class MiniGameBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        if(Manager.Audio != null)
-        {
-            Manager.Audio.StopBGM();
-        }
-
         _gainedItems.Clear();    // 보상 기록 초기화
         _gainedEggs.Clear();     //알 보상 초기화
+        Manager.Item.ClearRewardQueue(); //혹시 남아있는 보상 연출 큐 지우기
         _isRewardsFinalized = false; //지급 가드 초기화
 
         _pet = Manager.Mini.CurPet;

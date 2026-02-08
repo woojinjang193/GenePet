@@ -78,6 +78,7 @@ public class PinballVisualManager : MonoBehaviour
         if (_uiCanvas == null) return;
         if (color == BrickColor.None && reward.RewardType == RewardType.None) return;
 
+        Manager.Audio.PlaySFX("GetItem");
         // UI 아이콘 생성(캔버스 아래)
         RectTransform canvasRect = _uiCanvas.transform as RectTransform;
 

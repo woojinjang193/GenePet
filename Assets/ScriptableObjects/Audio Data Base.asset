@@ -13,12 +13,87 @@ MonoBehaviour:
   m_Name: Audio Data Base
   m_EditorClassIdentifier: 
   _audioList:
-  - key: BGM_Test
-    clip: {fileID: 8300000, guid: f646d488337c94084b47e56752970960, type: 3}
-    baseVolume: 0.5
+  - key: BGM_Main
+    clip: {fileID: 8300000, guid: af195dcba53d1d34480c068841c0aef9, type: 3}
+    baseVolume: 1
+  - key: BGM_Shop
+    clip: {fileID: 8300000, guid: 0261ddfba7ce90d4996e1e6f93e8cc9c, type: 3}
+    baseVolume: 1
+  - key: BGM_Pinball
+    clip: {fileID: 8300000, guid: ea274e8415691f74b92b1158171ffd63, type: 3}
+    baseVolume: 1
+  - key: BGM_Jump
+    clip: {fileID: 8300000, guid: 5a36cd9a441741a459a50ed3ad4d4cd8, type: 3}
+    baseVolume: 1
+  - key: BGM_Rythm
+    clip: {fileID: 8300000, guid: 2c741be3e3ea52844b3fcdb5f085cdab, type: 3}
+    baseVolume: 1
+  - key: BGM_Island
+    clip: {fileID: 8300000, guid: a2c8880b070752d48be88bf77f3ac529, type: 3}
+    baseVolume: 1
   - key: Button
-    clip: {fileID: 8300000, guid: 9cb19eb032d304b07acec596ae2ce4a4, type: 3}
+    clip: {fileID: 8300000, guid: 144905942e5425d48828e6ef1e698fb9, type: 3}
     baseVolume: 1
-  - key: Thunder
-    clip: {fileID: 8300000, guid: 35e4f1431945c43fc9e5bf6e158e8d1c, type: 3}
+  - key: Petting
+    clip: {fileID: 8300000, guid: 3d28d246c5c98954c989c2e8e4812d8e, type: 3}
     baseVolume: 1
+  - key: ZoomPet
+    clip: {fileID: 8300000, guid: 7313da8c923d7374496f3d32f9090484, type: 3}
+    baseVolume: 1
+  - key: Feed
+    clip: {fileID: 8300000, guid: 7f942a7a4e371be43aa2964058b267fd, type: 3}
+    baseVolume: 0.7
+  - key: Full
+    clip: {fileID: 8300000, guid: 7f37efc016772b542b929e2a9f4880ef, type: 3}
+    baseVolume: 0.6
+  - key: Wash
+    clip: {fileID: 8300000, guid: 26c1a600b65e60b40b9cf64c6bb6b1f2, type: 3}
+    baseVolume: 1
+  - key: Snack
+    clip: {fileID: 0}
+    baseVolume: 1
+  - key: Grow
+    clip: {fileID: 8300000, guid: e8b5b41bcd9aa8249871135c26363dc0, type: 3}
+    baseVolume: 1
+  - key: OpenLetter
+    clip: {fileID: 8300000, guid: e3b5dfc7e906b4e428cffb53537f2554, type: 3}
+    baseVolume: 1
+  - key: GetItem
+    clip: {fileID: 8300000, guid: 37cb0d5b19f6eb047b11848b9ac7754c, type: 3}
+    baseVolume: 1
+  - key: Jump
+    clip: {fileID: 8300000, guid: ae3a604abd3843b45a81dcb591751bb6, type: 3}
+    baseVolume: 1
+  - key: Charge
+    clip: {fileID: 8300000, guid: d6b27f42dc89cf9438361e83221955a7, type: 3}
+    baseVolume: 1
+  - key: GameOver
+    clip: {fileID: 8300000, guid: 4d384fba329eede45b1aeb5ac50847e6, type: 3}
+    baseVolume: 0.6
+  - key: GetReward
+    clip: {fileID: 8300000, guid: d6b27f42dc89cf9438361e83221955a7, type: 3}
+    baseVolume: 1
+  - key: GenScissors
+    clip: {fileID: 8300000, guid: dc60ca478faaca640a9971a28f49e7d1, type: 3}
+    baseVolume: 1
+  - key: GenGlue
+    clip: {fileID: 8300000, guid: 1004713ef5d37024b8599ce0e5d3547b, type: 3}
+    baseVolume: 1
+  - key: GenGuaranter
+    clip: {fileID: 8300000, guid: 96842068dcf5b3e48824abfd6e11c5ca, type: 3}
+    baseVolume: 1
+  - key: Cured
+    clip: {fileID: 8300000, guid: a8bb4706e2ace034b86629146a32b1c4, type: 3}
+    baseVolume: 1
+  - key: GeneTester
+    clip: {fileID: 8300000, guid: d80fe6c6f01befc4da771a3daec48190, type: 3}
+    baseVolume: 1
+  - key: BrickHit
+    clip: {fileID: 8300000, guid: 37dc9933d2709584c9471745ab211506, type: 3}
+    baseVolume: 0.5
+  - key: BrickBroke
+    clip: {fileID: 8300000, guid: c083e53c19b088f4fb14a19029b95f1c, type: 3}
+    baseVolume: 1
+  - key: NewRecord
+    clip: {fileID: 8300000, guid: e2187a3bb9346ca408b5f8c87d2679a3, type: 3}
+    baseVolume: 0.6
