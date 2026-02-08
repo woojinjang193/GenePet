@@ -10,6 +10,8 @@ public class JumpPlayerController : MonoBehaviour
     [SerializeField] private Transform _visualRoot; //위치보정용
     [SerializeField] private Transform _body; // 스케일 조절용
 
+    [Header("강제 착지")]
+    [SerializeField] private float _forceGroundTime = 3f;
 
     [Header("점프 차지 연출")]
     [SerializeField] private float _jumpSquashY = 0.7f;
@@ -42,6 +44,9 @@ public class JumpPlayerController : MonoBehaviour
 
     private bool _ignoreDeadZone;
     private bool _ignorePlatforms;
+
+    private float _forceGroundTimer;   // 강제 착지 타이머
+    private bool _forceGroundArmed;    //강제 착지 타이머 동작 여부
 
     public Action<float> OnPlayerGrounded; // 착지 이벤트
 
@@ -84,8 +89,38 @@ public class JumpPlayerController : MonoBehaviour
                     //Vibration.Vibrate(0.01f, 40);
                     Debug.Log("바닥 True");
                 }
+                else
+                {
+                    _forceGroundArmed = !_ignorePlatforms; //복원 완료 후 착지 대기 없으면(플랫폼 무시중 제외) 강제착지 타이머 시작
+                    _forceGroundTimer = 0f;// 타이머 초기화
+                }
             }
         }
+        if (_forceGroundArmed) // 강제 착지 타이머 처리
+        {
+            if (IsGrounded || _pendingGrounded || _ignorePlatforms) //이미 착지/대기/플랫폼무시면 중단
+            {
+                _forceGroundArmed = false; //타이머 중단
+                _forceGroundTimer = 0f;    // 타이머 리셋
+            }
+            else
+            {
+                _forceGroundTimer += Time.deltaTime; // 누적
+                if (_forceGroundTimer >= _forceGroundTime) //시간 초과 시 강제 착지
+                {
+                    ForceGrounded(); //강제 착지 확정
+                }
+            }
+        }
+    }
+    private void ForceGrounded()
+    {
+        _forceGroundArmed = false; 
+        _forceGroundTimer = 0f; 
+        _pendingGrounded = false;   // 팬딩 해제
+        IsGrounded = true; // 강제 착지
+        OnPlayerGrounded?.Invoke(transform.position.y); // 착지 이벤트 호출
+        Debug.Log("강제 바닥 True"); //디버그 로그
     }
 
     private void FixedUpdate()
@@ -193,6 +228,7 @@ public class JumpPlayerController : MonoBehaviour
             ForceMode2D.Impulse   // 즉시 힘 적용
         );
         Manager.Audio.PlaySFXExclusive("Jump");
+        Vibration.Vibrate(0.01f, 50);
         //Debug.Log($"{power}의 파워로 점프함");
     }
     // ================= 충돌 처리 =================

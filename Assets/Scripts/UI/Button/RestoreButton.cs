@@ -23,6 +23,7 @@ public class RestoreButton : MonoBehaviour
     {
         if (isPurchased)
         {
+            Manager.AD.RestorePurchase();
             Manager.Game.ShowPopup("PopUp_RestoreComplete");
         }
         else
