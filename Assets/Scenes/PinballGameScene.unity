@@ -2341,9 +2341,9 @@ MonoBehaviour:
   _color2: {r: 0.5896226, g: 1, b: 0.65719575, a: 1}
   _color3: {r: 0.91006875, g: 1, b: 0.36320752, a: 1}
   _brickParents: {fileID: 1240306164}
-  _normalBrickScore: 5
-  _normalItemBrickScore: 3
-  _colorBrickScore: 5
+  _normalBrickScore: 10
+  _normalItemBrickScore: 9
+  _colorBrickScore: 12
 --- !u!1 &591934936
 GameObject:
   m_ObjectHideFlags: 0

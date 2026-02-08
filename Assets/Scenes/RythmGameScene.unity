@@ -600,8 +600,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _judge: {fileID: 128245662}
   _input: {fileID: 1356631912}
-  _scorePerfect: 2
-  _scoreGood: 1
+  _scorePerfect: 9
+  _scoreGood: 4
   _scoreMiss: 0
   _maxMissRatioToSucceed: 0.5
   _earlyInputBufferSec: 0.3
