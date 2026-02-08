@@ -33,7 +33,7 @@ MonoBehaviour:
     baseVolume: 1
   - key: Button
     clip: {fileID: 8300000, guid: 144905942e5425d48828e6ef1e698fb9, type: 3}
-    baseVolume: 1
+    baseVolume: 0.5
   - key: Petting
     clip: {fileID: 8300000, guid: 3d28d246c5c98954c989c2e8e4812d8e, type: 3}
     baseVolume: 1
@@ -42,10 +42,10 @@ MonoBehaviour:
     baseVolume: 1
   - key: Feed
     clip: {fileID: 8300000, guid: 7f942a7a4e371be43aa2964058b267fd, type: 3}
-    baseVolume: 0.7
+    baseVolume: 0.4
   - key: Full
     clip: {fileID: 8300000, guid: 7f37efc016772b542b929e2a9f4880ef, type: 3}
-    baseVolume: 0.6
+    baseVolume: 0.4
   - key: Wash
     clip: {fileID: 8300000, guid: 26c1a600b65e60b40b9cf64c6bb6b1f2, type: 3}
     baseVolume: 1
