@@ -42,6 +42,7 @@ public class ItemManager : Singleton<ItemManager>
     // ===================== 팝업 오픈 트리거 =====================
     public void NotifyRewardsReady() //원하는 타이밍에 보상 팝업을 열라고 이벤트를 발생시키는 함수
     {
+        Debug.Log("[획득] 보상팝업 ON");
         OnRewardsGiven?.Invoke(); // 보상팝업 열기 신호 이벤트 발생
     }
 
