@@ -602,9 +602,9 @@ MonoBehaviour:
   _input: {fileID: 1356631912}
   _scorePerfect: 2
   _scoreGood: 1
-  _scoreMiss: -1
+  _scoreMiss: 0
   _maxMissRatioToSucceed: 0.5
-  _earlyInputBufferSec: 0.1
+  _earlyInputBufferSec: 0.3
   _scoreText: {fileID: 1302801848}
 --- !u!4 &85771737
 Transform:
