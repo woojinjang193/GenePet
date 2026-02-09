@@ -50,6 +50,9 @@ public enum PersonalityType
     Persistent, //끈기있는
     Aggressive, // 공격적
     Calm, // 차분한
+    Impulsive,
+    Friendly,
+    Energetic
 }
 
 public enum PartType

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a148ef2975e8c3e46a0977ce417730c0, type: 3}
-  m_Name: New PersonalitySO 0
+  m_Name: PersonalitySO Persistent
   m_EditorClassIdentifier: 
-  ID: 00
-  DisplayName: 01
-  Rarity: 0
-  Personality: 0
-  Sprite: {fileID: 21300000, guid: 601b7bbccd489476eb669c84378c8f3e, type: 3}
+  ID: 09
+  DisplayName: Personality_Persistent
+  Rarity: 1
+  Personality: 4
+  Sprite: {fileID: 21300000, guid: cd6f9b9c3da6492408183d471ed817d1, type: 3}
