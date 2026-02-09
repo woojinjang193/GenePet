@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Pinball_Tuto3
+  m_EditorClassIdentifier: 
+  KOR: "\uAD6C\uC2AC\uC774 \uC544\uB798\uB85C \uB5A8\uC5B4\uC9C0\uBA74 \uCD5C\uC885
+    \uBCF4\uC0C1\uC744 \uD655\uC778 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+  ENG: When the ball falls down, you can check the final rewards.
+  DE: "Wenn die Kugel nach unten f\xE4llt, kannst du die Endbelohnungen ansehen."
+  SP: "Cuando la bola caiga, podr\xE1s ver las recompensas finales."
+  JP: "\u30DC\u30FC\u30EB\u304C\u4E0B\u306B\u843D\u3061\u308B\u3068\u3001\u6700\u7D42\u5831\u916C\u3092\u78BA\u8A8D\u3067\u304D\u307E\u3059\u3002"
+  CHS: "\u7403\u6389\u4E0B\u53BB\u540E\uFF0C\u53EF\u4EE5\u67E5\u770B\u6700\u7EC8\u5956\u52B1\u3002"
+  CHT: "\u7403\u6389\u4E0B\u53BB\u5F8C\uFF0C\u53EF\u4EE5\u67E5\u770B\u6700\u7D42\u734E\u52F5\u3002"

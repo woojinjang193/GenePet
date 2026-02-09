@@ -132,3 +132,33 @@ Fixed_RestorePurchase,구매복원,,,,,,
 ,,,,,,,
 PopUp_RestoreComplete,구매 복원 완료,Purchases Restored,Käufe wiederhergestellt,Compras restauradas,購入の復元が完了しました,恢复购买完成,恢復購買完成
 PopUp_NothingToRestore,복원할 구매가 없습니다,No purchases to restore,Es gibt keine Käufe zum Wiederherstellen,No hay compras para restaurar,復元できる購入はありません,没有可恢复的购买,沒有可恢復的購買
+,,,,,,,
+Shop_MoneyShop,재화,Currency,Währung,Moneda,通貨,货币,貨幣
+Shop_FreeReward,무료 보상,Free Rewards,Kostenlose Belohnungen,Recompensas gratis,無料報酬,免费奖励,免費獎勵
+Shop_FaeCat Care,페어켓 케어,Faecat Care,Faecat-Pflege,Cuidado de Faecat,フェイケットのお世話,Faecat照顾,Faecat照顧
+Shop_GeneEditTools,유전자 편집 도구,Gene Editing Tools,Werkzeuge zur Genbearbeitung,Herramientas de edición genética,遺伝子編集ツール,基因编辑工具,基因編輯工具
+Shop_ForIsland,발자국섬,Pawprint Isle,Pfotenabdruck-Insel,Isla Huella,足あと島,爪印岛,爪印島
+Shop_Rooms,배경,Background,Hintergrund,Fondo,背景,背景,背景
+Shop_RemoveAds,배너광고 제거,Remove Banner Ads,Bannerwerbung entfernen,Quitar anuncios de banner,バナー広告を削除,移除横幅广告,移除橫幅廣告
+,,,,,,,
+Shop_DailyReward,일일 보상,Daily Rewards,Tägliche Belohnungen,Recompensas diarias,デイリー報酬,每日奖励,每日獎勵
+Shop_HourlyReward,1시간 보상,Hourly Reward,Stündliche Belohnung,Recompensa por hora,1時間報酬,每小时奖励,每小時獎勵
+,,,,,,,
+Personality_Aggressive,공격적인,Aggressive,Aggressiv,Agresivo,攻撃的,好斗,好鬥
+Personality_Brave,용감한,Brave,Mutig,Valiente,勇敢,勇敢,勇敢
+Personality_Caim,차분한,Caim,Ruhig,Tranquilo,落ち着いた,冷静,冷靜
+Personality_Energetic,활발한,Energetic,Energisch,Enérgico,活発,活力十足,活力十足
+Personality_Fortitude,불굴의 용기,Fortitude,Unbeugsam,Inquebrantable,不屈,不屈,不屈
+Personality_Friendly,친근한,Friendly,Freundlich,Amistoso,親しみやすい,友好,友善
+Personality_Greedy,탐욕스러운,Greedy,Gierig,Avaro,強欲,贪婪,貪婪
+Personality_Impulsive,충동적인,Impulsive,Impulsiv,Impulsivo,衝動的,冲动,衝動
+Personality_Persistent,끈질긴,Persistent,Hartnäckig,Persistente,しつこい,执着,執著
+Personality_Shy,수줍은,Shy,Schüchtern,Tímido,恥ずかしがり屋,害羞,害羞
+,,,,,,,
+Jump_Tuto1,"화면의 가운데를 기준으로 점프의 방향을 정합니다.\n화면을 누르고 있는 동안 차징되며,\n오래 누를수록 더 높이 점프합니다.","Jump direction is determined by the center of the screen.\nHold to charge.\nThe longer you hold, the higher you jump.","Die Sprungrichtung wird durch die Bildschirmmitte bestimmt.\nHalten zum Aufladen.\nJe länger du hältst, desto höher springst du.","La dirección del salto se determina según el centro de la pantalla.\nMantén pulsado para cargar.\nCuanto más tiempo lo mantengas, más alto saltas.",画面の中央を基準にジャンプ方向が決まります。\n押し続けるとチャージされ、\n長く押すほど高くジャンプします。,以屏幕中央为基准决定跳跃方向。\n按住屏幕可蓄力，\n按得越久跳得越高。,以螢幕中央為基準決定跳躍方向。\n按住螢幕可蓄力，\n按得越久跳得越高。
+Jump_Tuto2,발판 밖 바닥으로 떨어지면 게임 오버.,"If you fall to the ground off the platforms, it's game over.","Wenn du neben die Plattformen auf den Boden fällst, ist das Spiel vorbei.","Si caes al suelo fuera de las plataformas, es game over.",足場の外の地面に落ちるとゲームオーバーです。,掉到平台外的地面上就会游戏结束。,掉到平台外的地面上就會遊戲結束。
+Rythm_Tuto1,"""Listen""이 나오면 리듬을 잘 듣고 기억하세요.","When ""Listen"" appears, listen carefully and memorize the rhythm.","Wenn „Listen“ erscheint, höre gut zu und merke dir den Rhythmus.","Cuando aparezca ""Listen"", escucha bien y memoriza el ritmo.","""Listen""が出たら、リズムをよく聞いて覚えてください。",出现“Listen”时，请仔细听并记住节奏。,出現「Listen」時，請仔細聽並記住節奏。
+Rythm_Tuto2,"""Your Turn""이 나오면 기억한 리듬을 박자에 맞게 터치하세요.","When ""Your Turn"" appears, tap the memorized rhythm in time with the beat.","Wenn „Your Turn“ erscheint, tippe den gemerkten Rhythmus im Takt.","Cuando aparezca ""Your Turn"", toca el ritmo memorizado siguiendo el compás.","""Your Turn""が出たら、覚えたリズムを拍に合わせてタップしてください。",出现“Your Turn”时，请按拍子点击你记住的节奏。,出現「Your Turn」時，請配合拍子點擊你記住的節奏。
+Pinball_Tuto1,구슬이 나오면 플리퍼를 조작해서 벽돌을 깨세요.\n왼쪽 터치 = 왼쪽플리퍼\n오른쪽=터치 오른쪽 플리퍼,"When the ball appears, control the flippers to break the bricks.\nTap left = left flipper\nTap right = right flipper","Wenn die Kugel erscheint, steuere die Flipper, um die Blöcke zu zerstören.\nLinks tippen = linker Flipper\nRechts tippen = rechter Flipper","Cuando aparezca la bola, controla los flippers para romper los ladrillos.\nToque izquierdo = flipper izquierdo\nToque derecho = flipper derecho",ボールが出たら、フリッパーを操作してブロックを壊してください。\n左をタップ＝左フリッパー\n右をタップ＝右フリッパー,出现球后，操作挡板击碎砖块。\n点击左侧＝左挡板\n点击右侧＝右挡板,出現球後，操作擋板打碎磚塊。\n點擊左側＝左擋板\n點擊右側＝右擋板
+Pinball_Tuto2,벽돌의 종류:\n흰색 아이템 벽돌: 아이템 즉시 획득\n색깔 벽돌: 룰렛에 아이템 갱신\n벽돌을 모두 파괴하면 새로운 벽돌들이 생성됩니다.,Brick types:\nWhite item bricks: get an item instantly\nColored bricks: refresh the roulette items\nDestroy all bricks to spawn new ones.,"Blockarten:\nWeiße Item-Blöcke: Item sofort erhalten\nFarbige Blöcke: Roulette-Items werden aktualisiert\nWenn alle Blöcke zerstört sind, erscheinen neue Blöcke.","Tipos de ladrillos:\nLadrillos de objeto blancos: obtén un objeto al instante\nLadrillos de color: se actualizan los objetos de la ruleta\nAl destruir todos los ladrillos, aparecerán nuevos.",ブロックの種類：\n白いアイテムブロック：アイテムを即獲得\n色付きブロック：ルーレットのアイテムが更新されます\nブロックをすべて壊すと、新しいブロックが出現します。,砖块类型：\n白色道具砖：立即获得道具\n彩色砖：刷新轮盘道具\n击碎所有砖块后会生成新的砖块。,磚塊種類：\n白色道具磚：立即獲得道具\n彩色磚：刷新輪盤道具\n打碎所有磚塊後會生成新的磚塊。
+Pinball_Tuto3,구슬이 아래로 떨어지면 최종 보상을 확인 할 수 있습니다.,"When the ball falls down, you can check the final rewards.","Wenn die Kugel nach unten fällt, kannst du die Endbelohnungen ansehen.","Cuando la bola caiga, podrás ver las recompensas finales.",ボールが下に落ちると、最終報酬を確認できます。,球掉下去后，可以查看最终奖励。,球掉下去後，可以查看最終獎勵。

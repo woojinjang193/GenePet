@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Shop_ForIsland
+  m_EditorClassIdentifier: 
+  KOR: "\uBC1C\uC790\uAD6D\uC12C"
+  ENG: Pawprint Isle
+  DE: Pfotenabdruck-Insel
+  SP: Isla Huella
+  JP: "\u8DB3\u3042\u3068\u5CF6"
+  CHS: "\u722A\u5370\u5C9B"
+  CHT: "\u722A\u5370\u5CF6"
