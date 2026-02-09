@@ -76,7 +76,7 @@ public class PetVisualController : MonoBehaviour
     }
     public void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
     {
-        Debug.Log($"[SetSprite] cleanliness={_pet.Status.Cleanliness}");
+        //Debug.Log($"[SetSprite] cleanliness={_pet.Status.Cleanliness}");
 
         if (growth == GrowthStatus.Egg) //알일때
         {

@@ -46,7 +46,7 @@ public class PetStatusCore
             }
             _growth = value;
             OnGrown?.Invoke(_growth);
-            Debug.Log($"ID: 성장 단계 {_growth}로 세팅");
+            //Debug.Log($"ID: 성장 단계 {_growth}로 세팅");
         }
     }
     public void Tick(float sec)

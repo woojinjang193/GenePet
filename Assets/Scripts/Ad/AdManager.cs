@@ -76,7 +76,7 @@ public class AdManager : Singleton<AdManager>
 
         // send the request to load the ad.
         _bannerView.LoadAd(adRequest);
-        Debug.Log("[AdManager] 배너 로드");
+        //Debug.Log("[AdManager] 배너 로드");
     }
     //===================리워드 광고 띄우기(씬에서 호출)================
     public void ShowRewardedAd(IAdRequester requester) //보상형 광고 띄우기 (외부 호출용)

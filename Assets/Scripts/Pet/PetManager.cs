@@ -532,7 +532,7 @@ public class PetManager : MonoBehaviour
     //앱 백그라운드 이벤트로 호출
     private void OnAppPaused()
     {
-        SaveAllStatus();
-        Manager.Save.SaveMainSceneLeaveTime();
+        //Debug.Log("[PetManager] 백그라운드 이벤트 수신받음");
+        SaveAllStatus(); //펫 데이터 저장
     }
 }
