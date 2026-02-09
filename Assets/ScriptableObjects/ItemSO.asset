@@ -23,9 +23,9 @@ MonoBehaviour:
   Gem: {fileID: 21300000, guid: aecbee763f78fb042b3394379b993a5d, type: 3}
   IslandTicketSprite: {fileID: 21300000, guid: 57db38bac1180ca459c359a0e65319d2, type: 3}
   MasterGiftSprite: {fileID: 21300000, guid: 248f9a66c78144346abe41b41657c489, type: 3}
-  Gift1: {fileID: 21300000, guid: ccf683b848e4f43da85b660b2ad50973, type: 3}
+  Gift1: {fileID: 21300000, guid: ef700120bc75c554f8e8b00f236300d0, type: 3}
   Gift2: {fileID: 21300000, guid: a5145082ec67afe49bb9adf5617935c6, type: 3}
-  Gift3: {fileID: 21300000, guid: e3a0e3e87d6c34cf390d4a496212fd98, type: 3}
+  Gift3: {fileID: 21300000, guid: 50bae5b42a2b54843a037e1f92042411, type: 3}
   MissingPosterSprite: {fileID: 21300000, guid: 594bce51085276c438e7d4e4b5b38e92, type: 3}
   GeneticScissorsSprite: {fileID: 21300000, guid: b9129d61620490d42b2a03edb4f497b7, type: 3}
   geneticTesterSprite: {fileID: 21300000, guid: 016773b32cda34142937dde48b05dfcd, type: 3}
