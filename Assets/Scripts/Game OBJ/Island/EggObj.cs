@@ -26,7 +26,7 @@ public class EggObj : MonoBehaviour
         
         if (maxHave <= eggHaveList.Count) //알을 더이상 가질 수 없을때
         {
-            Manager.Game.ShowPopup("You have too many eggs");
+            Manager.Game.ShowPopup("PopUp_EggMax");
             Debug.Log($"알을 더이상 가질 수 없음. 현재: {eggHaveList.Count}");
             return;
         }

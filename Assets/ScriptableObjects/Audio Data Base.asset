@@ -99,7 +99,7 @@ MonoBehaviour:
     baseVolume: 0.6
   - key: GiftSuccess
     clip: {fileID: 8300000, guid: 3a2901c3580ae9d4fa1be146dfb8825f, type: 3}
-    baseVolume: 0.6
+    baseVolume: 0.4
   - key: GiftFail
     clip: {fileID: 8300000, guid: f04e0b91fa6dbe84888b550128d5c0f6, type: 3}
-    baseVolume: 0.6
+    baseVolume: 0.4

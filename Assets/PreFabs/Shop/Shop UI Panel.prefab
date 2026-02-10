@@ -3975,7 +3975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gem_roompoor
   _gmPurchaseType: 2
-  _price: 0
+  _price: 20
   _priceText: {fileID: 7388989543351766936}
   _amountText: {fileID: 482903793002850902}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -4693,7 +4693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gem_guarantee
   _gmPurchaseType: 2
-  _price: 0
+  _price: 30
   _priceText: {fileID: 6566432755313750349}
   _amountText: {fileID: 6299109631992845795}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -5166,7 +5166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gold_ticket
   _gmPurchaseType: 1
-  _price: 0
+  _price: 3000
   _priceText: {fileID: 4876275863034615273}
   _amountText: {fileID: 722610813003570304}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -5958,7 +5958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gold_snack
   _gmPurchaseType: 1
-  _price: 0
+  _price: 2000
   _priceText: {fileID: 7454923750883618431}
   _amountText: {fileID: 7713313147350737666}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -6384,7 +6384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gem_roompinball
   _gmPurchaseType: 2
-  _price: 0
+  _price: 20
   _priceText: {fileID: 7420117170676046146}
   _amountText: {fileID: 7274432297673796730}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -9759,7 +9759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gold_addenergy
   _gmPurchaseType: 1
-  _price: 0
+  _price: 2000
   _priceText: {fileID: 6707300916092921836}
   _amountText: {fileID: 7879051988888136263}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -10725,7 +10725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gem_roomrythm
   _gmPurchaseType: 2
-  _price: 0
+  _price: 20
   _priceText: {fileID: 5523340273588445492}
   _amountText: {fileID: 977681334361055467}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -11034,7 +11034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gold_geneticScissors
   _gmPurchaseType: 1
-  _price: 0
+  _price: 2000
   _priceText: {fileID: 2465754736079418348}
   _amountText: {fileID: 5403875286684658069}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -12924,7 +12924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gem_roomsomething
   _gmPurchaseType: 2
-  _price: 0
+  _price: 20
   _priceText: {fileID: 3019222503402378649}
   _amountText: {fileID: 7225735931826332564}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -14010,7 +14010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gem_mastergift
   _gmPurchaseType: 2
-  _price: 0
+  _price: 20
   _priceText: {fileID: 8157044550161411802}
   _amountText: {fileID: 4348083448885805191}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -18458,7 +18458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gold_geneticglue
   _gmPurchaseType: 1
-  _price: 0
+  _price: 2000
   _priceText: {fileID: 2555468933041412375}
   _amountText: {fileID: 7940919773652412269}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -19475,7 +19475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gem_roomjump
   _gmPurchaseType: 2
-  _price: 0
+  _price: 20
   _priceText: {fileID: 1566185590779841382}
   _amountText: {fileID: 5253691217610258900}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -21293,7 +21293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gold_genetictester
   _gmPurchaseType: 1
-  _price: 0
+  _price: 2000
   _priceText: {fileID: 2829644898206834404}
   _amountText: {fileID: 6030998811761445528}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -23149,7 +23149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gem_growthbooster
   _gmPurchaseType: 2
-  _price: 0
+  _price: 5
   _priceText: {fileID: 2334738652400993927}
   _amountText: {fileID: 6933064578111107881}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}
@@ -24530,7 +24530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productID: gold_missingposter
   _gmPurchaseType: 1
-  _price: 0
+  _price: 1500
   _priceText: {fileID: 5857741689188094463}
   _amountText: {fileID: 3753694011631976754}
   _nonInteractableC: {r: 0, g: 0, b: 0, a: 0.8}

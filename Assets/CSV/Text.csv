@@ -32,7 +32,7 @@ Fixed_Confirm,확인,Confirm,Bestätigen,Confirmar,確認,确认,確認
 Fixed_WatchToBring,광고 보고 찾기,Find by watching an ad,Mit Werbung finden,Encontrar viendo un anuncio,広告を見て探す,看广告找回,看廣告找回
 Button_GetReward,보상 받기,Claim Reward,Belohnung abholen,Reclamar recompensa,報酬を受け取る,领取奖励,領取獎勵
 Button_DailyRewardGranted,모두 수령함,All rewards claimed,Alle Belohnungen abgeholt,Todas las recompensas reclamadas,すべて受け取り済み,全部已领取,全部已領取
-,,,,,,,
+Fixed_Back,뒤로,Back,Zurück,Atrás,戻る,返回,返回
 ,,,,,,,
 Tutorial_FirstVisit0,안녕하세요!,Hello!,Hallo!,¡Hola!,タップして開始！,点击开始！,點擊開始！
 Tutorial_FirstVisit1,반가워요!\n저는 가이드 이파에요!,"Nice to meet you!\nI'm Eva, your guide!","Schön, dich kennenzulernen!\nIch bin Eva, dein Guide!","¡Encantada de conocerte!\n¡Soy Eva, tu guía!",はじめまして！\nガイドのエーファです！,你好！\n我是引导员Eva！,你好！\n我是引導員Eva！
@@ -162,3 +162,8 @@ Rythm_Tuto2,"""Your Turn""이 나오면 기억한 리듬을 박자에 맞게 터
 Pinball_Tuto1,구슬이 나오면 플리퍼를 조작해서 벽돌을 깨세요.\n왼쪽 터치 = 왼쪽플리퍼\n오른쪽=터치 오른쪽 플리퍼,"When the ball appears, control the flippers to break the bricks.\nTap left = left flipper\nTap right = right flipper","Wenn die Kugel erscheint, steuere die Flipper, um die Blöcke zu zerstören.\nLinks tippen = linker Flipper\nRechts tippen = rechter Flipper","Cuando aparezca la bola, controla los flippers para romper los ladrillos.\nToque izquierdo = flipper izquierdo\nToque derecho = flipper derecho",ボールが出たら、フリッパーを操作してブロックを壊してください。\n左をタップ＝左フリッパー\n右をタップ＝右フリッパー,出现球后，操作挡板击碎砖块。\n点击左侧＝左挡板\n点击右侧＝右挡板,出現球後，操作擋板打碎磚塊。\n點擊左側＝左擋板\n點擊右側＝右擋板
 Pinball_Tuto2,벽돌의 종류:\n흰색 아이템 벽돌: 아이템 즉시 획득\n색깔 벽돌: 룰렛에 아이템 갱신\n벽돌을 모두 파괴하면 새로운 벽돌들이 생성됩니다.,Brick types:\nWhite item bricks: get an item instantly\nColored bricks: refresh the roulette items\nDestroy all bricks to spawn new ones.,"Blockarten:\nWeiße Item-Blöcke: Item sofort erhalten\nFarbige Blöcke: Roulette-Items werden aktualisiert\nWenn alle Blöcke zerstört sind, erscheinen neue Blöcke.","Tipos de ladrillos:\nLadrillos de objeto blancos: obtén un objeto al instante\nLadrillos de color: se actualizan los objetos de la ruleta\nAl destruir todos los ladrillos, aparecerán nuevos.",ブロックの種類：\n白いアイテムブロック：アイテムを即獲得\n色付きブロック：ルーレットのアイテムが更新されます\nブロックをすべて壊すと、新しいブロックが出現します。,砖块类型：\n白色道具砖：立即获得道具\n彩色砖：刷新轮盘道具\n击碎所有砖块后会生成新的砖块。,磚塊種類：\n白色道具磚：立即獲得道具\n彩色磚：刷新輪盤道具\n打碎所有磚塊後會生成新的磚塊。
 Pinball_Tuto3,구슬이 아래로 떨어지면 최종 보상을 확인 할 수 있습니다.,"When the ball falls down, you can check the final rewards.","Wenn die Kugel nach unten fällt, kannst du die Endbelohnungen ansehen.","Cuando la bola caiga, podrás ver las recompensas finales.",ボールが下に落ちると、最終報酬を確認できます。,球掉下去后，可以查看最终奖励。,球掉下去後，可以查看最終獎勵。
+,,,,,,,
+MiniGame_Jump,점프 점프,Jump Jump,Hüpfen Hüpfen,Salta Salta,ジャンプ ジャンプ,跳跳,跳跳
+MiniGame_Rythm,리듬 낚시,Rhythm Fishing,Rhythmus-Angeln,Pesca rítmica,リズム釣り,节奏钓鱼,節奏釣魚
+MiniGame_Pinball,벽돌 부수기,Brick Breaker,Ziegel zerbrechen,Rompe ladrillos,ブロック崩し,打砖块,打磚塊
+Fixed_Play,플레이,Play,Spielen,Jugar,プレイ,开始游戏,開始遊戲

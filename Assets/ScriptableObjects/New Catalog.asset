@@ -47,7 +47,7 @@ MonoBehaviour:
     ProductType: 0
     Rewards:
     - RewardType: 7
-      RewardAmount: 10
+      RewardAmount: 5
   - ProductId: gem_growthbooster
     ProductType: 0
     Rewards:
@@ -128,7 +128,7 @@ MonoBehaviour:
     ProductType: 0
     Rewards:
     - RewardType: 22
-      RewardAmount: 10
+      RewardAmount: 5
   - ProductId: gem100
     ProductType: 0
     Rewards:
