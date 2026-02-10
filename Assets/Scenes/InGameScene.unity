@@ -7497,6 +7497,7 @@ MonoBehaviour:
   _actions:
   - {fileID: 180302565}
   - {fileID: 180302564}
+  - {fileID: 180302568}
   _conditions:
   - {fileID: 180302566}
   _includeChildren: 0
@@ -21184,11 +21185,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _actions:
-  - {fileID: 0}
   - {fileID: 489496228}
   - {fileID: 489496227}
   - {fileID: 489496232}
-  - {fileID: 0}
+  - {fileID: 489496233}
   _conditions:
   - {fileID: 489496230}
   _includeChildren: 0
@@ -29627,6 +29627,7 @@ MonoBehaviour:
   - {fileID: 1348271099}
   - {fileID: 1018178242}
   - {fileID: 1813932004}
+  - {fileID: 574111230}
   _interactable: 1
 --- !u!114 &696612221
 MonoBehaviour:
@@ -76524,6 +76525,8 @@ MonoBehaviour:
   - {fileID: 1953845791}
   - {fileID: 1953845790}
   - {fileID: 1953845794}
+  - {fileID: 1953845796}
+  - {fileID: 1953845795}
   _conditions:
   - {fileID: 1953845792}
   _includeChildren: 0

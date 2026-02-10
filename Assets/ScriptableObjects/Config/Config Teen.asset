@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Config Teen
   m_EditorClassIdentifier: 
   GrowthType: 2
-  TimeToGrow: 120
+  TimeToGrow: 1200
   ExpToGrow: 50
   HungerDecreasePerSec: 0.007
   HappinessDecreasePerSec: 0.0005

@@ -34,7 +34,8 @@ public class DevModeController : MonoBehaviour
         ActiveOffButtons();
         Manager.Game.DeveModeOn();
         _debugTool.SetActive(true);
-        Debug.Log("DevModeOn");
+        
+        Manager.Game.ShowPopup("Dev_DevMode");
     }
     private void ActiveOffButtons()
     {
