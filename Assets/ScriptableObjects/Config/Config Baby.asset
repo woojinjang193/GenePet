@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Config Baby
   m_EditorClassIdentifier: 
   GrowthType: 1
-  TimeToGrow: 10
+  TimeToGrow: 360
   ExpToGrow: 20
   HungerDecreasePerSec: 0.009
   HappinessDecreasePerSec: 0.0005

@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 6974885435266304826}
   - component: {fileID: 2203250957065886866}
   - component: {fileID: 5200670314587221500}
+  - component: {fileID: 5083109580846897766}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -749,6 +750,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5083109580846897766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250622917071471312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7077f89a8c6074c8594100bb0234cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textID: Shop_Rooms
 --- !u!1 &281198778654840549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,12 +1367,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.8
+  m_fontSize: 65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 42.8
+  m_fontSizeMax: 65
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -1937,6 +1951,7 @@ GameObject:
   - component: {fileID: 2573585068698420465}
   - component: {fileID: 8278784423104710543}
   - component: {fileID: 9057678109804672587}
+  - component: {fileID: 4237067457436457968}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2060,6 +2075,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4237067457436457968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598463057365669693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7077f89a8c6074c8594100bb0234cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textID: Shop_RemoveAds
 --- !u!1 &601321457515472114
 GameObject:
   m_ObjectHideFlags: 0
@@ -3514,6 +3542,7 @@ GameObject:
   - component: {fileID: 1497878580422424624}
   - component: {fileID: 4735020540337657697}
   - component: {fileID: 5140041628611856194}
+  - component: {fileID: 7109052054698343846}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3637,6 +3666,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7109052054698343846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303128275223667205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7077f89a8c6074c8594100bb0234cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textID: Shop_GeneEditTools
 --- !u!1 &1325723970841730976
 GameObject:
   m_ObjectHideFlags: 0
@@ -5694,6 +5736,7 @@ GameObject:
   - component: {fileID: 6089595644765313315}
   - component: {fileID: 2549077107549973148}
   - component: {fileID: 7849163545621070231}
+  - component: {fileID: 2029192724471187150}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -5817,6 +5860,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2029192724471187150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068837508969102722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7077f89a8c6074c8594100bb0234cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textID: Shop_ForIsland
 --- !u!1 &2091048990589631031
 GameObject:
   m_ObjectHideFlags: 0
@@ -6120,6 +6176,7 @@ GameObject:
   - component: {fileID: 1090451369687213064}
   - component: {fileID: 7787066236109279458}
   - component: {fileID: 8285476613639699559}
+  - component: {fileID: 4177751667179369333}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -6243,6 +6300,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4177751667179369333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2190626253267112282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7077f89a8c6074c8594100bb0234cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textID: Shop_FaeCat Care
 --- !u!1 &2304702490939244288
 GameObject:
   m_ObjectHideFlags: 0
@@ -9361,6 +9431,7 @@ GameObject:
   - component: {fileID: 7223824249198860459}
   - component: {fileID: 1280497621146753922}
   - component: {fileID: 3595380774530077140}
+  - component: {fileID: 5687414421686664469}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -9484,6 +9555,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5687414421686664469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3415276228154112812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7077f89a8c6074c8594100bb0234cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textID: Shop_MoneyShop
 --- !u!1 &3425861129020923815
 GameObject:
   m_ObjectHideFlags: 0
@@ -12055,12 +12139,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.8
+  m_fontSize: 65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 42.8
+  m_fontSizeMax: 65
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -19833,6 +19917,7 @@ GameObject:
   - component: {fileID: 2414192959977837158}
   - component: {fileID: 8558822033839039183}
   - component: {fileID: 2889219604765597675}
+  - component: {fileID: 6297684828378413055}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -19956,6 +20041,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6297684828378413055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325875512836912023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7077f89a8c6074c8594100bb0234cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textID: Shop_FreeReward
 --- !u!1 &7331322391228915834
 GameObject:
   m_ObjectHideFlags: 0
