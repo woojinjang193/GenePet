@@ -85,6 +85,7 @@ public class PinballBrick : MonoBehaviour
         if (Manager.Item != null && _data.Reward.RewardType != RewardType.None)
         {
             _iconRenderer.sprite = Manager.Item.ItemImages.GetItemSprite(_data.Reward.RewardType);
+            _iconRenderer.gameObject.SetActive(true);
         }
 
         if (_data.Reward.RewardType == RewardType.None)

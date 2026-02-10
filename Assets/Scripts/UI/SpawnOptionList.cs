@@ -73,7 +73,7 @@ public class SpawnOptionList : MonoBehaviour, IConfirmRequester
             else
             {
                 _buttons[i].interactable = false;
-                _images[i].sprite = null;
+                //_images[i].sprite = null;
             }
         }
     }

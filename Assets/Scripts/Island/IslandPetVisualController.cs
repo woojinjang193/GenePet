@@ -46,6 +46,14 @@ public class IslandPetVisualController : MonoBehaviour
         ParticleSystem particle;
         particle = isUp ? _particleAffinityUp : _particleAffinityDown;
 
+        if (isUp)
+        {
+            Manager.Audio.PlaySFXExclusive("GiftSuccess");
+        }
+        else
+        {
+            Manager.Audio.PlaySFXExclusive("GiftFail");
+        }
         particle.Emit(30);
     }
     public void ShowLayOrLeaveEffect(bool isMarried) //true = 알 , false = 떠남
