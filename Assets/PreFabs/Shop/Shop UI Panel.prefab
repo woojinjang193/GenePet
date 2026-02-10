@@ -18107,6 +18107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gemAmount: {fileID: 932734976439183646}
   _moneyAmount: {fileID: 4877532195057662433}
+  _devShop: {fileID: 1094311244636226430}
 --- !u!1 &6902948440724107229
 GameObject:
   m_ObjectHideFlags: 0
