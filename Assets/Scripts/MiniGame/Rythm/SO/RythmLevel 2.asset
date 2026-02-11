@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65bc4465ac3ea774da9e19c60efda45d, type: 3}
   m_Name: RythmLevel 2
   m_EditorClassIdentifier: 
-  _bpm: 120
-  _bgmClip: {fileID: 8300000, guid: 76d374f30d917be419c52ab3868ccb74, type: 3}
+  _bpm: 125
+  _bgmClip: {fileID: 8300000, guid: 0b02cc8489b785d4b9b3ae824d7e302b, type: 3}
   _rythmPatternList:
   - {fileID: 11400000, guid: 0d8ff5afdfe1d26418548297aaab0f6f, type: 2}
   - {fileID: 11400000, guid: 369f4d3f5878f054c8996e4ce4ec2731, type: 2}
