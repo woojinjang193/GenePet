@@ -9468,7 +9468,7 @@ MonoBehaviour:
     WingOut: {fileID: 1092853146}
     TailOut: {fileID: 582169577}
     PatternMask: {fileID: 1759137066}
-  _leftPetImage: {fileID: 21300000, guid: 03ba14023a6514fb4860f7e685f2c622, type: 3}
+  _leftPetImage: {fileID: 21300000, guid: bdb54c22664dde14eba072b3954fb869, type: 3}
 --- !u!114 &772058424
 MonoBehaviour:
   m_ObjectHideFlags: 0

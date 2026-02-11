@@ -9871,7 +9871,7 @@ MonoBehaviour:
   _guaranteeStickerAmount: {fileID: 4894591928709139451}
   _dominantPersonalityText: {fileID: 5050817968335269599}
   _recessivePersonalityText: {fileID: 2256089116248009217}
-  _noneImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _noneImage: {fileID: 21300000, guid: 12f9f21aef2de894587dda14ab47aa5a, type: 3}
   _doGuaranteeButtonImage: {fileID: 3935694403787303322}
   _reGuaranteeButtonImage: {fileID: 1266386491711158318}
   _cancelGuaranteeSprite: {fileID: 21300000, guid: 7f1b45f5bad9c02478fea9cf564c10cd, type: 3}
