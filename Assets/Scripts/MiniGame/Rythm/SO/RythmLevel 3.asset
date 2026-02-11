@@ -23,7 +23,7 @@ MonoBehaviour:
   _measureCount: 1
   _normalBeatClip: {fileID: 8300000, guid: f1cf014bc91088e4ea9e903feec5acc6, type: 3}
   _inputLastBeatClip: {fileID: 8300000, guid: 00f6cd500f5a2d34196d868d2fcaafc6, type: 3}
-  MinItemCount: 3
+  MinItemCount: 2
   MaxItemCount: 4
   LevelRewards:
   - RewardType: 1

@@ -72,8 +72,8 @@ MonoBehaviour:
     Weight: 0.3
   _colorBrickItems:
   - RewardType: 1
-    Amount: 10
-    Weight: 10
+    Amount: 100
+    Weight: 7
   - RewardType: 3
     Amount: 1
     Weight: 2

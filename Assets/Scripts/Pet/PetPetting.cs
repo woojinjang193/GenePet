@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -58,6 +56,12 @@ public class PetPetting : MonoBehaviour
         {
             Touch t = Input.GetTouch(0);   // 첫 터치만 사용(간단 버전)
             Vector2 screenPos = t.position;  // 스크린 좌표
+
+            if (EventSystem.current.IsPointerOverGameObject(t.fingerId)) // UI 터치면 펫팅 차단
+            {
+                if (_isPlaying) SetParticle(false); // 상태 끄기
+                return;
+            }
 
             if (t.phase == TouchPhase.Began)
             {
@@ -117,6 +121,12 @@ public class PetPetting : MonoBehaviour
         //  에디터 테스트용(마우스) - 동일 로직
         Vector2 mousePos = Input.mousePosition; //  마우스 스크린 좌표
 
+        if (EventSystem.current.IsPointerOverGameObject()) //UI 클릭이면 펫팅 차단
+        {
+            if (_isPlaying) SetParticle(false);
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             _isTouching = true;     //  클릭 시작
@@ -172,7 +182,7 @@ public class PetPetting : MonoBehaviour
 
     private bool IsPointerOnPet(Vector2 screenPos)
     {
-        Vector3 world = _cam.ScreenToWorldPoint(screenPos);   // 스크린->월드
+        Vector3 world = _cam.ScreenToWorldPoint(screenPos);   // 스크린 > 월드
         Vector2 w2 = new Vector2(world.x, world.y);      // 2D 좌표로 변환
 
         Collider2D hit = Physics2D.OverlapPoint(w2, _petLayer);//  펫 레이어만 체크

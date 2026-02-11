@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Shop_FreeReward
+  m_EditorClassIdentifier: 
+  KOR: "\uBB34\uB8CC \uBCF4\uC0C1"
+  ENG: Free Rewards
+  DE: Kostenlose Belohnungen
+  SP: Recompensas gratis
+  JP: "\u7121\u6599\u5831\u916C"
+  CHS: "\u514D\u8D39\u5956\u52B1"
+  CHT: "\u514D\u8CBB\u734E\u52F5"

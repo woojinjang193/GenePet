@@ -23,6 +23,11 @@ public class ItemForMiniGame : MonoBehaviour
         _amount = amount;
         gameObject.SetActive(true);
 
+        if( _amountText != null )
+        {
+            _amountText.text = ""; // CHECK: 플렛폼 아이템 개수 초기화 안되는 문제 체크 (점프씬용)
+        }
+
         if (_amountText != null && amount > 1)
         {
             _amountText.text = $"x{_amount.ToString()}";

@@ -41,7 +41,7 @@ public class MiniGameListPanel : MonoBehaviour
         int bestScore = Manager.Mini.GetBestScore(MiniGame.Jump);
 
         _curIndex = 0;
-        _text.text = "Jump Jump";
+        _text.text = "MiniGame_Jump";
         _bestScoreText.text = bestScore.ToString();
 
         UpdateUI();
@@ -85,9 +85,9 @@ public class MiniGameListPanel : MonoBehaviour
 
         switch(_curIndex)
         {
-            case 0: _text.text = "Jump Jump"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Jump).ToString();  break;
-            case 1: _text.text = "Fishing"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Rythm).ToString(); break;
-            case 2: _text.text = "Pinball"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Pinball).ToString(); break;
+            case 0: _text.text = "MiniGame_Jump"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Jump).ToString();  break;
+            case 1: _text.text = "MiniGame_Rythm"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Rythm).ToString(); break;
+            case 2: _text.text = "MiniGame_Pinball"; _bestScoreText.text = Manager.Mini.GetBestScore(MiniGame.Pinball).ToString(); break;
         }
     }
     private void OnPlayButtonClicked()

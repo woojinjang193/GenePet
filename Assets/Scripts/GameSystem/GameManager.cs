@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     private int _loadingCount = 0;
     private PopupMessage _popupText;
     private ConfirmMessage _confirmMessage;
+    public bool IsDevMode { get; private set; } = false;
 
     public UIPanel ReservedUI { get; private set; }
 
@@ -264,5 +265,9 @@ public class GameManager : Singleton<GameManager>
         DateTime now = DateTime.Now; // 기기 로컬 시간
         DateTime next = now.Date.AddDays(1); // 다음날 00:00
         return (next - now).TotalSeconds; // 남은 초
+    }
+    public void DeveModeOn()
+    {
+        IsDevMode = true;
     }
 }

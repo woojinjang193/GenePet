@@ -28,6 +28,7 @@ public class IslandPetMouthController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log($"충돌: {collision.gameObject.name}");
         if (collision.CompareTag("Item1"))
         {
             collision.gameObject.SetActive(false);

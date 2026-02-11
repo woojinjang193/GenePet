@@ -33,7 +33,7 @@ MonoBehaviour:
     baseVolume: 1
   - key: Button
     clip: {fileID: 8300000, guid: 144905942e5425d48828e6ef1e698fb9, type: 3}
-    baseVolume: 1
+    baseVolume: 0.5
   - key: Petting
     clip: {fileID: 8300000, guid: 3d28d246c5c98954c989c2e8e4812d8e, type: 3}
     baseVolume: 1
@@ -42,10 +42,10 @@ MonoBehaviour:
     baseVolume: 1
   - key: Feed
     clip: {fileID: 8300000, guid: 7f942a7a4e371be43aa2964058b267fd, type: 3}
-    baseVolume: 0.7
+    baseVolume: 0.4
   - key: Full
     clip: {fileID: 8300000, guid: 7f37efc016772b542b929e2a9f4880ef, type: 3}
-    baseVolume: 0.6
+    baseVolume: 0.4
   - key: Wash
     clip: {fileID: 8300000, guid: 26c1a600b65e60b40b9cf64c6bb6b1f2, type: 3}
     baseVolume: 1
@@ -65,8 +65,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ae3a604abd3843b45a81dcb591751bb6, type: 3}
     baseVolume: 1
   - key: Charge
-    clip: {fileID: 8300000, guid: d6b27f42dc89cf9438361e83221955a7, type: 3}
-    baseVolume: 1
+    clip: {fileID: 8300000, guid: b705291437ea98c4987572e39ff668bf, type: 3}
+    baseVolume: 0.483
   - key: GameOver
     clip: {fileID: 8300000, guid: 4d384fba329eede45b1aeb5ac50847e6, type: 3}
     baseVolume: 0.6
@@ -97,3 +97,9 @@ MonoBehaviour:
   - key: NewRecord
     clip: {fileID: 8300000, guid: e2187a3bb9346ca408b5f8c87d2679a3, type: 3}
     baseVolume: 0.6
+  - key: GiftSuccess
+    clip: {fileID: 8300000, guid: 3a2901c3580ae9d4fa1be146dfb8825f, type: 3}
+    baseVolume: 0.4
+  - key: GiftFail
+    clip: {fileID: 8300000, guid: f04e0b91fa6dbe84888b550128d5c0f6, type: 3}
+    baseVolume: 0.4

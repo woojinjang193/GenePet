@@ -1,0 +1,273 @@
+body 1 - rare 
+
+body 2 - normal 
+
+body 3 - normal
+
+body 4 = normal 
+
+body 5 - legend
+
+body 6 - rare 
+
+body7 - rare 
+
+base 8 - normal 
+
+base 9 - rare
+
+base 10 - epic 
+
+base 11 - rare 
+
+base 12 - normal 
+
+base 13 - epic 
+
+base 14 - normal 
+
+base 15 - epic 
+
+base 16 - epic 
+
+base 17 - legend
+
+base 18 - legend
+
+
+
+headdress1 rare 
+
+headdress2 rare
+
+ headdress3 epic
+
+headdress4 rare 
+
+headdress5 rare 
+
+headdress6 legend
+
+headdress7 legend 
+
+headdress8 epic 
+
+headdress9 rare 
+
+headdress10 epic
+
+headdress11 rare 
+
+headdress12 rare
+
+headdress13 epic 
+
+headdress14 epic 
+
+headdress15 rare
+
+headdress16 rare
+
+headdress17 rare 
+
+headdress18 epic 
+
+headdress19 rare 
+
+headdress20 rare 
+
+headdress21 epic
+
+
+
+feetF 1 = epic
+
+feetF2 = rare
+
+feetF3 = epic
+
+feetF4 = rare 
+
+feetF5 = normal
+
+feetF6 = epic
+
+feetF7 = epic 
+
+
+feetB1 = normal 
+
+feetB2 = normal 
+
+feetB3 = normal 
+
+feetB4 = normal 
+
+feetB5 = rare 
+
+feetB6 = normal
+
+
+
+
+earsF1 = rare 
+earsF2 = rare 
+earsF3 = rare
+earsF4 = normal
+earsF5 = normal 
+earsF6 = normal 
+
+earsB1 = normal 
+earsB2 = normal 
+earsB3 = normal
+earsB4 = epic 
+earsB5 = normal
+earsB6 = normal
+earsB7 = epic
+earsB8 = epic
+
+Wing1 = epic 
+2 = rare 
+3 = epic 
+4 = rare
+
+
+tail 1 = normal 
+tail 2 = legend 
+tail 3 = rare  
+tail 4 = epic
+tail 5 = normal
+tail 6 = rare 
+tail 7 = normal
+tail 8 = epic
+tail 9 = normal
+tail 10 = epic
+
+
+
+
+whisker1 = normal
+whisker2 = rare
+whisker3 = normal 
+whisker4 = rare 
+whisker5 = normal
+whisker6 = normal
+whisker 7 = normal
+whisker 8 = normal
+whisker 9 = rare 
+whisker 10 = normal
+whisker11 = normal
+whisker 12 = normal 
+whisker 13 = epic
+whisker 16 = epic
+whisker 17 = legend
+
+
+blush2 = epic
+blush3 = rare 
+
+
+pattern1 = rare
+pattern2 = epic
+pattern3 = rare
+pattern4 = epic 
+pattern5 = rare  
+pattern6 = rare
+pattern7 = rare 
+pattern8 = epic 
+pattern9 = rare;
+pattern10 = epic
+pattern11 = epic
+pattern12 = legend
+pattern13 = rare
+pattern14 = rare
+pattern15 = epic
+pattern16 = rare 
+pattern17 = legend
+pattern18= rare
+pattern19 = rare 
+pattern20 = rare 
+pattern21 = rare 
+
+
+
+eye1 n
+eye2 n
+eye3 r
+eye4 n
+eye5 n
+eye6 r
+eye7 n
+eye8 r
+eye9 r
+eye10 e
+eye11 e
+eye12 n
+eye14 r
+eye15 e
+eye16 r
+eye17 n
+eye18 r
+eye19 n
+eye20 r
+eye21 e
+
+
+
+mouth1 = n
+mouth2 e
+mouth3 e
+mouth4 n
+mouth5 r
+mouth6 n
+mouth7 n
+mouth8 n
+mouth9 n
+mouth10 r
+mouth11 r
+mouth12 n
+mouth13 r
+mouth14 n
+mouth15 n
+mouth16 e
+mouth17 n
+mouth18 r
+mouth19 n
+mouth20 n
+mouth21 r
+
+
+handsF1 n
+handsF2 r
+handsF3 n
+handsF4 r
+handsF5 r
+handsF6 r
+handsF7 r
+handsF8 e
+handsF9 e
+handsF10 n 
+handsF11 e
+
+
+
+handsB1 n
+handsB2 r
+handsB3 n
+handsB4 e
+handsB5 n
+handsB6 n
+
+
+
+
+
+
+
+
+
+
+
+
+
+

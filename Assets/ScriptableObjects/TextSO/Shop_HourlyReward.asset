@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Shop_HourlyReward
+  m_EditorClassIdentifier: 
+  KOR: "1\uC2DC\uAC04 \uBCF4\uC0C1"
+  ENG: Hourly Reward
+  DE: "St\xFCndliche Belohnung"
+  SP: Recompensa por hora
+  JP: "1\u6642\u9593\u5831\u916C"
+  CHS: "\u6BCF\u5C0F\u65F6\u5956\u52B1"
+  CHT: "\u6BCF\u5C0F\u6642\u734E\u52F5"

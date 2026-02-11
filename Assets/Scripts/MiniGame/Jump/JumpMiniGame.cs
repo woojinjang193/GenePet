@@ -117,12 +117,15 @@ public class JumpMiniGame : MiniGameBase
         Vibration.Vibrate(0.01f, 50);
         _direction = dir;
         _isHolding = true;
+
+        Manager.Audio.PlaySFXExclusive("Charge");
     }
     public void OnReleaseButton()    // 버튼 해제 (JumpButton에서 호출)
     {
         if (!_isHolding) return;
 
         _isHolding = false;
+        Manager.Audio.StopSFXExclusive();
         DoJump();   // 점프 실행
         _chargeTime = 0f; // 차지 초기화
         _direction = 0;  // 방향 초기화
@@ -142,7 +145,6 @@ public class JumpMiniGame : MiniGameBase
 
         float rate = _chargeTime / _maxChargeTime; // 0~1 차지 비율
         _player.SetChargeVisual(rate); //납작 연출 전달
-        Manager.Audio.PlaySFXExclusive("Charge");
     }
 
     // ================= 점프 =================

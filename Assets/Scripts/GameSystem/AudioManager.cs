@@ -19,6 +19,10 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private int _sfxPoolSize = 10;           // SFX 풀 크기
 
     // ===== 음소거 상태 =====
+    // 저장 키
+    private const string PREF_BGM_MUTED = "PREF_BGM_MUTED"; // BGM 뮤트 저장키
+    private const string PREF_SFX_MUTED = "PREF_SFX_MUTED"; //SFX 뮤트 저장키
+
     private bool _isBGMMuted = false;        // BGM 음소거 상태
     private bool _isSFXMuted = false;        // SFX 음소거 상태
 
@@ -32,11 +36,12 @@ public class AudioManager : Singleton<AudioManager>
     protected override void Awake()
     {
         base.Awake();
-        IsReady = true; //테스트용, 지워야함
-        //어드레서블 세팅
+        IsReady = true; //테스트용, 어드레서블 세팅 후 지워야함
 
         InitBGMSource();    //초기화
         InitSFXSources();
+
+        LoadMuteStateAndApply(); //저장된 뮤트 상태 로드,즉시 적용
     }
     private void InitBGMSource()
     {
@@ -85,6 +90,8 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlaySFX(string key) 
     {
+        if (_isSFXMuted) return;
+
         var data = _database.Get(key);        // 데이터베이스 조회
         if (data == null) return;             // 없으면 종료
 
@@ -101,6 +108,8 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlaySFXExclusive(string key, bool loop = false) // 동시에 재생되면 안되는 SFX 재생
     {
+        if (_isSFXMuted) return;
+
         var data = _database.Get(key);
         if (data == null) return;
 
@@ -125,34 +134,37 @@ public class AudioManager : Singleton<AudioManager>
         return null;                          // 전부 사용 중이면 null
     }
 
-    public void SetBGMMute(bool mute)  //BGM 뮤트 세팅
+    public void SetBGMMute(bool mute)
     {
-        if (mute)                             // 음소거 ON이면
-        {
-            _audioMixer.GetFloat("BGM", out _savedBGMVolume); // 현재 볼륨 저장
-            _audioMixer.SetFloat("BGM", -80f);                // 완전 음소거
-        }
-        else                                 // 음소거 OFF이면
-        {
-            _audioMixer.SetFloat("BGM", _savedBGMVolume);     // 이전 볼륨 복원
-        }
+        _isBGMMuted = mute; // 상태 저장
+        _bgmSource.mute = mute; // BGM 소스 뮤트
 
-        _isBGMMuted = mute;                  // 상태 저장
+        PlayerPrefs.SetInt(PREF_BGM_MUTED, mute ? 1 : 0);
+        PlayerPrefs.Save(); //저장
     }
 
-    public void SetSFXMute(bool mute)         //SFX 뮤트 세팅
+    public void SetSFXMute(bool mute)
     {
-        if (mute)                             // 음소거 ON이면
-        {
-            _audioMixer.GetFloat("SFX", out _savedSFXVolume); // 현재 볼륨 저장
-            _audioMixer.SetFloat("SFX", -80f);                // 완전 음소거
-        }
-        else                                 // 음소거 OFF이면
-        {
-            _audioMixer.SetFloat("SFX", _savedSFXVolume);     // 이전 볼륨 복원
-        }
+        _isSFXMuted = mute; // 상태 저장
 
-        _isSFXMuted = mute;                  // 상태 저장
+        _exclusiveSfxSource.mute = mute; // 전용 SFX도 뮤트
+        for (int i = 0; i < _sfxSources.Count; i++) //풀 SFX 전부 뮤트
+            _sfxSources[i].mute = mute;
+
+        PlayerPrefs.SetInt(PREF_SFX_MUTED, mute ? 1 : 0);
+        PlayerPrefs.Save();
     }
+
+    private void LoadMuteStateAndApply() // 시작 시 뮤트 상태 복원
+    {
+        _isBGMMuted = PlayerPrefs.GetInt(PREF_BGM_MUTED, 0) == 1;
+        _isSFXMuted = PlayerPrefs.GetInt(PREF_SFX_MUTED, 0) == 1;
+
+        //실제 믹서에 반영
+        SetBGMMute(_isBGMMuted);
+        SetSFXMute(_isSFXMuted);
+    }
+    public bool GetBGMMuted() => _isBGMMuted; // UI에서 초기 토글 세팅용
+    public bool GetSFXMuted() => _isSFXMuted; //UI에서 초기 토글 세팅용
 
 }

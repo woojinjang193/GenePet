@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65bc4465ac3ea774da9e19c60efda45d, type: 3}
   m_Name: RythmLevel 1
   m_EditorClassIdentifier: 
-  _bpm: 110
-  _bgmClip: {fileID: 8300000, guid: 969c11d0352f35b46bfb0b79461a9ba8, type: 3}
+  _bpm: 120
+  _bgmClip: {fileID: 8300000, guid: b66cd35d9ec3be64a8770d910c6a6c43, type: 3}
   _rythmPatternList:
   - {fileID: 11400000, guid: 7ac2e0d923debfb4b96884f60cce12fb, type: 2}
   - {fileID: 11400000, guid: 09ef2bf1d2916244181cd8daa8ed6c33, type: 2}
@@ -23,7 +23,7 @@ MonoBehaviour:
   _measureCount: 1
   _normalBeatClip: {fileID: 8300000, guid: f1cf014bc91088e4ea9e903feec5acc6, type: 3}
   _inputLastBeatClip: {fileID: 8300000, guid: 00f6cd500f5a2d34196d868d2fcaafc6, type: 3}
-  MinItemCount: 2
+  MinItemCount: 1
   MaxItemCount: 3
   LevelRewards:
   - RewardType: 1

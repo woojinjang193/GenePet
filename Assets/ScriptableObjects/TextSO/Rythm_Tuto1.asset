@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Rythm_Tuto1
+  m_EditorClassIdentifier: 
+  KOR: "\"Listen\"\uC774 \uB098\uC624\uBA74 \uB9AC\uB4EC\uC744 \uC798 \uB4E3\uACE0
+    \uAE30\uC5B5\uD558\uC138\uC694."
+  ENG: When "Listen" appears, listen carefully and memorize the rhythm.
+  DE: "Wenn \u201EListen\u201C erscheint, h\xF6re gut zu und merke dir den Rhythmus."
+  SP: Cuando aparezca "Listen", escucha bien y memoriza el ritmo.
+  JP: "\"Listen\"\u304C\u51FA\u305F\u3089\u3001\u30EA\u30BA\u30E0\u3092\u3088\u304F\u805E\u3044\u3066\u899A\u3048\u3066\u304F\u3060\u3055\u3044\u3002"
+  CHS: "\u51FA\u73B0\u201CListen\u201D\u65F6\uFF0C\u8BF7\u4ED4\u7EC6\u542C\u5E76\u8BB0\u4F4F\u8282\u594F\u3002"
+  CHT: "\u51FA\u73FE\u300CListen\u300D\u6642\uFF0C\u8ACB\u4ED4\u7D30\u807D\u4E26\u8A18\u4F4F\u7BC0\u594F\u3002"

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Personality_Fortitude
+  m_EditorClassIdentifier: 
+  KOR: "\uBD88\uAD74\uC758 \uC6A9\uAE30"
+  ENG: Fortitude
+  DE: Unbeugsam
+  SP: Inquebrantable
+  JP: "\u4E0D\u5C48"
+  CHS: "\u4E0D\u5C48"
+  CHT: "\u4E0D\u5C48"

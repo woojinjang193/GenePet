@@ -178,7 +178,7 @@ public class ShopManager : Singleton<ShopManager>
                 OnNonConsumableOwned?.Invoke(_lastTriedProductId);
             }
 
-            if (_lastTriedProductId == "testremoveadbanner") //광고제거 구매시
+            if (_lastTriedProductId == "removeadbanner") //광고제거 구매시
             {
                 OnRemoveAdPurchased?.Invoke();
             }

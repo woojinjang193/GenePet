@@ -10,6 +10,9 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
     [SerializeField] private Image _dominantGene;
     [SerializeField] private Image _recessiveGene;
 
+    [Header("컬러파츠 틀")]
+    [SerializeField] private Sprite _colorPartFrame;
+
     [Header("아웃라인")]
     [SerializeField] private Image _dominantGeneOutline;
     [SerializeField] private Image _recessiveGeneOutline;
@@ -352,11 +355,11 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         _dominantGeneOutline.color = dom.color;
         _recessiveGeneOutline.color = rec.color;
 
-        _dominantGene.sprite = null;
-        _recessiveGene.sprite = null;
+        _dominantGene.color = new Color(1, 1, 1, 0);
+        _recessiveGene.color = new Color(1, 1, 1, 0);
 
-        _dominantGeneOutline.sprite = null;
-        _recessiveGeneOutline.sprite = null;
+        _dominantGeneOutline.sprite = _colorPartFrame;
+        _recessiveGeneOutline.sprite = _colorPartFrame;
 
         _dominantRarityUI.ShowRarity(dom.Rarity);
         _recessiveRarityUI.ShowRarity(rec.Rarity);
@@ -367,8 +370,8 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         var dom = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, pair.DominantId);
         var rec = Manager.Gene.GetPartSOByID<PersonalitySO>(PartType.Personality, pair.RecessiveId);
 
-        _dominantGene.sprite = null;
-        _recessiveGene.sprite = null;
+        _dominantGene.color = new Color(1, 1, 1, 0);
+        _recessiveGene.color = new Color(1, 1, 1, 0);
 
         _dominantGeneOutline.sprite = dom.Sprite;
         _recessiveGeneOutline.sprite = rec.Sprite;
@@ -428,7 +431,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
             default: return null;
         }
     }
-    //======================파츠별 위치=========================
+    //======================파츠별 스케일=========================
     private Vector3 GetScale(PartType partType)
     {
         switch (partType)
@@ -445,6 +448,7 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
             case PartType.Blush: return new Vector3(2f, 2f, 1f);
             case PartType.Tail: return new Vector3(2f, 2f, 1f);
             case PartType.Whiskers: return new Vector3(2f, 2f, 1f);
+            //case PartType.Color: return new Vector3(0.7f, 0.7f, 1f);
         }
         return Vector3.one;
     }

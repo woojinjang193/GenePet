@@ -14,6 +14,8 @@ public class PurchaseWithGameMoneyButton : MonoBehaviour
     [SerializeField] private int _price;
     [Header("가격 텍스트")]
     [SerializeField] private TMP_Text _priceText;
+    [Header("개수 텍스트")]
+    [SerializeField] private TMP_Text _amountText;
  
     [Header("버튼 비활성화 컬러")]
     [SerializeField] private Color _nonInteractableC;
@@ -26,11 +28,13 @@ public class PurchaseWithGameMoneyButton : MonoBehaviour
 
     private void Awake()
     {
+        if (Manager.Shop == null) return;
+
         _priceText.text = _price.ToString();
         _button = GetComponent<Button>();
         _button.onClick.AddListener(OnClicked);
 
-        if (Manager.Save == null) { _button.interactable = false; return; }
+        if (Manager.Save == null || string.IsNullOrEmpty(_productID)) { _button.interactable = false; return; }
 
         _ncList = Manager.Save.CurrentData.UserData.Items.PurchasedGoldNCs;
 
@@ -39,6 +43,7 @@ public class PurchaseWithGameMoneyButton : MonoBehaviour
             _ncList = Manager.Save.CurrentData.UserData.Items.PurchasedGoldNCs = new List<string>(); // 리스트 생성 후 다시 저장
         }
 
+        SetAmount();
         CheckNonConsumable();
     }
     private void OnClicked()
@@ -73,5 +78,15 @@ public class PurchaseWithGameMoneyButton : MonoBehaviour
         _priceText.text = "Sold";
         _button.interactable = false;
         _buttonCover.color = _nonInteractableC;
+    }
+
+    private void SetAmount()
+    {
+        if (_amountText == null) { Debug.LogError($"{gameObject.name}에 AmountText 없음"); return; }
+        var entry = Manager.Shop.Catalog.GetEntryById(_productID);
+        if (entry == null) return;
+        if (entry.Rewards == null || entry.Rewards.Count == 0) return;
+
+        _amountText.text = $"x{entry.Rewards[0].RewardAmount}"; //리워드 목록의 첫번째만 가져옴
     }
 }

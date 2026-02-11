@@ -55,7 +55,6 @@ public class JumpPlayerController : MonoBehaviour
         _originScale = _body.localScale;  // 원본 저장
         _defaultLayer = gameObject.layer;
     }
-
     private void Update()
     {
         if (_isSquashed && !_isCharging)
@@ -122,7 +121,6 @@ public class JumpPlayerController : MonoBehaviour
         OnPlayerGrounded?.Invoke(transform.position.y); // 착지 이벤트 호출
         Debug.Log("강제 바닥 True"); //디버그 로그
     }
-
     private void FixedUpdate()
     {
         CheckGroundByCircleCast(); // 착지 판정 실행
@@ -133,7 +131,7 @@ public class JumpPlayerController : MonoBehaviour
         if (_rigid.velocity.y > 0f) return; // 상승 중이면 착지 판정 안 함
         if(_ignorePlatforms) return; //바닥 무시중이면 착지판정 안함
 
-        RaycastHit2D hit = Physics2D.CircleCast(          // 원형 레이캐스트
+        RaycastHit2D hit = Physics2D.CircleCast( // 원형 레이캐스트
             transform.position,  //시작위치
             _groundCheckRadius, //원 반지름
             Vector2.down, //쏘는 방향

@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class EggObj : MonoBehaviour
 {
@@ -22,13 +18,15 @@ public class EggObj : MonoBehaviour
 
     public void OnMouseDown() //알 획득시
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return; // UI 위 클릭이면 무시
+
         Debug.Log("알 클릭 ");
         var eggHaveList = Manager.Save.CurrentData.UserData.EggList;
         int maxHave = Manager.Game.Config.MaxEggAmount;
         
         if (maxHave <= eggHaveList.Count) //알을 더이상 가질 수 없을때
         {
-            Manager.Game.ShowPopup("You have too many eggs");
+            Manager.Game.ShowPopup("PopUp_EggMax");
             Debug.Log($"알을 더이상 가질 수 없음. 현재: {eggHaveList.Count}");
             return;
         }
