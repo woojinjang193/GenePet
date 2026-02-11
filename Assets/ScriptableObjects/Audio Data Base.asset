@@ -66,10 +66,10 @@ MonoBehaviour:
     baseVolume: 1
   - key: Charge
     clip: {fileID: 8300000, guid: b705291437ea98c4987572e39ff668bf, type: 3}
-    baseVolume: 0.483
+    baseVolume: 0.3
   - key: GameOver
     clip: {fileID: 8300000, guid: 4d384fba329eede45b1aeb5ac50847e6, type: 3}
-    baseVolume: 0.6
+    baseVolume: 0.5
   - key: GetReward
     clip: {fileID: 8300000, guid: d6b27f42dc89cf9438361e83221955a7, type: 3}
     baseVolume: 1
@@ -96,7 +96,7 @@ MonoBehaviour:
     baseVolume: 1
   - key: NewRecord
     clip: {fileID: 8300000, guid: e2187a3bb9346ca408b5f8c87d2679a3, type: 3}
-    baseVolume: 0.6
+    baseVolume: 0.5
   - key: GiftSuccess
     clip: {fileID: 8300000, guid: 3a2901c3580ae9d4fa1be146dfb8825f, type: 3}
     baseVolume: 0.4
