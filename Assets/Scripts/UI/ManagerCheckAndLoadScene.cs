@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class ManagerCheckAndLoadScene : MonoBehaviour
 {
+    [SerializeField] private UpdateChecker _updateChecker;
     [SerializeField] private Slider _loadingBar;
     [SerializeField] private TMP_Text _loadingText;
     [SerializeField] private Button _button;
@@ -18,6 +19,7 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
+        if (_updateChecker == null) _updateChecker = FindObjectOfType<UpdateChecker>();
 
         _button.onClick.AddListener(OnClicked);
 
@@ -57,6 +59,7 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
 
         List<IEnumerator> loadSteps = new List<IEnumerator>()
         {
+            WaitForUpdate(),
             WaitForGene(),
             WaitForSave(),
             WaitForLang(),
@@ -84,6 +87,15 @@ public class ManagerCheckAndLoadScene : MonoBehaviour
         _touchToStart.SetActive(true);
     }
 
+    private IEnumerator WaitForUpdate()
+    {
+        _loadingText.text = "Checking Update..";
+
+        while (!_updateChecker.IsReady)
+        {
+            yield return null;
+        }
+    }
     private IEnumerator WaitForGene()
     {
         _loadingText.text = "Gene data Loading..";
