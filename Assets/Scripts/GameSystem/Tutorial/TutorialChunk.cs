@@ -57,7 +57,7 @@ public class TutorialChunk : MonoBehaviour //하나의 튜토리얼 스텝 리�
         _isRunning = false;
         _index = -1;
 
-        //gameObject.SetActive(false);
+        OnChunkCompleted?.Invoke(this);
     }
 
     // 다음 스텝으로 진행

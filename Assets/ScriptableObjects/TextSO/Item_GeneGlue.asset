@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Item_GeneGlue
   m_EditorClassIdentifier: 
-  KOR: "\uC798\uB9B0 \uC720\uC804\uC790\uB97C \uBCF5\uAD6C\uD569\uB2C8\uB2E4."
-  ENG: Restore the cut gene.
-  DE: Stelle das abgeschnittene Gen wieder her.
-  SP: Restaura el gen cortado.
-  JP: "\u5207\u308A\u53D6\u3063\u305F\u907A\u4F1D\u5B50\u3092\u5FA9\u5143\u3057\u307E\u3059\u3002"
-  CHS: "\u6062\u590D\u88AB\u526A\u5207\u7684\u57FA\u56E0\u3002"
-  CHT: "\u6062\u5FA9\u88AB\u526A\u5207\u7684\u57FA\u56E0\u3002"
+  KOR: "\uC720\uC804\uC790 \uD480"
+  ENG: Gene Glue
+  DE: Gene Glue
+  SP: "Pegamento gen\xE9tico"
+  JP: "\u907A\u4F1D\u5B50\u306E\u308A"
+  CHS: "\u57FA\u56E0\u80F6\u6C34"
+  CHT: "\u57FA\u56E0\u81A0\u6C34"

@@ -22,18 +22,18 @@ MonoBehaviour:
   GuaranteeSticker: {fileID: 21300000, guid: a1c208edf3a9bb74ca93ae41d32376fd, type: 3}
   Gem: {fileID: 21300000, guid: aecbee763f78fb042b3394379b993a5d, type: 3}
   IslandTicketSprite: {fileID: 21300000, guid: 57db38bac1180ca459c359a0e65319d2, type: 3}
-  MasterGiftSprite: {fileID: 21300000, guid: bcf0c64db1a7b4631b3d2c5f6c156b81, type: 3}
-  Gift1: {fileID: 21300000, guid: ccf683b848e4f43da85b660b2ad50973, type: 3}
-  Gift2: {fileID: 21300000, guid: 0c399b720745e4f7eab0c9c85f6ea870, type: 3}
-  Gift3: {fileID: 21300000, guid: e3a0e3e87d6c34cf390d4a496212fd98, type: 3}
+  MasterGiftSprite: {fileID: 21300000, guid: 248f9a66c78144346abe41b41657c489, type: 3}
+  Gift1: {fileID: 21300000, guid: ef700120bc75c554f8e8b00f236300d0, type: 3}
+  Gift2: {fileID: 21300000, guid: a5145082ec67afe49bb9adf5617935c6, type: 3}
+  Gift3: {fileID: 21300000, guid: 50bae5b42a2b54843a037e1f92042411, type: 3}
   MissingPosterSprite: {fileID: 21300000, guid: 594bce51085276c438e7d4e4b5b38e92, type: 3}
   GeneticScissorsSprite: {fileID: 21300000, guid: b9129d61620490d42b2a03edb4f497b7, type: 3}
   geneticTesterSprite: {fileID: 21300000, guid: 016773b32cda34142937dde48b05dfcd, type: 3}
   EggRaritySO: {fileID: 11400000, guid: db4ee66b79c21dd4a85d20408b471776, type: 2}
   RewardEgg: {fileID: 21300000, guid: 970b68680c68e7b4cbb8a95bba272149, type: 3}
-  Default: {fileID: 21300000, guid: 8be5fb419f85f394e822c61dc8a18958, type: 3}
-  Room_Jump: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
+  Default: {fileID: 21300000, guid: 98dfeabf16f1ec244a61d868af9fbd39, type: 3}
+  Room_Jump: {fileID: 21300000, guid: d6b0c61fb784ba34480d388bfab86393, type: 3}
   Room_Rythm: {fileID: 21300000, guid: 5ac4cfb314b32a647a207187f4576e4a, type: 3}
-  Room_Pinball: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
+  Room_Pinball: {fileID: 21300000, guid: 9bec334c8a3f0064d943f267fee73242, type: 3}
   Room_Poor: {fileID: 21300000, guid: 652b27fddac5fd44a8408ca711f7e45d, type: 3}
-  Room_Something: {fileID: 21300000, guid: cd0eb1b436aaf43e094df401236617c5, type: 3}
+  Room_Something: {fileID: 21300000, guid: a0dc5b632b558ce4cae958885a6cc609, type: 3}

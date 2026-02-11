@@ -69,12 +69,12 @@ public class TutorialStep : MonoBehaviour// 액션(Action)들을 실행하고 �
             act.Execute();  // 즉시 실행
         }
 
-        //// 조건이 없다면 즉시 완료
-        //if (_conditions.Count == 0)
-        //{
-        //    CompleteStep(); // [추가] 조건 없으면 바로 다음으로
-        //    return;
-        //}
+        // 조건이 없다면 즉시 완료
+        if (_conditions.Count == 0)
+        {
+            CompleteStep(); //조건 없으면 바로 다음으로
+            return;
+        }
 
         // 조건 구독 시작
         for (int i = 0; i < _conditions.Count; i++)

@@ -19,11 +19,9 @@ public class RewardPopupController : MonoBehaviour
     private void OpenRewardPopUp()
     {
         if (_rewardPopUp == null) _rewardPopUp = FindObjectOfType<RewardPopUp>();
-
+       
         if (_rewardPopUp == null) return;
-
         if (!Manager.Item.HasReward()) return; // 큐 비었으면 팝업 안 열기
-
         _rewardPopUp.StartShowingReward();
     }
 }

@@ -18,6 +18,10 @@ public class JumpGameUIManager : MonoBehaviour
     {
         _jumpGame.OnGameOver += OnGameOver;
     }
+    private void Start()
+    {
+        Manager.Audio.PlayBGM("BGM_Jump");
+    }
     private void OnDestroy()
     {
         _jumpGame.OnGameOver -= OnGameOver;

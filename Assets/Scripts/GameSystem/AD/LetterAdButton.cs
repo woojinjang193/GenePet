@@ -19,6 +19,7 @@ public class LetterAdButton : AdRequestBase
 
     [Header("참조")]
     [SerializeField] private LetterPanel _letter;
+    [SerializeField] private TutorialController _tutorialController;
 
     private Button _button;
 

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstIsland8
+  m_EditorClassIdentifier: 
+  KOR: "\uC774\uAC74 \"\uB9CC\uB2A5\uC120\uBB3C\"\uC774\uC5D0\uC694.\n\uB2E4\uB978
+    \uC120\uBB3C\uC744 \uC6D0\uD574\uB3C4 \uC774 \uC120\uBB3C\uC744 \uC900\uB2E4\uBA74
+    \uAE30\uBED0\uD560\uAC70\uC5D0\uC694.\n\uC774 \uC120\uBB3C\uC740 \uD398\uC774\uCF13\uC774
+    \uC9C0\uAE08 \uC120\uBB3C\uC744 \uC6D0\uD558\uC9C0 \uC54A\uC544\uB3C4 \uC904
+    \uC218 \uC788\uC5B4\uC694."
+  ENG: "This is a \u201CUniversal Gift\u201D.\nEven if it wants a different gift,
+    it will be happy if you give this one.\nYou can give this gift even when the
+    Faecat isn\u2019t asking for a gift right now."
+  DE: "Das ist ein \u201EUniverselles Geschenk\u201C.\nAuch wenn ein anderes Geschenk
+    gew\xFCnscht wird, freut er sich \xFCber dieses.\nDieses Geschenk kannst du auch
+    geben, selbst wenn der Faecat gerade kein Geschenk m\xF6chte."
+  SP: "Este es un \u201CRegalo universal\u201D.\nAunque quiera otro regalo, se alegrar\xE1
+    si le das este.\nPuedes dar este regalo incluso cuando el Faecat no est\xE9 pidiendo
+    un regalo ahora mismo."
+  JP: "\u3053\u308C\u306F\u300C\u4E07\u80FD\u30D7\u30EC\u30BC\u30F3\u30C8\u300D\u3067\u3059\u3002\n\u5225\u306E\u30D7\u30EC\u30BC\u30F3\u30C8\u3092\u6B32\u3057\u304C\u3063\u3066\u3044\u3066\u3082\u3001\u3053\u308C\u3092\u3042\u3052\u308C\u3070\u559C\u3073\u307E\u3059\u3002\n\u3053\u306E\u30D7\u30EC\u30BC\u30F3\u30C8\u306F\u3001\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u304C\u4ECA\u30D7\u30EC\u30BC\u30F3\u30C8\u3092\u6B32\u3057\u304C\u3063\u3066\u3044\u306A\u304F\u3066\u3082\u3042\u3052\u3089\u308C\u307E\u3059\u3002"
+  CHS: "\u8FD9\u662F\u201C\u4E07\u80FD\u793C\u7269\u201D\u3002\n\u5373\u4F7F\u5B83\u60F3\u8981\u522B\u7684\u793C\u7269\uFF0C\u9001\u8FD9\u4E2A\u4E5F\u4F1A\u5F88\u5F00\u5FC3\u3002\n\u5373\u4F7F\u8D39\u732B\u73B0\u5728\u4E0D\u60F3\u8981\u793C\u7269\uFF0C\u4F60\u4E5F\u53EF\u4EE5\u9001\u5B83\u8FD9\u4E2A\u3002"
+  CHT: "\u9019\u662F\u300C\u842C\u80FD\u79AE\u7269\u300D\u3002\n\u5373\u4F7F\u7260\u60F3\u8981\u5225\u7684\u79AE\u7269\uFF0C\u9001\u9019\u500B\u4E5F\u6703\u5F88\u958B\u5FC3\u3002\n\u5373\u4F7F\u8CBB\u8C93\u73FE\u5728\u4E0D\u60F3\u8981\u79AE\u7269\uFF0C\u4F60\u4E5F\u53EF\u4EE5\u9001\u7260\u9019\u500B\u3002"

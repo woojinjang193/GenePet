@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65bc4465ac3ea774da9e19c60efda45d, type: 3}
   m_Name: RythmLevel 2
   m_EditorClassIdentifier: 
-  _bpm: 120
-  _bgmClip: {fileID: 8300000, guid: 76d374f30d917be419c52ab3868ccb74, type: 3}
+  _bpm: 125
+  _bgmClip: {fileID: 8300000, guid: 0b02cc8489b785d4b9b3ae824d7e302b, type: 3}
   _rythmPatternList:
   - {fileID: 11400000, guid: 0d8ff5afdfe1d26418548297aaab0f6f, type: 2}
   - {fileID: 11400000, guid: 369f4d3f5878f054c8996e4ce4ec2731, type: 2}
@@ -23,25 +23,85 @@ MonoBehaviour:
   _measureCount: 1
   _normalBeatClip: {fileID: 8300000, guid: f1cf014bc91088e4ea9e903feec5acc6, type: 3}
   _inputLastBeatClip: {fileID: 8300000, guid: 00f6cd500f5a2d34196d868d2fcaafc6, type: 3}
-  MinItemCount: 2
+  MinItemCount: 1
   MaxItemCount: 3
   LevelRewards:
   - RewardType: 1
-    Amount: 100
+    Amount: 10
+    Weight: 10
+  - RewardType: 3
+    Amount: 1
+    Weight: 2
+  - RewardType: 7
+    Amount: 1
+    Weight: 3
+  - RewardType: 6
+    Amount: 1
+    Weight: 1
+  - RewardType: 5
+    Amount: 1
     Weight: 1
   - RewardType: 4
     Amount: 1
-    Weight: 0.1
+    Weight: 1
+  - RewardType: 20
+    Amount: 1
+    Weight: 1
   - RewardType: 9
     Amount: 1
-    Weight: 0.5
-  LevelClearRewards:
-  - RewardType: 12
+    Weight: 2
+  - RewardType: 11
     Amount: 1
     Weight: 0.5
-  - RewardType: 3
-    Amount: 2
-    Weight: 0.5
+  - RewardType: 21
+    Amount: 5
+    Weight: 0.3
+  - RewardType: 19
+    Amount: 1
+    Weight: 0.3
+  - RewardType: 22
+    Amount: 1
+    Weight: 0.2
+  - RewardType: 14
+    Amount: 1
+    Weight: 0.3
+  LevelClearRewards:
   - RewardType: 1
-    Amount: 50
-    Weight: 0.5
+    Amount: 100
+    Weight: 1
+  - RewardType: 3
+    Amount: 1
+    Weight: 1
+  - RewardType: 7
+    Amount: 1
+    Weight: 1
+  - RewardType: 6
+    Amount: 1
+    Weight: 1
+  - RewardType: 5
+    Amount: 1
+    Weight: 1
+  - RewardType: 4
+    Amount: 1
+    Weight: 1
+  - RewardType: 20
+    Amount: 1
+    Weight: 1
+  - RewardType: 9
+    Amount: 1
+    Weight: 2
+  - RewardType: 11
+    Amount: 1
+    Weight: 1
+  - RewardType: 21
+    Amount: 5
+    Weight: 1
+  - RewardType: 19
+    Amount: 1
+    Weight: 1
+  - RewardType: 22
+    Amount: 1
+    Weight: 0.3
+  - RewardType: 14
+    Amount: 1
+    Weight: 1

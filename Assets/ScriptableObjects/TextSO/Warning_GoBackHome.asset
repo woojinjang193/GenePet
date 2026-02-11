@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Warning_GoBackHome
   m_EditorClassIdentifier: 
   KOR: "\uB9C8\uC744\uB85C \uB3CC\uC544\uAC00\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
-  ENG: Return to the village?
-  DE: "Zur\xFCck ins Dorf?"
-  SP: "\xBFVolver al pueblo?"
+  ENG: Do you want to return to the village?
+  DE: "M\xF6chtest du ins Dorf zur\xFCckkehren?"
+  SP: "\xBFQuieres volver al pueblo?"
   JP: "\u6751\u306B\u623B\u308A\u307E\u3059\u304B\uFF1F"
   CHS: "\u8981\u8FD4\u56DE\u6751\u5E84\u5417\uFF1F"
   CHT: "\u8981\u8FD4\u56DE\u6751\u838A\u55CE\uFF1F"

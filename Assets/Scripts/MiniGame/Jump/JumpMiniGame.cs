@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class JumpMiniGame : MiniGameBase
 {
     [Header("플레이어")]
+    [SerializeField] private float _playerSpawnY;
     [SerializeField] private JumpPlayerController _player;
     [SerializeField] private MiniGamePetVisualLoader _playerVisual;
 
@@ -73,7 +74,7 @@ public class JumpMiniGame : MiniGameBase
     {
         Camera.main.transform.position = _cameraStartPos; //카메라 포지션 리셋
         _player.gameObject.SetActive(true);
-        _player.gameObject.transform.position = Vector3.zero; //플레이어 포지션 리셋
+        _player.gameObject.transform.position = new Vector3(0f, _playerSpawnY, 0f); //플레이어 포지션 리셋
 
         _player.SetFinalJumpState(false); //플레이어 Ground 충돌 되도록 설정
         _camera.SetFinalJumpState(false);
@@ -112,15 +113,19 @@ public class JumpMiniGame : MiniGameBase
         if (_isCameraMoving) return;
         if (_isHolding) return;
         if (!_player.IsGrounded) return;
-        
+
+        Vibration.Vibrate(0.01f, 50);
         _direction = dir;
         _isHolding = true;
+
+        Manager.Audio.PlaySFXExclusive("Charge");
     }
     public void OnReleaseButton()    // 버튼 해제 (JumpButton에서 호출)
     {
         if (!_isHolding) return;
 
         _isHolding = false;
+        Manager.Audio.StopSFXExclusive();
         DoJump();   // 점프 실행
         _chargeTime = 0f; // 차지 초기화
         _direction = 0;  // 방향 초기화
@@ -150,7 +155,7 @@ public class JumpMiniGame : MiniGameBase
                                                                                 // 
         float power = _basePower * chargeRate * _jumpPowerMul; // 최종 점프 파워 계산
 
-        float rad = _jumpAngle * Mathf.Deg2Rad;                // 각도 → 라디안 변환
+        float rad = _jumpAngle * Mathf.Deg2Rad;                // 각도 > 라디안 변환
 
         Vector2 jumpDir = new Vector2(                          // 점프 방향 벡터 생성
             Mathf.Cos(rad) * _direction,                        // 좌/우 반영

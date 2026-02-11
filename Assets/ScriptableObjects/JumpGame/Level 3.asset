@@ -13,25 +13,98 @@ MonoBehaviour:
   m_Name: Level 3
   m_EditorClassIdentifier: 
   PlatformPrefabs:
-  - {fileID: 1659212146967151355, guid: ebf2d9ab1cf5a3c499bb625caaf88a5b, type: 3}
-  MinGapY: 1.5
+  - {fileID: 1659212146967151355, guid: db83e5c9cfcb57d47aba9eee7b32d029, type: 3}
+  - {fileID: 1659212146967151355, guid: 80ce4cd074a87664ea884dcc4ea9dc30, type: 3}
+  - {fileID: 1659212146967151355, guid: b1d95fe48c9efb944961000301b51978, type: 3}
+  - {fileID: 1659212146967151355, guid: 7f96cf475d7326e41a1527a17cb14650, type: 3}
+  - {fileID: 1659212146967151355, guid: b58ceb26ec4876c46a3535b0a8ec7f49, type: 3}
+  - {fileID: 1659212146967151355, guid: 8bb94d46b76390149b3624d2845a781e, type: 3}
+  MinGapY: 2
   DistanceBetweenPlatform: 1
-  MinItemCount: 5
+  MinItemCount: 3
   MaxItemCount: 5
   LevelRewards:
   - RewardType: 1
     Amount: 10
+    Weight: 10
+  - RewardType: 3
+    Amount: 1
+    Weight: 2
+  - RewardType: 7
+    Amount: 1
+    Weight: 3
+  - RewardType: 6
+    Amount: 1
+    Weight: 1
+  - RewardType: 5
+    Amount: 1
+    Weight: 1
+  - RewardType: 4
+    Amount: 1
+    Weight: 1
+  - RewardType: 20
+    Amount: 1
     Weight: 1
   - RewardType: 8
     Amount: 1
-    Weight: 1
+    Weight: 2
+  - RewardType: 11
+    Amount: 1
+    Weight: 0.5
+  - RewardType: 21
+    Amount: 5
+    Weight: 0.3
+  - RewardType: 19
+    Amount: 1
+    Weight: 0.3
+  - RewardType: 22
+    Amount: 1
+    Weight: 0.2
+  - RewardType: 13
+    Amount: 1
+    Weight: 0.3
   LevelClearRewards:
   - RewardType: 1
-    Amount: 1000
-    Weight: 1
+    Amount: 10
+    Weight: 10
   - RewardType: 3
-    Amount: 5
-    Weight: 1
-  - RewardType: 12
+    Amount: 1
+    Weight: 2
+  - RewardType: 7
+    Amount: 1
+    Weight: 3
+  - RewardType: 6
     Amount: 1
     Weight: 1
+  - RewardType: 5
+    Amount: 1
+    Weight: 1
+  - RewardType: 4
+    Amount: 1
+    Weight: 1
+  - RewardType: 20
+    Amount: 1
+    Weight: 1
+  - RewardType: 8
+    Amount: 1
+    Weight: 2
+  - RewardType: 11
+    Amount: 1
+    Weight: 1
+  - RewardType: 21
+    Amount: 5
+    Weight: 1
+  - RewardType: 19
+    Amount: 1
+    Weight: 1
+  - RewardType: 22
+    Amount: 1
+    Weight: 0.5
+  - RewardType: 13
+    Amount: 1
+    Weight: 0.8
+  - RewardType: 18
+    Amount: 1
+    Weight: 0.3
+  BackgroundStart: {fileID: 21300000, guid: ed3ccbdbab955554e88da3b05369744e, type: 3}
+  BackgroundLoop: {fileID: 21300000, guid: 10d37a7503553924f9849d2887a57424, type: 3}

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PetUnit : MonoBehaviour 
+public class PetUnit : MonoBehaviour
 {
     [Header("쓰다듬기")]
     [SerializeField] private PetPetting _petting;
@@ -162,5 +162,10 @@ public class PetUnit : MonoBehaviour
         Petmanager.UpdateStatus(); //UI 업데이트
 
         Manager.Save.SaveGame(); //즉시 저장
+    }
+    //==============펫 치료=====================
+    public void PetCured()
+    {
+        _visul.PalyCuredParticle();
     }
 }

@@ -14,7 +14,6 @@ public struct BrickData
     public int Score;
     public int HP;
 }
-
 public class PinballBrick : MonoBehaviour
 {
     [Header("연결")]
@@ -53,7 +52,8 @@ public class PinballBrick : MonoBehaviour
         _curHp -= damage;
         if (_curHp > 0)
         {
-            // TODO: 히트 연출(사운드)
+            Manager.Audio.PlaySFX("BrickHit");
+            Vibration.Vibrate(0.01f, 40);
             _brickRenderer.sprite = _spriteSO.GetSprite(_type ,_curHp);
             return;
         }
@@ -72,7 +72,8 @@ public class PinballBrick : MonoBehaviour
         {
             OnGiveItem?.Invoke(_data.ColorName, _data.Reward, worldPos); //아이템 이벤트 발생
         }
-
+        Manager.Audio.PlaySFX("BrickBroke");
+        Vibration.Vibrate(0.015f, 50);
         gameObject.SetActive(false); // 비활성화
     }
     private void VisualSetting()
@@ -84,6 +85,7 @@ public class PinballBrick : MonoBehaviour
         if (Manager.Item != null && _data.Reward.RewardType != RewardType.None)
         {
             _iconRenderer.sprite = Manager.Item.ItemImages.GetItemSprite(_data.Reward.RewardType);
+            _iconRenderer.gameObject.SetActive(true);
         }
 
         if (_data.Reward.RewardType == RewardType.None)

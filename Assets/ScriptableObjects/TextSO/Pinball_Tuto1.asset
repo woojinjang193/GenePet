@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Pinball_Tuto1
+  m_EditorClassIdentifier: 
+  KOR: "\uAD6C\uC2AC\uC774 \uB098\uC624\uBA74 \uD50C\uB9AC\uD37C\uB97C \uC870\uC791\uD574\uC11C
+    \uBCBD\uB3CC\uC744 \uAE68\uC138\uC694.\n\uC67C\uCABD \uD130\uCE58 = \uC67C\uCABD\uD50C\uB9AC\uD37C\n\uC624\uB978\uCABD=\uD130\uCE58
+    \uC624\uB978\uCABD \uD50C\uB9AC\uD37C"
+  ENG: 'When the ball appears, control the flippers to break the bricks.
+
+    Tap
+    left = left flipper
+
+    Tap right = right flipper'
+  DE: "Wenn die Kugel erscheint, steuere die Flipper, um die Bl\xF6cke zu zerst\xF6ren.\nLinks
+    tippen = linker Flipper\nRechts tippen = rechter Flipper"
+  SP: 'Cuando aparezca la bola, controla los flippers para romper los ladrillos.
+
+    Toque
+    izquierdo = flipper izquierdo
+
+    Toque derecho = flipper derecho'
+  JP: "\u30DC\u30FC\u30EB\u304C\u51FA\u305F\u3089\u3001\u30D5\u30EA\u30C3\u30D1\u30FC\u3092\u64CD\u4F5C\u3057\u3066\u30D6\u30ED\u30C3\u30AF\u3092\u58CA\u3057\u3066\u304F\u3060\u3055\u3044\u3002\n\u5DE6\u3092\u30BF\u30C3\u30D7\uFF1D\u5DE6\u30D5\u30EA\u30C3\u30D1\u30FC\n\u53F3\u3092\u30BF\u30C3\u30D7\uFF1D\u53F3\u30D5\u30EA\u30C3\u30D1\u30FC"
+  CHS: "\u51FA\u73B0\u7403\u540E\uFF0C\u64CD\u4F5C\u6321\u677F\u51FB\u788E\u7816\u5757\u3002\n\u70B9\u51FB\u5DE6\u4FA7\uFF1D\u5DE6\u6321\u677F\n\u70B9\u51FB\u53F3\u4FA7\uFF1D\u53F3\u6321\u677F"
+  CHT: "\u51FA\u73FE\u7403\u5F8C\uFF0C\u64CD\u4F5C\u64CB\u677F\u6253\u788E\u78DA\u584A\u3002\n\u9EDE\u64CA\u5DE6\u5074\uFF1D\u5DE6\u64CB\u677F\n\u9EDE\u64CA\u53F3\u5074\uFF1D\u53F3\u64CB\u677F"

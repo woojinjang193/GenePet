@@ -1,5 +1,3 @@
-using Firebase.Auth;
-using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -154,13 +152,15 @@ public class SaveManager : Singleton<SaveManager>
     //앱 종료, 씬전환, 앱 퍼즈시
     private void OnApplicationPause(bool pause)
     {
-        if (_isSaving) return; //세이브 중이면 리턴
+        //Debug.Log($"[SaveManager] 백그라운드 멈춤:{pause}, isSaving={_isSaving}");
 
         if (pause)
         {
+            if (_isSaving) return; //세이브 중이면 리턴
             _isSaving = true;
             
             OnAppPaused?.Invoke(); //펫 데이터 저장용
+            SaveMainSceneLeaveTime(); //메인씬 떠난시간 기록 (오프라인 틱용)
             SaveLastSaveTime();
             SaveGame();
 
@@ -170,10 +170,12 @@ public class SaveManager : Singleton<SaveManager>
         else
         {
             _isSaving = false;
+            //Debug.Log($"[SaveManager] 앱으로 돌아옴:{pause}, isSaving={_isSaving}");
         }
     }
     private void OnApplicationQuit()
     {
+        Debug.Log($"[SaveManager] OnApplicationQuit: isSaving={_isSaving}");
         if (_isSaving) { Debug.LogWarning("OnApplicationQuit 호출, _isSaving = true 라서 리턴"); return; } //세이브 중이면 리턴
 
         _isSaving = true;

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Warning_AffinityReset
   m_EditorClassIdentifier: 
-  KOR: "\uD638\uAC10\uB3C4\uAC00 \uCD08\uAE30\uD654\uB429\uB2C8\uB2E4."
-  ENG: Affinity will be reset.
-  DE: "Die Zuneigung wird zur\xFCckgesetzt."
-  SP: "La afinidad se restablecer\xE1."
-  JP: "\u597D\u611F\u5EA6\u304C\u30EA\u30BB\u30C3\u30C8\u3055\u308C\u307E\u3059\u3002"
-  CHS: "\u597D\u611F\u5EA6\u5C06\u88AB\u91CD\u7F6E\u3002"
-  CHT: "\u597D\u611F\u5EA6\u5C07\u88AB\u91CD\u7F6E\u3002"
+  KOR: "\uD398\uC774\uCF13\uC744 \uBCC0\uACBD\uD558\uBA74 \uD638\uAC10\uB3C4\uAC00
+    \uCD08\uAE30\uD654\uB429\uB2C8\uB2E4."
+  ENG: If you change Faecat, affinity will be reset.
+  DE: "Wenn du den Faecat wechselst, wird die Affinity zur\xFCckgesetzt."
+  SP: "Si cambias de Faecat, la afinidad se reiniciar\xE1."
+  JP: "\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u3092\u5909\u66F4\u3059\u308B\u3068\u89AA\u5BC6\u5EA6\u304C\u30EA\u30BB\u30C3\u30C8\u3055\u308C\u307E\u3059\u3002"
+  CHS: "\u66F4\u6362\u8D39\u732B\u4F1A\u91CD\u7F6E\u4EB2\u5BC6\u5EA6\u3002"
+  CHT: "\u66F4\u63DB\u8CBB\u8C93\u6703\u91CD\u7F6E\u89AA\u5BC6\u5EA6\u3002"

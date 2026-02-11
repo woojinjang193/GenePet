@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: TouchToPlay
   m_EditorClassIdentifier: 
-  KOR: "\uD130\uCE58\uD558\uC5EC \uC2DC\uC791!"
+  KOR: "\uD130\uCE58\uD574\uC11C \uC2DC\uC791!"
   ENG: Tap to start!
   DE: Zum Start tippen!
-  SP: "\xA1Toca para comenzar!"
+  SP: "\xA1Toca para empezar!"
   JP: "\u30BF\u30C3\u30D7\u3057\u3066\u958B\u59CB\uFF01"
   CHS: "\u70B9\u51FB\u5F00\u59CB\uFF01"
   CHT: "\u9EDE\u64CA\u958B\u59CB\uFF01"

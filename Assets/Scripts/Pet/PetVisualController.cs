@@ -32,6 +32,8 @@ public class PetVisualController : MonoBehaviour
 
     [Header("쓰다듬 파티클")]
     [SerializeField] private ParticleSystem _pettingParticle;
+    [Header("치료 파티클")]
+    [SerializeField] private ParticleSystem _curedParticle;
 
     [Header("아픔/ 체력감소")]
     [SerializeField] private GameObject _sickImage;
@@ -72,10 +74,9 @@ public class PetVisualController : MonoBehaviour
         _dirtMask.sprite = _renderers.Body.sprite; // 얼룩 마스크 설정
         _dirtRenderer.sortingOrder = 8; //얼룩 레이어 오더 설정
     }
-
     public void SetSprite(GrowthStatus growth) //스프라이트 끄고킴
     {
-        Debug.Log($"[SetSprite] cleanliness={_pet.Status.Cleanliness}");
+        //Debug.Log($"[SetSprite] cleanliness={_pet.Status.Cleanliness}");
 
         if (growth == GrowthStatus.Egg) //알일때
         {
@@ -186,16 +187,25 @@ public class PetVisualController : MonoBehaviour
         {
             _renderers.Eye.sprite = _smileEye;
             _pettingParticle.Play();
+            Manager.Audio.PlaySFXExclusive("Petting", true); //SFX Exclusive
         }
         else
         {
             _renderers.Eye.sprite = _ogEye;
             _pettingParticle.Stop();
+            Manager.Audio.StopSFXExclusive();
         }
     }
     //===============성장 파티클 이벤트=================================
     public void OnGrown(GrowthStatus newGrowth)
     {
         if (_growParticle != null) _growParticle.Emit(30);
+        Manager.Audio.PlaySFX("Grow"); // SFX Grow
+    }
+    //=================펫 치료 파티클======================
+    public void PalyCuredParticle()
+    {
+        _curedParticle.Emit(30);
+        Manager.Audio.PlaySFX("Cured"); // SFX Cured
     }
 }

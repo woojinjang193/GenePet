@@ -224,7 +224,7 @@ public class RewardAdButton : AdRequestBase
         {
             bool can = RewardTimeRecordService.CanClaimDailyReward(_rewardID);
             _button.interactable = can;
-            if (_text != null) _text.text = can ? "보상 받기" : "오늘 보상 수령";
+            if (_text != null) _text.text = can ? Manager.Lang.GetText("Button_GetReward") : Manager.Lang.GetText("Button_DailyRewardGranted");
             return;
         }
 
@@ -235,7 +235,7 @@ public class RewardAdButton : AdRequestBase
         if (canClick) StopCooldownRoutine();
         _button.interactable = canClick;
 
-        if (_text != null) _text.text = canClick ? "보상 받기" : RewardTimeRecordService.FormatRemainingHMS(remain);
+        if (_text != null) _text.text = canClick ? Manager.Lang.GetText("Button_GetReward") : RewardTimeRecordService.FormatRemainingHMS(remain);
     }
 
     private void StartCooldownRoutineIfNeeded() //쿨타임 중일 때만 코루틴 실행

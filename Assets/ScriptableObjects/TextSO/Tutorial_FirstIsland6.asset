@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstIsland6
+  m_EditorClassIdentifier: 
+  KOR: "\uD398\uC774\uCF13\uC774 \uC120\uBB3C\uC744 \uC6D0\uD558\uBA74 \uC544\uB798
+    \uC774 \uBC84\uD2BC\uC744 \uB20C\uB7EC \uC120\uBB3C\uC744 \uC8FC\uC138\uC694!\n\uC120\uBB3C\uC744
+    \uB108\uBB34 \uC624\uB7AB\uB3D9\uC548 \uC8FC\uC9C0\uC54A\uC73C\uBA74 \uD398\uC774\uCF13\uC740
+    \uC2E4\uB9DD\uD560\uC9C0\uB3C4 \uBAB0\uB77C\uC694.."
+  ENG: "If a Faecat wants a gift, press the button below to give it one!\nIf you
+    don\u2019t give gifts for too long, the Faecat might be disappointed.."
+  DE: "Wenn ein Faecat ein Geschenk m\xF6chte, dr\xFCcke unten diesen Button und
+    gib ihm ein Geschenk!\nWenn du zu lange keine Geschenke gibst, k\xF6nnte der
+    Faecat entt\xE4uscht sein.."
+  SP: "Si un Faecat quiere un regalo, pulsa el bot\xF3n de abajo para d\xE1rselo.\nSi
+    no le das regalos durante demasiado tiempo, el Faecat podr\xEDa decepcionarse.."
+  JP: "\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u304C\u30D7\u30EC\u30BC\u30F3\u30C8\u3092\u6B32\u3057\u304C\u3063\u305F\u3089\u3001\u4E0B\u306E\u30DC\u30BF\u30F3\u3092\u62BC\u3057\u3066\u30D7\u30EC\u30BC\u30F3\u30C8\u3092\u3042\u3052\u3066\u304F\u3060\u3055\u3044\uFF01\n\u3042\u307E\u308A\u9577\u3044\u9593\u3042\u3052\u306A\u3044\u3068\u3001\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u304C\u304C\u3063\u304B\u308A\u3059\u308B\u304B\u3082\u3057\u308C\u307E\u305B\u3093.."
+  CHS: "\u5F53\u8D39\u732B\u60F3\u8981\u793C\u7269\u65F6\uFF0C\u6309\u4E0B\u4E0B\u9762\u8FD9\u4E2A\u6309\u94AE\u9001\u793C\u7269\u5427\uFF01\n\u5982\u679C\u592A\u4E45\u4E0D\u9001\u793C\u7269\uFF0C\u8D39\u732B\u53EF\u80FD\u4F1A\u5931\u671B.."
+  CHT: "\u7576\u8CBB\u8C93\u60F3\u8981\u79AE\u7269\u6642\uFF0C\u6309\u4E0B\u4E0B\u9762\u9019\u500B\u6309\u9215\u9001\u79AE\u7269\u5427\uFF01\n\u5982\u679C\u592A\u4E45\u4E0D\u9001\u79AE\u7269\uFF0C\u8CBB\u8C93\u53EF\u80FD\u6703\u5931\u671B.."

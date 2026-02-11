@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Fixed_NameYourPet
   m_EditorClassIdentifier: 
   KOR: "\uC774\uB984\uC744 \uC9C0\uC5B4\uC8FC\uC138\uC694!"
-  ENG: Please name your pet!
-  DE: Bitte gib deinem Haustier einen Namen!
-  SP: "\xA1Ponle un nombre a tu mascota!"
-  JP: "\u30DA\u30C3\u30C8\u306B\u540D\u524D\u3092\u3064\u3051\u3066\u304F\u3060\u3055\u3044\uFF01"
-  CHS: "\u8BF7\u7ED9\u4F60\u7684\u5BA0\u7269\u8D77\u4E2A\u540D\u5B57\uFF01"
-  CHT: "\u8ACB\u7D66\u4F60\u7684\u5BF5\u7269\u53D6\u500B\u540D\u5B57\uFF01"
+  ENG: Please name it!
+  DE: Bitte gib einen Namen ein!
+  SP: "\xA1Ponle un nombre!"
+  JP: "\u540D\u524D\u3092\u4ED8\u3051\u3066\u304F\u3060\u3055\u3044\uFF01"
+  CHS: "\u8BF7\u8D77\u4E2A\u540D\u5B57\uFF01"
+  CHT: "\u8ACB\u53D6\u500B\u540D\u5B57\uFF01"

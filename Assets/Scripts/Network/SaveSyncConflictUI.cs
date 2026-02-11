@@ -22,7 +22,7 @@ public class SaveSyncConflictUI : MonoBehaviour
     [Header("버튼")]
     [SerializeField] private Button _useServerButton;  // 서버 사용 버튼
     [SerializeField] private Button _useLocalAndUploadButton;   // 로컬 사용 + 즉시 업로드 버튼
-    [SerializeField] private Button _logoutAndRelinkButton;  // 연동 충돌에서만 쓰는 로그아웃 버튼
+    [SerializeField] private Button _logoutAndRelinkButton;  // 연동 충돌에서만 쓰는 로그아웃 버튼(연동했는데 세이브파일이 존제 할 경우)
 
     private Coroutine _waitRoutine;
     private ServerSaveManager Server => Manager.Server;

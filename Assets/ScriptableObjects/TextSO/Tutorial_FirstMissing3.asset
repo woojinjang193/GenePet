@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Tutorial_FirstMissing3
+  m_EditorClassIdentifier: 
+  KOR: "\"\uC2E4\uC885 \uD3EC\uC2A4\uD130\" \uC544\uC774\uD15C\uC744 \uC0AC\uC6A9\uD574\uC11C
+    \uB5A0\uB09C \uD398\uC774\uCF13\uC744 \uB2E4\uC2DC \uB370\uB824\uC62C \uC218
+    \uC788\uC5B4\uC694!\n\uB9C8\uCE68 \uD558\uB098 \uAC00\uC9C0\uACE0 \uC788\uC73C\uB2C8
+    \uB4DC\uB9B4\uAC8C\uC694!"
+  ENG: "You can bring back a Faecat that left by using the \u201CMissing Poster\u201D
+    item!\nSince you happen to have one, I\u2019ll give it to you!"
+  DE: "Mit dem Item \u201EVermisstenplakat\u201C kannst du einen weggegangenen Faecat
+    zur\xFCckholen!\nDu hast zuf\xE4llig eins, ich gebe es dir!"
+  SP: "Puedes traer de vuelta a un Faecat que se fue usando el objeto \u201CCartel
+    de desaparecido\u201D.\nJusto tienes uno, \xA1te lo dar\xE9!"
+  JP: "\u300C\u884C\u65B9\u4E0D\u660E\u30DD\u30B9\u30BF\u30FC\u300D\u30A2\u30A4\u30C6\u30E0\u3092\u4F7F\u3048\u3070\u3001\u3044\u306A\u304F\u306A\u3063\u305F\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u3092\u9023\u308C\u623B\u305B\u307E\u3059\uFF01\n\u3061\u3087\u3046\u30691\u679A\u6301\u3063\u3066\u3044\u308B\u306E\u3067\u3001\u3042\u3052\u307E\u3059\u306D\uFF01"
+  CHS: "\u4F7F\u7528\u201C\u5931\u8E2A\u6D77\u62A5\u201D\u9053\u5177\u5C31\u53EF\u4EE5\u628A\u79BB\u5F00\u7684\u8D39\u732B\u5E26\u56DE\u6765\uFF01\n\u6B63\u597D\u4F60\u6709\u4E00\u5F20\uFF0C\u6211\u7ED9\u4F60\u5427\uFF01"
+  CHT: "\u4F7F\u7528\u300C\u5931\u8E64\u6D77\u5831\u300D\u9053\u5177\u5C31\u53EF\u4EE5\u628A\u96E2\u958B\u7684\u8CBB\u8C93\u5E36\u56DE\u4F86\uFF01\n\u525B\u597D\u4F60\u6709\u4E00\u5F35\uFF0C\u6211\u7D66\u4F60\u5427\uFF01"

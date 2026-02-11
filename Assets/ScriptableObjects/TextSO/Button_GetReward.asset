@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Button_GetReward
   m_EditorClassIdentifier: 
   KOR: "\uBCF4\uC0C1 \uBC1B\uAE30"
-  ENG: Claim
+  ENG: Claim Reward
   DE: Belohnung abholen
   SP: Reclamar recompensa
   JP: "\u5831\u916C\u3092\u53D7\u3051\u53D6\u308B"

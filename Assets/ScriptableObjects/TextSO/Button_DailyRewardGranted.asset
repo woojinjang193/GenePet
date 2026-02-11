@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Button_DailyRewardGranted
   m_EditorClassIdentifier: 
   KOR: "\uBAA8\uB450 \uC218\uB839\uD568"
-  ENG: Claimed
-  DE: Abgeholt
-  SP: Reclamado
-  JP: "\u53D7\u3051\u53D6\u308A\u6E08\u307F"
-  CHS: "\u5DF2\u9886\u53D6"
-  CHT: "\u5DF2\u9818\u53D6"
+  ENG: All rewards claimed
+  DE: Alle Belohnungen abgeholt
+  SP: Todas las recompensas reclamadas
+  JP: "\u3059\u3079\u3066\u53D7\u3051\u53D6\u308A\u6E08\u307F"
+  CHS: "\u5168\u90E8\u5DF2\u9886\u53D6"
+  CHT: "\u5168\u90E8\u5DF2\u9818\u53D6"

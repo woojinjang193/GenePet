@@ -10,6 +10,10 @@ public class ShopUiManager : MonoBehaviour
     [SerializeField] private TMP_Text _gemAmount;
     [Header("코인 소지량 텍스트")]
     [SerializeField] private TMP_Text _moneyAmount;
+    [Header("Dev Shop")]
+    [SerializeField] private GameObject _devShop;
+
+    private string _prevBgmKey;
     private void Awake()
     {
         Manager.Item.OnItemConsumed += UpdateAmounts;
@@ -25,8 +29,20 @@ public class ShopUiManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        _prevBgmKey = Manager.Audio.CurBgmKey;
+        Manager.Audio.PlayBGM("BGM_Shop");
         _moneyAmount.text = Manager.Save.CurrentData.UserData.Items.Money.ToString(); // 잼 개수 초기화
         _gemAmount.text = Manager.Save.CurrentData.UserData.Items.Gem.ToString(); // 소지금 초기화
+
+        if(Manager.Game.IsDevMode)
+        {
+            _devShop.SetActive(true);
+        }
+    }
+    private void OnDisable()
+    {
+        Manager.Audio.PlayBGM(_prevBgmKey);
+        _prevBgmKey = null;
     }
 
     private void UpdateAmounts(RewardType type, int newValue)

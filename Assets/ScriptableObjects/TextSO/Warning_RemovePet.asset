@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Warning_RemovePet
   m_EditorClassIdentifier: 
-  KOR: "\uB2E4\uC2DC\uB294 \uC774 \uD3AB\uC744 \uB9CC\uB0A0 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
-  ENG: You will never meet this pet again.
-  DE: Du wirst dieses Haustier nie wieder treffen.
-  SP: "No volver\xE1s a ver a esta mascota."
-  JP: "\u3053\u306E\u30DA\u30C3\u30C8\u306B\u306F\u4E8C\u5EA6\u3068\u4F1A\u3048\u307E\u305B\u3093\u3002"
-  CHS: "\u5C06\u518D\u4E5F\u65E0\u6CD5\u9047\u5230\u8FD9\u53EA\u5BA0\u7269\u3002"
-  CHT: "\u5C07\u518D\u4E5F\u7121\u6CD5\u9047\u5230\u9019\u96BB\u5BF5\u7269\u3002"
+  KOR: "\uC774 \uD398\uC774\uCF13\uC744 \uB5A0\uB098\uBCF4\uB0C5\uB2C8\uB2E4.\n\uB2E4\uC2DC\uB294
+    \uB9CC\uB0A0 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
+  ENG: 'Send this Faecat away.
+
+    You will never be able to meet it again.'
+  DE: "Diesen Faecat wegschicken.\nDu wirst ihn nie wieder treffen k\xF6nnen."
+  SP: "Enviar a este Faecat.\nNo podr\xE1s volver a encontrarte con \xE9l."
+  JP: "\u3053\u306E\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u3092\u624B\u653E\u3057\u307E\u3059\u3002\n\u4E8C\u5EA6\u3068\u4F1A\u3048\u307E\u305B\u3093\u3002"
+  CHS: "\u9001\u8D70\u8FD9\u53EA\u8D39\u732B\u3002\n\u4F60\u5C06\u518D\u4E5F\u65E0\u6CD5\u9047\u5230\u5B83\u3002"
+  CHT: "\u9001\u8D70\u9019\u96BB\u8CBB\u8C93\u3002\n\u4F60\u5C07\u518D\u4E5F\u7121\u6CD5\u9047\u5230\u5B83\u3002"

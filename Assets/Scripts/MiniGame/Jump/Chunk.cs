@@ -21,19 +21,8 @@ public class Chunk : MonoBehaviour
         StartY = startY;
         EndY = endY;
 
-        Sprite background;
-        if (isFirstChunk)
-        {
-            background = preset.BackgroundStart;
-        }
-        else if (isLastChunk)
-        {
-            background = preset.BackgroundEnd;
-        }
-        else
-        {
-            background = preset.BackgroundLoop;
-        }
+        // 첫 청크만 Start, 나머지는 전부 Loop
+        Sprite background = isFirstChunk ? preset.BackgroundStart : preset.BackgroundLoop;
         _spriteRenderer.sprite = background;
         transform.position = Vector3.up * startY;
     }

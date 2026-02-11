@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UserLogOut : MonoBehaviour
+public class UserLogOut : MonoBehaviour, IConfirmRequester
 {
     private Button _button;
     private bool _isProcessing = false;
@@ -13,17 +13,20 @@ public class UserLogOut : MonoBehaviour
     private void Awake()
     {
         _button = GetComponent<Button>();
-        _button.onClick.AddListener(OnClicked);
+        _button.onClick.AddListener(TryLogOut);
     }
-
-    private void OnClicked()
+    private void TryLogOut()
     {
         if (_isProcessing) return;
 
+        Manager.Game.ShowConfirmMessage("Warning_LogOut", 0, this);
+    }
+    private void LogOut()
+    {
         _isProcessing = true;
         _button.interactable = false;
 
-        FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+        FirebaseAuth auth = Manager.Fire.Auth;
         FirebaseUser user = auth.CurrentUser;
 
         // 익명 계정이면 Firebase 유저 삭제
@@ -46,7 +49,6 @@ public class UserLogOut : MonoBehaviour
             FinishReset();
         }
     }
-
     private void DeleteServerSave(string firebaseUID, System.Action onDone)
     {
         if (string.IsNullOrEmpty(firebaseUID))
@@ -90,5 +92,16 @@ public class UserLogOut : MonoBehaviour
         AdManager.ReleaseManager();
 
         //TurotialManager.ReleaseManager();
+    }
+
+    public void Confirmed(int requestNum)
+    {
+        if(requestNum == 0)
+        {
+            LogOut();
+        }
+    }
+    public void Canceled(int requestNum)
+    {
     }
 }

@@ -144,7 +144,8 @@ public class RythmVisualController : MonoBehaviour
             _rewardIcon.sprite = null;
             _rewardAmount.gameObject.SetActive(false);
         }
-    
+
+        Manager.Audio.PlaySFX("GetItem");
         _rewardIcon.gameObject.SetActive(true);
     }
     //================판정에 따른 연출=================
@@ -198,7 +199,7 @@ public class RythmVisualController : MonoBehaviour
         SetTurnSprite(true);  // 샘플턴 표시
     }
 
-    // [추가] 입력턴 시작 시 스프라이트 변경
+    // 입력턴 시작 시 스프라이트 변경
     private void HandleInputTurnStarted_Visual(int patternIndex, bool isLastPattern, int totalBeats)
     {
         if (_isIntermission) return; // 대기 중이면 무시

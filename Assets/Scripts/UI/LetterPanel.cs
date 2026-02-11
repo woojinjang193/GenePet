@@ -46,6 +46,7 @@ public class LetterPanel : MonoBehaviour, IConfirmRequester
     }
     private void OnEnable()
     {
+        Manager.Audio.PlaySFX("OpenLetter"); //SFX OpenLetter
         int amount = Manager.Save.CurrentData.UserData.Items.MissingPoster;
         _missingPosterAmount.text = $"x{amount}";
     }

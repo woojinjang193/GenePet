@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class ItemForMiniGame : MonoBehaviour 
@@ -9,6 +10,9 @@ public class ItemForMiniGame : MonoBehaviour
     [SerializeField] private RewardType _reward;
     [SerializeField] private int _amount;
 
+    [Header("TMP")]
+    [SerializeField] private TMP_Text _amountText;
+
     public RewardType Reward => _reward;
     public int Amount => _amount;
     
@@ -18,6 +22,17 @@ public class ItemForMiniGame : MonoBehaviour
         _reward = reward;
         _amount = amount;
         gameObject.SetActive(true);
+
+        if( _amountText != null )
+        {
+            _amountText.text = ""; // CHECK: 플렛폼 아이템 개수 초기화 안되는 문제 체크 (점프씬용)
+        }
+
+        if (_amountText != null && amount > 1)
+        {
+            _amountText.text = $"x{_amount.ToString()}";
+            _amountText.gameObject.SetActive(true);
+        }
     }
 
     public void ResetItem()
@@ -26,6 +41,11 @@ public class ItemForMiniGame : MonoBehaviour
         _reward = RewardType.None;
         _amount = 0;
         gameObject.SetActive(true);
+
+        if (_amountText != null)
+        {
+            _amountText.gameObject.SetActive(false);
+        }
     }
 
     private Sprite GetIcon(RewardType reward)

@@ -56,12 +56,14 @@ public class InGameUIManager : MonoBehaviour
         }
 
         Manager.Item.OnItemConsumed += AmountChange;
-        Manager.Item.OnItemConsumed += AmountChange;
+        Manager.Item.OnRewardGranted += AmountChange;
     }
 
     private void Start()
     {
-        Manager.Audio.PlayBGM("BGM_Test"); //비지엠 재생
+        Manager.Item.ClearRewardQueue(); //혹시 남아있는 보상 연출 큐 지우기
+        CheckTutorialFlag(); //튜토리얼 체크
+        Manager.Audio.PlayBGM("BGM_Main"); //비지엠 재생
     }
     private void OnEnable()
     {
@@ -73,7 +75,7 @@ public class InGameUIManager : MonoBehaviour
         if(Manager.Item != null)
         {
             Manager.Item.OnItemConsumed -= AmountChange;
-            Manager.Item.OnItemConsumed -= AmountChange;
+            Manager.Item.OnRewardGranted -= AmountChange;
         }
     }
     // 펫 줌인 시
@@ -158,6 +160,18 @@ public class InGameUIManager : MonoBehaviour
         if(type == RewardType.Coin)
         {
             _goldAmount.text = newValue.ToString();
+        }
+    }
+
+    private void CheckTutorialFlag()
+    {
+        if (!Manager.Save.CurrentData.UserData.tutorialFlags.FirstVisit)
+        {
+            var tutorial = FindObjectOfType<TutorialController>();
+            if(tutorial != null)
+            {
+                tutorial.TryStartTutorial(TutorialTriggerKey.FirstVisit);
+            }
         }
     }
 }

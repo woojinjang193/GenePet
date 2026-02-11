@@ -44,6 +44,7 @@ public class CleaningToolMover : MonoBehaviour
                     _bubble.Play();
                     _foam.Play();
                     Debug.Log("버블 플레이");
+                    Manager.Audio.PlaySFXExclusive("Wash", true); // SFX Wash Exclusive
                 }
             }
             else
@@ -57,6 +58,7 @@ public class CleaningToolMover : MonoBehaviour
                     _bubble.Stop();
                     _foam.Stop();
                     Debug.Log("버블 멈춤 (0.3초 지속)");
+                    Manager.Audio.StopSFXExclusive(); // SFX Wash Stop
                 }
             }
             _target.Clean(dist); //펫에게 이동량 전달
@@ -83,6 +85,7 @@ public class CleaningToolMover : MonoBehaviour
             
             _target = null;  //연결 해제
             Debug.Log("버블 스탑");
+            Manager.Audio.StopSFXExclusive(); // SFX Wash Stop
         }
     }
 }

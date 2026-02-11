@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PopUp_AlreadyGrown
   m_EditorClassIdentifier: 
   KOR: "\uB354 \uC774\uC0C1 \uC131\uC7A5\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
-  ENG: This pet can no longer grow.
-  DE: Dieses Haustier kann nicht weiter wachsen.
+  ENG: It can no longer grow.
+  DE: Es kann nicht weiter wachsen.
   SP: "Ya no puede crecer m\xE1s."
   JP: "\u3053\u308C\u4EE5\u4E0A\u6210\u9577\u3067\u304D\u307E\u305B\u3093\u3002"
-  CHS: "\u65E0\u6CD5\u518D\u6210\u957F\u4E86\u3002"
-  CHT: "\u7121\u6CD5\u518D\u6210\u9577\u4E86\u3002"
+  CHS: "\u65E0\u6CD5\u7EE7\u7EED\u6210\u957F\u3002"
+  CHT: "\u7121\u6CD5\u7E7C\u7E8C\u6210\u9577\u3002"

@@ -108,9 +108,10 @@ public class RythmGameManager : MiniGameBase
         if (_flow != null)
             _flow.StopGame(); // 마디 틱/오디오 정지
 
+       
+        base.GameOver();  // 점수 기반 코인 보상 누적(GainMoneyByScore)
         int bestScore = Manager.Mini.GetBestScore(MiniGame.Rythm);
         _uiManager.GameOverPanelOn(_score , bestScore);
-        base.GameOver();  // 점수 기반 코인 보상 누적(GainMoneyByScore)
     }
 
     // 플로우(레벨 전체)가 끝났을 때

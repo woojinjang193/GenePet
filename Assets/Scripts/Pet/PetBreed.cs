@@ -31,6 +31,8 @@ public class PetBreed : MonoBehaviour
         CombinePart(PartType.Tail, myPet.Genes.Tail, islandPet.Genes.Tail, baby.Genes.Tail);
         CombinePart(PartType.Whiskers, myPet.Genes.Whiskers, islandPet.Genes.Whiskers, baby.Genes.Whiskers);
 
+        CombinePart(PartType.Personality, myPet.Genes.Personality, islandPet.Genes.Personality, baby.Genes.Personality);
+
         CombinePart(PartType.Color, myPet.Genes.Color, islandPet.Genes.Color, baby.Genes.Color);
 
         baby.Genes.PartColors.BodyColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
@@ -41,6 +43,7 @@ public class PetBreed : MonoBehaviour
         baby.Genes.PartColors.WingColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
         baby.Genes.PartColors.TailColorId = Choose(baby.Genes.Color.DominantId, baby.Genes.Color.RecessiveId);
 
+        baby.Rarity = _finalRarity;
         return egg;
     }
     // ======== 유전자 합치기======

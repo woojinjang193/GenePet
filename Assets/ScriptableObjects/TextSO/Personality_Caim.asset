@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
+  m_Name: Personality_Caim
+  m_EditorClassIdentifier: 
+  KOR: "\uCC28\uBD84\uD55C"
+  ENG: Caim
+  DE: Ruhig
+  SP: Tranquilo
+  JP: "\u843D\u3061\u7740\u3044\u305F"
+  CHS: "\u51B7\u9759"
+  CHT: "\u51B7\u975C"

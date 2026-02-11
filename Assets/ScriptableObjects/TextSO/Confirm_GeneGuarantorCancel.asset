@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7885e8e9a268046a087e585e2bd7f5, type: 3}
   m_Name: Confirm_GeneGuarantorCancel
   m_EditorClassIdentifier: 
-  KOR: "\uC774 \uC720\uC804\uC790\uC758 \uC6B0\uC120 \uC801\uC6A9\uC744 \uCDE8\uC18C\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?\n\uC544\uC774\uD15C\uC740
+  KOR: "\uC774 \uC720\uC804\uC790\uC758 \uC6B0\uC120 \uC801\uC6A9\uC744 \uCDE8\uC18C\uD569\uB2C8\uB2E4.\n\uC544\uC774\uD15C\uC740
     \uBC18\uD658\uB418\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
-  ENG: 'Cancel Priority Apply for this gene?
+  ENG: 'Cancel Dominant Priority for this gene.
 
     The item will not be refunded.'
-  DE: "\u201EPriorit\xE4t anwenden\u201C f\xFCr dieses Gen aufheben?\nDer Gegenstand
-    wird nicht zur\xFCckerstattet."
-  SP: "\xBFCancelar \xABAplicaci\xF3n prioritaria\xBB para este gen?\nNo se reembolsar\xE1
-    el objeto."
-  JP: "\u3053\u306E\u907A\u4F1D\u5B50\u306E\u512A\u5148\u9069\u7528\u3092\u89E3\u9664\u3057\u307E\u3059\u304B\uFF1F\n\u30A2\u30A4\u30C6\u30E0\u306F\u8FD4\u5374\u3055\u308C\u307E\u305B\u3093\u3002"
-  CHS: "\u8981\u53D6\u6D88\u8BE5\u57FA\u56E0\u7684\u201C\u4F18\u5148\u9002\u7528\u201D\u5417\uFF1F\n\u9053\u5177\u4E0D\u4E88\u8FD4\u8FD8\u3002"
-  CHT: "\u8981\u53D6\u6D88\u8A72\u57FA\u56E0\u7684\u300C\u512A\u5148\u9069\u7528\u300D\u55CE\uFF1F\n\u9053\u5177\u4E0D\u4E88\u8FD4\u9084\u3002"
+  DE: "Dominant Priority f\xFCr dieses Gen aufheben.\nDer Gegenstand wird nicht zur\xFCckerstattet."
+  SP: 'Cancelar la Prioridad Dominante de este gen.
+
+    El objeto no se reembolsa.'
+  JP: "\u3053\u306E\u907A\u4F1D\u5B50\u306E\u512A\u6027\u512A\u5148\u6A29\u3092\u89E3\u9664\u3057\u307E\u3059\u3002\n\u30A2\u30A4\u30C6\u30E0\u306F\u8FD4\u5374\u3055\u308C\u307E\u305B\u3093\u3002"
+  CHS: "\u53D6\u6D88\u8BE5\u57FA\u56E0\u7684\u4F18\u6027\u4F18\u5148\u6743\u3002\n\u9053\u5177\u4E0D\u4E88\u8FD4\u8FD8\u3002"
+  CHT: "\u53D6\u6D88\u8A72\u57FA\u56E0\u7684\u512A\u6027\u512A\u5148\u6B0A\u3002\n\u9053\u5177\u4E0D\u4E88\u8FD4\u9084\u3002"

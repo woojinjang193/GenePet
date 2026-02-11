@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,8 +16,10 @@ public class GeneInfoItemDescription : MonoBehaviour
     [SerializeField] private Button _closeButton;
 
     [Header("텍스트")]
+    [SerializeField] private TMP_Text _itemName;
     [SerializeField] private TMP_Text _description;
 
+    private Button _lastButton;
     private void Awake()
     {
         _geneGuarantee.onClick.AddListener(GuaranteeClicked);
@@ -29,24 +29,40 @@ public class GeneInfoItemDescription : MonoBehaviour
     }
     private void GuaranteeClicked()
     {
-        if (!_desPanel.activeSelf) _desPanel.SetActive(true);
+        DesPanelActive(_geneGuarantee);
 
-        _description.text = Manager.Lang.GetText("Item_GeneGuarantor");
+        _itemName.text = Manager.Lang.GetText("Item_GeneGuarantor");
+        _description.text = Manager.Lang.GetText("ItemDes_GeneGuarantor");
     }
     private void GeneScissorsClicked()
     {
-        if (!_desPanel.activeSelf) _desPanel.SetActive(true);
+        DesPanelActive(_geneScissors);
 
-        _description.text = Manager.Lang.GetText("Item_GeneScissors");
+        _itemName.text = Manager.Lang.GetText("Item_GeneGuarantor");
+        _description.text = Manager.Lang.GetText("ItemDes_GeneScissors");
     }
     private void GeneGlueClicked()
     {
-        if (!_desPanel.activeSelf) _desPanel.SetActive(true);
+        DesPanelActive(_geneGlue);
 
-        _description.text = Manager.Lang.GetText("Item_GeneGlue");
+        _itemName.text = Manager.Lang.GetText("Item_GeneGuarantor");
+        _description.text = Manager.Lang.GetText("ItemDes_GeneGlue");
     }
     private void Close()
     {
         _desPanel.SetActive(false);
+    }
+
+    private void DesPanelActive(Button button) //같은버튼 두번 클릭시 판넬끄고, 아니라면 판넬 켜주기
+    {
+        if(_lastButton ==  button)
+        {
+            _desPanel.SetActive(false);
+            _lastButton = null;
+            return;
+        }
+
+        if (!_desPanel.activeSelf) _desPanel.SetActive(true);
+        _lastButton = button;
     }
 }
