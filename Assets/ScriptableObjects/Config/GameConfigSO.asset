@@ -19,13 +19,13 @@ MonoBehaviour:
     CoolTimeHour: 0.03
   - Id: bringpetback
     Limit: 3
-    CoolTimeHour: 2
+    CoolTimeHour: 1
   - Id: dailyrandom
     Limit: 1
     CoolTimeHour: 5
   - Id: cooltimerandom
     Limit: 100
-    CoolTimeHour: 2
+    CoolTimeHour: 1
   MaxPetAmount: 7
   MaxEggAmount: 3
   MaxEnergy: 10
@@ -35,13 +35,13 @@ MonoBehaviour:
   MiniGameEXP: 5
   MiniGameHappiness: 3
   VisitingAffinityCooldown: 1800
-  VisitingAffinityGain: 50
+  VisitingAffinityGain: 10
   GiftCooldown: 1200
-  GiftingPoint: 40
+  GiftingPoint: 30
   DisappointingPoint: 10
   CanFeedPetBelow: 99
   MealFullnessGain: 15
-  MealCleanlinessDecrease: 5
+  MealCleanlinessDecrease: 7
   SnackFullnessGain: 30
   SnackExpGain: 5
   SnackCleanlinessDecrease: 7

@@ -6861,7 +6861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49e58409342a7742b19f5e63dae2d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productId: testremoveadbanner
+  _productId: removeadbanner
   _button: {fileID: 5476548696946936261}
   _currentPriceText: {fileID: 3050869005949034751}
 --- !u!114 &2809682869348498442

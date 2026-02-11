@@ -15,7 +15,7 @@ public class RestoreButton : MonoBehaviour
     }
     private void TryRestore()
     {
-        bool isAdRemovePurchased = Manager.Shop.CheckNonConsumableOwned("testremoveadbanner");
+        bool isAdRemovePurchased = Manager.Shop.CheckNonConsumableOwned("removeadbanner");
         
         ShowResultPopUp(isAdRemovePurchased);
     }

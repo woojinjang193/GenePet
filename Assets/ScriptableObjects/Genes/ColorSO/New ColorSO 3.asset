@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 03
   DisplayName: 
-  Rarity: 1
+  Rarity: 0
   color: {r: 0.44313726, g: 0.29411766, b: 0.4, a: 1}
