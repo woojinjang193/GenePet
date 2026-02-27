@@ -21,8 +21,8 @@ MonoBehaviour:
     <color=red>If the other side also
     applies Dominant Priority to the same gene type, dominance/recessiveness is decided
     with a 50:50 chance.</color>'
-  DE: "Diesem Gen wird Dominant Priority zugewiesen.\n<color=red>Wenn die Gegenseite
-    ebenfalls Dominant Priority auf denselben Gentyp angewendet hat, wird Dominanz/Rezessivit\xE4t
+  DE: "Diesem Gen wird dominante Priorit\xE4t zugewiesen.\n<color=red>Wenn die Gegenseite
+    ebenfalls dominante Priorit\xE4t auf denselben Gentyp angewendet hat, wird Dominanz/Rezessivit\xE4t
     mit 50:50 Wahrscheinlichkeit entschieden.</color>"
   SP: "Este gen recibe Prioridad Dominante.\n<color=red>Si la otra parte tambi\xE9n
     aplica Prioridad Dominante al mismo tipo de gen, la dominancia/recesividad se

@@ -17,7 +17,8 @@ MonoBehaviour:
   ENG: 'Cancel Dominant Priority for this gene.
 
     The item will not be refunded.'
-  DE: "Dominant Priority f\xFCr dieses Gen aufheben.\nDer Gegenstand wird nicht zur\xFCckerstattet."
+  DE: "Dominante Priorit\xE4t f\xFCr dieses Gen aufheben.\nDer Gegenstand wird nicht
+    zur\xFCckerstattet."
   SP: 'Cancelar la Prioridad Dominante de este gen.
 
     El objeto no se reembolsa.'

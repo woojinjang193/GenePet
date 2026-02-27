@@ -376,8 +376,11 @@ public class GeneInfomationUI : MonoBehaviour, IConfirmRequester
         _dominantGeneOutline.sprite = dom.Sprite;
         _recessiveGeneOutline.sprite = rec.Sprite;
 
-        _dominantPersonalityText.text = dom.Personality.ToString();
-        _recessivePersonalityText.text = rec.Personality.ToString();
+        string domTextID = "Personality_" + dom.Personality.ToString();
+        string recTextID = "Personality_" + rec.Personality.ToString();
+
+        _dominantPersonalityText.text = Manager.Lang.GetText(domTextID);
+        _recessivePersonalityText.text = Manager.Lang.GetText(recTextID);
 
         _dominantRarityUI.ShowRarity(dom.Rarity);
         _recessiveRarityUI.ShowRarity(rec.Rarity);

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KOR: "\uC774\uB984\uC774 \uB108\uBB34 \uAE41\uB2C8\uB2E4."
   ENG: Name is too long.
-  DE: Der Name ist zu lang.
+  DE: Name ist zu lang
   SP: El nombre es demasiado largo.
   JP: "\u540D\u524D\u304C\u9577\u3059\u304E\u307E\u3059\u3002"
   CHS: "\u540D\u5B57\u592A\u957F\u3002"

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KOR: "\uCCAB \uD398\uC774\uCF13\uC774\uC608\uC694!\n\uC774\uB984\uC744 \uC9C0\uC5B4\uC8FC\uC138\uC694!"
   ENG: "It\u2019s your first Faecat!\nPlease name it!"
-  DE: 'Dein erster Faecat!
+  DE: 'Dein erstes Faecat!
 
     Bitte gib ihm einen Namen!'
   SP: "\xA1Tu primer Faecat!\n\xA1Ponle un nombre!"

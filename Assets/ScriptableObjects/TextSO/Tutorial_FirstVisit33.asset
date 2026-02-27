@@ -19,10 +19,10 @@ MonoBehaviour:
 
     You can see the journey that
     led to this Faecat being born.'
-  DE: "Das ist der Button f\xFCr den Stammbaum.\nDu kannst den Weg sehen, den dieser
-    Faecat bis zu seiner Geburt durchlaufen hat."
+  DE: "Das ist der Button f\xFCr den Stammbaum.\nDu kannst den Weg sehen, der zu
+    diesem Faecat f\xFChrte."
   SP: "Este bot\xF3n te permite ver el \xE1rbol geneal\xF3gico.\nPuedes ver el recorrido
-    por el que pas\xF3 este Faecat hasta nacer."
+    por el que pas\xF3 este Faecat."
   JP: "\u3053\u308C\u306F\u5BB6\u7CFB\u56F3\u3092\u898B\u308B\u30DC\u30BF\u30F3\u3067\u3059\u3002\n\u3053\u306E\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u304C\u751F\u307E\u308C\u308B\u307E\u3067\u306B\u8FBF\u3063\u3066\u304D\u305F\u904E\u7A0B\u3092\u898B\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002"
   CHS: "\u8FD9\u662F\u67E5\u770B\u5BB6\u8C31\u7684\u6309\u94AE\u3002\n\u4F60\u53EF\u4EE5\u770B\u5230\u8FD9\u53EA\u8D39\u732B\u8BDE\u751F\u524D\u6240\u7ECF\u5386\u7684\u8FC7\u7A0B\u3002"
   CHT: "\u9019\u662F\u67E5\u770B\u5BB6\u8B5C\u7684\u6309\u9215\u3002\n\u4F60\u53EF\u4EE5\u770B\u5230\u9019\u96BB\u8CBB\u8C93\u8A95\u751F\u524D\u6240\u7D93\u6B77\u7684\u904E\u7A0B\u3002"

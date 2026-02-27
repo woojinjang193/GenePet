@@ -23,7 +23,7 @@ MonoBehaviour:
     if the breeding partner also applies Dominant Priority to the same gene type,
     dominance/recessiveness is decided with a 50:50 chance.</color>'
   DE: "Das ausgew\xE4hlte Gen wird vom Kind dominant vererbt.\n<color=red>Wenn der
-    Zuchtpartner jedoch ebenfalls Dominant Priority auf denselben Gentyp anwendet,
+    Zuchtpartner jedoch ebenfalls Dominante Priorit\xE4t auf denselben Gentyp anwendet,
     wird Dominanz/Rezessivit\xE4t mit 50:50 Wahrscheinlichkeit entschieden.</color>"
   SP: "El gen seleccionado se heredar\xE1 como dominante.\n<color=red>Sin embargo,
     si la pareja de cr\xEDa tambi\xE9n aplica Prioridad dominante al mismo tipo de

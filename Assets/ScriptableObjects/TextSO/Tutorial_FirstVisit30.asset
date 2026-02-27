@@ -20,7 +20,7 @@ MonoBehaviour:
     When cleanliness drops, you can use a brush
     to wash your Faecat!'
   DE: "Das ist der \u201EWaschen\u201C-Button!\nWenn die Sauberkeit sinkt, kannst
-    du mit einer B\xFCrste deinen Faecat waschen!"
+    du dein Faecat mit einer B\xFCrste waschen!"
   SP: "\xA1Este es el bot\xF3n de Lavar!\nCuando baje la limpieza, puedes usar un
     cepillo para lavar a tu Faecat."
   JP: "\u3053\u308C\u306F\u300C\u6D17\u3046\u300D\u30DC\u30BF\u30F3\u3067\u3059\uFF01\n\u6E05\u6F54\u5EA6\u304C\u4E0B\u304C\u3063\u305F\u3089\u3001\u30D6\u30E9\u30B7\u3092\u4F7F\u3063\u3066\u30D5\u30A7\u30A4\u30AD\u30E3\u30C3\u30C8\u3092\u6D17\u3063\u3066\u3042\u3052\u3089\u308C\u307E\u3059\uFF01"

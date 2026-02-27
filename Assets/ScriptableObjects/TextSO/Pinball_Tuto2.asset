@@ -24,7 +24,7 @@ MonoBehaviour:
     refresh the roulette items
 
     Destroy all bricks to spawn new ones.'
-  DE: "Blockarten:\nWei\xDFe Item-Bl\xF6cke: Item sofort erhalten\nFarbige Bl\xF6cke:
+  DE: "Blockarten:\nWei\xDFe Item-Bl\xF6cke: Item sofort erhalten\nBunte Bl\xF6cke:
     Roulette-Items werden aktualisiert\nWenn alle Bl\xF6cke zerst\xF6rt sind, erscheinen
     neue Bl\xF6cke."
   SP: "Tipos de ladrillos:\nLadrillos de objeto blancos: obt\xE9n un objeto al instante\nLadrillos

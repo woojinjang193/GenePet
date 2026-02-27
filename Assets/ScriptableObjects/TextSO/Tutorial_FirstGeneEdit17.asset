@@ -22,8 +22,8 @@ MonoBehaviour:
     on the same part, dominance is decided at random, so make sure to check before
     breeding!</color>'
   DE: "Aber!\n<color=yellow>Wenn der Zuchtpartner f\xFCr dasselbe Teil ebenfalls
-    Dominant Priority benutzt, wird die Dominanz zuf\xE4llig entschieden \u2013 bitte
-    pr\xFCfe das vor dem Z\xFCchten!</color>"
+    Dominante Priorit\xE4t benutzt, wird die Dominanz zuf\xE4llig entschieden \u2013
+    also pr\xFCfe das vor dem Z\xFCchten!</color>"
   SP: "\xA1Pero!\n<color=yellow>Si la pareja de cr\xEDa tambi\xE9n usa Prioridad
     dominante en la misma parte, la dominancia se decide al azar, as\xED que aseg\xFArate
     de comprobarlo antes de criar.</color>"
